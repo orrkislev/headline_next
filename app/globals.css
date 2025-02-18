@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lalezar&family=Amiri&family=Oswald&family=Roboto&family=Rubik&family=RocknRoll+One&family=Sawarabi+Gothic&family=Potta+One&family=Kiwi+Maru&family=Dela+Gothic+One&family=Noto+Sans+JP&family=Noto+Sans+SC&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+KuaiLe&family=Noto+Sans+Devanagari&family=Palanquin+Dark&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -34,4 +36,24 @@ body {
 
 .serif{
   font-family: "Frank Re", serif;
+}
+
+/* New animation for headline color change */
+@keyframes headlineFade {
+  from { color: red; }
+  0% { color: red; }
+  50% { color: red; }
+  100% { color: black; }
+}
+
+.animate-headline {
+  animation: headlineFade 1.5s forwards;
+}
+
+
+.source-card {
+  box-shadow: 0 4px 2px -3px rgba(0, 0, 0, 0.1);
+}
+.source-card:hover > .close-button {
+  opacity: 1;
 }

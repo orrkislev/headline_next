@@ -7,6 +7,7 @@ export default function SourceGrid({ sources }) {
             {Object.values(sources).map((source, i) => (
                 <SourceCard 
                     key={i} 
+                    index={i}
                     headlines={source}
                 />
             ))}

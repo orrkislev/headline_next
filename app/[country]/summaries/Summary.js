@@ -14,8 +14,11 @@ export default function Summary({ summary, active, click }) {
     const parts = text.split(/(\(.*?\))/g)
 
     return (
-        <div className={`p-4 serif`} onClick={click}>
-            <div className={`${active ? 'text-blue-600' : 'text-gray-500'} font-bold text-lg`}>
+        <div className="py-4"
+            onClick={click}
+            style={{fontFamily:'var(--font-frank-re)', lineHeight: '1'}}
+        >
+            <div className={`${active ? 'text-blue' : 'text-gray-200'} text-lg`}>
                 <span>{timestamp}</span>
                 <span> ⇠ </span>
                 <span>{headline}</span>
@@ -25,8 +28,8 @@ export default function Summary({ summary, active, click }) {
                 <span key={i} className={
                     active ? (part.startsWith('(') ?
                         'text-gray-500 text-sm' :
-                        'font-semibold') :
-                        'text-gray-500'
+                        '') :
+                        'text-gray-200'
                 }>
                     {part}
                 </span>

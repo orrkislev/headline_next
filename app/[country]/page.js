@@ -23,10 +23,10 @@ export default async function CountryPage({ params }) {
 
     return (
         <div className="absolute flex w-full h-full overflow-hidden direction-rtl">
-            <div className="flex-[1] p-4 border-l border-gray-200 flex">
+            <div className="flex-[1] border-l border-gray-200 flex">
                 <SidePanel summaries={summaries} />
             </div>
-            <div className="flex-[3] flex flex-col gap-4">
+            <div className="flex-[3] flex flex-col">
                 <TopBar country={country} summary={summaries[0]} />
                 <SourceGrid sources={headlinesSources} />
             </div>

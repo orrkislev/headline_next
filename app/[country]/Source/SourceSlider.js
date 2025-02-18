@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useMemo, useState } from "react";
-import { useDate } from "../SideSlider";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
-import { Slider, styled } from "@mui/material";
+import { IconButton, Slider, styled } from "@mui/material";
+import { useDate } from "@/components/PresetTimeManager";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 export default function SourceSlider({ source, setHeadline }) {
     const { date, setDate } = useDate()
@@ -33,35 +34,26 @@ export default function SourceSlider({ source, setHeadline }) {
 
     const minutes = date.getHours() * 60 + date.getMinutes();
 
-    const goToNext = () => {
-        const nextHeadlines = source.filter(({ timestamp }) => timestamp > date)
-        if (nextHeadlines.length === 0) return;
-        const nextHeadline = nextHeadlines.pop()
-        setDate(nextHeadline.timestamp);
-    }
-    const goToPrev = () => {
-        const prevHeadline = source.find(({ timestamp }) => timestamp < date);
-        if (!prevHeadline) return;
-        setDate(prevHeadline.timestamp);
-    }
+    const nextHeadline = source.find(({ timestamp }) => timestamp > date);
+    const prevHeadline = source.find(({ timestamp }) => timestamp < date);
 
     return (
-        <div className="flex flex-row gap-4 justify-between items-center">
-            <div>
-                <ArrowRightIcon size={14} color="gray" onClick={goToNext}/>
-            </div>
+        <div className="flex flex-row gap-4 justify-between items-center border-t border-b border-gray-200">
+            <IconButton size="small" disabled={!nextHeadline} onClick={() => setDate(nextHeadline.timestamp)}>
+                <KeyboardArrowRight color="gray" />
+            </IconButton>
 
-            <Slider size="small" readOnly
-                    min={0} max={24 * 60} value={minutes}
-                    marks={marks}/>
-            <div>
-                <ArrowLeftIcon size={14} color="gray" onClick={goToPrev} />
-            </div>
+            <CustomSlider size="small" readOnly
+                min={0} max={24 * 60} value={minutes}
+                marks={marks} />
+            <IconButton size="small" disabled={!prevHeadline} onClick={() => setDate(prevHeadline.timestamp)}>
+                <KeyboardArrowLeft color="gray" />
+            </IconButton>
         </div >
     );
 }
 
-            {/* <input type="range" min={0} max={24 * 60} value={minutes} className="slider" readOnly
+{/* <input type="range" min={0} max={24 * 60} value={minutes} className="slider" readOnly
                 style={{ width: '100%' }}
                 list={"tickmarks_" + website}
                 onChange={e => e.preventDefault()}
@@ -97,12 +89,10 @@ const CustomSlider = styled(Slider)(({ theme }) => ({
         border: 'none',
     },
     '& .MuiSlider-mark': {
-        backgroundColor: 'navy',
-        width: '10px',
-        height: '2px',
-        marginLeft: '-3px',
-        '&.MuiSlider-markActive': {
-            backgroundColor: 'white',
-        },
+        backgroundColor: 'white',
+        width: '3px',
+        height: '5px',
+        borderRadius: 0,
+        opacity: 1,
     },
 }));
