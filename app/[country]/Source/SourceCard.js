@@ -33,7 +33,7 @@ export default function SourceCard({ headlines, index }) {
                             {subtitle}
                         </div>
                     </Collapse>
-                    <SourceSlider source={headlines} setHeadline={setHeadline} />
+                    {/* <SourceSlider source={headlines} setHeadline={setHeadline} /> */}
                     <SourceFooter setShowSubtitle={setShowSubtitle} showSubtitle={showSubtitle} url={headlines[0].link} headline={headline} />
                 </div>
             </div>
