@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import { IconButton, Slider, styled } from "@mui/material";
 import { useDate } from "@/components/PresetTimeManager";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
@@ -44,19 +43,9 @@ export default function SourceSlider({ source, setHeadline }) {
                 <KeyboardArrowRight color="gray" />
             </IconButton>
 
-            {/* <CustomSlider size="small" readOnly
+            <CustomSlider size="small" readOnly
                 min={0} max={24 * 60} value={minutes}
-                marks={marks} /> */}
-            <input type="range" min={0} max={24 * 60} value={minutes} className="slider" readOnly
-                style={{ width: '100%' }}
-                list={"tickmarks_" + website}
-                onChange={e => e.preventDefault()}
-            />
-            <datalist id={"tickmarks_" + website}>
-                {marks.map((mark, i) => (
-                    <option key={i} value={mark} />
-                ))}
-            </datalist>
+                marks={marks} />
             
             <IconButton size="small" disabled={!prevHeadline} onClick={() => setDate(prevHeadline.timestamp)}>
                 <KeyboardArrowLeft color="gray" />
@@ -64,16 +53,6 @@ export default function SourceSlider({ source, setHeadline }) {
         </div >
     );
 }
-
-{/* <input type="range" min={0} max={24 * 60} value={minutes} className="slider" readOnly
-                style={{ width: '100%' }}
-                list={"tickmarks_" + website}
-                onChange={e => e.preventDefault()}
-            />
-            <datalist id={"tickmarks_" + website}>
-                {marks.map((mark, i) => (
-                    <option key={i} value={mark} />
-                ))} */}
 
 
 
