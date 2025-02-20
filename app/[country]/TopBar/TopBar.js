@@ -1,11 +1,19 @@
-import { countryToAlpha2 } from "country-to-iso";
-import { EarthIcon, InfoIcon, SettingsIcon } from "lucide-react";
-import Image from "next/image";
+'use client'
+
 import TimeDisplay from "./TimeDisplay";
+import { useParams } from "next/navigation";
+import { useData } from "@/components/DataManager";
+import { Flag, Global, Headline, Info, Settings } from "./TopBarParts";
 
-export default function TopBar({ country, summary }) {
+export default function TopBar() {
+    const summaries = useData((state) => state.summaries);
+    const { country } = useParams()
 
-    const headline = summary.headline || summary.englishHeadline || summary.hebrewHeadline;
+    let headline = '';
+    if (summaries && summaries.length > 0) {
+        headline = summaries[0].headline || summaries[0].englishHeadline || summaries[0].hebrewHeadline;
+    }
+    
 
     return (
         <div className="flex gap-4 border-b border-gray-200 p-4">
@@ -25,52 +33,3 @@ export default function TopBar({ country, summary }) {
     );
 }
 
-export const getFlagUrl = (country, size = '16x12') => {
-    const isoCountry = countryToAlpha2(country).toLowerCase();
-    if (!isoCountry) return '';
-    return `https://flagcdn.com/${size}/${isoCountry}.png`;
-};
-
-async function Flag({ country }) {
-    const flagUrl = getFlagUrl(country);
-    return (
-        <div className="px-4 h-full flex items-center justify-center">
-        <Image
-            src={flagUrl}
-            alt={`Flag of ${country}`}
-            width={16}
-            height={12}
-            style={{ 
-                width: '1rem',
-                height: '0.75rem',
-                verticalAlign: 'middle',
-                cursor: 'pointer'
-            }}
-        />
-        </div>
-    );
-}
-
-function Headline({ headline }) {
-    return (
-        <div className="h-full px-4 text-lg font-semibold">{headline}</div>
-    );
-}
-
-function Global() {
-    return (
-        <EarthIcon size={24} />
-    );
-}
-
-function Info() {
-    return (
-        <InfoIcon size={24} />
-    );
-}
-
-function Settings() {
-    return (
-        <SettingsIcon size={24} />
-    );
-}

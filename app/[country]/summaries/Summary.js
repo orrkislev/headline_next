@@ -1,4 +1,7 @@
-export default function Summary({ summary, active, click }) {
+import { useDate } from "@/components/PresetTimeManager";
+
+export default function Summary({ summary, active }) {
+    const setDate = useDate((state) => state.setDate);
 
     let text = summary.summary;
     let headline = summary.englishHeadline;
@@ -14,11 +17,11 @@ export default function Summary({ summary, active, click }) {
     const parts = text.split(/(\(.*?\))/g)
 
     return (
-        <div className="py-4"
-            onClick={click}
+        <div className={`py-4 cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'}`}
             style={{fontFamily:'var(--font-frank-re)', lineHeight: '1'}}
+            onClick={() => setDate(summary.timestamp)}
         >
-            <div className={`${active ? 'text-blue' : 'text-gray-200'} text-lg`}>
+            <div className={`text-lg ${active ? 'text-blue' : ''}`}>
                 <span>{timestamp}</span>
                 <span> ⇠ </span>
                 <span>{headline}</span>
@@ -28,8 +31,7 @@ export default function Summary({ summary, active, click }) {
                 <span key={i} className={
                     active ? (part.startsWith('(') ?
                         'text-gray-500 text-sm' :
-                        '') :
-                        'text-gray-200'
+                        '') : ''
                 }>
                     {part}
                 </span>

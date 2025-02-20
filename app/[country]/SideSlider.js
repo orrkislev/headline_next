@@ -1,11 +1,13 @@
 'use client'
 
+import { useData } from "@/components/DataManager";
 import PresentTimeManager, { useDate } from "@/components/PresetTimeManager";
 import { KeyboardArrowDown, KeyboardArrowUp, Restore } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
 import { useMemo } from "react";
 
-export default function SideSlider({ summaries }) {
+export default function SideSlider() {
+    const summaries = useData((state) => state.summaries);
     const minutes = useDate((state) => state.date.getHours() * 60 + state.date.getMinutes());
     const setDate = useDate((state) => state.setDate);
     const day = useDate((state) => state.date.toDateString());

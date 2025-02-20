@@ -1,11 +1,11 @@
 import SideSlider from "./SideSlider";
 import SummarySection from "./SummarySection";
 
-export default function SidePanel({ summaries }) {
+export default function SidePanel() {
     return (
         <>
-            <SideSlider summaries={summaries} />
-            <SummarySection summaries={summaries} />
+            <SideSlider />
+            <SummarySection />
         </>
     );
 }

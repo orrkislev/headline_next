@@ -5,21 +5,30 @@ import Summary from "./summaries/Summary";
 import { useDate } from "@/components/PresetTimeManager";
 import DynamicLogo from "@/components/Logo";
 import ScrollToDiv from "@/components/ScrollToDiv";
+import { sub } from "date-fns";
+import { useData } from "@/components/DataManager";
 
-export default function SummarySection({ summaries }) {
+export default function SummarySection() {
+    const summaries = useData((state) => state.summaries);
     const date = useDate((state) => state.date);
+    const day = useDate((state) => state.date.toDateString());
     const ref = useRef();
 
-    const summariesBefore = useMemo(() => summaries.filter(summary => summary.timestamp < date), [summaries, date]);
-    const summariesAfter = useMemo(() => summaries.filter(summary => summary.timestamp > date), [summaries, date]);
+    const daySummaries = useMemo(() => summaries.filter(summary => summary.timestamp.toDateString() === day), [summaries, day]);
+    const summariesBefore = useMemo(() => daySummaries.filter(summary => summary.timestamp < date), [daySummaries, date]);
+    const summariesAfter = useMemo(() => daySummaries.filter(summary => summary.timestamp > date), [daySummaries, date]);
 
-    // useLayoutEffect(() => {
-    //     const childIndex = summariesAfter.length;
-    //     const child = ref.current.children[childIndex];
-    //     // ref.current.scrollTo({ top: child.offsetTop, behavior: 'smooth' });
-    //     console.log('scrolling to', childIndex);
-    //     // if (child) child.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // }, [summariesAfter]);
+    const lastSummaryDayBefore = useMemo(()=>{
+        const dayBefore = sub(date, {days: 1});
+        const dayBeforeSummaries = summaries.filter(summary => summary.timestamp.toDateString() === dayBefore.toDateString());
+        return dayBeforeSummaries.length > 0 ? dayBeforeSummaries[0] : null;
+    }, [day, summaries]);
+
+    useLayoutEffect(() => {
+        const childIndex = summariesAfter.length;
+        const child = ref.current.children[childIndex];
+        if (child) child.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, [summariesAfter]);
 
     return (
         <div className="flex flex-col gap-4 h-full overflow-hidden p-2">
@@ -31,6 +40,13 @@ export default function SummarySection({ summaries }) {
                 {summariesBefore.map((summary, i) => (
                     <Summary key={i} summary={summary} active={i === 0} />
                 ))}
+
+                {lastSummaryDayBefore && (
+                    <>
+                    <div style={{fontFamily:'var(--font-frank-re)'}} className='text-gray-200 font-semibold text-lg pt-4'>היום הקודם</div>
+                    <Summary summary={lastSummaryDayBefore} />
+                    </>
+                )}
             </div>
         </div>
     );

@@ -1,5 +1,45 @@
 import { choose } from "./utils";
 
+const baseTypographyOptions = [
+    {
+        fontFamily: 'var(--font-futura), sans-serif',
+        fontSize: '2.5rem',
+        lineHeight: 1.15,
+        fontWeight: 500,
+    },
+    {
+        fontFamily: 'var(--font-futura), sans-serif',
+        fontSize: '2.3rem',
+        lineHeight: 1.15,
+        fontWeight: 700,
+        fontStyle: 'italic',
+    },
+    {
+        fontFamily: 'var(--futura-italic), sans-serif',
+        fontSize: '2.1rem',
+        lineHeight: 1.15,
+        fontWeight: 700,
+    },
+    {
+        fontFamily: '"plantin-condensed", sans-serif',
+        fontSize: '2.3rem',
+        lineHeight: 1.1,
+        fontWeight: 700,
+    },
+    {
+        fontFamily: 'var(--font-helvetica), Arial, sans-serif',
+        fontSize: '2.1rem',
+        lineHeight: 1.2,
+        fontWeight: 400,
+    },
+    {
+        fontFamily: 'var(--font-cheltenham), serif',
+        fontSize: '2.8rem',
+        lineHeight: 1.1,
+        fontWeight: 400,
+    },
+];
+
 const arabicTypographyOptions = [
     {
         fontFamily: 'var(--font-lalezar)',
@@ -163,5 +203,6 @@ export const countryTypographyOptions = {
 };
 
 export function getTypography(country) {
-    return choose(countryTypographyOptions[country.toLowerCase()]);
+    const options = countryTypographyOptions[country.toLowerCase()] || baseTypographyOptions;
+    return choose(options);
 }

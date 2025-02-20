@@ -23,11 +23,11 @@ export function getCountryCollectionRef(countryName, collectionName) {
 }
 
 
-export const getCountryDayHeadlines = async (countryName, day) => {
+export const getCountryDayHeadlines = async (countryName, day, daysInclude = 1) => {
   const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
 
   const theDay = endOfDay(day);
-  const dayBefore = sub(theDay, { days: 1 });
+  const dayBefore = sub(theDay, { days: daysInclude });
   const q = query(
     headlinesCollection,
     where('timestamp', '>=', dayBefore),
@@ -38,25 +38,31 @@ export const getCountryDayHeadlines = async (countryName, day) => {
   let headlines = await getDocs(q);
   headlines = headlines.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-  // group headlines by website_id
-  const groupedHeadlines = {};
-  headlines.forEach(headline => {
-    if (!groupedHeadlines[headline.website_id]) {
-      groupedHeadlines[headline.website_id] = [];
-    }
+  headlines = headlines.map(headline => {
     const headlineData = JSON.parse(JSON.stringify(headline));
     headlineData.timestamp = new Date(headlineData.timestamp.seconds*1000)
-    groupedHeadlines[headline.website_id].push(headlineData);
+    return headlineData;
   });
+  return headlines;
+  // // group headlines by website_id
+  // const groupedHeadlines = {};
+  // headlines.forEach(headline => {
+  //   if (!groupedHeadlines[headline.website_id]) {
+  //     groupedHeadlines[headline.website_id] = [];
+  //   }
+  //   const headlineData = JSON.parse(JSON.stringify(headline));
+  //   headlineData.timestamp = new Date(headlineData.timestamp.seconds*1000)
+  //   groupedHeadlines[headline.website_id].push(headlineData);
+  // });
 
-  return groupedHeadlines;
+  // return groupedHeadlines;
 }
 
-export const getCountryDaySummaries = async (countryName, day) => {
+export const getCountryDaySummaries = async (countryName, day , daysInclude = 1) => {
   const summariesCollection = getCountryCollectionRef(countryName, 'summaries');
 
   const theDay = endOfDay(day);
-  const dayBefore = sub(theDay, { days: 1 });
+  const dayBefore = sub(theDay, { days: daysInclude });
   const q = query(
     summariesCollection,
     where('timestamp', '>=', dayBefore),
