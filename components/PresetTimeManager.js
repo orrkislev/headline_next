@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { create } from "zustand";
 
 export const useDate = create((set) => ({
@@ -10,11 +10,26 @@ export const useDate = create((set) => ({
 
 export default function PresentTimeManager() {
     const { date, setDate, isPresent, setPresent } = useDate();
+    const currentTime = useRef({});
+
+    useEffect(()=>{
+        const interval = setInterval(() => {
+            const d = new Date();
+            currentTime.current = {
+                date: d.toDateString(),
+                hours: d.getHours(),
+                minutes: d.getMinutes()
+            }
+        }, 60000);
+        return () => clearInterval(interval);
+    }, []);
 
     useEffect(() => {
-        // check if date is present (if its the same day and same hours and minutes)
-        const now = new Date();
-        const isPresent = now.toDateString() === date.toDateString() && now.getHours() === date.getHours() && now.getMinutes() === date.getMinutes();
+        // const now = new Date();
+        // const isPresent = now.toDateString() === date.toDateString() && now.getHours() === date.getHours() && now.getMinutes() === date.getMinutes();
+        const isPresent = currentTime.current.date === date.toDateString() &&
+                          currentTime.current.hours === date.getHours() && 
+                          currentTime.current.minutes === date.getMinutes();
         setPresent(isPresent);
     }, [date]);
 

@@ -6,10 +6,9 @@ import { useDate } from "@/components/PresetTimeManager";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 export default function SourceSlider({ source, setHeadline }) {
-    const { date, setDate } = useDate()
     const day = useDate(state => state.date.toDateString());
-    const [currHeadline, setCurrHeadline] = useState();
     const [marks, setMarks] = useState([]);
+    const [sliderDate, setSliderDate] = useState(new Date());
 
     useEffect(() => {
         const dayHeadlines = source.filter(({ timestamp }) => timestamp.toDateString() === day);
@@ -17,28 +16,14 @@ export default function SourceSlider({ source, setHeadline }) {
         setMarks(newMarks.map(mark => ({ value: mark, label: null })));
     }, [source, day])
 
+    const minutes = sliderDate.getHours() * 60 + sliderDate.getMinutes();
 
-    useEffect(() => {
-        setHeadline(currHeadline);
-    }, [currHeadline, setHeadline]);
-
-    useEffect(() => {
-        const headline = source.find(({ timestamp }) => timestamp < date);
-        setCurrHeadline(headline);
-        
-    }, [date, source]);
-
-    const website = useMemo(() => {
-        return source[0].website_id;
-    }, [source]);
-
-    const minutes = date.getHours() * 60 + date.getMinutes();
-
-    const nextHeadline = source.find(({ timestamp }) => timestamp > date);
-    const prevHeadline = source.find(({ timestamp }) => timestamp < date);
+    const nextHeadline = source.find(({ timestamp }) => timestamp > sliderDate);
+    const prevHeadline = source.find(({ timestamp }) => timestamp < sliderDate);
 
     return (
         <div className="flex flex-row gap-4 justify-between items-center border-t border-b border-gray-200">
+            <SliderTimeManager source={source} setSliderDate={setSliderDate} setHeadline={setHeadline}/>
             <IconButton size="small" disabled={!nextHeadline} onClick={() => setDate(nextHeadline.timestamp)}>
                 <KeyboardArrowRight color="gray" />
             </IconButton>
@@ -46,7 +31,7 @@ export default function SourceSlider({ source, setHeadline }) {
             <CustomSlider size="small" readOnly
                 min={0} max={24 * 60} value={minutes}
                 marks={marks} />
-            
+
             <IconButton size="small" disabled={!prevHeadline} onClick={() => setDate(prevHeadline.timestamp)}>
                 <KeyboardArrowLeft color="gray" />
             </IconButton>
@@ -54,8 +39,24 @@ export default function SourceSlider({ source, setHeadline }) {
     );
 }
 
+function SliderTimeManager({source, setSliderDate, setHeadline}) {
+    const { date, setDate } = useDate()
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setSliderDate(date);
+        }, 200);
+        return () => clearTimeout(timeout);
+    }, [date])
+
+    useEffect(() => {
+        const headline = source.find(({ timestamp }) => timestamp < date);
+        setHeadline(headline);
+    }, [date, source]);
 
 
+    return null
+}
 
 const CustomSlider = styled(Slider)(({ theme }) => ({
     color: 'navy',

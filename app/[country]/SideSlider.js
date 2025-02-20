@@ -41,6 +41,7 @@ export default function SideSlider() {
                 size="small"
                 value={minutes} min={0} max={24 * 60} step={1}
                 onChange={(_, value) => updateDate(value)}
+                onChangeCommitted={(_, value) => updateDate(value)}
                 marks={marks}
             />
             <IconButton size="small" onClick={() => setDate(prevSummary.timestamp)} disabled={!prevSummary}>
