@@ -73,7 +73,7 @@ const futuraItalic = localFont({
   display: "swap",
 });
 const caslon = localFont({
-  src: "../utils/fonts/caslon-bold.otf",
+  src: "../utils/fonts/caslon-bold.OTF",
   variable: "--font-caslon",
   display: "swap",
 });
