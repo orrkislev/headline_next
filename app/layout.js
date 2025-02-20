@@ -23,67 +23,67 @@ import "./globals.css";
 
 // Local fonts imported using next/font/local
 const frankReTzar = localFont({
-  src: "../public/fonts/frank-re-tzar-regular-aaa.otf",
+  src: "../utils/fonts/frank-re-tzar-regular-aaa.otf",
   variable: "--font-frank-re-tzar",
   display: "swap",
 });
 const frankRe = localFont({
-  src: "../public/fonts/frank-re-medium-aaa.otf",
+  src: "../utils/fonts/frank-re-medium-aaa.otf",
   variable: "--font-frank-re",
   display: "swap",
 });
 const telAviv = localFont({
-  src: "../public/fonts/TelAviv-ModernistBold.ttf",
+  src: "../utils/fonts/TelAviv-ModernistBold.ttf",
   variable: "--font-tel-aviv",
   display: "swap",
 });
 const hadassah = localFont({
-  src: "../public/fonts/HadassahFriedlaender-Regular.otf",
+  src: "../utils/fonts/HadassahFriedlaender-Regular.otf",
   variable: "--font-hadassah",
   display: "swap",
 });
 const mandatory = localFont({
-  src: "../public/fonts/Mandatory-18.otf",
+  src: "../utils/fonts/Mandatory-18.otf",
   variable: "--font-mandatory",
   display: "swap",
 });
 const mandatory29 = localFont({
-  src: "../public/fonts/Mandatory-29.otf",
+  src: "../utils/fonts/Mandatory-29.otf",
   variable: "--font-mandatory29",
   display: "swap",
 });
 const aduma = localFont({
-  src: "../public/fonts/AdumaFOT-Regular.otf",
+  src: "../utils/fonts/AdumaFOT-Regular.otf",
   variable: "--font-aduma",
   display: "swap",
 });
 const helvetica = localFont({
-  src: "../public/fonts/helvetica-bold.otf",
+  src: "../utils/fonts/helvetica-bold.otf",
   variable: "--font-helvetica",
   display: "swap",
 });
 const futura = localFont({
-  src: "../public/fonts/futura-heavy.ttf",
+  src: "../utils/fonts/futura-heavy.ttf",
   variable: "--font-futura",
   display: "swap",
 });
 const futuraItalic = localFont({
-  src: "../public/fonts/futura-bold-italic.ttf",
+  src: "../utils/fonts/futura-bold-italic.ttf",
   variable: "--font-futura-italic",
   display: "swap",
 });
 const caslon = localFont({
-  src: "../public/fonts/caslon-bold.otf",
+  src: "../utils/fonts/caslon-bold.otf",
   variable: "--font-caslon",
   display: "swap",
 });
 const clarendon = localFont({
-  src: "../public/fonts/clarendon-bold.otf",
+  src: "../utils/fonts/clarendon-bold.otf",
   variable: "--font-clarendon",
   display: "swap",
 });
 const cheltenham = localFont({
-  src: "../public/fonts/cheltenham-cond-normal-700.ttf",
+  src: "../utils/fonts/cheltenham-cond-normal-700.ttf",
   variable: "--font-cheltenham",
   display: "swap",
 });

@@ -26,6 +26,7 @@ export default function SourceSlider({ source, setHeadline }) {
     useEffect(() => {
         const headline = source.find(({ timestamp }) => timestamp < date);
         setCurrHeadline(headline);
+        
     }, [date, source]);
 
     const website = useMemo(() => {
@@ -43,9 +44,20 @@ export default function SourceSlider({ source, setHeadline }) {
                 <KeyboardArrowRight color="gray" />
             </IconButton>
 
-            <CustomSlider size="small" readOnly
+            {/* <CustomSlider size="small" readOnly
                 min={0} max={24 * 60} value={minutes}
-                marks={marks} />
+                marks={marks} /> */}
+            <input type="range" min={0} max={24 * 60} value={minutes} className="slider" readOnly
+                style={{ width: '100%' }}
+                list={"tickmarks_" + website}
+                onChange={e => e.preventDefault()}
+            />
+            <datalist id={"tickmarks_" + website}>
+                {marks.map((mark, i) => (
+                    <option key={i} value={mark} />
+                ))}
+            </datalist>
+            
             <IconButton size="small" disabled={!prevHeadline} onClick={() => setDate(prevHeadline.timestamp)}>
                 <KeyboardArrowLeft color="gray" />
             </IconButton>
