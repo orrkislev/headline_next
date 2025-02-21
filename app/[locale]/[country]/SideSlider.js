@@ -30,7 +30,7 @@ export default function SideSlider() {
     const prevSummary = summaries.reverse().find(summary => summary.timestamp < useDate.getState().date);
 
     return (
-        <div className="flex flex-col items-center justify-center border-l border-gray-200 py-4 px-2 gap-4">
+        <div className="flex flex-col items-center justify-center border-l border-gray-200 py-4 px-1 gap-4">
             <TimeManager />
             <ResetTimerButton />
             <IconButton size="small" onClick={() => setDate(nextSummary.timestamp)} disabled={!nextSummary}>

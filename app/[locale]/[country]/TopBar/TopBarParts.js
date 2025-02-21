@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Settings from "./settings/Settings";
 import { TopBarButton } from "@/components/IconButtons";
+import AboutMenu from "./AboutMenu";
 
 export const getFlagUrl = (country, size = '16x12') => {
     const isoCountry = countryToAlpha2(country).toLowerCase();
@@ -80,11 +81,14 @@ export function Info() {
     const [open, setOpen] = useState(false)
 
     return (
-        <Tooltip title="about the Hear" arrow {...tooltipProps}>
-            <TopBarButton size="small" onClick={() => setOpen(prev => !prev)}>
-                <InfoOutlined />
-            </TopBarButton>
-        </Tooltip>
+        <div className="relative">
+            <Tooltip title="about the Hear" arrow {...tooltipProps}>
+                <TopBarButton size="small" onClick={() => setOpen(prev => !prev)}>
+                    <InfoOutlined />
+                </TopBarButton>
+            </Tooltip>
+            <AboutMenu open={open} />
+        </div>
     );
 }
 

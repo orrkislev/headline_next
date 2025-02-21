@@ -1,17 +1,21 @@
 'use client'
 
-import TimeDisplay from "./TimeDisplay";
+import TimeDisplay from "./TimeDisplay.js";
 import { useParams } from "next/navigation";
 import { useData } from "@/components/DataManager";
-import { Flag, Global, Headline, Info, SettingsButton } from "./TopBarParts";
+import { Flag, Global, Headline, Info, SettingsButton } from "./TopBarParts.js";
+import { usePreferences } from "@/components/PreferencesManager.js";
+
 
 export default function TopBar() {
+    const locale = usePreferences((state) => state.locale);
     const summaries = useData((state) => state.summaries);
     const { country } = useParams()
 
     let headline = '';
     if (summaries && summaries.length > 0) {
-        headline = summaries[0].hebrewHeadline || summaries[0].headline || summaries[0].englishHeadline
+        const summ = summaries[0]
+        headline = locale === 'heb' ? summ.hebrewHeadline : (summ.englishHeadline || summ.headline)
     }
     
 
@@ -23,7 +27,7 @@ export default function TopBar() {
                     <Flag country={country} />
                     <Headline headline={headline} />
                 </div>
-                <div className="flex gap-4 items-center divide-x-2 divide-gray-200">
+                <div className='flex gap-4 items-center divide-x-2 divide-gray-200 hidden md:flex'>
                     <Global />
                     <Info />
                     <SettingsButton />

@@ -4,11 +4,11 @@ import { useLayoutEffect, useMemo, useRef } from "react";
 import Summary from "./summaries/Summary";
 import { useDate } from "@/components/TimeManager";
 import DynamicLogo from "@/components/Logo";
-import ScrollToDiv from "@/components/ScrollToDiv";
 import { sub } from "date-fns";
 import { useData } from "@/components/DataManager";
 import YesterdaySummaryTitle from "./summaries/YesterSummaryTitle";
 import DailySummary from "./summaries/DailySummary";
+import { usePreferences } from "@/components/PreferencesManager";
 
 export default function SummarySection() {
     const summaries = useData((state) => state.summaries);
@@ -33,7 +33,7 @@ export default function SummarySection() {
     }, [summariesAfter]);
 
     return (
-        <div className="flex flex-col gap-4 h-full overflow-hidden p-2">
+        <div className={`flex flex-col gap-4 h-full overflow-hidden p-2`}>
             <DynamicLogo />
             <DailySummary />
             <div className="flex flex-col gap-2 h-full overflow-auto divide-y divide-gray-200 p-2" ref={ref}>
@@ -44,15 +44,32 @@ export default function SummarySection() {
                     <Summary key={i} summary={summary} active={i === 0} />
                 ))}
 
-                <div className='text-gray-200 font-semibold text-lg pt-4 frank-re'>היום הקודם</div>
-                <Summary summary={lastSummaryDayBefore} />
+                <YesterdaySummary lastSummaryDayBefore={lastSummaryDayBefore} />
             </div>
             <div className='py-2 px-4 bg-white border-t border-gray-200'>
                 <YesterdaySummaryTitle lastSummaryDayBefore={lastSummaryDayBefore} />
-                <div className="text-gray-400 pt-4 font-semibold border-t border-gray-200 frank-re">
-                    סקירות אלו נכתבו על ידי הבינה
-                </div>
+                <Disclaimer />
             </div>
         </div>
+    );
+}
+
+function Disclaimer() {
+    const locale = usePreferences((state) => state.locale);
+    return (
+        <div className='text-gray-400 pt-4 font-semibold border-t border-gray-200 frank-re'>
+            {locale === 'heb' ? 'סקירות אלו נכתבו על ידי הבינה' : 'These overviews were written by an AI'}
+        </div>
+    );
+}
+
+function YesterdaySummary({ lastSummaryDayBefore }) {
+    const locale = usePreferences((state) => state.locale);
+    if (!lastSummaryDayBefore) return null;
+    return (
+        <>
+            <div className='text-gray-200 font-semibold text-lg pt-4 frank-re'>{locale === 'heb' ? 'היום הקודם' : 'PREVIOUS DAY'}</div>
+            <Summary summary={lastSummaryDayBefore} />
+        </>
     );
 }

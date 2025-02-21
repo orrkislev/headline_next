@@ -10,7 +10,7 @@ import { Collapse } from "@mui/material";
 import { SourceFooter } from "./SourceFooter";
 import { usePreferences } from "@/components/PreferencesManager";
 import { getRandomTypography } from "@/utils/typography";
-
+import Subtitle from "./Subtitle";
 
 export default function SourceCard({ headlines, index }) {
     const [headline, setHeadline] = useState();
@@ -25,8 +25,10 @@ export default function SourceCard({ headlines, index }) {
 
     const subtitle = headline?.subtitle;
 
+    const isRTL = /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline);
+
     return (
-        <div className={`relative bg-neutral-100 hover:bg-white border-b border-gray-200 transition-colors duration-200 ${index == 0 ? 'col-span-2' : ''}`}>
+        <div className={`relative bg-neutral-100 hover:bg-white border-b border-gray-200 transition-colors duration-200 ${index == 0 ? 'col-span-2' : ''} ${isRTL ? 'direction-rtl' : 'direction-ltr'}`}>
             <CloseButton sourceName={headlines[0].website_id} />
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-4 mb-4 p-4">
@@ -34,11 +36,7 @@ export default function SourceCard({ headlines, index }) {
                     <Headline headline={headline} typography={typography} />
                 </div>
                 <div>
-                    <Collapse in={showSubtitle} timeout="auto" unmountOnExit>
-                        <div className="p-2 text-sm">
-                            {subtitle}
-                        </div>
-                    </Collapse>
+                    <Subtitle subtitle={subtitle} showSubtitle={showSubtitle} />
                     <SourceSlider headlines={headlines} setHeadline={setHeadline} />
                     <SourceFooter setShowSubtitle={setShowSubtitle} showSubtitle={showSubtitle} url={headlines[0].link} headline={headline} />
                 </div>

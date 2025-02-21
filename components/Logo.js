@@ -36,7 +36,7 @@ export default function DynamicLogo() {
     }, []);
 
     return (
-        <Link href="/">
+        <Link href="/" className='hidden md:block'>
             <div className='logo-hover-container flex items-center justify-center relative border-b border-gray-200 p-4'>
                 <div className='logo-background'
                 style={{

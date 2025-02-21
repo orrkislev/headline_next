@@ -43,29 +43,23 @@ export default function DataManager({ headlines, summaries, dailySummary }) {
     }, [])
 
     useEffect(() => {
-        const theDayBefore = sub(new Date(day), { days: 1 }).toDateString()
-        if (!data.dates.includes(day)) {
-            if (!data.dates.includes(theDayBefore)) {
-                getData(day, 2)
-            } else {
-                getData(day, 1)
-            }
-        } else if (!data.dates.includes(theDayBefore)) {
-            getData(theDayBefore, 1)
-        }
+        const theDate = new Date(day)
+        getDayData(theDate)
+        const theDayBefore = sub(theDate, { days: 1 })
+        getDayData(theDayBefore)
     }, [day])
 
-    const getData = async (dataDay, days) => {
-        const newHeadlines = await getCountryDayHeadlines(country, new Date(dataDay), days)
+    const getDayData = async (dataDay) => {
+        if (data.dates.length == 0) return
+        if (data.dates.includes(dataDay.toDateString())) return
+
+        const newHeadlines = await getCountryDayHeadlines(country, dataDay, 1)
         data.addHeadlines(newHeadlines)
-        const newSummaries = await getCountryDaySummaries(country, new Date(dataDay), days)
+        const newSummaries = await getCountryDaySummaries(country, dataDay, 1)
         data.addSummaries(newSummaries)
-        for (let i = 0; i < days; i++) {
-            const day = sub(new Date(dataDay), { days: i })
-            const newDailySummary = await getCountryDailySummary(country, day)
-            data.addDailySummary(newDailySummary)
-            data.addDate(day.toDateString())
-        }
+        const newDailySummary = await getCountryDailySummary(country, dataDay)
+        data.addDailySummary(newDailySummary)
+        data.addDate(dataDay.toDateString())
     }
 
 

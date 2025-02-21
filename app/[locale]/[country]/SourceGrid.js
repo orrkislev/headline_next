@@ -4,11 +4,11 @@ import { useData } from "@/components/DataManager";
 import SourceCard from "./Source/SourceCard";
 import { usePreferences } from "@/components/PreferencesManager";
 import getSourceOrder from "@/utils/sources/source orders";
-import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useParams, usePathname } from "next/navigation";
 
 export default function SourceGrid() {
     const { country } = useParams();
+
     const sources = useData((state) => state.sources);
     const activeWebsites = usePreferences((state) => state.activeWebsites);
     const order = usePreferences((state) => state.order);
@@ -26,11 +26,9 @@ export default function SourceGrid() {
     if (filteredSources.length === 0) {
         return <div>No sources found</div>;
     }
-
     
-
     return (
-        <div className="grid grid-cols-3 gap-4 overflow-auto p-4">
+        <div className={`grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4`}>
             {filteredSources.map((source, i) => (
                 <SourceCard 
                     key={`${source[0]}-${source[1]?.length}`}

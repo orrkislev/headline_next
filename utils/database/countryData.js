@@ -1,5 +1,5 @@
 import { getDb } from "@/utils/database/firebase";
-import { endOfDay, startOfYesterday, sub } from "date-fns";
+import { endOfDay, sub } from "date-fns";
 import { collection, doc, getDocs, orderBy, query, where } from "firebase/firestore";
 
 export function getCountryCollectionRef(countryName, collectionName) {
@@ -82,7 +82,6 @@ export const getCountryDaySummaries = async (countryName, day, daysInclude = 1) 
 }
 
 export const getCountryDailySummary = async (countryName, day) => {
-  console.log('getting daily summary', countryName, day);
   const date = new Date(day);
   const dateString = date.toISOString().split('T')[0];
 

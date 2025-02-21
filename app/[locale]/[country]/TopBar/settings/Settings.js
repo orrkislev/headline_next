@@ -6,10 +6,12 @@ import TranslateToggle from "./TranslateToggle";
 import OrderToggle from "./OrderToggle";
 import SourcesToggle from "./SourcesToggle";
 import { DateSelector } from "./DateSelector";
+import { usePreferences } from "@/components/PreferencesManager";
 
 export default function Settings({ open }) {
+    const locale = usePreferences((state) => state.locale);
     return (
-        <div className={`absolute ${open ? 'block' : 'hidden'} p-4 flex items-center divide-x divide-gray-200 bg-white rounded shadow`} style={{ top: '2em', left: '0', zIndex: '1000' }}>
+        <div className={`absolute ${open ? 'block' : 'hidden'} p-4 flex items-center divide-x divide-gray-200 bg-white rounded shadow z-[1000] top-[2em] ${locale === 'heb' ? 'left-0' : 'right-0'}`}>
             <DateSelector />
             <div className="flex flex-row">
                 <LabeledIcon label="Font" icon={<FontToggle />} />

@@ -1,11 +1,11 @@
-export const getHeadline = (dailySummary, language) => {
+export const getHeadline = (dailySummary, locale) => {
     let selectedHeadline;
 
-    if (language === 'hebrew') {
+    if (locale === 'heb') {
         selectedHeadline = dailySummary.headlineHebrew?.split('\n')[0] ||
             dailySummary.headline_option_1?.split('\n')[0] ||
             dailySummary.headline?.split('\n')[0];  // Final fallback
-    } else if (language === 'translated') {
+    } else if (locale === 'translated') {
         selectedHeadline = dailySummary.headlineLocal;
     } else {
         selectedHeadline = dailySummary.headline?.split('\n')[0];
@@ -14,12 +14,12 @@ export const getHeadline = (dailySummary, language) => {
     return selectedHeadline;
 };
 
-export const getSummaryContent = (dailySummary, language) => {
-    if (language === 'hebrew') {
+export const getSummaryContent = (dailySummary, locale) => {
+    if (locale === 'heb') {
         return dailySummary.summaryHebrew ||
             dailySummary.summary ||
             dailySummary.summaryEnglish;  // Final fallback
-    } else if (language === 'translated') {
+    } else if (locale === 'translated') {
         return dailySummary.summary;
     } else {
         return dailySummary.summaryEnglish;
