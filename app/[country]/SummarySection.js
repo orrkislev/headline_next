@@ -2,11 +2,13 @@
 
 import { useLayoutEffect, useMemo, useRef } from "react";
 import Summary from "./summaries/Summary";
-import { useDate } from "@/components/PresetTimeManager";
+import { useDate } from "@/components/TimeManager";
 import DynamicLogo from "@/components/Logo";
 import ScrollToDiv from "@/components/ScrollToDiv";
 import { sub } from "date-fns";
 import { useData } from "@/components/DataManager";
+import YesterdaySummaryTitle from "./summaries/YesterSummaryTitle";
+import DailySummary from "./summaries/DailySummary";
 
 export default function SummarySection() {
     const summaries = useData((state) => state.summaries);
@@ -14,12 +16,12 @@ export default function SummarySection() {
     const day = useDate((state) => state.date.toDateString());
     const ref = useRef();
 
-    const daySummaries = useMemo(() => summaries.filter(summary => summary.timestamp.toDateString() === day), [summaries, day]);
-    const summariesBefore = useMemo(() => daySummaries.filter(summary => summary.timestamp < date), [daySummaries, date]);
-    const summariesAfter = useMemo(() => daySummaries.filter(summary => summary.timestamp > date), [daySummaries, date]);
+    const todaySummaries = useMemo(() => summaries.filter(summary => summary.timestamp.toDateString() === day), [summaries, day]);
+    const summariesBefore = useMemo(() => todaySummaries.filter(summary => summary.timestamp < date), [todaySummaries, date]);
+    const summariesAfter = useMemo(() => todaySummaries.filter(summary => summary.timestamp > date), [todaySummaries, date]);
 
-    const lastSummaryDayBefore = useMemo(()=>{
-        const dayBefore = sub(date, {days: 1});
+    const lastSummaryDayBefore = useMemo(() => {
+        const dayBefore = sub(date, { days: 1 });
         const dayBeforeSummaries = summaries.filter(summary => summary.timestamp.toDateString() === dayBefore.toDateString());
         return dayBeforeSummaries.length > 0 ? dayBeforeSummaries[0] : null;
     }, [day, summaries]);
@@ -33,7 +35,8 @@ export default function SummarySection() {
     return (
         <div className="flex flex-col gap-4 h-full overflow-hidden p-2">
             <DynamicLogo />
-            <div className="flex flex-col gap-4 h-full overflow-auto divide-y divide-gray-200 p-4" ref={ref}>
+            <DailySummary />
+            <div className="flex flex-col gap-2 h-full overflow-auto divide-y divide-gray-200 p-2" ref={ref}>
                 {summariesAfter.map((summary, i) => (
                     <Summary key={i} summary={summary} />
                 ))}
@@ -41,12 +44,14 @@ export default function SummarySection() {
                     <Summary key={i} summary={summary} active={i === 0} />
                 ))}
 
-                {lastSummaryDayBefore && (
-                    <>
-                    <div style={{fontFamily:'var(--font-frank-re)'}} className='text-gray-200 font-semibold text-lg pt-4'>היום הקודם</div>
-                    <Summary summary={lastSummaryDayBefore} />
-                    </>
-                )}
+                <div className='text-gray-200 font-semibold text-lg pt-4 frank-re'>היום הקודם</div>
+                <Summary summary={lastSummaryDayBefore} />
+            </div>
+            <div className='py-2 px-4 bg-white border-t border-gray-200'>
+                <YesterdaySummaryTitle lastSummaryDayBefore={lastSummaryDayBefore} />
+                <div className="text-gray-400 pt-4 font-semibold border-t border-gray-200 frank-re">
+                    סקירות אלו נכתבו על ידי הבינה
+                </div>
             </div>
         </div>
     );

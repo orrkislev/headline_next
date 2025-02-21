@@ -1,7 +1,9 @@
-import { useDate } from "@/components/PresetTimeManager";
+import { useDate } from "@/components/TimeManager";
 
 export default function Summary({ summary, active }) {
     const setDate = useDate((state) => state.setDate);
+
+    if (!summary) return null;
 
     let text = summary.summary;
     let headline = summary.englishHeadline;
@@ -17,8 +19,7 @@ export default function Summary({ summary, active }) {
     const parts = text.split(/(\(.*?\))/g)
 
     return (
-        <div className={`py-4 cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'}`}
-            style={{fontFamily:'var(--font-frank-re)', lineHeight: '1'}}
+        <div className={`py-4 frank-re leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'}`}
             onClick={() => setDate(summary.timestamp)}
         >
             <div className={`text-lg ${active ? 'text-blue' : ''}`}>

@@ -1,29 +1,29 @@
 'use client'
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { IconButton, Slider, styled } from "@mui/material";
-import { useDate } from "@/components/PresetTimeManager";
+import { useDate } from "@/components/TimeManager";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
-export default function SourceSlider({ source, setHeadline }) {
+export default function SourceSlider({ headlines, setHeadline }) {
     const day = useDate(state => state.date.toDateString());
-    const [marks, setMarks] = useState([]);
+    const setDate = useDate(state => state.setDate);
     const [sliderDate, setSliderDate] = useState(new Date());
 
-    useEffect(() => {
-        const dayHeadlines = source.filter(({ timestamp }) => timestamp.toDateString() === day);
+    const marks = useMemo(() => {
+        const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === day);
         const newMarks = dayHeadlines.map(({ timestamp }) => timestamp.getHours() * 60 + timestamp.getMinutes());
-        setMarks(newMarks.map(mark => ({ value: mark, label: null })));
-    }, [source, day])
+        return newMarks.map(mark => ({ value: mark, label: null }));
+    }, [headlines, day]);
 
     const minutes = sliderDate.getHours() * 60 + sliderDate.getMinutes();
 
-    const nextHeadline = source.find(({ timestamp }) => timestamp > sliderDate);
-    const prevHeadline = source.find(({ timestamp }) => timestamp < sliderDate);
+    const nextHeadline = headlines.filter(({ timestamp }) => timestamp > sliderDate).pop();
+    const prevHeadline = headlines.find(({ timestamp }) => timestamp < sliderDate);
 
     return (
         <div className="flex flex-row gap-4 justify-between items-center border-t border-b border-gray-200">
-            <SliderTimeManager source={source} setSliderDate={setSliderDate} setHeadline={setHeadline}/>
+            <SliderTimeManager headlines={headlines} setSliderDate={setSliderDate} setHeadline={setHeadline} />
             <IconButton size="small" disabled={!nextHeadline} onClick={() => setDate(nextHeadline.timestamp)}>
                 <KeyboardArrowRight color="gray" />
             </IconButton>
@@ -39,32 +39,31 @@ export default function SourceSlider({ source, setHeadline }) {
     );
 }
 
-function SliderTimeManager({source, setSliderDate, setHeadline}) {
-    const { date, setDate } = useDate()
+function SliderTimeManager({ headlines, setSliderDate, setHeadline }) {
+    const date = useDate(state => state.date);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
             setSliderDate(date);
         }, 200);
         return () => clearTimeout(timeout);
-    }, [date])
+    }, [date]);
 
     useEffect(() => {
-        const headline = source.find(({ timestamp }) => timestamp < date);
+        const headline = headlines.find(({ timestamp }) => timestamp < date);
         setHeadline(headline);
-    }, [date, source]);
+    }, [date, headlines]);
 
-
-    return null
+    return null;
 }
 
 const CustomSlider = styled(Slider)(({ theme }) => ({
     color: 'navy',
     height: 4,
     '& .MuiSlider-thumb': {
-        width: 10,
-        height: 10,
-        backgroundColor: 'black',
+        width: 7,
+        height: 7,
+        backgroundColor: '#888',
         transition: '0.3s cubic-bezier(.47,1.64,.41,.8)',
         '&.Mui-active': {
             width: 16,
@@ -77,7 +76,7 @@ const CustomSlider = styled(Slider)(({ theme }) => ({
         width: '100%',
     },
     '& .MuiSlider-track': {
-        backgroundColor: 'gray',
+        backgroundColor: '#CCC',
         border: 'none',
     },
     '& .MuiSlider-mark': {

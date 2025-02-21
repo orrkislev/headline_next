@@ -1,9 +1,11 @@
-import { getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
+import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
 import { getAllCountryNames } from "@/utils/database/globalData";
 import SourceGrid from "./SourceGrid";
 import TopBar from "./TopBar/TopBar";
 import SidePanel from "./SidePanel";
 import DataManager from "@/components/DataManager";
+import PreferencesManager from "@/components/PreferencesManager";
+import { sub } from "date-fns";
 
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
@@ -17,6 +19,7 @@ export default async function CountryPage({ params }) {
     const { country } = await params;
     const headlinesSources = await getCountryDayHeadlines(country, new Date(), 2);
     const summaries = await getCountryDaySummaries(country, new Date(), 2);
+    const dailySummary = await getCountryDailySummary(country, sub(new Date(), { days: 1 }));
 
     if (summaries.length === 0) {
         return 'no summaries found';
@@ -24,7 +27,8 @@ export default async function CountryPage({ params }) {
 
     return (
         <div className="absolute flex w-full h-full overflow-hidden direction-rtl">
-            <DataManager headlines={headlinesSources} summaries={summaries} />
+            <DataManager headlines={headlinesSources} summaries={summaries} dailySummary={dailySummary} />
+            <PreferencesManager />
             <div className="flex-[1] border-l border-gray-200 flex">
                 <SidePanel />
             </div>

@@ -202,7 +202,11 @@ export const countryTypographyOptions = {
     ukraine: russianTypographyOptions,
 };
 
-export function getTypography(country) {
+export function getRandomTypography(country) {
     const options = countryTypographyOptions[country.toLowerCase()] || baseTypographyOptions;
     return choose(options);
+}
+
+export function getTypographyOptions(country) {
+    return countryTypographyOptions[country.toLowerCase()] || baseTypographyOptions;
 }

@@ -8,15 +8,15 @@ export function getCountryCollectionRef(countryName, collectionName) {
 
   let processedName = countryName.replace(/-/g, ' ');
   let countryNameWithCapital;
-  
+
   if (['us', 'uk'].includes(processedName.toLowerCase())) {
-      countryNameWithCapital = processedName.toUpperCase();
+    countryNameWithCapital = processedName.toUpperCase();
   } else if (processedName.toLowerCase() === 'united arab emirates') {
-      countryNameWithCapital = 'United Arab Emirates';
+    countryNameWithCapital = 'United Arab Emirates';
   } else {
-      countryNameWithCapital = processedName.split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ');
+    countryNameWithCapital = processedName.split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
   const countryDoc = doc(countriesCollection, countryNameWithCapital);
   return collection(countryDoc, collectionName);
@@ -40,7 +40,7 @@ export const getCountryDayHeadlines = async (countryName, day, daysInclude = 1) 
 
   headlines = headlines.map(headline => {
     const headlineData = JSON.parse(JSON.stringify(headline));
-    headlineData.timestamp = new Date(headlineData.timestamp.seconds*1000)
+    headlineData.timestamp = new Date(headlineData.timestamp.seconds * 1000)
     return headlineData;
   });
   return headlines;
@@ -58,7 +58,7 @@ export const getCountryDayHeadlines = async (countryName, day, daysInclude = 1) 
   // return groupedHeadlines;
 }
 
-export const getCountryDaySummaries = async (countryName, day , daysInclude = 1) => {
+export const getCountryDaySummaries = async (countryName, day, daysInclude = 1) => {
   const summariesCollection = getCountryCollectionRef(countryName, 'summaries');
 
   const theDay = endOfDay(day);
@@ -74,9 +74,27 @@ export const getCountryDaySummaries = async (countryName, day , daysInclude = 1)
   summaries = summaries.docs.map(doc => {
     const data = doc.data()
     const cleanedData = JSON.parse(JSON.stringify(data));
-    const timestamp = new Date(data.timestamp.seconds*1000);
+    const timestamp = new Date(data.timestamp.seconds * 1000);
     return { id: doc.id, ...cleanedData, timestamp };
   })
 
   return summaries;
+}
+
+export const getCountryDailySummary = async (countryName, day) => {
+  console.log('getting daily summary', countryName, day);
+  const date = new Date(day);
+  const dateString = date.toISOString().split('T')[0];
+
+  const dailyCollection = getCountryCollectionRef(countryName, 'dailysummaries');
+  const q = query(
+    dailyCollection,
+    where('date', '==', dateString),
+  );
+  const snapshot = await getDocs(q);
+  if (snapshot.empty) return null;
+  const data = snapshot.docs[0].data();
+  const cleanedData = JSON.parse(JSON.stringify(data));
+  cleanedData.timestamp = new Date(data.timestamp.seconds * 1000);
+  return cleanedData;
 }

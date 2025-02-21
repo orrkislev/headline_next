@@ -1,7 +1,7 @@
 'use client'
 
 import { useData } from "@/components/DataManager";
-import PresentTimeManager, { useDate } from "@/components/PresetTimeManager";
+import TimeManager, { useDate } from "@/components/TimeManager";
 import { KeyboardArrowDown, KeyboardArrowUp, Restore } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
 import { useMemo } from "react";
@@ -13,8 +13,7 @@ export default function SideSlider() {
     const day = useDate((state) => state.date.toDateString());
 
     const updateDate = (minutes) => {
-        const date = new Date();
-        date.setHours(Math.floor(minutes / 60), minutes % 60);
+        const date = new Date(day + ' ' + Math.floor(minutes / 60) + ':' + (minutes % 60));
         if (date > new Date()) setDate(new Date());
         else setDate(date);
     }
@@ -32,7 +31,7 @@ export default function SideSlider() {
 
     return (
         <div className="flex flex-col items-center justify-center border-l border-gray-200 py-4 px-2 gap-4">
-            <PresentTimeManager />
+            <TimeManager />
             <ResetTimerButton />
             <IconButton size="small" onClick={() => setDate(nextSummary.timestamp)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
@@ -41,7 +40,6 @@ export default function SideSlider() {
                 size="small"
                 value={minutes} min={0} max={24 * 60} step={1}
                 onChange={(_, value) => updateDate(value)}
-                onChangeCommitted={(_, value) => updateDate(value)}
                 marks={marks}
             />
             <IconButton size="small" onClick={() => setDate(prevSummary.timestamp)} disabled={!prevSummary}>

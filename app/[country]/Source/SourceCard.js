@@ -1,26 +1,32 @@
 'use client'
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SourceSlider from "./SourceSlider";
 import CloseButton from "./CloseButton";
 import Headline from "./Headine";
 import SourceName from "./SourceName";
 import { useParams } from "next/navigation";
-import { getTypography } from "@/utils/typography";
 import { Collapse } from "@mui/material";
 import { SourceFooter } from "./SourceFooter";
+import { usePreferences } from "@/components/PreferencesManager";
+import { getRandomTypography } from "@/utils/typography";
 
 
 export default function SourceCard({ headlines, index }) {
     const [headline, setHeadline] = useState();
     const [showSubtitle, setShowSubtitle] = useState(true);
+    const font = usePreferences(state => state.font);
     const { country } = useParams();
 
-    const typography = useMemo(() => getTypography(country), [country]);
+    const typography = useMemo(() => {
+        if (font === 'random') return getRandomTypography(country);
+        return font;
+    }, [font, country]);
+
     const subtitle = headline?.subtitle;
 
     return (
-        <div className={`source-card relative bg-neutral-100 hover:bg-white transition-colors duration-200 ${index == 0 ? 'col-span-2' : ''}`}>
+        <div className={`relative bg-neutral-100 hover:bg-white border-b border-gray-200 transition-colors duration-200 ${index == 0 ? 'col-span-2' : ''}`}>
             <CloseButton sourceName={headlines[0].website_id} />
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-4 mb-4 p-4">
@@ -33,7 +39,7 @@ export default function SourceCard({ headlines, index }) {
                             {subtitle}
                         </div>
                     </Collapse>
-                    <SourceSlider source={headlines} setHeadline={setHeadline} />
+                    <SourceSlider headlines={headlines} setHeadline={setHeadline} />
                     <SourceFooter setShowSubtitle={setShowSubtitle} showSubtitle={showSubtitle} url={headlines[0].link} headline={headline} />
                 </div>
             </div>
