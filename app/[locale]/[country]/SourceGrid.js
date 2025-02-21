@@ -28,7 +28,7 @@ export default function SourceGrid() {
     }
     
     return (
-        <div className={`grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4`}>
+        <div className={`overflow-y-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4`}>
             {filteredSources.map((source, i) => (
                 <SourceCard 
                     key={`${source[0]}-${source[1]?.length}`}

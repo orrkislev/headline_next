@@ -12,11 +12,10 @@ export const dynamicParams = false
 
 export async function generateStaticParams() {
     const countries = await getAllCountryNames();
-    const routes = []
-    countries.forEach(country => {
-        routes.push({ params: { country, locale: 'en'} });
-        routes.push({ params: { country, locale: 'heb'} });
-    })
+    const routes = countries.flatMap(country => [
+        { country, locale: 'en' },
+        { country, locale: 'heb' }
+    ]);
     return routes;
 }
 
@@ -33,11 +32,11 @@ export default async function CountryPage({ params }) {
     return (
         <div className={`absolute flex w-full h-full overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
             <DataManager headlines={headlinesSources} summaries={summaries} dailySummary={dailySummary} />
-            <PreferencesManager locale={locale}/>
+            <PreferencesManager locale={locale} />
             <div className={`flex-[1] ${locale == 'heb' ? 'border-l' : 'border-r'} border-gray-200 flex min-w-[400px] `}>
                 <SidePanel />
             </div>
-            <div className="overflow-y-auto flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
+            <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
                 <TopBar />
                 <SourceGrid />
             </div>
