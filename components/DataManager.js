@@ -29,6 +29,8 @@ export const useData = create((set, get) => ({
     addDate: (date) => set(state => ({ dates: [...state.dates, date] }))
 }))
 
+
+
 export default function DataManager({ headlines, summaries, dailySummary }) {
     const { country } = useParams()
     const data = useData()

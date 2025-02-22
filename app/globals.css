@@ -45,11 +45,19 @@ body {
   50% { color: red; }
   100% { color: black; }
 }
-
 .animate-headline {
   animation: headlineFade 1.5s forwards;
 }
 
+@keyframes slowFade {
+  from { opacity: 1; }
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.animate-slow-fade {
+  animation: slowFade 2s infinite;
+}
 
 .source-card:hover > .close-button {
   opacity: 1;

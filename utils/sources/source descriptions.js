@@ -374,8 +374,9 @@ const sourceDescriptions = {
 
 
 export default function getSourceDescription(country, source) {
-  if (sourceDescriptions[country] && sourceDescriptions[country][source]) {
-    return sourceDescriptions[country][source];
+  const countrySources = sourceDescriptions[country];
+  if (countrySources) {
+    return countrySources[source] || countrySources[source.toLowerCase()] || "No description available.";
   }
   return "No description available.";
 }

@@ -33,7 +33,7 @@ export default function SummarySection() {
     }, [summariesAfter]);
 
     return (
-        <div className={`flex flex-col gap-4 h-full overflow-hidden p-2`}>
+        <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden p-2`}>
             <DynamicLogo />
             <DailySummary />
             <div className="flex flex-col gap-2 h-full overflow-auto divide-y divide-gray-200 p-2" ref={ref}>

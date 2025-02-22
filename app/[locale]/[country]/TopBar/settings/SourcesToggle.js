@@ -1,54 +1,78 @@
-// import { Box, IconButton, Typography, Popover, Tooltip } from "@mui/material";
-// import SourcesGrid from './SourcesGrid';
 import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
+import { usePreferences } from "@/components/PreferencesManager";
+import getSourceDescription from "@/utils/sources/source descriptions";
+import getSourceOrder from "@/utils/sources/source orders";
+import { getSourceName } from "@/utils/sources/source utils";
 import { List } from "@mui/icons-material";
-import { useState } from "react";
+import { useParams } from "next/navigation";
+import { useMemo, useState } from "react";
+
 
 export default function SourcesToggle() {
     const [open, setOpen] = useState(false);
 
     return (
-        <div>
+        <div className="relative">
             <CustomTooltip title="Select news sources" placement="left">
-                <TopBarButton onClick={() => setOpen(true)}>
+                <TopBarButton onClick={() => setOpen(p => !p)}>
                     <List />
                 </TopBarButton>
             </CustomTooltip>
-
-            {/* <Popover
-                open={settingsOpen}
-                anchorEl={containerRef.current}
-                onClose={() => setSettingsOpen(false)}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                }}
-                slotProps={{
-                    paper: {
-                        sx: {
-                            marginTop: 1
-                        }
-                    }
-                }}
-            >
-                <Box sx={{
-                    width: '35vw',
-                    height: '70vh',
-                    bgcolor: 'background.paper',
-                    boxShadow: 24,
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    overflow: 'hidden',
-                }}>
-                    <SourcesGrid />
-                </Box>
-            </Popover> */}
+            <SourcesGrid open={open} />
         </div>
     );
+}
+
+function SourcesGrid({ open }) {
+    const { country } = useParams();
+    const locale = usePreferences(state => state.locale);
+    const order = usePreferences(state => state.order);
+    const activeWebsites = usePreferences(state => state.activeWebsites);
+    const setActiveWebsites = usePreferences(state => state.setActiveWebsites);
+
+    const sourceOrder = useMemo(() => getSourceOrder(country, order), [country, order]);
+    const orderedSources = sourceOrder.map(id => ({ id, description: getSourceDescription(country, id) }));
+    orderedSources.forEach(source => {
+        source.active = activeWebsites.includes(source.id);
+        source.name = getSourceName(country, source.id);
+    });
+
+    console.log(activeWebsites)
+
+
+    if (!open) return null;
+    return (
+        <div className={`absolute top-8 ${locale === 'heb' ? 'left-0' : 'right-0'} bg-white rounded-lg shadow-lg p-4 h-[65vh] w-[40vw] overflow-y-auto direction-ltr`}>
+            <table className="border border-gray-300 text-sm">
+                <thead className="border-b border-gray-300">
+                    <tr className="text-left">
+                        <th className="p-2">Active</th>
+                        <th className="p-2">Source</th>
+                        <th className="p-2">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {orderedSources.map((source, i) => (
+                        <tr key={source.id}>
+                            <td className='mt-8 p-4'>
+                                <input
+                                    type="checkbox"
+                                    checked={source.active}
+                                    onChange={() => {
+                                        const updatedWebsites = source.active
+                                            ? activeWebsites.filter(id => id !== source.id)
+                                            : [...activeWebsites, source.id];
+                                        setActiveWebsites(updatedWebsites);
+                                    }}
+                                />
+                            </td>
+                            <td className="mt-8 p-2">{source.name}</td>
+                            <td className="mt-8 p-2">{source.description}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    )
 }

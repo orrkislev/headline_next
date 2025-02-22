@@ -1,5 +1,6 @@
 'use client'
 
+import getSourceOrder from "@/utils/sources/source orders";
 import getSourceOrders from "@/utils/sources/source orders";
 import { getTypographyOptions } from "@/utils/typography";
 import { choose } from "@/utils/utils";
@@ -26,6 +27,7 @@ export default function PreferencesManager({locale}) {
     const { country } = useParams()
     const setFont = usePreferences(state => state.setFont);
     const setLocale = usePreferences(state => state.setLocale);
+    const setActiveWebsites = usePreferences(state => state.setActiveWebsites);
 
     useEffect(()=>{
         if (locale == 'heb') setLocale('heb')
@@ -35,6 +37,10 @@ export default function PreferencesManager({locale}) {
     useEffect(()=>{
         const fontOptions = getTypographyOptions(country)
         setFont(choose(fontOptions))
+
+        const defaultOrder = getSourceOrder(country, 'default')
+        const firstSixWebsites = defaultOrder.slice(0, 6)
+        setActiveWebsites(firstSixWebsites)
     },[country])
 
     return null

@@ -152,6 +152,13 @@ const sourceOrders = {
   }
 }
 
-export default function getSourceOrder(country,order){
-    return sourceOrders[country.toLowerCase()][order]
+export default function getSourceOrder(country, order) {
+  return sourceOrders[country.toLowerCase()][order]
+}
+export const orderOptionLabels = {
+  'largest': 'Largest',
+  'mostReputable': 'Most Reputable',
+  'progressiveToConservative': 'Progressive to Conservative',
+  'conservativeToProgressive': 'Conservative to Progressive',
+  'default': 'Default'
 }

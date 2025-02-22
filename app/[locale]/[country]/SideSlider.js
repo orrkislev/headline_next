@@ -1,6 +1,8 @@
 'use client'
 
+import CustomTooltip from "@/components/CustomTooltip";
 import { useData } from "@/components/DataManager";
+import { usePreferences } from "@/components/PreferencesManager";
 import TimeManager, { useDate } from "@/components/TimeManager";
 import { KeyboardArrowDown, KeyboardArrowUp, Restore } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
@@ -50,6 +52,7 @@ export default function SideSlider() {
 }
 
 function ResetTimerButton() {
+    const locale = usePreferences((state) => state.locale);
     const isPresent = useDate((state) => state.isPresent);
     const setDate = useDate((state) => state.setDate);
 
@@ -57,16 +60,23 @@ function ResetTimerButton() {
         setDate(new Date());
     }
 
+
+    const tooltip = locale === 'heb' ? 'אפס לזמן הנוכחי' : 'Reset To Now';
+    const placement = locale === 'heb' ? 'left' : 'right';
+
     return (
-        <IconButton
-            onClick={handleReset}
-            size="small"
-            sx={{
-                color: isPresent ? 'lightgray' : 'blue'
-            }}
-        >
-            <Restore fontSize="small" />
-        </IconButton>
+        <CustomTooltip title={tooltip} arrow open={!isPresent} placement={placement}>
+            <IconButton
+                className={`transition-colors duration-300 ${isPresent ? '' : 'animate-slow-fade'}`}
+                onClick={handleReset}
+                size="small"
+                sx={{
+                    color: isPresent ? 'lightgray' : 'blue'
+                }}
+            >
+                <Restore fontSize="small" />
+            </IconButton>
+        </CustomTooltip>
     )
 }
 

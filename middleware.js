@@ -7,6 +7,11 @@ export function middleware(request) {
   if (pathname.startsWith('/_next') || pathname.startsWith('/api')) {
     return NextResponse.next();
   }
+
+  // Exclude files in public directory, e.g. /favicon.ico
+  if (pathname.includes('.')) {
+    return NextResponse.next();
+  }
   
   // If pathname does not start with locale prefixes
   if (!pathname.startsWith('/en/') && !pathname.startsWith('/heb/')) {

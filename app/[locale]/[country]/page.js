@@ -2,16 +2,24 @@ import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries 
 import { getAllCountryNames } from "@/utils/database/globalData";
 import SourceGrid from "./SourceGrid";
 import TopBar from "./TopBar/TopBar";
-import SidePanel from "./SidePanel";
 import DataManager from "@/components/DataManager";
 import PreferencesManager from "@/components/PreferencesManager";
 import { sub } from "date-fns";
+import SideSlider from "./SideSlider";
+import SummarySection from "./SummarySection";
+
+import path from 'path';
+import fs from 'fs';
 
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
 
 export async function generateStaticParams() {
     const countries = await getAllCountryNames();
+
+    const filePath = path.join(process.cwd(), 'public', 'countries.json');
+    fs.writeFileSync(filePath, JSON.stringify(countries));
+
     const routes = countries.flatMap(country => [
         { country, locale: 'en' },
         { country, locale: 'heb' }
@@ -34,7 +42,8 @@ export default async function CountryPage({ params }) {
             <DataManager headlines={headlinesSources} summaries={summaries} dailySummary={dailySummary} />
             <PreferencesManager locale={locale} />
             <div className={`flex-[1] ${locale == 'heb' ? 'border-l' : 'border-r'} border-gray-200 flex min-w-[400px] `}>
-                <SidePanel />
+                <SideSlider />
+                <SummarySection />
             </div>
             <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
                 <TopBar />

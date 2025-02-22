@@ -6,8 +6,10 @@ import { add, sub } from "date-fns";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useState } from "react";
 import { LabeledContent } from "@/components/LabeledIcon";
+import { usePreferences } from "@/components/PreferencesManager";
 
 export function DateSelector() {
+    const locale = usePreferences(state => state.locale)
     const day = useDate(state => state.date.toDateString())
     const setDay = useDate(state => state.setDay)
     const [open, setOpen] = useState(false)
@@ -26,7 +28,7 @@ export function DateSelector() {
 
     return (
         <LabeledContent label={label}>
-            <div className="flex items-center gap-1 flex-row-reverse relative">
+            <div className={`flex items-center gap-1 relative ${locale === 'heb' ? 'flex-row-reverse' : 'flex-row'}`}>
                 <>
                     <IconButton
                         size="small"

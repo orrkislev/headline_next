@@ -19,6 +19,13 @@ export default function TimeManager() {
 
     useEffect(() => {
         setPresent(isSameMinute(date, new Date()));
+
+        if (date.toDateString() === new Date().toDateString()) {
+            const timeout = setTimeout(() => {
+                setDate(new Date());
+            }, 20000);
+            return () => clearTimeout(timeout);
+        }
     }, [date]);
 
     useEffect(() => {
