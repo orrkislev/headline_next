@@ -5,10 +5,10 @@ import { useDate } from '@/components/TimeManager';
 import { useData } from '@/components/DataManager';
 import { add } from 'date-fns';
 import { getHeadline, getSummaryContent } from '@/utils/daily summary utils';
-import { usePreferences } from '@/components/PreferencesManager';
+import { useParams } from 'next/navigation';
 
 export default function DailySummary() {
-    const locale = usePreferences((state) => state.locale);
+    const { locale } = useParams()
     const day = useDate((state) => state.date.toDateString());
     const dailySummaries = useData(state => state.dailySummaries);
     const [expanded, setExpanded] = useState(false);

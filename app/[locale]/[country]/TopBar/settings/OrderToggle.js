@@ -4,6 +4,7 @@ import { usePreferences } from "@/components/PreferencesManager";
 import { orderOptionLabels } from "@/utils/sources/source orders";
 import { SwapVert } from "@mui/icons-material";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 export default function OrderToggle() {
@@ -34,7 +35,7 @@ const toggleButtonStyle = {
     width: '100%',
 };
 function OrderMenu({ open }) {
-    const locale = usePreferences(state => state.locale)
+    const { locale } = useParams()
     const order = usePreferences(state => state.order)
     const setOrder = usePreferences(state => state.setOrder)
 

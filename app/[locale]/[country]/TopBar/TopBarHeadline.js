@@ -1,8 +1,8 @@
 'use client'
 
 import { useData } from "@/components/DataManager";
-import { usePreferences } from "@/components/PreferencesManager";
 import { useDate } from "@/components/TimeManager";
+import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export function TopBarHeadline() {
@@ -17,10 +17,10 @@ export function TopBarHeadline() {
 }
 
 function HeadlineTimeManager({ setHeadline }) {
+    const { locale } = useParams()
     const minutes = useDate(state => state.date.getHours() * 60 + state.date.getMinutes());
     const day = useDate(state => state.date.toDateString());
     const summaries = useData(state => state.summaries);
-    const locale = usePreferences(state => state.locale);
     const [headlines, setHeadlines] = useState([]);
     const currentHeadline = useRef(null)
 

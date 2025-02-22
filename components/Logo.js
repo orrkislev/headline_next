@@ -4,12 +4,12 @@ import logoB from './logo/logo-head-2.png';
 import logoC from './logo/logo-head-4.png';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePreferences } from './PreferencesManager';
 import { useDate } from './TimeManager';
 import { useData } from './DataManager';
+import { useParams } from 'next/navigation';
 
 export default function DynamicLogo() {
-    const locale = usePreferences(state => state.locale);
+    const { locale } = useParams();
     const [currentLogo, setCurrentLogo] = useState(logoA);
     const [isFakeHover, setIsFakeHover] = useState(true);
 

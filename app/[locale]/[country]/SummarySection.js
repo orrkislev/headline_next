@@ -9,6 +9,7 @@ import { useData } from "@/components/DataManager";
 import YesterdaySummaryTitle from "./summaries/YesterSummaryTitle";
 import DailySummary from "./summaries/DailySummary";
 import { usePreferences } from "@/components/PreferencesManager";
+import { useParams } from "next/navigation";
 
 export default function SummarySection() {
     const summaries = useData((state) => state.summaries);
@@ -55,7 +56,7 @@ export default function SummarySection() {
 }
 
 function Disclaimer() {
-    const locale = usePreferences((state) => state.locale);
+    const { locale } = useParams()
     return (
         <div className='text-gray-400 pt-4 font-semibold border-t border-gray-200 frank-re'>
             {locale === 'heb' ? 'סקירות אלו נכתבו על ידי הבינה' : 'These overviews were written by an AI'}
@@ -64,7 +65,7 @@ function Disclaimer() {
 }
 
 function YesterdaySummary({ lastSummaryDayBefore }) {
-    const locale = usePreferences((state) => state.locale);
+    const { locale } = useParams()
     if (!lastSummaryDayBefore) return null;
     return (
         <>

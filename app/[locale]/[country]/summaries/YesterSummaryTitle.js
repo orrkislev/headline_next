@@ -1,11 +1,11 @@
 import { useData } from "@/components/DataManager";
-import { usePreferences } from "@/components/PreferencesManager";
 import { useDate } from "@/components/TimeManager";
 import { getHeadline } from "@/utils/daily summary utils";
 import { isToday, sub } from "date-fns";
+import { useParams } from "next/navigation";
 
 export default function YesterdaySummaryTitle({ lastSummaryDayBefore }) {
-    const locale = usePreferences(state => state.locale);
+    const { locale } = useParams()
     const day = useDate(state => state.date.toDateString());
     const setDate = useDate(state => state.setDate);
     const dailySummaries = useData(state => state.dailySummaries);

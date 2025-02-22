@@ -19,20 +19,12 @@ export const usePreferences = create((set, get) => ({
     setFont: (font) => set({ font }),
     view: 'grid',
     setView: (view) => set({ view }),
-    locale: 'en',
-    setLocale: (locale) => set({ locale }),
 }))
 
-export default function PreferencesManager({locale}) {
-    const { country } = useParams()
+export default function PreferencesManager() {
+    const { country, locale } = useParams()
     const setFont = usePreferences(state => state.setFont);
-    const setLocale = usePreferences(state => state.setLocale);
     const setActiveWebsites = usePreferences(state => state.setActiveWebsites);
-
-    useEffect(()=>{
-        if (locale == 'heb') setLocale('heb')
-        else setLocale('en')
-    },[locale])
 
     useEffect(()=>{
         const fontOptions = getTypographyOptions(country)

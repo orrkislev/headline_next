@@ -6,10 +6,10 @@ import TranslateToggle from "./TranslateToggle";
 import OrderToggle from "./OrderToggle";
 import SourcesToggle from "./SourcesToggle";
 import { DateSelector } from "./DateSelector";
-import { usePreferences } from "@/components/PreferencesManager";
+import { useParams } from "next/navigation";
 
 export default function Settings({ open }) {
-    const locale = usePreferences((state) => state.locale);
+    const { locale } = useParams()
     return (
         <div className={`absolute ${open ? 'block' : 'hidden'} p-4 flex items-center divide-x divide-gray-200 bg-white rounded shadow z-[1000] top-[2em] ${locale === 'heb' ? 'left-0' : 'right-0'}`}>
             <DateSelector />

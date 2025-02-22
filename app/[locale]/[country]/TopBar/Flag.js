@@ -4,7 +4,6 @@ import Image from "next/image";
 import { countryToAlpha2 } from "country-to-iso";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePreferences } from "@/components/PreferencesManager";
 import { TopBarButton } from "@/components/IconButtons";
 import { useParams } from "next/navigation";
 
@@ -25,7 +24,7 @@ export default function Flag() {
 }
 
 function FlagSelector({ country, open }) {
-    const locale = usePreferences(state => state.locale);
+    const { locale } = useParams()
     const [countries, setCountries] = useState(null);
 
     useEffect(() => {

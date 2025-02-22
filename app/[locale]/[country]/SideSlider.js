@@ -6,6 +6,7 @@ import { usePreferences } from "@/components/PreferencesManager";
 import TimeManager, { useDate } from "@/components/TimeManager";
 import { KeyboardArrowDown, KeyboardArrowUp, Restore } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
+import { useParams } from "next/navigation";
 import { useMemo } from "react";
 
 export default function SideSlider() {
@@ -52,7 +53,7 @@ export default function SideSlider() {
 }
 
 function ResetTimerButton() {
-    const locale = usePreferences((state) => state.locale);
+    const { locale } = useParams()
     const isPresent = useDate((state) => state.isPresent);
     const setDate = useDate((state) => state.setDate);
 

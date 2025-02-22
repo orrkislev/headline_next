@@ -17,7 +17,8 @@ export default function SourceGrid() {
 
     const sourceOrder = getSourceOrder(country, order);
     const orderedSources = Object.entries(sources).sort((a, b) => sourceOrder.indexOf(a[0]) - sourceOrder.indexOf(b[0]));
-    const filteredSources = orderedSources.filter(source => activeWebsites.includes(source[0].toLowerCase()));
+    const filteredSources = orderedSources.filter(source => 
+        activeWebsites.includes(source[0].toLowerCase()) || activeWebsites.includes(source[0]));
 
     if (filteredSources.length === 0) {
         return <div>No sources found</div>;

@@ -25,8 +25,7 @@ export default function SourcesToggle() {
 }
 
 function SourcesGrid({ open }) {
-    const { country } = useParams();
-    const locale = usePreferences(state => state.locale);
+    const { country, locale } = useParams();
     const order = usePreferences(state => state.order);
     const activeWebsites = usePreferences(state => state.activeWebsites);
     const setActiveWebsites = usePreferences(state => state.setActiveWebsites);

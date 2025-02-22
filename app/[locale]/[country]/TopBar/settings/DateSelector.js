@@ -6,10 +6,10 @@ import { add, sub } from "date-fns";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useState } from "react";
 import { LabeledContent } from "@/components/LabeledIcon";
-import { usePreferences } from "@/components/PreferencesManager";
+import { useParams } from "next/navigation";
 
 export function DateSelector() {
-    const locale = usePreferences(state => state.locale)
+    const { locale } = useParams()
     const day = useDate(state => state.date.toDateString())
     const setDay = useDate(state => state.setDay)
     const [open, setOpen] = useState(false)

@@ -1,10 +1,10 @@
 import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
-import { usePreferences } from "@/components/PreferencesManager";
 import { Language } from "@mui/icons-material";
+import { useParams } from "next/navigation";
 
 export default function LanguageToggle() {
-    const locale = usePreferences(state => state.locale);
+    const { locale } = useParams()
 
     const toolTipText = locale === 'en' ? 'Switch to Hebrew' : 'Switch to English';
 

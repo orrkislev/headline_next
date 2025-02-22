@@ -1,9 +1,9 @@
-import { usePreferences } from "@/components/PreferencesManager";
 import { useDate } from "@/components/TimeManager";
+import { useParams } from "next/navigation";
 
 export default function Summary({ summary, active }) {
     const setDate = useDate((state) => state.setDate);
-    const locale = usePreferences((state) => state.locale);
+    const { locale } = useParams()
 
     if (!summary) return null;
 
