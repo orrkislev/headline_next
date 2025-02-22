@@ -25,15 +25,16 @@ export default function PreferencesManager() {
     const { country, locale } = useParams()
     const setFont = usePreferences(state => state.setFont);
     const setActiveWebsites = usePreferences(state => state.setActiveWebsites);
+    const order = usePreferences(state => state.order);
 
     useEffect(()=>{
         const fontOptions = getTypographyOptions(country)
         setFont(choose(fontOptions))
 
-        const defaultOrder = getSourceOrder(country, 'default')
+        const defaultOrder = getSourceOrder(country, order)
         const firstSixWebsites = defaultOrder.slice(0, 6)
         setActiveWebsites(firstSixWebsites)
-    },[country])
+    },[country, order])
 
     return null
 }

@@ -46,17 +46,20 @@ const arabicTypographyOptions = [
         fontSize: "2.3rem",
         lineHeight: 1.2,
         fontWeight: 400,
+        direction: 'rtl',
     },
     {
         fontFamily: 'var(--font-amiri)',
         fontSize: "2.3rem",
         lineHeight: 1.2,
         fontWeight: 400,
+        direction: 'rtl',
     },
     {
         fontFamily: 'var(--font-alexandria)', // assuming corresponding variable is defined
         fontSize: "2.3rem",
         fontWeight: 400,
+        direction: 'rtl',
     },
 ];
 
@@ -95,12 +98,14 @@ export const countryTypographyOptions = {
             fontSize: '2.1rem',
             lineHeight: 1.15,
             fontWeight: 400,
+            direction: 'rtl',
         },
         {
             fontFamily: 'var(--font-frank-re-tzar)',
             fontSize: '3.6rem',
             lineHeight: 1,
             fontWeight: 400,
+            direction: 'rtl',
         },
         // {
         //     fontFamily: 'var(--font-frank-re)',
@@ -113,12 +118,14 @@ export const countryTypographyOptions = {
             fontSize: "2.3rem",
             lineHeight: 1.2,
             fontWeight: 400,
+            direction: 'rtl',
         },
         {
             fontFamily: 'var(--font-mandatory29)',
             fontSize: "2.8rem",
             lineHeight: 1.2,
             fontWeight: 400,
+            direction: 'rtl',
         },
     ],
     lebanon: arabicTypographyOptions,

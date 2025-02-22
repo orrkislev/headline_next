@@ -12,7 +12,7 @@ export default function CloseButton({ sourceName}) {
     }
 
     return (
-        <div className="close-button absolute top-4 left-4 p-2 opacity-0 transition-all duration-100 cursor-pointer hover:opacity-100 text-neutral-500 hover:text-neutral-800 transition-colors"
+        <div className="close-button absolute top-4 left-4 p-2 transition-all opacity-0 duration-100 cursor-pointer hover:opacity-100 text-neutral-500 hover:text-neutral-800 transition-colors"
             onClick={handleClick}>
             <EarIcon size="18" />
         </div>

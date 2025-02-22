@@ -5,7 +5,7 @@ export default function Headline({ headline, typography }) {
     return (
         <Link href={headline.link} target="_blank">
             <div className={`animate-headline w-full text-lg font-semibold `}
-                style={{ ...typography, width: '100%' }}>
+                style={{ ...typography, width: '100%' }} key={headline.headline}>
                 {headline.headline}
             </div>
         </Link>
