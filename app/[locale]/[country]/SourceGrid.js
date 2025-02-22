@@ -16,18 +16,17 @@ export default function SourceGrid() {
     if (Object.keys(sources).length === 0) return null;
 
     const sourceOrder = getSourceOrder(country, order);
-    const orderedSources = sourceOrder.map((sourceName) => Object.entries(sources).find(entry => entry[0] === sourceName))
-                                      .filter(source => source !== undefined);
-    const filteredSources = orderedSources.filter(source => activeWebsites.includes(source[0]));
+    const orderedSources = Object.entries(sources).sort((a, b) => sourceOrder.indexOf(a[0]) - sourceOrder.indexOf(b[0]));
+    const filteredSources = orderedSources.filter(source => activeWebsites.includes(source[0].toLowerCase()));
 
     if (filteredSources.length === 0) {
         return <div>No sources found</div>;
     }
-    
+
     return (
         <div className={`overflow-y-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4`}>
             {filteredSources.map((source, i) => (
-                <SourceCard 
+                <SourceCard
                     key={`${source[0]}-${source[1]?.length}`}
                     index={i}
                     headlines={source[1]}

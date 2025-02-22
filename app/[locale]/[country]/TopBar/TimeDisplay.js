@@ -23,7 +23,7 @@ export default function TimeDisplay() {
     }, [isPresent])
 
     return (
-        <div className="px-4 h-full flex items-center justify-center text-blue font-mono text-2xl direction-ltr">
+        <div className="h-full flex items-center justify-center text-blue font-mono text-2xl direction-ltr">
             <span>{hours.toString().padStart(2, '0')}</span>
             <span>{colon ? ':' : '\u00A0'}</span>
             <span>{minutes.toString().padStart(2, '0')}</span>
