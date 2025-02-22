@@ -149,7 +149,14 @@ const sourceOrders = {
     "progressiveToConservative": ["arabi21", "maannews", "alwatanvoice", "palsawa", "alayyam", "alquds", "palestinechronicle", "pnn", "english_pnn", "ultrapal", "samanews", "raya", "qudsn", "palinfo", "english_palinfo", "felesteen", "alresalah"],
     "conservativeToProgressive": ["alresalah", "felesteen", "palinfo", "english_palinfo", "qudsn", "raya", "samanews", "ultrapal", "pnn", "english_pnn", "palestinechronicle", "alquds", "alayyam", "palsawa", "alwatanvoice", "maannews", "arabi21"],
     "default": ["alquds", "maannews", "palinfo", "alwatanvoice", "palsawa", "qudsn", "alayyam", "felesteen", "samanews", "arabi21", "palestinechronicle", "pnn", "english_pnn", "alresalah", "english_palinfo", "raya"]
-  }
+  },
+  "finland": {
+    "largest": ["hs", "yle", "iltalehti", "is", "mtv", "aamulehti", "hbl", "kaleva", "ksml", "ts", "suomenkuvalehti", "maaseuduntulevaisuus", "verkkouutiset", "suomenuutiset", "ku", "voima", "mvlehti"],
+    "mostReputable": ["hs", "yle", "suomenkuvalehti", "hbl", "aamulehti", "kaleva", "ts", "ksml", "mtv", "maaseuduntulevaisuus", "ku", "verkkouutiset", "is", "iltalehti", "voima", "suomenuutiset", "mvlehti"],
+    "progressiveToConservative": ["voima", "ku", "hs", "yle", "suomenkuvalehti", "hbl", "aamulehti", "kaleva", "ts", "ksml", "iltalehti", "is", "mtv", "maaseuduntulevaisuus", "verkkouutiset", "suomenuutiset", "mvlehti"],
+    "conservativeToProgressive": ["mvlehti", "suomenuutiset", "verkkouutiset", "maaseuduntulevaisuus", "mtv", "is", "iltalehti", "ksml", "ts", "kaleva", "aamulehti", "hbl", "suomenkuvalehti", "yle", "hs", "ku", "voima"],
+    "default": ["hs", "yle", "mtv", "iltalehti", "is", "suomenkuvalehti", "aamulehti", "hbl", "kaleva", "ksml", "verkkouutiset", "ku", "voima", "ts", "maaseuduntulevaisuus", "suomenuutiset", "mvlehti"]
+  },
 }
 
 export default function getSourceOrder(country, order) {

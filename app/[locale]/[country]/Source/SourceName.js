@@ -1,4 +1,4 @@
-import { getSourceName } from "@/utils/sources/source utils"
+import { getSourceName } from "@/utils/sources/source mapping"
 import { useParams } from "next/navigation"
 
 export default function SourceName({ website, typography }) {

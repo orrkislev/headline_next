@@ -2,8 +2,8 @@ import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
 import { usePreferences } from "@/components/PreferencesManager";
 import getSourceDescription from "@/utils/sources/source descriptions";
+import { getSourceName } from "@/utils/sources/source mapping";
 import getSourceOrder from "@/utils/sources/source orders";
-import { getSourceName } from "@/utils/sources/source utils";
 import { List } from "@mui/icons-material";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -37,9 +37,6 @@ function SourcesGrid({ open }) {
         source.active = activeWebsites.includes(source.id);
         source.name = getSourceName(country, source.id);
     });
-
-    console.log(activeWebsites)
-
 
     if (!open) return null;
     return (

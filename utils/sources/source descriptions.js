@@ -369,7 +369,26 @@ const sourceDescriptions = {
     "alroeya": "Al Roeya (Arabic: الرؤية) is an Arabic-language newspaper that covers local and international news. It maintains a pro-government editorial policy.",
     "alain": "Al Ain News (Arabic: العين الإخبارية) is an online news portal that provides coverage in both Arabic and English. It focuses on UAE and regional news with a pro-government stance.",
     "alwahdanews": "Al Wahda (Arabic: الوحدة) is an Arabic-language news outlet that covers local and regional news. It maintains a pro-government editorial line."
-  }
+  },
+  "Finland": {
+    "aamulehti": "Aamulehti is a major regional daily based in Tampere, Finland's second-largest city, reaching about 1 million monthly online readers. It maintains a centrist editorial line while providing national coverage alongside regional news.",
+    "hbl": "Hufvudstadsbladet is Finland's largest Swedish-language newspaper, serving the Swedish-speaking minority. With a liberal-centrist stance, it reaches around 300,000 monthly online readers, covering both domestic and international news.",
+    "hs": "Helsingin Sanomat is Finland's largest subscription newspaper and the most influential daily, reaching about 8 million monthly online readers. Owned by Sanoma Group, it maintains a center-left to centrist stance with comprehensive national and international coverage.",
+    "iltalehti": "Iltalehti is one of Finland's two major tabloids, reaching approximately 6 million monthly online readers. Owned by Alma Media, it takes a center-right stance while focusing on breaking news and entertainment.",
+    "is": "Ilta-Sanomat is Finland's largest tabloid news outlet, reaching about 7 million monthly online readers. Owned by Sanoma Group, it maintains a center-right editorial line while focusing on breaking news and current affairs.",
+    "kaleva": "Kaleva is Northern Finland's leading newspaper, based in Oulu, reaching around 800,000 monthly online readers. It maintains a centrist editorial stance while covering both regional and national news.",
+    "ksml": "Keskisuomalainen is Central Finland's main newspaper, reaching about 700,000 monthly online readers. Originally affiliated with the Centre Party but now independent, it maintains a centrist editorial line.",
+    "ku": "Kansan Uutiset is a left-wing news outlet historically affiliated with the Left Alliance, reaching around 200,000 monthly online readers. It focuses on labor issues and social justice topics from a leftist perspective.",
+    "maaseuduntulevaisuus": "Maaseudun Tulevaisuus is focused on rural and agricultural affairs, reaching about 500,000 monthly online readers. It maintains a conservative-leaning stance while serving rural communities and the agricultural sector.",
+    "mtv": "MTV Uutiset is the news division of Finland's main commercial broadcaster, reaching about 5 million monthly online readers. It maintains a centrist editorial line while focusing on breaking news and current affairs.",
+    "mvlehti": "MV-Lehti is a controversial far-right news website, reaching around 300,000 monthly readers. Known for its anti-establishment and nationalist stance, it often faces criticism for its journalistic standards.",
+    "suomenkuvalehti": "Suomen Kuvalehti is a prestigious weekly news magazine, reaching about 1 million monthly online readers. Known for its high-quality journalism and in-depth analysis, it maintains a centrist editorial line.",
+    "suomenuutiset": "Suomen Uutiset is the official news outlet of the nationalist Finns Party, reaching around 400,000 monthly online readers. It presents news from a nationalist-conservative perspective.",
+    "ts": "Turun Sanomat is the main newspaper of the Turku region, reaching about 800,000 monthly online readers. Finland's oldest newspaper still in publication maintains a centrist editorial stance.",
+    "verkkouutiset": "Verkkouutiset is the online news outlet affiliated with the conservative National Coalition Party, reaching around 300,000 monthly readers. It presents news from a center-right, pro-business perspective.",
+    "voima": "Voima is an independent alternative newspaper, reaching about 200,000 monthly online readers. Known for its left-wing perspective and investigative journalism, it often focuses on environmental and social justice issues.",
+    "yle": "Yleisradio is Finland's national public broadcasting company, reaching about 7 million monthly online readers. As a public broadcaster, it maintains political neutrality while providing comprehensive news coverage in multiple languages."
+    },
 }
 
 

@@ -34,6 +34,25 @@ export const sourceMapping = {
     "nouvelobs": "L'Obs",
     "valeursactuelles": "Valeurs Actuelles"
   },
+  "finland": {
+    "aamulehti": "Aamulehti",
+    "hbl": "Hufvudstadsbladet",
+    "hs": "Helsingin Sanomat",
+    "iltalehti": "Iltalehti",
+    "is": "Ilta-Sanomat",
+    "kaleva": "Kaleva",
+    "ksml": "Keskisuomalainen",
+    "ku": "Kansan Uutiset",
+    "maaseuduntulevaisuus": "Maaseudun Tulevaisuus",
+    "mtv": "MTV Uutiset",
+    "mvlehti": "MV-Lehti",
+    "suomenkuvalehti": "Suomen Kuvalehti",
+    "suomenuutiset": "Suomen Uutiset",
+    "ts": "Turun Sanomat",
+    "verkkouutiset": "Verkkouutiset",
+    "voima": "Voima",
+    "yle": "Yleisradio"
+  },
   "poland": {
     "dorzeczy": "Do Rzeczy",
     "fakt": "Fakt",
@@ -369,4 +388,19 @@ export const sourceMapping = {
     "samanews": "وكالة سما الإخبارية",
     "ultrapal": "ألترا فلسطين"
   }
+}
+
+export const normalizeSourceName = (name) => {
+  if (!name) return '';
+  const normalized = name.toLowerCase()
+      .replace(/\./g, '_')
+      .replace(/ /g, '_');
+  // return normalizationMapping[name] || normalized;
+  return normalized;
+};
+
+
+export const getSourceName = (country, sourceId) => {
+  const name = sourceMapping[country.toLowerCase()]?.[normalizeSourceName(sourceId)] || sourceId;
+  return name;
 }
