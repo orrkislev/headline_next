@@ -40,8 +40,28 @@ export default function DataManager({ headlines, summaries, dailySummary }) {
         data.addHeadlines(headlines)
         data.addSummaries(summaries)
         data.addDailySummary(dailySummary)
-        data.addDate(new Date().toDateString())
-        data.addDate(sub(new Date(), { days: 1 }).toDateString())
+        const dailySummaryDate = new Date(dailySummary.timestamp)
+        data.addDate(dailySummaryDate.toDateString())
+        data.addDate(sub(dailySummaryDate, { days: 1 }).toDateString())
+
+        const getRecentData = async () => {
+            const newHeadlines = await getRecentHeadlines(country, headlines[0].timestamp)
+            data.addHeadlines(newHeadlines)
+            const newSummaries = await getRecentSummaries(country, summaries[0].timestamp)
+            data.addSummaries(newSummaries)
+
+            // go from dailySummaryDate to today
+            // check how many days are missing
+            const daysSince = Math.floor((new Date() - dailySummaryDate) / (1000 * 60 * 60 * 24))
+            for (let i = 0; i < daysSince; i++) {
+                const newDate = sub(dailySummaryDate, { days: i + 2 })
+                const newDailySummary = await getCountryDailySummary(country, newDate.toDateString())
+                if (!newDailySummary) continue
+                data.addDailySummary(newDailySummary)
+                data.addDate(newDate.toDateString())
+            }
+        }
+        getRecentData()
     }, [])
 
     useEffect(() => {

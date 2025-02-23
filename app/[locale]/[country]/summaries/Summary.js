@@ -1,4 +1,5 @@
 import { useDate } from "@/components/TimeManager";
+import { add } from "date-fns";
 import { useParams } from "next/navigation";
 
 export default function Summary({ summary, active }) {
@@ -29,7 +30,7 @@ export default function Summary({ summary, active }) {
                 fontWeight: 400,
                 lineHeight: active ? '1.3' : '1.3',
             }}
-            onClick={() => setDate(summary.timestamp)}
+            onClick={() => setDate(add(summary.timestamp, { minutes: 1 }))}
         >
             <div className={`${active ? 'text-blue' : ''}`}
                 style={{

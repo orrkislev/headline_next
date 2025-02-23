@@ -23,6 +23,17 @@ export function getCountryCollectionRef(countryName, collectionName) {
 }
 
 
+function prepareData(doc) {
+  const data = doc.data();
+  const cleanedData = JSON.parse(JSON.stringify(data));
+  const timestamp = new Date(data.timestamp.seconds * 1000);
+  return { id: doc.id, ...cleanedData, timestamp };
+}
+
+
+// ----------------- Headlines -----------------
+// ---------------------------------------------
+
 export const getCountryDayHeadlines = async (countryName, day, daysInclude = 1) => {
   const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
 
@@ -36,27 +47,26 @@ export const getCountryDayHeadlines = async (countryName, day, daysInclude = 1) 
   );
 
   let headlines = await getDocs(q);
-  headlines = headlines.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-  headlines = headlines.map(headline => {
-    const headlineData = JSON.parse(JSON.stringify(headline));
-    headlineData.timestamp = new Date(headlineData.timestamp.seconds * 1000)
-    return headlineData;
-  });
+  if (headlines.empty) return [];
+  headlines = headlines.docs.map(headline => prepareData(headline));
   return headlines;
-  // // group headlines by website_id
-  // const groupedHeadlines = {};
-  // headlines.forEach(headline => {
-  //   if (!groupedHeadlines[headline.website_id]) {
-  //     groupedHeadlines[headline.website_id] = [];
-  //   }
-  //   const headlineData = JSON.parse(JSON.stringify(headline));
-  //   headlineData.timestamp = new Date(headlineData.timestamp.seconds*1000)
-  //   groupedHeadlines[headline.website_id].push(headlineData);
-  // });
-
-  // return groupedHeadlines;
 }
+
+export const getRecentHeadlines = async (countryName, fromTime) => {
+  const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
+  const q = query(
+    headlinesCollection,
+    where('timestamp', '>', fromTime),
+    orderBy('timestamp', 'desc'),
+  );
+  let headlines = await getDocs(q);
+  if (headlines.empty) return [];
+  headlines = headlines.docs.map(headline => prepareData(headline));
+  return headlines;
+}
+
+// ----------------- Summaries -----------------
+// ---------------------------------------------
 
 export const getCountryDaySummaries = async (countryName, day, daysInclude = 1) => {
   const summariesCollection = getCountryCollectionRef(countryName, 'summaries');
@@ -71,15 +81,26 @@ export const getCountryDaySummaries = async (countryName, day, daysInclude = 1) 
   );
 
   let summaries = await getDocs(q);
-  summaries = summaries.docs.map(doc => {
-    const data = doc.data()
-    const cleanedData = JSON.parse(JSON.stringify(data));
-    const timestamp = new Date(data.timestamp.seconds * 1000);
-    return { id: doc.id, ...cleanedData, timestamp };
-  })
-
+  if (summaries.empty) return [];
+  summaries = summaries.docs.map(doc => prepareData(doc));
   return summaries;
 }
+
+export const getRecentSummaries = async (countryName, fromTime) => {
+  const summariesCollection = getCountryCollectionRef(countryName, 'summaries');
+  const q = query(
+    summariesCollection,
+    where('timestamp', '>', fromTime),
+    orderBy('timestamp', 'desc'),
+  );
+  let summaries = await getDocs(q);
+  if (summaries.empty) return [];
+  summaries = summaries.docs.map(doc => prepareData(doc));
+  return summaries;
+}
+
+// ----------------- Daily Summaries -----------------
+// ---------------------------------------------------
 
 export const getCountryDailySummary = async (countryName, day) => {
   const date = new Date(day);
@@ -92,8 +113,5 @@ export const getCountryDailySummary = async (countryName, day) => {
   );
   const snapshot = await getDocs(q);
   if (snapshot.empty) return null;
-  const data = snapshot.docs[0].data();
-  const cleanedData = JSON.parse(JSON.stringify(data));
-  cleanedData.timestamp = new Date(data.timestamp.seconds * 1000);
-  return cleanedData;
+  return prepareData(snapshot.docs[0]);
 }

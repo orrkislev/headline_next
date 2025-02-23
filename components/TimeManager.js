@@ -1,3 +1,5 @@
+'use client'
+
 import { isSameMinute } from "date-fns";
 import { useEffect } from "react";
 import { create } from "zustand";

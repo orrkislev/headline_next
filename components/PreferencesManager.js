@@ -1,7 +1,6 @@
 'use client'
 
 import getSourceOrder from "@/utils/sources/source orders";
-import getSourceOrders from "@/utils/sources/source orders";
 import { getTypographyOptions } from "@/utils/typography";
 import { choose } from "@/utils/utils";
 import { useParams } from "next/navigation";
