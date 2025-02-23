@@ -5,6 +5,7 @@ import SourceCard from "./Source/SourceCard";
 import { usePreferences } from "@/components/PreferencesManager";
 import getSourceOrder from "@/utils/sources/source orders";
 import { useParams, usePathname } from "next/navigation";
+import AddSourceButton from "./Source/AddSourceButton";
 
 export default function SourceGrid() {
     const { country } = useParams();
@@ -33,6 +34,7 @@ export default function SourceGrid() {
                     headlines={source[1]}
                 />
             ))}
+            <AddSourceButton />
         </div>
     );
 }

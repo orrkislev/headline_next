@@ -1,14 +1,12 @@
+import { usePreferences } from "@/components/PreferencesManager";
 import { EarIcon } from "lucide-react";
-import { useState } from "react";
 
 export default function CloseButton({ sourceName}) {
-    const [activeWebsites, setActiveWebsites] = useState({});
+    const activeWebsites = usePreferences(state => state.activeWebsites);
+    const setActiveWebsites = usePreferences(state => state.setActiveWebsites);
 
     const handleClick = () => {
-        setActiveWebsites(prev => ({
-            ...prev,
-            [sourceName]: false
-        }));
+        setActiveWebsites(activeWebsites.filter(website => website !== sourceName));
     }
 
     return (
