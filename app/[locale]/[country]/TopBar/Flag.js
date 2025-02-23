@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { TopBarButton } from "@/components/IconButtons";
 import { useParams } from "next/navigation";
+import PopUpCleaner from "@/components/PopUp";
 
 
 export default function Flag() {
@@ -18,12 +19,12 @@ export default function Flag() {
                     <FlagIcon country={country} />
                 </TopBarButton>
             </div>
-            <FlagSelector country={country} open={open} />
+            <FlagSelector country={country} open={open} close={() => setOpen(false)} />
         </div>
     );
 }
 
-function FlagSelector({ country, open }) {
+function FlagSelector({ country, open, close}) {
     const { locale } = useParams()
     const [countries, setCountries] = useState(null);
 
@@ -39,6 +40,8 @@ function FlagSelector({ country, open }) {
     if (!countries || !open) return null;
 
     return (
+        <>
+        <PopUpCleaner open={open} close={close} />
         <div className="absolute top-4 p-4 right-0 grid grid-cols-2 gap-4 bg-white rounded-md shadow-lg w-64">
             {countries.map((c, i) => (
                 <Link key={i} href={`/${locale}/${c}`}>
@@ -49,6 +52,7 @@ function FlagSelector({ country, open }) {
                 </Link>
             ))}
         </div>
+            </>
     );
 }
 

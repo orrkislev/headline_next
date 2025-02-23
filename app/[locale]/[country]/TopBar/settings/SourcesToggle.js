@@ -1,6 +1,7 @@
 import CustomTooltip from "@/components/CustomTooltip";
 import { useData } from "@/components/DataManager";
 import { TopBarButton } from "@/components/IconButtons";
+import PopUpCleaner from "@/components/PopUp";
 import { usePreferences } from "@/components/PreferencesManager";
 import { useDate } from "@/components/TimeManager";
 import getSourceDescription from "@/utils/sources/source descriptions";
@@ -16,6 +17,8 @@ export default function SourcesToggle() {
     const [open, setOpen] = useState(false);
 
     return (
+        <>
+        <PopUpCleaner open={open} close={() => setOpen(false)} />
         <div className="relative">
             <CustomTooltip title="Select news sources" placement="left">
                 <TopBarButton onClick={() => setOpen(p => !p)}>
@@ -24,6 +27,7 @@ export default function SourcesToggle() {
             </CustomTooltip>
             <SourcesGrid open={open} />
         </div>
+        </>
     );
 }
 
@@ -47,7 +51,7 @@ function SourcesGrid({ open }) {
 
     if (!open) return null;
     return (
-        <div className={`absolute top-8 ${locale === 'heb' ? 'left-0' : 'right-0'} bg-white rounded-lg shadow-lg p-4 h-[65vh] w-[40vw] overflow-y-auto direction-ltr`}>
+        <div className={`absolute top-8 ${locale === 'heb' ? 'left-0' : 'right-0'} bg-white rounded-lg shadow-lg p-4 h-[65vh] w-[40vw] overflow-y-auto direction-ltr z-[1000]`}>
             <table className="border border-gray-300 text-sm">
                 <thead className="border-b border-gray-300">
                     <tr className="text-left">

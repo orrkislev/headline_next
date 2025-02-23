@@ -31,7 +31,7 @@ export function Info() {
                     <InfoOutlined />
                 </TopBarButton>
             </CustomTooltip>
-            <AboutMenu open={open} />
+            <AboutMenu open={open} close={() => setOpen(false)} />
         </div>
     );
 }
@@ -46,7 +46,7 @@ export function SettingsButton() {
                     <SettingsOutlined />
                 </TopBarButton>
             </CustomTooltip>
-            <Settings open={open} />
+            <Settings open={open} close={() => setOpen(false)} />
         </div>
     );
 }

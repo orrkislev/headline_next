@@ -2,7 +2,7 @@ import React from 'react';
 import Divider from '@mui/material/Divider';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-export default function ReadMore({ open, onToggle }) {
+export default function ReadMore({ expanded, onToggle }) {
     const [expandedSections, setExpandedSections] = React.useState({});
 
     const handleSectionToggle = (index) => {
@@ -49,7 +49,7 @@ export default function ReadMore({ open, onToggle }) {
 
     return (
         <div>
-            {open && (
+            {expanded && (
                 <div className="mb-2">
                     {sections.map((section, index) => (
                         <React.Fragment key={index}>
@@ -99,9 +99,9 @@ export default function ReadMore({ open, onToggle }) {
                 className={`flex items-center cursor-pointer mb-2 ${open ? 'mt-0' : 'mt-2'} text-gray-800 hover:opacity-70`}
             >
                 <p className="text-base font-roboto mr-2 flex items-center">
-                    ⇢ Read {open ? 'less' : 'more'}
+                    ⇢ Read {expanded ? 'less' : 'more'}
                 </p>
-                {open ? (
+                {expanded ? (
                     <ExpandLess />
                 ) : (
                     <ExpandMore />
