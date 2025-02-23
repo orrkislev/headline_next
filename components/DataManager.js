@@ -4,7 +4,7 @@ import { sub } from "date-fns"
 import { create } from "zustand"
 import { useDate } from "./TimeManager"
 import { useEffect } from "react"
-import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData"
+import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries, getRecentHeadlines, getRecentSummaries } from "@/utils/database/countryData"
 import { useParams } from "next/navigation"
 
 export const useData = create((set, get) => ({

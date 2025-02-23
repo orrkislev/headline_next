@@ -1,6 +1,6 @@
 'use client'
 
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Summary from "./summaries/Summary";
 import { useDate } from "@/components/TimeManager";
 import DynamicLogo from "@/components/Logo";
@@ -8,41 +8,38 @@ import { sub } from "date-fns";
 import { useData } from "@/components/DataManager";
 import YesterdaySummaryTitle from "./summaries/YesterSummaryTitle";
 import DailySummary from "./summaries/DailySummary";
-import { usePreferences } from "@/components/PreferencesManager";
 import { useParams } from "next/navigation";
 
 export default function SummarySection() {
     const summaries = useData((state) => state.summaries);
-    const date = useDate((state) => state.date);
     const day = useDate((state) => state.date.toDateString());
     const ref = useRef();
-
-    const todaySummaries = useMemo(() => summaries.filter(summary => summary.timestamp.toDateString() === day), [summaries, day]);
-    const summariesBefore = useMemo(() => todaySummaries.filter(summary => summary.timestamp < date), [todaySummaries, date]);
-    const summariesAfter = useMemo(() => todaySummaries.filter(summary => summary.timestamp > date), [todaySummaries, date]);
+    const [currentSummaryId, setCurrentSummaryId] = useState(null);
 
     const lastSummaryDayBefore = useMemo(() => {
+        const date = new Date(day)
         const dayBefore = sub(date, { days: 1 });
         const dayBeforeSummaries = summaries.filter(summary => summary.timestamp.toDateString() === dayBefore.toDateString());
         return dayBeforeSummaries.length > 0 ? dayBeforeSummaries[0] : null;
     }, [day, summaries]);
 
+    const currentSummary = useMemo(() => summaries.find(summary => summary.id === currentSummaryId), [currentSummaryId, summaries]);
+
     useLayoutEffect(() => {
-        const childIndex = summariesAfter.length;
+        const childIndex = summaries.findIndex(summary => summary.id === currentSummaryId);
+        if (childIndex === -1) return;
         const child = ref.current.children[childIndex];
         if (child) child.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, [summariesAfter]);
+    }, [currentSummaryId, summaries]);
 
     return (
         <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden p-2`}>
             <DynamicLogo />
             <DailySummary />
             <div className="flex flex-col gap-2 h-full overflow-auto divide-y divide-gray-200 p-2" ref={ref}>
-                {summariesAfter.map((summary, i) => (
-                    <Summary key={i} summary={summary} />
-                ))}
-                {summariesBefore.map((summary, i) => (
-                    <Summary key={i} summary={summary} active={i === 0} />
+                <SummariesTimeManager setCurrentSummaryId={setCurrentSummaryId} />
+                {summaries.map((summary, i) => (
+                    <Summary key={i} summary={summary} active={summary.id === currentSummaryId} />
                 ))}
 
                 <YesterdaySummary lastSummaryDayBefore={lastSummaryDayBefore} />
@@ -73,4 +70,32 @@ function YesterdaySummary({ lastSummaryDayBefore }) {
             <Summary summary={lastSummaryDayBefore} />
         </>
     );
+}
+
+function SummariesTimeManager({ setCurrentSummaryId }) {
+    const minutes = useDate(state => state.date.getHours() * 60 + state.date.getMinutes());
+    const day = useDate(state => state.date.toDateString());
+    const summaries = useData(state => state.summaries);
+    const [data, setData] = useState([]);
+    const currentId = useRef(null)
+
+    useEffect(() => {
+        const todaySummaries = summaries.filter(headline => headline.timestamp.toDateString() === day);
+        const newData = todaySummaries.map(summary => ({
+            time: summary.timestamp.getHours() * 60 + summary.timestamp.getMinutes(),
+            id: summary.id,
+        }));
+        newData.sort((a, b) => b.time - a.time);
+        setData(newData);
+    }, [day, summaries]);
+
+    useEffect(() => {
+        const newCurrent = data.find(item => item.time < minutes);
+        if (newCurrent && newCurrent.id !== currentId.current) {
+            currentId.current = newCurrent.id;
+            setCurrentSummaryId(newCurrent.id);
+        }
+    }, [data, minutes, setCurrentSummaryId]);
+
+    return null;
 }
