@@ -8,7 +8,6 @@ import { TopBarButton } from "@/components/IconButtons";
 import AboutMenu from "./AboutMenu";
 import CustomTooltip from "@/components/CustomTooltip";
 
-
 export function Global() {
     return (
         <CustomTooltip title="to the global view" arrow placement="bottom">
@@ -40,13 +39,22 @@ export function SettingsButton() {
     const [open, setOpen] = useState(false)
 
     return (
-        <div className="relative">
+        <div className="flex items-center">
             <CustomTooltip title="Settings" arrow>
-                <TopBarButton size="small" onClick={() => setOpen(prev => !prev)}>
+                <TopBarButton 
+                    size="small" 
+                    onClick={() => setOpen(prev => !prev)}
+                >
                     <SettingsRounded />
                 </TopBarButton>
             </CustomTooltip>
-            <Settings open={open} close={() => setOpen(false)} />
+            <div 
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    open ? 'w-auto opacity-100 ml-4' : 'w-0 opacity-0 ml-0'
+                }`}
+            >
+                <Settings inline={true} />
+            </div>
         </div>
     );
 }
