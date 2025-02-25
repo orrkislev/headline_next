@@ -36,7 +36,7 @@ export default function DailySummary() {
             <div className='flex items-start justify-between relative cursor-pointer flex-row-reverse'
                 onClick={() => setExpanded(p => !p)}
             >
-                <div className={`text-blue flex-1 pl-2 pr-2 ${locale === 'heb' ? 'pl-8' : 'pr-8'} mb-2 text-[1.5rem] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={locale === 'heb' ? { lineHeight: '1.5' } : {}}>
+                <div className={`text-blue flex-1 pl-2 pr-2 ${locale === 'heb' ? 'pl-8' : 'pr-12'} mb-2 text-[1.5rem] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={locale === 'heb' ? { lineHeight: '1.5' } : {}}>
                     <span className="font-mono">{formattedDate}</span>
                     <span> {locale === 'heb' ? ' ⇠ ' : ' ⇢ '}</span>
                     <span>{headline}</span>
