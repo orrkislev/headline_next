@@ -107,12 +107,12 @@ export const countryTypographyOptions = {
             fontWeight: 400,
             direction: 'rtl',
         },
-        // {
-        //     fontFamily: 'var(--font-frank-re)',
-        //     fontSize: "2.4rem",
-        //     lineHeight: 1.1,
-        //     fontWeight: 400,
-        // },
+        {
+            fontFamily: 'var(--font-frank-re)',
+            fontSize: "2.4rem",
+            lineHeight: 1.1,
+            fontWeight: 400,
+        },
         {
             fontFamily: 'var(--font-mandatory)',
             fontSize: "2.3rem",

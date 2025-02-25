@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import { useMemo } from "react";
 
 export default function SideSlider() {
+    const { locale } = useParams();
     const summaries = useData((state) => state.summaries);
     const minutes = useDate((state) => state.date.getHours() * 60 + state.date.getMinutes());
     const setDate = useDate((state) => state.setDate);
@@ -33,7 +34,7 @@ export default function SideSlider() {
     const prevSummary = summaries.reverse().find(summary => summary.timestamp < useDate.getState().date);
 
     return (
-        <div className="flex flex-col items-center justify-center border-l border-gray-200 py-4 px-1 gap-4">
+        <div className={`flex flex-col items-center justify-center ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
             <TimeManager />
             <ResetTimerButton />
             <IconButton size="small" onClick={() => setDate(nextSummary.timestamp)} disabled={!nextSummary}>

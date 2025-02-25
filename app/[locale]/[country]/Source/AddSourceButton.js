@@ -21,7 +21,7 @@ export default function AddSourceButton() {
     };
 
     return (
-        <div className="flex items-center justify-center bg-gray-100 text-gray-400 rounded-lg cursor-pointer hover:bg-white hover:text-gray-500 transition-all transform  text-3xl hover:text-4xl min-h-32"
+        <div className="flex items-center justify-center bg-neutral-100 text-gray-400 rounded-lg cursor-pointer hover:bg-white hover: transition-all transform text-3xl min-h-32 hover:shadow-xl"
             onClick={handleAddSource}
         >
             <div>+</div>

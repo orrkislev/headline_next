@@ -13,7 +13,7 @@ export default function Flag() {
     const [open, setOpen] = useState(false);
     return (
         <div className="relative z-[1000]">
-            <div className="px-4 h-full flex items-center justify-center">
+            <div className="h-full flex items-center justify-center">
                 <TopBarButton onClick={() => setOpen(!open)}>
                     <FlagIcon country={country} />
                 </TopBarButton>

@@ -1,11 +1,7 @@
-import { Collapse } from "@mui/material";
-
-export default function Subtitle({subtitle, showSubtitle}) {
+export default function Subtitle({subtitle}) {
     return (
-        <Collapse in={showSubtitle} timeout="auto" unmountOnExit>
-            <div className={`p-2 text-sm`}>
-                {subtitle}
-            </div>
-        </Collapse>
-    )
+        <div className={`px-4 py-3`} style={{ fontSize: '0.8rem' }}>
+            {subtitle}
+        </div>
+    );
 }

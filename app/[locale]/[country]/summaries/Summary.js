@@ -21,31 +21,37 @@ export default function Summary({ summary, active }) {
 
     const parts = text.split(/(\(.*?\))/g)
 
+    // Determine font class based on locale
+    const fontClass = locale === 'heb' ? 'frank-re' : 'font-roboto';
+
     return (
-        <div className={`py-4 frank-re leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'}`}
+        <div className={`py-2 ${fontClass} leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'}`}
             style={{
                 color: active ? 'black' : '#e8e8e8',
                 cursor: active ? 'default' : 'pointer',
-                fontSize: active ? '1rem' : '.9rem',
+                fontSize: active ? '17px' : '.9rem',
                 fontWeight: 400,
                 lineHeight: active ? '1.3' : '1.3',
+                // textAlign: 'justify',
+                // textJustify: 'inter-word',
             }}
             onClick={() => setDate(add(summary.timestamp, { minutes: 1 }))}
         >
             <div className={`${active ? 'text-blue' : ''}`}
                 style={{
-                    fontSize: active ? '1.1rem' : '1rem',
+                    fontSize: active ? '1.25rem' : '1.15rem',
+                    lineHeight: active ? '1.3' : '1.3',
                 }}
             >
                 <span>{timestamp}</span>
-                <span> {locale == 'heb' ? ' ⇠' : '⇢ '}</span>
+                <span className="mx-1">{locale == 'heb' ? '⇠' : '⇢'}</span>
                 <span>{headline}</span>
             </div>
             <br />
             {parts.map((part, i) => (
                 <span key={i} className={
                     active ? (part.startsWith('(') ?
-                        'text-gray-500 text-sm' :
+                    `text-blue ${locale === 'heb' ? 'text-sm' : 'text-xs'}` :
                         '') : ''
                 }>
                     {part}

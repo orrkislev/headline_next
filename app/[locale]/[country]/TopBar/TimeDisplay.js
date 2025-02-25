@@ -2,6 +2,7 @@
 
 import { useDate } from "@/components/TimeManager";
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 export default function TimeDisplay() {
     const date = useDate(state => state.date);
@@ -30,6 +31,7 @@ export function GlobalTimeDisplay() {
 }
 
 function Clock(hours, minutes, isPresent) {
+    const { locale } = useParams();
     const [colon, setColon] = useState(true);
 
     useEffect(() => {
@@ -43,8 +45,10 @@ function Clock(hours, minutes, isPresent) {
         }
     }, [isPresent])
 
+    const paddingClass = locale === 'heb' ? 'pr-3' : 'pl-3';
+
     return (
-        <div className="h-full flex items-center justify-center text-blue font-mono text-2xl direction-ltr">
+        <div className={`h-full flex items-center justify-center font-mono text-base direction-ltr ${paddingClass}`}>
             <span>{hours.toString().padStart(2, '0')}</span>
             <span>{colon ? ':' : '\u00A0'}</span>
             <span>{minutes.toString().padStart(2, '0')}</span>

@@ -10,12 +10,14 @@ import YesterdaySummaryTitle from "./summaries/YesterSummaryTitle";
 import DailySummary from "./summaries/DailySummary";
 import { useParams } from "next/navigation";
 import Disclaimer from "@/components/Disclaimer";
+import ScrollbarStyles from "@/components/scrollbar";
 
 export default function SummarySection() {
     const summaries = useData((state) => state.summaries);
     const day = useDate((state) => state.date.toDateString());
     const ref = useRef();
     const [currentSummaryId, setCurrentSummaryId] = useState(null);
+    const { locale } = useParams();
 
     const lastSummaryDayBefore = useMemo(() => {
         const date = new Date(day)
@@ -33,19 +35,24 @@ export default function SummarySection() {
         if (child) child.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, [currentSummaryId, daySummaries]);
 
+    // Add padding class based on locale direction
+    const paddingClass = locale === 'heb' ? 'pl-4' : 'pr-4';
+
     return (
-        <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden p-2`}>
+        <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden px-5 pb-5`}>
             <DynamicLogo />
             <DailySummary />
-            <div className="flex flex-col gap-2 h-full overflow-auto divide-y divide-gray-200 p-2" ref={ref}>
-                <SummariesTimeManager setCurrentSummaryId={setCurrentSummaryId} />
-                {daySummaries.map((summary, i) => (
-                    <Summary key={i} summary={summary} active={summary.id === currentSummaryId} />
-                ))}
+            <ScrollbarStyles className="h-full">
+                <div className={`flex flex-col h-full p-2 ${paddingClass}`} ref={ref}>
+                    <SummariesTimeManager setCurrentSummaryId={setCurrentSummaryId} />
+                    {daySummaries.map((summary, i) => (
+                        <Summary key={i} summary={summary} active={summary.id === currentSummaryId} />
+                    ))}
 
-                <YesterdaySummary lastSummaryDayBefore={lastSummaryDayBefore} />
-            </div>
-            <div className='py-2 px-4 bg-white border-t border-gray-200'>
+                    <YesterdaySummary lastSummaryDayBefore={lastSummaryDayBefore} />
+                </div>
+            </ScrollbarStyles>
+            <div className='py-2 bg-white border-t border-gray-200'>
                 <YesterdaySummaryTitle lastSummaryDayBefore={lastSummaryDayBefore} />
                 <Disclaimer />
             </div>
@@ -58,7 +65,7 @@ function YesterdaySummary({ lastSummaryDayBefore }) {
     if (!lastSummaryDayBefore) return null;
     return (
         <>
-            <div className='text-gray-200 font-semibold text-lg pt-4 frank-re'>{locale === 'heb' ? 'היום הקודם' : 'PREVIOUS DAY'}</div>
+            <div className={`text-gray-200 text-lg pt-4 ${locale === 'en' ? 'font-sans' : 'frank-re'}`}>{locale === 'heb' ? 'היום הקודם' : 'PREVIOUS DAY'}</div>
             <Summary summary={lastSummaryDayBefore} />
         </>
     );

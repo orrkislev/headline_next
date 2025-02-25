@@ -13,7 +13,7 @@ import { useParams } from 'next/navigation';
 export default function DynamicLogo() {
     const { locale } = useParams();
     const [currentLogo, setCurrentLogo] = useState(logoA);
-    const [isFakeHover, setIsFakeHover] = useState(true);
+    const [isFakeHover, setIsFakeHover] = useState(false);
 
     const eyeTimeout = useRef(null);
     const openEyes = () => {
@@ -27,47 +27,53 @@ export default function DynamicLogo() {
         }, 600);
     }
 
-    // Add fake hover effect every 50 seconds
+    // Add fake hover effect every 30 seconds
     useEffect(() => {
         const intervalId = setInterval(() => {
             setIsFakeHover(true);
+            
             const timeoutId = setTimeout(() => {
                 setIsFakeHover(false);
             }, 5000); // Reset after 5 seconds
+            
             return () => clearTimeout(timeoutId);
-        }, 50000); // Trigger every 50 seconds
+        }, 30000); // Trigger every 30 seconds (reduced from 50000)
 
+        // This return function is for the useEffect cleanup, not for the interval callback
         return () => clearInterval(intervalId);
     }, []);
 
     return (
         <Link href="/" className='hidden md:block'>
             <LogoTimeManager openEyes={openEyes} />
-            <div className='logo-hover-container flex items-center justify-center relative border-b border-gray-200 p-4'>
-                <div className='logo-background absolute top-[35%] left-0 w-full h-[22%] bg-gray-200 opacity-0 transform translate-y-[-50%]'
+            <div className={`logo-hover-container flex items-center justify-center relative border-b border-gray-200 p-4 ${isFakeHover ? 'fake-hover' : ''}`}>
+                <div className="logo-background absolute top-[37%] left-1/2 w-[285px] h-[25%] bg-[#EBEBEB] opacity-0 transform translate-y-[-50%] translate-x-[-50%] ml-[3px]"
                     style={{
                         transition: 'opacity 0.2s ease',
                         transitionDelay: '.8s',
+                        marginLeft: locale === 'heb' ? '11px' : '3px',
                     }}
                 />
 
-                <div className="logo-text-left absolute left-[10%] top-[35%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 pointer-events-none transform translate-y-[-50%]"
+                <div className="logo-text-right absolute left-1/2 top-[38%] transform translate-y-[-50%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-50 pointer-events-none"
                     style={{
                         fontFamily: '"cheltenham", serif',
                         fontSize: '2rem',
+                        transform: `translateX(${locale === 'heb' ? '-120px' : '-130px'}) translateY(-50%)`,
                     }}>
                     THE
                 </div>
 
-                <Image className={`relative z-20 h-[160px] ${locale === 'heb' ? 'scale-x-[-1]' : ''} object-contain pb-1`}
+                <Image className={`relative z-20 h-[165px] ${locale === 'heb' ? 'scale-x-[-1]' : ''} object-contain pb-2`}
                     src={currentLogo} alt="The Hear Logo" />
 
-                <div className="logo-text-right absolute right-[10%] top-[35%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-500 pointer-events-none transform translate-y-[-50%]"
+                <div className="logo-text-right absolute left-1/2 top-[38%] transform translate-y-[-50%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-500 pointer-events-none"
                     style={{
                         fontFamily: '"cheltenham", serif',
                         fontSize: '2rem',
                         transition: 'opacity 0.1s ease',
                         transitionDelay: '0.5s',
+                        transform: `translateX(${locale === 'heb' ? '87px' : '80px'}) translateY(-50%)`,
                     }}>
                     HEAR
                 </div>

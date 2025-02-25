@@ -1,0 +1,7 @@
+1. in the bottom bar, add timeframe, not just timestamp
+2. Some favicons are not showing up (walla in israel)
+3. UTC timezone issue
+4. Link through the flag doesn't work
+5. Move close icon to the correct place based on language
+6. Some English fonts not loading (generic fonts instead)
+7. Random red blinks

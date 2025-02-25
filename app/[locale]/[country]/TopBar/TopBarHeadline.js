@@ -7,11 +7,15 @@ import { useEffect, useRef, useState } from "react";
 
 export function TopBarHeadline() {
     const [headline, setHeadline] = useState('');
+    const { locale } = useParams();
+    
+    // Use Roboto font for English locale, default font for others
+    const fontFamily = locale === 'en' ? 'var(--font-roboto)' : 'var(--font-frank-re)';
 
     return (
-        <div className="h-full px-4 text-3xl" style={{ fontFamily: 'var(--font-frank-re)' }} >
+        <div className="h-full px-4 text-3xl" style={{ fontFamily }} >
             <HeadlineTimeManager setHeadline={setHeadline} />
-            {headline}
+            {/* {headline} */}
         </div>
     );
 }

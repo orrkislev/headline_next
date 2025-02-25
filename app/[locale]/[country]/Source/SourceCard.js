@@ -29,7 +29,7 @@ export default function SourceCard({ headlines, index }) {
 
 
     return (
-        <div className={`source-card relative bg-neutral-100 hover:bg-white border-b border-gray-200 transition-colors duration-200 ${index == 0 ? 'col-span-2' : ''} ${isRTL ? 'direction-rtl' : 'direction-ltr'}`}>
+        <div className={`source-card relative bg-neutral-100 hover:bg-white transition-colors duration-200 ${index == 0 ? 'col-span-2' : ''} ${isRTL ? 'direction-rtl' : 'direction-ltr'}`}>
             <CloseButton sourceName={headlines[0].website_id} />
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-4 mb-4 p-4">
