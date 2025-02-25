@@ -10,14 +10,12 @@ import YesterdaySummaryTitle from "./summaries/YesterSummaryTitle";
 import DailySummary from "./summaries/DailySummary";
 import { useParams } from "next/navigation";
 import Disclaimer from "@/components/Disclaimer";
-import ScrollbarStyles from "@/components/scrollbar";
 
-export default function SummarySection() {
-    const summaries = useData((state) => state.summaries);
-    const day = useDate((state) => state.date.toDateString());
+export default function SummarySection({ initialSummaries, locale }) {
+    const summaries = useData((state) => state.summaries || initialSummaries);
+    const day = useDate((state) => state.date.toDateString() || initialSummaries[0]?.timestamp.toDateString());
     const ref = useRef();
-    const [currentSummaryId, setCurrentSummaryId] = useState(null);
-    const { locale } = useParams();
+    const [currentSummaryId, setCurrentSummaryId] = useState(initialSummaries[0]?.id);
 
     const lastSummaryDayBefore = useMemo(() => {
         const date = new Date(day)
@@ -35,23 +33,18 @@ export default function SummarySection() {
         if (child) child.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, [currentSummaryId, daySummaries]);
 
-    // Add padding class based on locale direction
-    const paddingClass = locale === 'heb' ? 'pl-4' : 'pr-4';
-
     return (
         <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden px-4 pb-2`}>
+            <SummariesTimeManager setCurrentSummaryId={setCurrentSummaryId} initialSummaries={initialSummaries} />
             <DynamicLogo />
-            <DailySummary />
-            <ScrollbarStyles className="h-full">
-                <div className={`flex flex-col h-full p-2 ${paddingClass}`} ref={ref}>
-                    <SummariesTimeManager setCurrentSummaryId={setCurrentSummaryId} />
-                    {daySummaries.map((summary, i) => (
-                        <Summary key={i} summary={summary} active={summary.id === currentSummaryId} />
-                    ))}
+            <DailySummary locale={locale} />
+            <div className={`custom-scrollbar h-full flex flex-col h-full p-2 ${locale === 'heb' ? 'pl-4' : 'pr-4'}`} ref={ref}>
+                {daySummaries.map((summary, i) => (
+                    <Summary key={i} summary={summary} active={summary.id === currentSummaryId} />
+                ))}
 
-                    <YesterdaySummary lastSummaryDayBefore={lastSummaryDayBefore} />
-                </div>
-            </ScrollbarStyles>
+                <YesterdaySummary lastSummaryDayBefore={lastSummaryDayBefore} />
+            </div>
             <div className='py-2 bg-white border-t border-gray-200'>
                 <YesterdaySummaryTitle lastSummaryDayBefore={lastSummaryDayBefore} />
                 <Disclaimer />
@@ -72,10 +65,10 @@ function YesterdaySummary({ lastSummaryDayBefore }) {
     );
 }
 
-function SummariesTimeManager({ setCurrentSummaryId }) {
+function SummariesTimeManager({ setCurrentSummaryId, initialSummaries }) {
     const minutes = useDate(state => state.date.getHours() * 60 + state.date.getMinutes());
     const day = useDate(state => state.date.toDateString());
-    const summaries = useData(state => state.summaries);
+    const summaries = useData(state => state.summaries || initialSummaries);
     const [data, setData] = useState([]);
     const currentId = useRef(null)
 
@@ -87,7 +80,7 @@ function SummariesTimeManager({ setCurrentSummaryId }) {
         }));
         newData.sort((a, b) => b.time - a.time);
         setData(newData);
-    }, [day, summaries]);
+    }, [day, summaries.length]);
 
     useEffect(() => {
         const newCurrent = data.find(item => item.time < minutes);
@@ -96,6 +89,7 @@ function SummariesTimeManager({ setCurrentSummaryId }) {
             setCurrentSummaryId(newCurrent.id);
         }
     }, [data, minutes, setCurrentSummaryId]);
+
 
     return null;
 }

@@ -8,7 +8,7 @@ import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries,
 import { useParams } from "next/navigation"
 
 export const useData = create((set, get) => ({
-    sources: {},
+    sources: null,
     addHeadlines: (headlines) => set(state => {
         const newSources = { ...state.sources }
         headlines.forEach(headline => {
@@ -19,13 +19,13 @@ export const useData = create((set, get) => ({
         })
         return { sources: newSources }
     }),
-    summaries: [],
+    summaries: null,
     addSummaries: (summaries) => set(state => {
         const existingIds = new Set(state.summaries.map(summary => summary.id))
         const newSummaries = summaries.filter(summary => !existingIds.has(summary.id))
         return { summaries: [...state.summaries, ...newSummaries] }
     }),
-    dailySummaries: [],
+    dailySummaries: null,
     addDailySummary: (summary) => set(state => {
         if (state.dailySummaries.some(existingSummary => existingSummary.id === summary.id)) return state
         return { dailySummaries: [...state.dailySummaries, summary] }

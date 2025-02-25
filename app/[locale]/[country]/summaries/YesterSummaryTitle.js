@@ -9,11 +9,12 @@ export default function YesterdaySummaryTitle({ lastSummaryDayBefore }) {
     const day = useDate(state => state.date.toDateString());
     const setDate = useDate(state => state.setDate);
     const dailySummaries = useData(state => state.dailySummaries);
+    
+    if (!dailySummaries) return null;
 
     const yesterday = sub(new Date(day), { days: 1 }).toISOString().split('T')[0]
     const yesterdaySummary = dailySummaries.find(summary => summary.date == yesterday);
 
-    if (!yesterdaySummary) return null;
 
     const headline = getHeadline(yesterdaySummary, locale);
     const yesterdayString = locale == 'heb' ? 'אתמול' : 'Yesterday';

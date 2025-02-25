@@ -12,12 +12,7 @@ export default function AddSourceButton() {
     const nextSource = sourceOrder.find((source) => !activeWebsites.includes(source));
 
     const handleAddSource = () => {
-        if (nextSource) {
-            setActiveWebsites([...activeWebsites, nextSource]);
-            console.log(`Added source: ${nextSource}`);
-        } else {
-            console.log("No more sources to add");
-        }
+        if (nextSource) setActiveWebsites([...activeWebsites, nextSource]);
     };
 
     return (

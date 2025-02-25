@@ -1,7 +1,7 @@
 import TimeDisplay from "./TimeDisplay.js";
 import { SettingsButton } from "./TopBarParts.js";
 import Flag from "./Flag.js";
-import { TopBarHeadline } from "./TopBarHeadline.js";
+// import { TopBarHeadline } from "./TopBarHeadline.js";
 
 export default function TopBar() {
     return (
@@ -11,8 +11,8 @@ export default function TopBar() {
                     <TimeDisplay />
                     <div className="border-l border-gray-300 h-full mx-5"></div>
                     <Flag />
-                    <div className="border-l border-gray-300 h-full mx-5"></div>
-                    <TopBarHeadline />
+                    {/* <div className="border-l border-gray-300 h-full mx-5"></div> */}
+                    {/* <TopBarHeadline initialSummaries={initialSummaries} locale={locale} /> */}
                 </div>
                 <div className="flex items-center hidden md:flex">
                     <SettingsButton />

@@ -75,3 +75,30 @@ body {
   font-family: var(--font-frank-re);
   line-height: 1.1;
 }
+
+
+
+
+
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,.1);
+  border-radius: 4px;
+  display: none;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  display: block;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,.1) transparent;
+  overflow-y: auto;
+  max-height: 100%;
+}

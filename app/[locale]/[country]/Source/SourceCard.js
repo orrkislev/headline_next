@@ -5,17 +5,15 @@ import SourceSlider from "./SourceSlider";
 import CloseButton from "./CloseButton";
 import Headline from "./Headine";
 import SourceName from "./SourceName";
-import { useParams } from "next/navigation";
 import { SourceFooter } from "./SourceFooter";
 import { usePreferences } from "@/components/PreferencesManager";
 import { getRandomTypography } from "@/utils/typography";
 import Subtitle from "./Subtitle";
 
-export default function SourceCard({ headlines, index }) {
-    const [headline, setHeadline] = useState();
+export default function SourceCard({ headlines, index, country}) {
+    const [headline, setHeadline] = useState(headlines[0]);
     const [showSubtitle, setShowSubtitle] = useState(true);
     const font = usePreferences(state => state.font);
-    const { country } = useParams();
 
     const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline), [headline]);
 

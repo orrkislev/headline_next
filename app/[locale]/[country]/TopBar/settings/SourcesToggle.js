@@ -40,6 +40,9 @@ function SourcesGrid({ open }) {
     const setActiveWebsites = usePreferences(state => state.setActiveWebsites);
 
     const sourceOrder = useMemo(() => getSourceOrder(country, order), [country, order]);
+
+    if (!sources) return null;
+
     const orderedSources = sourceOrder.map(id => ({
         id,
         description: getSourceDescription(country, id),

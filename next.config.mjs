@@ -1,7 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['flagcdn.com', 'www.google.com'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'flagcdn.com',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'www.google.com',
+                port: '',
+                pathname: '/**',
+            },
+        ],
     },
     reactStrictMode: true,
 };

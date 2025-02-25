@@ -2,16 +2,14 @@
 
 import CustomTooltip from "@/components/CustomTooltip";
 import { useData } from "@/components/DataManager";
-import { usePreferences } from "@/components/PreferencesManager";
 import TimeManager, { useDate } from "@/components/TimeManager";
 import { KeyboardArrowDown, KeyboardArrowUp, Restore } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 
-export default function SideSlider() {
-    const { locale } = useParams();
-    const summaries = useData((state) => state.summaries);
+export default function SideSlider({ initialSummaries, locale }) {
+    const summaries = useData((state) => state.summaries || initialSummaries);
     const minutes = useDate((state) => state.date.getHours() * 60 + state.date.getMinutes());
     const setDate = useDate((state) => state.setDate);
     const day = useDate((state) => state.date.toDateString());

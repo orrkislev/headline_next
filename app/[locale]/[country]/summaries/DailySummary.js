@@ -5,19 +5,17 @@ import { useDate } from '@/components/TimeManager';
 import { useData } from '@/components/DataManager';
 import { add } from 'date-fns';
 import { getHeadline, getSummaryContent } from '@/utils/daily summary utils';
-import { useParams } from 'next/navigation';
-import ScrollbarStyles from '@/components/scrollbar';
 
-export default function DailySummary() {
-    const { locale } = useParams()
+export default function DailySummary({ locale }) {
     const day = useDate((state) => state.date.toDateString());
     const dailySummaries = useData(state => state.dailySummaries);
     const [expanded, setExpanded] = useState(false);
 
+    if (!dailySummaries) return null
+
     const dayString = add(new Date(day), { hours: 1 }).toISOString().split('T')[0]
     const dailySummary = dailySummaries.find(summary => summary.date == dayString);
 
-    if (!dailySummary) return null
 
     // Format date as dd.mm.yyyy
     const formattedDate = new Date(dayString)
@@ -54,11 +52,9 @@ export default function DailySummary() {
                 </div>
             </div>
             <Collapse in={expanded}>
-                <ScrollbarStyles style={{ maxHeight: '45vh' }}>
-                    <div className={`leading-none font-normal mt-1 ${locale === 'heb' ? 'pl-4 pr-2' : 'pl-2 pr-4'} text-[17px] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={{ lineHeight: '1.3', }}>
-                        <div dangerouslySetInnerHTML={{ __html: summaryContent }} />
-                    </div>
-                </ScrollbarStyles>
+                <div className={`custom-scrollbar max-h-[45vh] leading-none font-normal mt-1 ${locale === 'heb' ? 'pl-4 pr-2' : 'pl-2 pr-4'} text-[17px] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={{ lineHeight: '1.3', }}>
+                    <div dangerouslySetInnerHTML={{ __html: summaryContent }} />
+                </div>
             </Collapse>
         </div>
     );
