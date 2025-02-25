@@ -1,4 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+'use client'
+
+import { useEffect, useRef, useState } from 'react';
 import logoA from './logo/logo-head.png';
 import logoB from './logo/logo-head-2.png';
 import logoC from './logo/logo-head-4.png';

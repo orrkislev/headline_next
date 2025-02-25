@@ -9,6 +9,7 @@ import { useData } from "@/components/DataManager";
 import YesterdaySummaryTitle from "./summaries/YesterSummaryTitle";
 import DailySummary from "./summaries/DailySummary";
 import { useParams } from "next/navigation";
+import Disclaimer from "@/components/Disclaimer";
 
 export default function SummarySection() {
     const summaries = useData((state) => state.summaries);
@@ -23,14 +24,14 @@ export default function SummarySection() {
         return dayBeforeSummaries.length > 0 ? dayBeforeSummaries[0] : null;
     }, [day, summaries]);
 
-    const currentSummary = useMemo(() => summaries.find(summary => summary.id === currentSummaryId), [currentSummaryId, summaries]);
+    const daySummaries = useMemo(() => summaries.filter(summary => summary.timestamp.toDateString() === day), [day, summaries]);
 
     useLayoutEffect(() => {
-        const childIndex = summaries.findIndex(summary => summary.id === currentSummaryId);
+        const childIndex = daySummaries.findIndex(summary => summary.id === currentSummaryId);
         if (childIndex === -1) return;
         const child = ref.current.children[childIndex];
         if (child) child.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, [currentSummaryId, summaries]);
+    }, [currentSummaryId, daySummaries]);
 
     return (
         <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden p-2`}>
@@ -38,7 +39,7 @@ export default function SummarySection() {
             <DailySummary />
             <div className="flex flex-col gap-2 h-full overflow-auto divide-y divide-gray-200 p-2" ref={ref}>
                 <SummariesTimeManager setCurrentSummaryId={setCurrentSummaryId} />
-                {summaries.map((summary, i) => (
+                {daySummaries.map((summary, i) => (
                     <Summary key={i} summary={summary} active={summary.id === currentSummaryId} />
                 ))}
 
@@ -48,15 +49,6 @@ export default function SummarySection() {
                 <YesterdaySummaryTitle lastSummaryDayBefore={lastSummaryDayBefore} />
                 <Disclaimer />
             </div>
-        </div>
-    );
-}
-
-function Disclaimer() {
-    const { locale } = useParams()
-    return (
-        <div className='text-gray-400 pt-4 font-semibold border-t border-gray-200 frank-re'>
-            {locale === 'heb' ? 'סקירות אלו נכתבו על ידי הבינה' : 'These overviews were written by an AI'}
         </div>
     );
 }

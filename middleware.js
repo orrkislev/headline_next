@@ -1,15 +1,17 @@
 import { countryToAlpha2 } from 'country-to-iso';
 import { NextResponse } from 'next/server';
+import { countries } from './utils/sources/countries';
 
-const countries = ["China", "Finland", "France", "Germany", "India", "Iran", "Israel", "Italy", "Japan", "Lebanon", "Netherlands", "Palestine", "Poland", "Russia", "Spain", "Turkey", "UK", "US", "Ukraine", "United Arab Emirates"]
 
 async function getCountry(code) {
+  if (code == 'global') return 'global';
   if (code == 'uae') return 'United Arab Emirates';
 
-  if (countries.includes(code)) return code;
-  let foundCountry = countries.find(c => c.toLowerCase().replace(' ', '') === code.toLowerCase().replace(' ', ''));
+  const countryNames = Object.keys(countries);
+  if (countryNames.includes(code)) return code;
+  let foundCountry = countryNames.find(c => c.toLowerCase().replace(' ', '') === code.toLowerCase().replace(' ', ''));
   if (foundCountry) return foundCountry;
-  foundCountry = countries.find(c => countryToAlpha2(c) === countryToAlpha2(code));
+  foundCountry = countryNames.find(c => countryToAlpha2(c) === countryToAlpha2(code));
   if (foundCountry) return foundCountry;
   return false;
 }

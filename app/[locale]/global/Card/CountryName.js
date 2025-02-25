@@ -1,0 +1,19 @@
+import FlagIcon from "@/components/FlagIcon"
+import { countries } from "@/utils/sources/countries"
+import { getTypographyOptions } from "@/utils/typography"
+import { Divider } from "@mui/material"
+import { useParams } from "next/navigation"
+
+export default function CountryName({ country }) {
+    const { locale } = useParams()
+
+    const typography = getTypographyOptions(locale == 'heb' ? 'Israel' : 'US')[0]
+
+    return (
+        <span className="flex items-center gap-2 text-sm text-blue cursor-help" style={{ ...typography, fontSize: '1.2rem' }}>
+            {locale == 'heb' ? countries[country] : country}
+            <Divider orientation="vertical" flexItem />
+            <FlagIcon country={country} />
+        </span>
+    )
+}

@@ -1,6 +1,6 @@
 import { getDb } from "@/utils/database/firebase";
 import { endOfDay, sub } from "date-fns";
-import { collection, doc, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, doc, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 
 export function getCountryCollectionRef(countryName, collectionName) {
   const db = getDb();
@@ -65,6 +65,20 @@ export const getRecentHeadlines = async (countryName, fromTime) => {
   return headlines;
 }
 
+export const subscribeToHeadlines = (countryName, callback) => {
+  const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
+  const q = query(
+    headlinesCollection,
+    orderBy('timestamp', 'desc'),
+    limit(1),
+  );
+  return onSnapshot(q, snapshot => {
+    if (snapshot.empty) return
+    const headlines = snapshot.docs.map(doc => prepareData(doc));
+    callback(headlines);
+  });
+}
+
 // ----------------- Summaries -----------------
 // ---------------------------------------------
 
@@ -97,6 +111,20 @@ export const getRecentSummaries = async (countryName, fromTime) => {
   if (summaries.empty) return [];
   summaries = summaries.docs.map(doc => prepareData(doc));
   return summaries;
+}
+
+export const subscribeToSummaries = (countryName, callback) => {
+  const summariesCollection = getCountryCollectionRef(countryName, 'summaries');
+  const q = query(
+    summariesCollection,
+    orderBy('timestamp', 'desc'),
+    limit(1),
+  );
+  return onSnapshot(q, snapshot => {
+    if (snapshot.empty) return
+    const summaries = snapshot.docs.map(doc => prepareData(doc));
+    callback(summaries);
+  });
 }
 
 // ----------------- Daily Summaries -----------------

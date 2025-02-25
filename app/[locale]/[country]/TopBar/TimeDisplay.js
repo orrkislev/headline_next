@@ -6,10 +6,31 @@ import { useEffect, useState } from "react";
 export default function TimeDisplay() {
     const date = useDate(state => state.date);
     const isPresent = useDate(state => state.isPresent);
-    const [colon, setColon] = useState(true);
 
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+    
+    return Clock(hours, minutes, isPresent)
+}
+
+export function GlobalTimeDisplay() {
+    const [date, setDate] = useState(new Date());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setDate(new Date());
+        }, 60000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+
+    return Clock(hours, minutes, true)
+}
+
+function Clock(hours, minutes, isPresent) {
+    const [colon, setColon] = useState(true);
 
     useEffect(() => {
         if (isPresent) {
@@ -28,5 +49,5 @@ export default function TimeDisplay() {
             <span>{colon ? ':' : '\u00A0'}</span>
             <span>{minutes.toString().padStart(2, '0')}</span>
         </div>
-    );
+    )
 }

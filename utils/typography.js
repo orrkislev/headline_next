@@ -2,38 +2,38 @@ import { choose } from "./utils";
 
 const baseTypographyOptions = [
     {
-        fontFamily: 'var(--font-futura), sans-serif',
+        fontFamily: 'var(--font-futura)',
         fontSize: '2.5rem',
         lineHeight: 1.15,
         fontWeight: 500,
     },
     {
-        fontFamily: 'var(--font-futura), sans-serif',
+        fontFamily: 'var(--font-futura)',
         fontSize: '2.3rem',
         lineHeight: 1.15,
         fontWeight: 700,
         fontStyle: 'italic',
     },
     {
-        fontFamily: 'var(--futura-italic), sans-serif',
+        fontFamily: 'var(--futura-italic)',
         fontSize: '2.1rem',
         lineHeight: 1.15,
         fontWeight: 700,
     },
     {
-        fontFamily: '"plantin-condensed", sans-serif',
+        fontFamily: '"plantin-condensed"',
         fontSize: '2.3rem',
         lineHeight: 1.1,
         fontWeight: 700,
     },
     {
-        fontFamily: 'var(--font-helvetica), Arial, sans-serif',
+        fontFamily: 'var(--font-helvetica)',
         fontSize: '2.1rem',
         lineHeight: 1.2,
         fontWeight: 400,
     },
     {
-        fontFamily: 'var(--font-cheltenham), serif',
+        fontFamily: 'var(--font-cheltenham)',
         fontSize: '2.8rem',
         lineHeight: 1.1,
         fontWeight: 400,

@@ -1,12 +1,11 @@
 'use client'
 
-import Image from "next/image";
-import { countryToAlpha2 } from "country-to-iso";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { TopBarButton } from "@/components/IconButtons";
 import { useParams } from "next/navigation";
 import PopUpCleaner from "@/components/PopUp";
+import FlagIcon from "@/components/FlagIcon";
 
 
 export default function Flag() {
@@ -42,7 +41,7 @@ function FlagSelector({ country, open, close}) {
     return (
         <>
         <PopUpCleaner open={open} close={close} />
-        <div className="absolute top-4 p-4 right-0 grid grid-cols-2 gap-4 bg-white rounded-md shadow-lg w-64">
+        <div className="absolute top-4 p-4 right-0 grid grid-cols-2 gap-4 bg-white rounded-md shadow-lg w-64 z-[1000]">
             {countries.map((c, i) => (
                 <Link key={i} href={`/${locale}/${c}`}>
                     <div key={i} className={`flex justify-start items-center gap-2 text-sm hover:bg-gray-100 px-2 rounded-md cursor-pointer ${c === country ? 'bg-gray-100' : ''}`}>
@@ -54,30 +53,4 @@ function FlagSelector({ country, open, close}) {
         </div>
             </>
     );
-}
-
-
-
-const getFlagUrl = (country, size = '16x12') => {
-    const isoCountry = countryToAlpha2(country).toLowerCase();
-    if (!isoCountry) return '';
-    return `https://flagcdn.com/${size}/${isoCountry}.png`;
-};
-
-function FlagIcon({ country }) {
-    const flagUrl = getFlagUrl(country);
-    return (
-        <Image
-            src={flagUrl}
-            alt={`Flag of ${country}`}
-            width={16}
-            height={12}
-            style={{
-                width: '1rem',
-                height: '0.75rem',
-                verticalAlign: 'middle',
-                cursor: 'pointer'
-            }}
-        />
-    )
 }
