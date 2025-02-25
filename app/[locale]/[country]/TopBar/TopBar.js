@@ -16,9 +16,7 @@ export default function TopBar() {
                     {/* <div className="border-l border-gray-300 h-full mx-2"></div> */}
                     <TopBarHeadline />
                 </div>
-                <div className="flex gap-4 items-center hidden md:flex">
-                    <Global />
-                    <Info />
+                <div className="flex gap-4 px-2 items-center hidden md:flex">
                     <SettingsButton />
                 </div>
             </div>

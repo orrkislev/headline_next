@@ -20,7 +20,11 @@ export default function YesterdaySummaryTitle({ lastSummaryDayBefore }) {
     const dateString = isToday(new Date(day)) ? yesterdayString : yesterday;
 
     return (
-        <div className={`py-2 cursor-pointer text-xl text-blue ${locale === 'en' ? 'font-roboto' : 'frank-re'}`}
+        <div className={`py-2 px-2 pb-4 cursor-pointer text-2xl text-blue ${
+            locale === 'en' 
+                ? 'font-roboto pr-4' 
+                : 'frank-re pl-4'
+        }`}
             onClick={() => setDate(lastSummaryDayBefore.timestamp)}>
             <span>{dateString}</span>
             <span> {locale == 'heb' ? ' ⇠ ' : ' ⇢ '}</span>

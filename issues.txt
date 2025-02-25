@@ -6,3 +6,5 @@
 6. Some English fonts not loading (generic fonts instead)
 7. Random red blinks
 8. responsive widths and font sizes
+8. Loading state
+9. responsive grid

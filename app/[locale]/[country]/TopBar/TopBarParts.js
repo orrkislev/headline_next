@@ -1,6 +1,6 @@
 'use client'
 
-import { InfoOutlined, PublicOutlined, SettingsOutlined } from "@mui/icons-material";
+import { InfoOutlined, PublicOutlined, SettingsRounded } from "@mui/icons-material";
 import Link from "next/link";
 import { useState } from "react";
 import Settings from "./settings/Settings";
@@ -43,7 +43,7 @@ export function SettingsButton() {
         <div className="relative">
             <CustomTooltip title="Settings" arrow>
                 <TopBarButton size="small" onClick={() => setOpen(prev => !prev)}>
-                    <SettingsOutlined />
+                    <SettingsRounded />
                 </TopBarButton>
             </CustomTooltip>
             <Settings open={open} close={() => setOpen(false)} />
