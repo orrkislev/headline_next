@@ -63,7 +63,7 @@ function ResetTimerButton() {
     }
 
 
-    const tooltip = locale === 'heb' ? 'אפס לזמן הנוכחי' : 'Reset To Now';
+    const tooltip = locale === 'heb' ? 'בחזרה לעכשיו' : 'Reset To Now';
     const placement = locale === 'heb' ? 'left' : 'right';
 
     return (

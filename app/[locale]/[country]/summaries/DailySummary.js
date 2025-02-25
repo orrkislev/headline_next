@@ -6,6 +6,7 @@ import { useData } from '@/components/DataManager';
 import { add } from 'date-fns';
 import { getHeadline, getSummaryContent } from '@/utils/daily summary utils';
 import { useParams } from 'next/navigation';
+import ScrollbarStyles from '@/components/scrollbar';
 
 export default function DailySummary() {
     const { locale } = useParams()
@@ -18,6 +19,15 @@ export default function DailySummary() {
 
     if (!dailySummary) return null
 
+    // Format date as dd.mm.yyyy
+    const formattedDate = new Date(dayString)
+        .toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        })
+        .replace(/\//g, '.');
+
     const headline = getHeadline(dailySummary, locale);
     const summaryContent = getSummaryContent(dailySummary, locale);
 
@@ -26,8 +36,8 @@ export default function DailySummary() {
             <div className='flex items-start justify-between relative cursor-pointer flex-row-reverse'
                 onClick={() => setExpanded(p => !p)}
             >
-                <div className={`text-blue frank-re flex-1 pl-5 pr-0 font-mono mb-8 text-xl`}>
-                    <span>{dayString}</span>
+                <div className={`text-blue flex-1 pl-2 pr-2 ${locale === 'heb' ? 'pl-8' : 'pr-8'} mb-2 text-[1.5rem] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={locale === 'heb' ? { lineHeight: '1.5' } : {}}>
+                    <span className="font-mono">{formattedDate}</span>
                     <span> {locale === 'heb' ? ' ⇠ ' : ' ⇢ '}</span>
                     <span>{headline}</span>
                 </div>
@@ -44,9 +54,11 @@ export default function DailySummary() {
                 </div>
             </div>
             <Collapse in={expanded}>
-                <div className={`frank-re leading-none font-normal mt-1 pl-6 pr-0 `}>
-                    <div dangerouslySetInnerHTML={{ __html: summaryContent }} />
-                </div>
+                <ScrollbarStyles style={{ maxHeight: '45vh' }}>
+                    <div className={`leading-none font-normal mt-1 ${locale === 'heb' ? 'pl-4 pr-2' : 'pl-2 pr-4'} text-[17px] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={{ lineHeight: '1.3', }}>
+                        <div dangerouslySetInnerHTML={{ __html: summaryContent }} />
+                    </div>
+                </ScrollbarStyles>
             </Collapse>
         </div>
     );

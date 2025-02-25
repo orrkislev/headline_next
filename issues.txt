@@ -5,3 +5,4 @@
 5. Move close icon to the correct place based on language
 6. Some English fonts not loading (generic fonts instead)
 7. Random red blinks
+8. responsive widths and font sizes

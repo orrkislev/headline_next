@@ -39,7 +39,7 @@ export default function SummarySection() {
     const paddingClass = locale === 'heb' ? 'pl-4' : 'pr-4';
 
     return (
-        <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden px-5 pb-5`}>
+        <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden px-4 pb-2`}>
             <DynamicLogo />
             <DailySummary />
             <ScrollbarStyles className="h-full">
@@ -66,6 +66,7 @@ function YesterdaySummary({ lastSummaryDayBefore }) {
     return (
         <>
             <div className={`text-gray-200 text-lg pt-4 ${locale === 'en' ? 'font-sans' : 'frank-re'}`}>{locale === 'heb' ? 'היום הקודם' : 'PREVIOUS DAY'}</div>
+            <div className={`py-2 ${locale === 'en' ? 'font-sans' : 'frank-re'} leading-none font-normal cursor-pointer text-gray-200 hover:text-gray-500 transition-colors border-b border-dashed border-gray-200`} />
             <Summary summary={lastSummaryDayBefore} />
         </>
     );
