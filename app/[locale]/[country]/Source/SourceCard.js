@@ -1,29 +1,32 @@
-'use client'
-
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import SourceSlider from "./SourceSlider";
 import CloseButton from "./CloseButton";
 import Headline from "./Headine";
 import SourceName from "./SourceName";
 import { SourceFooter } from "./SourceFooter";
-import { usePreferences } from "@/components/PreferencesManager";
 import { getRandomTypography } from "@/utils/typography";
 import Subtitle from "./Subtitle";
 
-export default function SourceCard({ index, headlines, country, className }) {
-    const [headline, setHeadline] = useState(headlines[0]);
-    const [showSubtitle, setShowSubtitle] = useState(true);
-    const font = usePreferences(state => state.font);
+export default function SourceCard({ index, name,headlines, country, locale, date, day, font }) {
+    const headline = useMemo(() => {
+        if (!headlines) return null;
+        if (!date) return headlines[0];
+        return headlines.find(({ timestamp }) => timestamp < date);
+    }, [headlines, date]);
+
+    const subtitle = useMemo(() => 
+        headline?.subtitle, 
+    [headline]);
 
     const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline), [headline]);
 
     const typography = useMemo(() => {
-        if (font === 'random') return getRandomTypography(country);
+        if (!font || font === 'random') return getRandomTypography(country);
         if (font.direction === 'rtl' && !isRTL) return getRandomTypography('default');
         return font;
     }, [font, country, isRTL]);
 
-    const subtitle = headline?.subtitle;
+    if (!headline) return null;
 
 
     return (
@@ -39,13 +42,13 @@ export default function SourceCard({ index, headlines, country, className }) {
             <CloseButton sourceName={headlines[0].website_id} />
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-4 mb-4 p-4">
-                    <SourceName website={headlines[0].website_id} typography={typography} />
+                    <SourceName website={name} typography={typography} country={country} />
                     <Headline headline={headline} typography={typography} />
                 </div>
                 <div>
-                    <Subtitle subtitle={subtitle} showSubtitle={showSubtitle} />
-                    <SourceSlider headlines={headlines} setHeadline={setHeadline} />
-                    <SourceFooter setShowSubtitle={setShowSubtitle} showSubtitle={showSubtitle} url={headlines[0].link} headline={headline} />
+                    <Subtitle subtitle={subtitle} />
+                    <SourceSlider headlines={headlines} day={day} date={date} />
+                    <SourceFooter url={headlines[0].link} headline={headline} />
                 </div>
             </div>
         </div>

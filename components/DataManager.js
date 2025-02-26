@@ -8,7 +8,7 @@ import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries,
 import { useParams } from "next/navigation"
 
 export const useData = create((set, get) => ({
-    sources: null,
+    sources: {},
     addHeadlines: (headlines) => set(state => {
         const newSources = { ...state.sources }
         headlines.forEach(headline => {
@@ -19,13 +19,13 @@ export const useData = create((set, get) => ({
         })
         return { sources: newSources }
     }),
-    summaries: null,
+    summaries: [],
     addSummaries: (summaries) => set(state => {
         const existingIds = new Set(state.summaries.map(summary => summary.id))
         const newSummaries = summaries.filter(summary => !existingIds.has(summary.id))
         return { summaries: [...state.summaries, ...newSummaries] }
     }),
-    dailySummaries: null,
+    dailySummaries: [],
     addDailySummary: (summary) => set(state => {
         if (state.dailySummaries.some(existingSummary => existingSummary.id === summary.id)) return state
         return { dailySummaries: [...state.dailySummaries, summary] }
@@ -43,23 +43,23 @@ export const useData = create((set, get) => ({
 
 
 
-export default function DataManager({ headlines, summaries, dailySummary }) {
+export default function DataManager({ initialHeadlines, initialSummaries, initialDailySummary }) {
     const { country } = useParams()
     const data = useData()
     const day = useDate(state => state.date.toDateString())
 
     useEffect(() => {
-        data.addHeadlines(headlines)
-        data.addSummaries(summaries)
-        data.addDailySummary(dailySummary)
-        const dailySummaryDate = new Date(dailySummary.timestamp)
+        data.addHeadlines(initialHeadlines)
+        data.addSummaries(initialSummaries)
+        data.addDailySummary(initialDailySummary)
+        const dailySummaryDate = new Date(initialDailySummary.timestamp)
         data.addDate(dailySummaryDate.toDateString())
         data.addDate(sub(dailySummaryDate, { days: 1 }).toDateString())
 
         const getRecentData = async () => {
-            const newHeadlines = await getRecentHeadlines(country, add(headlines[0].timestamp, { minute: 1 }))
+            const newHeadlines = await getRecentHeadlines(country, add(initialHeadlines[0].timestamp, { minute: 1 }))
             data.addHeadlines(newHeadlines)
-            const newSummaries = await getRecentSummaries(country, add(summaries[0].timestamp, { minute: 1 }))
+            const newSummaries = await getRecentSummaries(country, add(initialSummaries[0].timestamp, { minute: 1 }))
             data.addSummaries(newSummaries)
 
             const daysSince = Math.floor((new Date() - dailySummaryDate) / (1000 * 60 * 60 * 24))

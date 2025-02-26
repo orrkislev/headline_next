@@ -3,19 +3,25 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Summary from "./summaries/Summary";
 import { useDate } from "@/components/TimeManager";
-import DynamicLogo from "@/components/Logo";
-import { sub } from "date-fns";
+import { add, sub } from "date-fns";
 import { useData } from "@/components/DataManager";
 import YesterdaySummaryTitle from "./summaries/YesterSummaryTitle";
 import DailySummary from "./summaries/DailySummary";
 import { useParams } from "next/navigation";
 import Disclaimer from "@/components/Disclaimer";
+import { SummariesContainer } from "./SummariesSection";
 
-export default function SummarySection({ initialSummaries, locale }) {
-    const summaries = useData((state) => state.summaries || initialSummaries);
-    const day = useDate((state) => state.date.toDateString() || initialSummaries[0]?.timestamp.toDateString());
+export default function SummariesSectionLive({ initialSummaries, locale }) {
+    const summaries = useData((state) => state.summaries);
+    const date = useDate((state) => state.date);
+    const setDate = useDate((state) => state.setDate);
+    const day = useDate((state) => state.date.toDateString());
     const ref = useRef();
-    const [currentSummaryId, setCurrentSummaryId] = useState(initialSummaries[0]?.id);
+
+    // const [currentSummaryId, setCurrentSummaryId] = useState(initialSummaries[0]?.id);
+    const currentSummaryId = useMemo(() => {
+        return summaries.find(summary => summary.timestamp < date)?.id;
+    }, [summaries, date])
 
     const lastSummaryDayBefore = useMemo(() => {
         const date = new Date(day)
@@ -34,36 +40,33 @@ export default function SummarySection({ initialSummaries, locale }) {
     }, [currentSummaryId, daySummaries]);
 
     return (
-        <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden px-4 pb-2`}>
-            <SummariesTimeManager setCurrentSummaryId={setCurrentSummaryId} initialSummaries={initialSummaries} />
-            <DynamicLogo />
-            <DailySummary locale={locale} />
-            <div className={`custom-scrollbar h-full flex flex-col h-full p-2 ${locale === 'heb' ? 'pl-4' : 'pr-4'}`} ref={ref}>
+        <>
+            {/* <SummariesTimeManager setCurrentSummaryId={setCurrentSummaryId} initialSummaries={initialSummaries} /> */}
+            {/* <DailySummary locale={locale} /> */}
+            <SummariesContainer locale={locale} ref={ref}>
                 {daySummaries.map((summary, i) => (
-                    <Summary key={i} summary={summary} active={summary.id === currentSummaryId} />
+                    <Summary key={i} summary={summary} active={summary.id === currentSummaryId}
+                        click={() => setDate(add(summary.timestamp, { minutes: 1 }))} locale={locale}
+                    />
                 ))}
 
-                <YesterdaySummary lastSummaryDayBefore={lastSummaryDayBefore} />
-            </div>
+                {lastSummaryDayBefore && (
+                    <>
+                        <div className={`text-gray-200 text-lg pt-4 ${locale === 'en' ? 'font-sans' : 'frank-re'}`}>{locale === 'heb' ? 'היום הקודם' : 'PREVIOUS DAY'}</div>
+                        <div className={`py-2 ${locale === 'en' ? 'font-sans' : 'frank-re'} leading-none font-normal cursor-pointer text-gray-200 hover:text-gray-500 transition-colors border-b border-dashed border-gray-200`} />
+                        <Summary summary={lastSummaryDayBefore} active={false} locale={locale} />
+                    </>
+                )}
+
+            </SummariesContainer>
             <div className='py-2 bg-white border-t border-gray-200'>
-                <YesterdaySummaryTitle lastSummaryDayBefore={lastSummaryDayBefore} />
+                <YesterdaySummaryTitle lastSummaryDayBefore={lastSummaryDayBefore} locale={locale} />
                 <Disclaimer />
             </div>
-        </div>
-    );
-}
-
-function YesterdaySummary({ lastSummaryDayBefore }) {
-    const { locale } = useParams()
-    if (!lastSummaryDayBefore) return null;
-    return (
-        <>
-            <div className={`text-gray-200 text-lg pt-4 ${locale === 'en' ? 'font-sans' : 'frank-re'}`}>{locale === 'heb' ? 'היום הקודם' : 'PREVIOUS DAY'}</div>
-            <div className={`py-2 ${locale === 'en' ? 'font-sans' : 'frank-re'} leading-none font-normal cursor-pointer text-gray-200 hover:text-gray-500 transition-colors border-b border-dashed border-gray-200`} />
-            <Summary summary={lastSummaryDayBefore} />
         </>
     );
 }
+
 
 function SummariesTimeManager({ setCurrentSummaryId, initialSummaries }) {
     const minutes = useDate(state => state.date.getHours() * 60 + state.date.getMinutes());

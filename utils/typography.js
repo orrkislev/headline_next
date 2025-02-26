@@ -211,7 +211,8 @@ export const countryTypographyOptions = {
 
 export function getRandomTypography(country) {
     const options = countryTypographyOptions[country.toLowerCase()] || baseTypographyOptions;
-    return choose(options);
+    // return choose(options);
+    return options[0]
 }
 
 export function getTypographyOptions(country) {

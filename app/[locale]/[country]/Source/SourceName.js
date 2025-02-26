@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react"
+'use client'
+
+import { useState, useRef } from "react"
 import getSourceDescription from "@/utils/sources/source descriptions"
 import { getSourceName } from "@/utils/sources/source mapping"
-import { useParams } from "next/navigation"
 
-export default function SourceName({ website, typography }) {
-    const { country } = useParams()
+export default function SourceName({ website, typography, country}) {
     const name = getSourceName(country, website)
     const description = getSourceDescription(country, website)
 

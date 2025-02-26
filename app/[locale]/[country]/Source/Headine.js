@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function Headline({ headline, typography }) {
     if (!headline) return null;
     return (

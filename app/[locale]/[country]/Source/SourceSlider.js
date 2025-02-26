@@ -5,10 +5,17 @@ import { IconButton, Slider, styled } from "@mui/material";
 import { useDate } from "@/components/TimeManager";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
-export default function SourceSlider({ headlines, setHeadline }) {
-    const day = useDate(state => state.date.toDateString());
+export default function SourceSlider({ headlines, day, date }) {
     const setDate = useDate(state => state.setDate);
     const [sliderDate, setSliderDate] = useState(new Date());
+
+    useEffect(() => {
+        if (!date) return
+        const timeout = setTimeout(() => {
+            setSliderDate(date);
+        }, 200);
+        return () => clearTimeout(timeout);
+    }, [date]);
 
     const marks = useMemo(() => {
         const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === day);
@@ -23,7 +30,6 @@ export default function SourceSlider({ headlines, setHeadline }) {
 
     return (
         <div className="flex flex-row gap-4 justify-between items-center border-t border-b border-gray-200">
-            <SliderTimeManager headlines={headlines} setSliderDate={setSliderDate} setHeadline={setHeadline} />
             <IconButton size="small" disabled={!nextHeadline} onClick={() => setDate(nextHeadline.timestamp)}>
                 <KeyboardArrowRight color="gray" />
             </IconButton>
@@ -37,24 +43,6 @@ export default function SourceSlider({ headlines, setHeadline }) {
             </IconButton>
         </div >
     );
-}
-
-function SliderTimeManager({ headlines, setSliderDate, setHeadline }) {
-    const date = useDate(state => state.date);
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setSliderDate(date);
-        }, 200);
-        return () => clearTimeout(timeout);
-    }, [date]);
-
-    useEffect(() => {
-        const headline = headlines.find(({ timestamp }) => timestamp < date);
-        setHeadline(headline);
-    }, [date, headlines]);
-
-    return null;
 }
 
 const CustomSlider = styled(Slider)(({ theme }) => ({

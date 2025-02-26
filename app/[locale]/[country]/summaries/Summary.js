@@ -1,10 +1,8 @@
-import { useDate } from "@/components/TimeManager";
+// import { useDate } from "@/components/TimeManager";
 import { add } from "date-fns";
-import { useParams } from "next/navigation";
 
-export default function Summary({ summary, active }) {
-    const setDate = useDate((state) => state.setDate);
-    const { locale } = useParams()
+export default function Summary({ summary, active, locale, click}) {
+    // const setDate = useDate((state) => state.setDate);
 
     if (!summary) return null;
 
@@ -35,7 +33,7 @@ export default function Summary({ summary, active }) {
                 // textAlign: 'justify',
                 // textJustify: 'inter-word',
             }}
-            onClick={() => setDate(add(summary.timestamp, { minutes: 1 }))}
+            onClick={() => click ? click() : null}
         >
             <div className={`${active ? 'text-blue' : ''} mb-2`}
                 style={{

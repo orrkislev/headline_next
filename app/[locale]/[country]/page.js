@@ -1,15 +1,16 @@
 import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
-import SourceGrid from "./SourceGrid";
 import TopBar from "./TopBar/TopBar";
 import DataManager from "@/components/DataManager";
 import PreferencesManager from "@/components/PreferencesManager";
 import { sub } from "date-fns";
 import SideSlider from "./SideSlider";
-import SummarySection from "./SummarySection";
+import SummarySection from "./RightPanel";
 import { countries } from "@/utils/sources/countries";
 
 import path from 'path';
 import fs from 'fs';
+import MainSection from "./MainSection";
+import RightPanel from "./RightPanel";
 
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
@@ -48,14 +49,14 @@ export default async function CountryPage({ params }) {
             {/* <DataManager initialHeadlines={initialHeadlines} initialSummaries={initialSummaries} initialDailySummary={initialDailySummary} /> */}
             {/* <PreferencesManager locale={locale} /> */}
             <SideSlider initialSummaries={initialSummaries} locale={locale} />
-            <div className={`flex-[1] ${locale == 'heb' ? 'border-l' : 'border-r'} border-gray-200 flex max-w-[370px] min-w-[270px] `}>
+            <div className={`flex-[1] ${locale == 'heb' ? 'border-l' : 'border-r'} border-gray-200 flex min-w-[400px] `}>
                 <div className={`flex-1 ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200`}>
-                    <SummarySection initialSummaries={initialSummaries} locale={locale} />
+                    <RightPanel initialSummaries={initialSummaries} locale={locale} />
                 </div>
             </div>
             <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
                 <TopBar />
-                <SourceGrid initialSources={initialSources} locale={locale} country={country} />
+                <MainSection initialSources={initialSources} locale={locale} country={country} />
             </div>
         </div>
     );

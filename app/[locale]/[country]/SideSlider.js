@@ -1,15 +1,14 @@
 'use client'
 
-import CustomTooltip from "@/components/CustomTooltip";
 import { useData } from "@/components/DataManager";
 import TimeManager, { useDate } from "@/components/TimeManager";
 import { KeyboardArrowDown, KeyboardArrowUp, Restore } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
-import { useParams } from "next/navigation";
 import { useMemo } from "react";
+import ResetTimerButton from "./Slider/ResetTimerButton";
 
 export default function SideSlider({ initialSummaries, locale }) {
-    const summaries = useData((state) => state.summaries || initialSummaries);
+    const summaries = useData((state) => state.summaries);
     const minutes = useDate((state) => state.date.getHours() * 60 + state.date.getMinutes());
     const setDate = useDate((state) => state.setDate);
     const day = useDate((state) => state.date.toDateString());
@@ -51,34 +50,7 @@ export default function SideSlider({ initialSummaries, locale }) {
     );
 }
 
-function ResetTimerButton() {
-    const { locale } = useParams()
-    const isPresent = useDate((state) => state.isPresent);
-    const setDate = useDate((state) => state.setDate);
 
-    const handleReset = () => {
-        setDate(new Date());
-    }
-
-
-    const tooltip = locale === 'heb' ? 'בחזרה לעכשיו' : 'Reset To Now';
-    const placement = locale === 'heb' ? 'left' : 'right';
-
-    return (
-        <CustomTooltip title={tooltip} arrow open={!isPresent} placement={placement}>
-            <IconButton
-                className={`transition-colors duration-300 ${isPresent ? '' : 'animate-slow-fade'}`}
-                onClick={handleReset}
-                size="small"
-                sx={{
-                    color: isPresent ? 'lightgray' : 'blue'
-                }}
-            >
-                <Restore fontSize="small" />
-            </IconButton>
-        </CustomTooltip>
-    )
-}
 
 const CustomSlider = styled(Slider)(({ theme }) => ({
     color: 'navy',

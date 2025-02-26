@@ -8,8 +8,8 @@ export default function TimeDisplay() {
     const date = useDate(state => state.date);
     const isPresent = useDate(state => state.isPresent);
 
-    const hours = date.getUTCHours();
-    const minutes = date.getUTCMinutes();
+    const hours = date.getHours()
+    const minutes = date.getMinutes()
     
     return Clock(hours, minutes, isPresent)
 }
