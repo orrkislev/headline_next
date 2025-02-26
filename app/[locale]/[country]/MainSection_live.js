@@ -11,8 +11,8 @@ export default function MainSectionLive({ initialSources, locale, country }) {
     const date = useDate((state) => state.date);
     const day = useDate((state) => state.date.toDateString());
 
-    const sources = useData((state) => state.sources || initialSources);
-    const activeWebsites = usePreferences((state) => state.activeWebsites || []);
+    const sources = useData((state) => state.sources);
+    const activeWebsites = usePreferences((state) => state.activeWebsites);
     const order = usePreferences((state) => state.order || 'default');
 
     const orderedSources = useMemo(() => {

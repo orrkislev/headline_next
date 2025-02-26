@@ -46,8 +46,8 @@ export default async function CountryPage({ params }) {
 
     return (
         <div className={`absolute flex w-full h-full overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
-            {/* <DataManager initialHeadlines={initialHeadlines} initialSummaries={initialSummaries} initialDailySummary={initialDailySummary} /> */}
-            {/* <PreferencesManager locale={locale} /> */}
+            <DataManager initialHeadlines={initialHeadlines} initialSummaries={initialSummaries} initialDailySummary={initialDailySummary} />
+            <PreferencesManager locale={locale} />
             <SideSlider initialSummaries={initialSummaries} locale={locale} />
             <div className={`flex-[1] ${locale == 'heb' ? 'border-l' : 'border-r'} border-gray-200 flex min-w-[400px] `}>
                 <div className={`flex-1 ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200`}>

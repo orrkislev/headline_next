@@ -14,7 +14,8 @@ export default function MainSection({ initialSources, locale, country }) {
     }, []);
 
     const activeWebsites = getSourceOrder(country, 'default')
-    const displaySources = activeWebsites.slice(0, 6).map((source) => [source, initialSources[source]])
+    const orderedSources = Object.entries(initialSources).sort((a, b) => activeWebsites.indexOf(a[0]) - activeWebsites.indexOf(b[0]));
+    const displaySources = orderedSources.slice(0,6)
 
     return (
         <div className={`custom-scrollbar h-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4`}>

@@ -15,7 +15,8 @@ export default function Summary({ summary, active, locale, click}) {
         text = summary ? summary.translatedSummary : '';
         headline = summary ? (summary.translatedHeadline || summary.headline) : '';
     }
-    const timestamp = summary.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    // const timestamp = summary.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    const timestamp = summary.timestamp.getHours() + ':' + (summary.timestamp.getMinutes() < 10 ? '0' : '') + summary.timestamp.getMinutes();
 
     const parts = text.split(/(\(.*?\))/g)
 

@@ -7,16 +7,16 @@ import { SourceFooter } from "./SourceFooter";
 import { getRandomTypography } from "@/utils/typography";
 import Subtitle from "./Subtitle";
 
-export default function SourceCard({ index, name,headlines, country, locale, date, day, font }) {
+export default function SourceCard({ index, name, headlines, country, locale, date, day, font }) {
     const headline = useMemo(() => {
         if (!headlines) return null;
         if (!date) return headlines[0];
         return headlines.find(({ timestamp }) => timestamp < date);
     }, [headlines, date]);
 
-    const subtitle = useMemo(() => 
-        headline?.subtitle, 
-    [headline]);
+    const subtitle = useMemo(() =>
+        headline?.subtitle,
+        [headline]);
 
     const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline), [headline]);
 
@@ -31,7 +31,6 @@ export default function SourceCard({ index, name,headlines, country, locale, dat
 
     return (
         <div className={`
-            ${className || ''}
             ${index === 0 ? 'col-span-2' : 'col-span-1'}
             ${(index === 7 || index === 8) ? 'max-2xl:col-span-1 2xl:col-span-2 qhd:col-span-1' : ''}
             ${(index === 11 || index === 12 || index === 13) ? 'max-qhd:col-span-1 qhd:col-span-2' : ''}
