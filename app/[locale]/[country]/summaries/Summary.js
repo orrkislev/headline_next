@@ -1,7 +1,9 @@
+'use client'
+
 // import { useDate } from "@/components/TimeManager";
 import { add } from "date-fns";
 
-export default function Summary({ summary, active, locale, click}) {
+export default function Summary({ summary, active, locale, setDate}) {
     // const setDate = useDate((state) => state.setDate);
 
     if (!summary) return null;
@@ -34,7 +36,7 @@ export default function Summary({ summary, active, locale, click}) {
                 // textAlign: 'justify',
                 // textJustify: 'inter-word',
             }}
-            onClick={() => click ? click() : null}
+            onClick={() => setDate(summary.timestamp)}
         >
             <div className={`${active ? 'text-blue' : ''} mb-2`}
                 style={{

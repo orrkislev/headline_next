@@ -7,16 +7,13 @@ import { IconButton, Slider, styled } from "@mui/material";
 import { useMemo } from "react";
 import ResetTimerButton from "./Slider/ResetTimerButton";
 
-export default function SideSlider({ initialSummaries, locale }) {
-    const summaries = useData((state) => state.summaries);
-    const minutes = useDate((state) => state.date.getHours() * 60 + state.date.getMinutes());
-    const setDate = useDate((state) => state.setDate);
-    const day = useDate((state) => state.date.toDateString());
+export default function SideSlider({ summaries, locale, date, setDate }) {
+    const minutes = date.getHours() * 60 + date.getMinutes();
+    const day = date.toDateString();
 
     const updateDate = (minutes) => {
-        const date = new Date(day + ' ' + Math.floor(minutes / 60) + ':' + (minutes % 60));
-        if (date > new Date()) setDate(new Date());
-        else setDate(date);
+        const updatedDate = new Date(day + ' ' + Math.floor(minutes / 60) + ':' + (minutes % 60));
+        setDate(updatedDate);
     }
 
     const marks = useMemo(() => {
@@ -33,7 +30,7 @@ export default function SideSlider({ initialSummaries, locale }) {
     return (
         <div className={`flex flex-col items-center justify-center ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
             <TimeManager />
-            <ResetTimerButton />
+            <ResetTimerButton date={date} setDate={setDate} locale={locale}/>
             <IconButton size="small" onClick={() => setDate(nextSummary.timestamp)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
             </IconButton>

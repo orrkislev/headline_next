@@ -1,6 +1,6 @@
 import SourceCard from "./Source/SourceCard";
 
-export default function SourcesGrid({ sources, locale, date, day, country }) {
+export default function SourcesGrid({ sources, locale, date, country }) {
     return (
         <>
             {sources.map((source, i) => (
@@ -12,7 +12,6 @@ export default function SourcesGrid({ sources, locale, date, day, country }) {
                     country={country}
                     locale={locale}
                     date={date}
-                    day={day}
                 />
             ))}
         </>

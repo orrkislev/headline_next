@@ -1,11 +1,11 @@
 export const countries = {
+	"Israel": "ישראל",
 	"China": "סין",
 	"Finland": "פינלנד",
 	"France": "צרפת",
 	"Germany": "גרמניה",
 	"India": "הודו",
 	"Iran": "איראן",
-	"Israel": "ישראל",
 	"Italy": "איטליה",
 	"Japan": "יפן",
 	"Lebanon": "לבנון",

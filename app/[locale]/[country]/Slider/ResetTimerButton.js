@@ -1,18 +1,11 @@
-const { default: CustomTooltip } = require("@/components/CustomTooltip");
-const { useDate } = require("@/components/TimeManager");
-const { Restore } = require("@mui/icons-material");
-const { IconButton } = require("@mui/material");
-const { useParams } = require("next/navigation");
+'use client';
 
-export default function ResetTimerButton() {
-    const { locale } = useParams()
-    const isPresent = useDate((state) => state.isPresent);
-    const setDate = useDate((state) => state.setDate);
+import CustomTooltip from "@/components/CustomTooltip";
+import { Restore } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
-    const handleReset = () => {
-        setDate(new Date());
-    }
-
+export default function ResetTimerButton({date, setDate, locale}) {
+    const isPresent = new Date() - date < 60 * 1000 * 5;
 
     const tooltip = locale === 'heb' ? 'בחזרה לעכשיו' : 'Reset To Now';
     const placement = locale === 'heb' ? 'left' : 'right';
@@ -21,7 +14,7 @@ export default function ResetTimerButton() {
         <CustomTooltip title={tooltip} arrow open={!isPresent} placement={placement}>
             <IconButton
                 className={`transition-colors duration-300 ${isPresent ? '' : 'animate-slow-fade'}`}
-                onClick={handleReset}
+                onClick={() => setDate(new Date())}
                 size="small"
                 sx={{
                     color: isPresent ? 'lightgray' : 'blue'

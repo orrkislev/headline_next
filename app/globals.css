@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lalezar&family=Amiri&family=Oswald&family=Roboto&family=Rubik&family=RocknRoll+One&family=Sawarabi+Gothic&family=Potta+One&family=Kiwi+Maru&family=Dela+Gothic+One&family=Noto+Sans+JP&family=Noto+Sans+SC&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+KuaiLe&family=Noto+Sans+Devanagari&family=Palanquin+Dark&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Lalezar&family=Amiri&family=Oswald&family=Roboto&family=Rubik&family=RocknRoll+One&family=Sawarabi+Gothic&family=Potta+One&family=Kiwi+Maru&family=Dela+Gothic+One&family=Noto+Sans+JP&family=Noto+Sans+SC&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+KuaiLe&family=Noto+Sans+Devanagari&family=Palanquin+Dark&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap'); */
 
 @tailwind base;
 @tailwind components;
@@ -77,7 +77,24 @@ body {
 }
 
 
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  49% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 
+.timer-blink {
+  animation: blink 1s step-start infinite;
+}
 
 
 

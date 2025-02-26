@@ -1,27 +1,8 @@
 import localFont from "next/font/local";
 import { Geist, Geist_Mono } from "next/font/google";
-// Import Google fonts from typography options
-import { 
-  Lalezar,
-  Amiri,
-  Oswald,
-  Roboto,
-  Rubik,
-  RocknRoll_One,
-  Sawarabi_Gothic,
-  Potta_One,
-  Kiwi_Maru,
-  Dela_Gothic_One,
-  Noto_Sans_JP,
-  Noto_Sans_SC,
-  ZCOOL_QingKe_HuangYou,
-  ZCOOL_KuaiLe,
-  Noto_Sans_Devanagari,
-  Palanquin_Dark
-} from "next/font/google";
+import { Lalezar, Amiri, Oswald, Roboto, Rubik, RocknRoll_One, Sawarabi_Gothic, Potta_One, Kiwi_Maru, Dela_Gothic_One, Noto_Sans_JP, Noto_Sans_SC, ZCOOL_QingKe_HuangYou, ZCOOL_KuaiLe, Noto_Sans_Devanagari, Palanquin_Dark } from "next/font/google";
 import "./globals.css";
 
-// Local fonts imported using next/font/local
 const frankReTzar = localFont({
   src: "../utils/fonts/frank-re-tzar-regular-aaa.otf",
   variable: "--font-frank-re-tzar",

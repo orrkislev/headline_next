@@ -1,3 +1,5 @@
+'use client'
+
 import { usePreferences } from "@/components/PreferencesManager";
 import getSourceOrder from "@/utils/sources/source orders";
 import { useParams } from "next/navigation";

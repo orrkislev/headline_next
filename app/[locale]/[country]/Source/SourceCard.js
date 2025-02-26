@@ -7,7 +7,7 @@ import { SourceFooter } from "./SourceFooter";
 import { getRandomTypography } from "@/utils/typography";
 import Subtitle from "./Subtitle";
 
-export default function SourceCard({ index, name, headlines, country, locale, date, day, font }) {
+export default function SourceCard({ index, name, headlines, country, locale, date, setDate, font }) {
     const headline = useMemo(() => {
         if (!headlines) return null;
         if (!date) return headlines[0];
@@ -38,7 +38,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
             ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
         `}>
-            <CloseButton sourceName={headlines[0].website_id} />
+            {/* <CloseButton sourceName={headlines[0].website_id} /> */}
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-4 mb-4 p-4">
                     <SourceName website={name} typography={typography} country={country} />
@@ -46,7 +46,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
                 </div>
                 <div>
                     <Subtitle subtitle={subtitle} />
-                    <SourceSlider headlines={headlines} day={day} date={date} />
+                    <SourceSlider headlines={headlines} date={date} setDate={setDate}/>
                     <SourceFooter url={headlines[0].link} headline={headline} />
                 </div>
             </div>

@@ -2,11 +2,9 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { IconButton, Slider, styled } from "@mui/material";
-import { useDate } from "@/components/TimeManager";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
-export default function SourceSlider({ headlines, day, date }) {
-    const setDate = useDate(state => state.setDate);
+export default function SourceSlider({ headlines, date, setDate }) {
     const [sliderDate, setSliderDate] = useState(new Date());
 
     useEffect(() => {
@@ -16,6 +14,8 @@ export default function SourceSlider({ headlines, day, date }) {
         }, 200);
         return () => clearTimeout(timeout);
     }, [date]);
+
+    const day = useMemo(() => date.toDateString(), [date]);
 
     const marks = useMemo(() => {
         const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === day);
