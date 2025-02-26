@@ -10,7 +10,7 @@ import { usePreferences } from "@/components/PreferencesManager";
 import { getRandomTypography } from "@/utils/typography";
 import Subtitle from "./Subtitle";
 
-export default function SourceCard({ headlines, index, country}) {
+export default function SourceCard({ index, headlines, country, className }) {
     const [headline, setHeadline] = useState(headlines[0]);
     const [showSubtitle, setShowSubtitle] = useState(true);
     const font = usePreferences(state => state.font);
@@ -27,7 +27,15 @@ export default function SourceCard({ headlines, index, country}) {
 
 
     return (
-        <div className={`source-card relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200 ${index == 0 ? 'col-span-2' : ''} ${isRTL ? 'direction-rtl' : 'direction-ltr'}`}>
+        <div className={`
+            ${className || ''}
+            ${index === 0 ? 'col-span-2' : 'col-span-1'}
+            ${(index === 7 || index === 8) ? 'max-2xl:col-span-1 2xl:col-span-2 qhd:col-span-1' : ''}
+            ${(index === 11 || index === 12 || index === 13) ? 'max-qhd:col-span-1 qhd:col-span-2' : ''}
+            relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
+            ${index == 0 ? 'col-span-2' : ''}
+            ${isRTL ? 'direction-rtl' : 'direction-ltr'}
+        `}>
             <CloseButton sourceName={headlines[0].website_id} />
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-4 mb-4 p-4">

@@ -20,7 +20,7 @@ export default function SourceGrid({ initialSources, locale, country}) {
     }
 
     return (
-        <div className={`custom-scrollbar h-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4`}>
+        <div className={`custom-scrollbar h-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 qhd:grid-cols-6 gap-4 p-4`}>
             {displaySources.map((source, i) => (
                 <SourceCard
                     key={`${source[0]}-${source[1]?.length}`}

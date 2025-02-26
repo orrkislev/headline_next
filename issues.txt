@@ -8,3 +8,5 @@
 8. responsive widths and font sizes
 8. Loading state
 9. responsive grid
+
+(we can reduce the topbar height in the components/labeledicon.js)
