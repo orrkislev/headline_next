@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useParams } from "next/navigation";
 import CustomTooltip from "@/components/CustomTooltip";
 import { usePreferences } from "@/components/PreferencesManager";
-import { getTypographyOptions } from "@/utils/typography";
+import { getTypographyOptions } from "@/utils/typography/typography";
 import { TopBarButton } from "@/components/IconButtons";
 
 export default function FontToggle() {

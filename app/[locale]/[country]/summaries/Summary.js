@@ -1,11 +1,4 @@
-'use client'
-
-// import { useDate } from "@/components/TimeManager";
-import { add } from "date-fns";
-
 export default function Summary({ summary, active, locale, setDate}) {
-    // const setDate = useDate((state) => state.setDate);
-
     if (!summary) return null;
 
     let text = summary.summary;
@@ -17,12 +10,10 @@ export default function Summary({ summary, active, locale, setDate}) {
         text = summary ? summary.translatedSummary : '';
         headline = summary ? (summary.translatedHeadline || summary.headline) : '';
     }
-    // const timestamp = summary.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
     const timestamp = summary.timestamp.getHours() + ':' + (summary.timestamp.getMinutes() < 10 ? '0' : '') + summary.timestamp.getMinutes();
 
     const parts = text.split(/(\(.*?\))/g)
 
-    // Determine font class based on locale
     const fontClass = locale === 'heb' ? 'frank-re' : 'font-roboto';
 
     return (
@@ -33,8 +24,6 @@ export default function Summary({ summary, active, locale, setDate}) {
                 fontSize: active ? '17px' : '.9rem',
                 fontWeight: 400,
                 lineHeight: active ? '1.3' : '1.3',
-                // textAlign: 'justify',
-                // textJustify: 'inter-word',
             }}
             onClick={() => setDate(summary.timestamp)}
         >

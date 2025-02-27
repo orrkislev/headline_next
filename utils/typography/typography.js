@@ -1,44 +1,6 @@
-import { choose } from "./utils";
-
-const baseTypographyOptions = [
-    {
-        fontFamily: 'var(--font-futura)',
-        fontSize: '2.5rem',
-        lineHeight: 1.15,
-        fontWeight: 500,
-    },
-    {
-        fontFamily: 'var(--font-futura)',
-        fontSize: '2.3rem',
-        lineHeight: 1.15,
-        fontWeight: 700,
-        fontStyle: 'italic',
-    },
-    {
-        fontFamily: 'var(--futura-italic)',
-        fontSize: '2.1rem',
-        lineHeight: 1.15,
-        fontWeight: 700,
-    },
-    {
-        fontFamily: '"plantin-condensed"',
-        fontSize: '2.3rem',
-        lineHeight: 1.1,
-        fontWeight: 700,
-    },
-    {
-        fontFamily: 'var(--font-helvetica)',
-        fontSize: '2.1rem',
-        lineHeight: 1.2,
-        fontWeight: 400,
-    },
-    {
-        fontFamily: 'var(--font-cheltenham)',
-        fontSize: '2.8rem',
-        lineHeight: 1.1,
-        fontWeight: 400,
-    },
-];
+import { choose } from "../utils";
+import HebrewFonts, { Typography_Hebrew } from "./HebrewFonts";
+import EnglishFonts, { Typography_English } from "./EnglishFonts";
 
 const arabicTypographyOptions = [
     {
@@ -92,42 +54,8 @@ const russianTypographyOptions = [
 ];
 
 export const countryTypographyOptions = {
-    israel: [
-        {
-            fontFamily: 'var(--font-tel-aviv)',
-            fontSize: '2.1rem',
-            lineHeight: 1.15,
-            fontWeight: 400,
-            direction: 'rtl',
-        },
-        {
-            fontFamily: 'var(--font-frank-re-tzar)',
-            fontSize: '3.6rem',
-            lineHeight: 1,
-            fontWeight: 400,
-            direction: 'rtl',
-        },
-        {
-            fontFamily: 'var(--font-frank-re)',
-            fontSize: "2.4rem",
-            lineHeight: 1.1,
-            fontWeight: 400,
-        },
-        {
-            fontFamily: 'var(--font-mandatory)',
-            fontSize: "2.3rem",
-            lineHeight: 1.2,
-            fontWeight: 400,
-            direction: 'rtl',
-        },
-        {
-            fontFamily: 'var(--font-mandatory29)',
-            fontSize: "2.8rem",
-            lineHeight: 1.2,
-            fontWeight: 400,
-            direction: 'rtl',
-        },
-    ],
+    israel: { options: Typography_Hebrew, component: HebrewFonts },
+    default: { options: Typography_English, component: EnglishFonts },
     lebanon: arabicTypographyOptions,
     iran: arabicTypographyOptions,
     palestine: arabicTypographyOptions,
@@ -210,11 +138,13 @@ export const countryTypographyOptions = {
 };
 
 export function getRandomTypography(country) {
-    const options = countryTypographyOptions[country.toLowerCase()] || baseTypographyOptions;
+    const options = countryTypographyOptions[country.toLowerCase()];
     // return choose(options);
     return options[0]
 }
 
 export function getTypographyOptions(country) {
-    return countryTypographyOptions[country.toLowerCase()] || baseTypographyOptions;
+    // return countryTypographyOptions[country.toLowerCase()] || baseTypographyOptions;
+    if (country === 'Israel') return countryTypographyOptions['israel'];
+    else return countryTypographyOptions['default'];
 }

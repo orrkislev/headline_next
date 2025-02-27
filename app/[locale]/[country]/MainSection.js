@@ -1,16 +1,21 @@
-// 'use client'
-
+import { useMemo } from "react";
 import AddSourceButton from "./Source/AddSourceButton";
 import SourceCard from "./Source/SourceCard";
-// import MainSectionLive from "./MainSection_live";
-// import { useEffect, useState } from "react";
 import getSourceOrder from "@/utils/sources/source orders";
+import { getTypographyOptions } from "@/utils/typography/typography";
 
-export default function MainSection({ sources, locale, country, date, setDate }) {
+export default function MainSection({ sources, locale, country, date, setDate, activeWebsites, setActiveWebsites, order }) {
 
-    const activeWebsites = getSourceOrder(country, 'default')
-    const orderedSources = Object.entries(sources).sort((a, b) => activeWebsites.indexOf(a[0]) - activeWebsites.indexOf(b[0]));
-    const displaySources = orderedSources.slice(0, 6);
+    const displaySources = useMemo(() => {
+        const sourceOrder = getSourceOrder(country, order);
+        const orderedSources = Object.entries(sources).sort((a, b) => sourceOrder.indexOf(a[0]) - sourceOrder.indexOf(b[0]));
+        return orderedSources.filter(source => activeWebsites.includes(source[0].toLowerCase()) || activeWebsites.includes(source[0]));
+    }, [sources, activeWebsites, country, order]);
+
+    const font = useMemo(()=>{
+        const typography = getTypographyOptions(country);
+        return typography.options[0];
+    }, [country]);
 
 
     if (displaySources.length === 0) {
@@ -19,23 +24,16 @@ export default function MainSection({ sources, locale, country, date, setDate })
 
     return (
         <div className={`custom-scrollbar h-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4`}>
-            {/* {isLive ? <MainSectionLive initialSources={initialSources} locale={locale} country={country} /> */}
-            {/* : <SourcesGrid sources={displaySources} locale={locale} country={country} />} */}
-
             {displaySources.map((source, i) => (
                 <SourceCard
                     key={source[0]}
                     index={i}
                     name={source[0]}
                     headlines={source[1]}
-                    country={country}
-                    locale={locale}
-                    date={date}
-                    setDate={setDate}
+                    {...{ country, locale, date, setDate, activeWebsites, setActiveWebsites, font }}
                 />
             ))}
-
-            {/* <AddSourceButton /> */}
+            <AddSourceButton {...{ country, activeWebsites, setActiveWebsites, order }} />
         </div>
     );
 }

@@ -1,15 +1,6 @@
-'use client'
-
-import { usePreferences } from "@/components/PreferencesManager";
 import getSourceOrder from "@/utils/sources/source orders";
-import { useParams } from "next/navigation";
 
-export default function AddSourceButton() {
-    const {country} = useParams();
-    const activeWebsites = usePreferences((state) => state.activeWebsites);
-    const setActiveWebsites = usePreferences((state) => state.setActiveWebsites);
-    const order = usePreferences((state) => state.order);
-
+export default function AddSourceButton({country, activeWebsites, setActiveWebsites, order}) {
     const sourceOrder = getSourceOrder(country, order);
     const nextSource = sourceOrder.find((source) => !activeWebsites.includes(source));
 

@@ -1,10 +1,6 @@
-import { usePreferences } from "@/components/PreferencesManager";
 import { XIcon } from "lucide-react";
 
-export default function CloseButton({ sourceName}) {
-    const activeWebsites = usePreferences(state => state.activeWebsites);
-    const setActiveWebsites = usePreferences(state => state.setActiveWebsites);
-
+export default function CloseButton({ sourceName, activeWebsites, setActiveWebsites }) {
     const handleClick = () => {
         setActiveWebsites(activeWebsites.filter(website => website !== sourceName));
     }

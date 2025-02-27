@@ -1,7 +1,5 @@
 'use client'
 
-import { useData } from "@/components/DataManager";
-import TimeManager, { useDate } from "@/components/TimeManager";
 import { KeyboardArrowDown, KeyboardArrowUp, Restore } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
 import { useMemo } from "react";
@@ -24,12 +22,11 @@ export default function SideSlider({ summaries, locale, date, setDate }) {
         }));
     }, [summaries, day]);
 
-    const nextSummary = summaries.find(summary => summary.timestamp > useDate.getState().date);
-    const prevSummary = summaries.reverse().find(summary => summary.timestamp < useDate.getState().date);
+    const nextSummary = summaries.find(summary => summary.timestamp > date);
+    const prevSummary = summaries.reverse().find(summary => summary.timestamp < date);
 
     return (
         <div className={`flex flex-col items-center justify-center ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
-            <TimeManager />
             <ResetTimerButton date={date} setDate={setDate} locale={locale}/>
             <IconButton size="small" onClick={() => setDate(nextSummary.timestamp)} disabled={!nextSummary}>
                 <KeyboardArrowUp />

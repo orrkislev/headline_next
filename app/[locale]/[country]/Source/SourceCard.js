@@ -4,10 +4,10 @@ import CloseButton from "./CloseButton";
 import Headline from "./Headine";
 import SourceName from "./SourceName";
 import { SourceFooter } from "./SourceFooter";
-import { getRandomTypography } from "@/utils/typography";
+import { getRandomTypography } from "@/utils/typography/typography";
 import Subtitle from "./Subtitle";
 
-export default function SourceCard({ index, name, headlines, country, locale, date, setDate, font }) {
+export default function SourceCard({ index, name, headlines, country, locale, date, setDate, font, activeWebsites, setActiveWebsites }) {
     const headline = useMemo(() => {
         if (!headlines) return null;
         if (!date) return headlines[0];
@@ -21,7 +21,6 @@ export default function SourceCard({ index, name, headlines, country, locale, da
     const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline), [headline]);
 
     const typography = useMemo(() => {
-        if (!font || font === 'random') return getRandomTypography(country);
         if (font.direction === 'rtl' && !isRTL) return getRandomTypography('default');
         return font;
     }, [font, country, isRTL]);
@@ -38,7 +37,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
             ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
         `}>
-            {/* <CloseButton sourceName={headlines[0].website_id} /> */}
+            <CloseButton sourceName={name} activeWebsites={activeWebsites} setActiveWebsites={setActiveWebsites} />
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-4 mb-4 p-4">
                     <SourceName website={name} typography={typography} country={country} />

@@ -1,4 +1,4 @@
-import { getTypographyOptions } from "@/utils/typography";
+import { getTypographyOptions } from "@/utils/typography/typography";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 

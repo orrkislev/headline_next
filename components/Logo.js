@@ -6,12 +6,8 @@ import logoB from './logo/logo-head-2.png';
 import logoC from './logo/logo-head-4.png';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useDate } from './TimeManager';
-import { useData } from './DataManager';
-import { useParams } from 'next/navigation';
 
-export default function DynamicLogo() {
-    const { locale } = useParams();
+export default function DynamicLogo({ locale }) {
     const [currentLogo, setCurrentLogo] = useState(logoA);
     const [isFakeHover, setIsFakeHover] = useState(false);
 
@@ -21,7 +17,7 @@ export default function DynamicLogo() {
         setCurrentLogo(logoB);
         eyeTimeout.current = setTimeout(() => {
             setCurrentLogo(logoC);
-            setTimeout(()=>{
+            setTimeout(() => {
                 setCurrentLogo(logoA);
             }, 400);
         }, 600);
@@ -31,11 +27,11 @@ export default function DynamicLogo() {
     useEffect(() => {
         const intervalId = setInterval(() => {
             setIsFakeHover(true);
-            
+
             const timeoutId = setTimeout(() => {
                 setIsFakeHover(false);
             }, 5000); // Reset after 5 seconds
-            
+
             return () => clearTimeout(timeoutId);
         }, 30000); // Trigger every 30 seconds (reduced from 50000)
 
@@ -45,7 +41,6 @@ export default function DynamicLogo() {
 
     return (
         <Link href="/" className='hidden md:block'>
-            {/* <LogoTimeManager openEyes={openEyes} /> */}
             <div className={`logo-hover-container flex items-center justify-center relative border-b border-gray-200 p-4 ${isFakeHover ? 'fake-hover' : ''}`}>
                 <div className="logo-background absolute top-[37%] left-1/2 w-[285px] h-[25%] bg-[#EBEBEB] opacity-0 transform translate-y-[-50%] translate-x-[-50%] ml-[3px]"
                     style={{
@@ -99,29 +94,3 @@ export default function DynamicLogo() {
         </Link>
     );
 };
-
-function LogoTimeManager({ openEyes }) {
-    const minutes = useDate(state => state.date.getHours() * 60 + state.date.getMinutes());
-    const day = useDate(state => state.date.toDateString());
-    const sources = useData(state => state.sources || {});
-    const [headlines, setHeadlines] = useState([]);
-    const currentHeadline = useRef(null)
-
-    useEffect(() => {
-        const allHeadlines = Object.values(sources).flat();
-        const todayHeadlines = allHeadlines.filter(headline => headline.timestamp.toDateString() === day);
-        const todayHeadlinesMinutes = todayHeadlines.map(headline => headline.timestamp.getHours() * 60 + headline.timestamp.getMinutes());
-        todayHeadlinesMinutes.sort((a, b) => b - a);
-        setHeadlines(todayHeadlinesMinutes);
-    }, [day, sources]);
-
-    useEffect(() => {
-        const newHeadline = headlines.find(headline => headline < minutes);
-        if (newHeadline && newHeadline !== currentHeadline.current) {
-            currentHeadline.current = newHeadline;
-            openEyes();
-        }
-    }, [headlines, minutes]);
-
-    return null;
-}

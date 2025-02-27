@@ -1,6 +1,6 @@
 import TimeDisplay from "./TimeDisplay.js";
-// import { SettingsButton } from "./TopBarParts.js";
 import Flag from "./Flag.js";
+import { SettingsButton } from "./SettingsButton.js";
 
 export default function TopBar({date, locale}) {
     return (
@@ -12,7 +12,7 @@ export default function TopBar({date, locale}) {
                     <Flag />
                 </div>
                 <div className="flex items-center hidden md:flex">
-                    {/* <SettingsButton /> */}
+                    <SettingsButton />
                 </div>
             </div>
         </div>

@@ -1,16 +1,17 @@
 'use client'
 
 import TopBar from "./TopBar/TopBar";
-// import DataManager from "@/components/DataManager";
-// import PreferencesManager from "@/components/PreferencesManager";
 
 // import SideSlider from "./SideSlider";
 import MainSection from "./MainSection";
 import RightPanel from "./RightPanel";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { add, sub } from "date-fns";
 import { getCountryDailySummary, getRecentHeadlines, getRecentSummaries } from "@/utils/database/countryData";
 import SideSlider from "./SideSlider";
+import getSourceOrder from "@/utils/sources/source orders";
+import { getTypographyOptions } from "@/utils/typography/typography";
+import HebrewFonts, { Typography_Hebrew } from "@/utils/typography/HebrewFonts";
 
 export default function CountryPage({ initialSummaries, initialSources, initialDailySummary, locale, country }) {
     const [sources, setSources] = useState(initialSources);
@@ -18,6 +19,11 @@ export default function CountryPage({ initialSummaries, initialSources, initialD
     const [dailySummaries, setDailySummaries] = useState([initialDailySummary]);
     const [fetchedDates, setFetchedDates] = useState([]);
     const [date, setDate] = useState(new Date());
+    const [activeWebsites, setActiveWebsites] = useState(() => {
+        const sourceOrder = getSourceOrder(country, 'default');
+        return sourceOrder.slice(0, 6)
+    });
+    const [order, setOrder] = useState('default');
 
     useEffect(() => {
         (async () => {
@@ -56,15 +62,17 @@ export default function CountryPage({ initialSummaries, initialSources, initialD
                 dates.push(newDate.toDateString());
             }
             setFetchedDates(dates);
+
+            setDate(new Date())
         })()
     }, []);
 
 
+    const typography = useMemo(() => getTypographyOptions(country), [country]);
 
     return (
         <div className={`absolute flex w-full h-full overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
-            {/* <DataManager initialHeadlines={initialHeadlines} initialSummaries={initialSummaries} initialDailySummary={initialDailySummary} /> */}
-            {/* <PreferencesManager locale={locale} /> */}
+            <typography.component />
             <SideSlider summaries={summaries} locale={locale} date={date} setDate={setDate} />
             <div className={`flex-[1] ${locale == 'heb' ? 'border-l' : 'border-r'} border-gray-200 flex min-w-[400px] `}>
                 <div className={`flex-1 ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200`}>
@@ -73,8 +81,7 @@ export default function CountryPage({ initialSummaries, initialSources, initialD
             </div>
             <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
                 <TopBar date={date} locale={locale} />
-                {/* <MainSection sources={sources} locale={locale} country={country} date={date} setDate={setDate}/> */}
-                <MainSection {...{sources, locale, country, date, setDate}} />
+                <MainSection {...{ sources, locale, country, date, setDate, activeWebsites, setActiveWebsites, order }} />
             </div>
         </div>
     );
