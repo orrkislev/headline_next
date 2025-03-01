@@ -1,4 +1,3 @@
-import { Divider } from "@mui/material";
 import Image from "next/image";
 
 export function SourceFooter({ headline, url }) {
@@ -14,7 +13,7 @@ export function SourceFooter({ headline, url }) {
                         verticalAlign: 'middle'
                     }}
                 />
-                <Divider orientation="vertical" flexItem />
+                <div className="w-1 h-full bg-gray-300"></div>
             </div>
             <div className="flex gap-4 items-center">
                 <div className="text-[0.7em] text-gray-400">{timeString}</div>

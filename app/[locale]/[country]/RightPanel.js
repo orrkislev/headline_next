@@ -23,10 +23,10 @@ export default function RightPanel({ summaries, locale, date, setDate }) {
                     <Summary key={i} summary={summary} active={summary.id === activeSummary.id} locale={locale} setDate={setDate} />
                 ))}
             </div>
-            {/* <div className='py-2 bg-white border-t border-gray-200'> */}
-            {/* <YesterdaySummaryTitle lastSummaryDayBefore={lastSummaryDayBefore} /> */}
-            <Disclaimer {...{ locale }} />
-            {/* </div> */}
+            <div className='py-2 bg-white border-t border-gray-200'>
+                {/* <YesterdaySummaryTitle lastSummaryDayBefore={lastSummaryDayBefore} /> */}
+                <Disclaimer {...{ locale }} />
+            </div>
         </div>
     );
 }

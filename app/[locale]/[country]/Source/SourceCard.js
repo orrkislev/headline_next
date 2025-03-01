@@ -1,11 +1,13 @@
 import { useMemo } from "react";
-import SourceSlider from "./SourceSlider";
-import CloseButton from "./CloseButton";
+// import CloseButton from "./CloseButton";
 import Headline from "./Headine";
 import SourceName from "./SourceName";
 import { SourceFooter } from "./SourceFooter";
 import { getRandomTypography } from "@/utils/typography/typography";
 import Subtitle from "./Subtitle";
+import dynamic from "next/dynamic";
+
+// const SourceSlider = dynamic(() => import('./SourceSlider'));
 
 export default function SourceCard({ index, name, headlines, country, locale, date, setDate, font, activeWebsites, setActiveWebsites }) {
     const headline = useMemo(() => {
@@ -37,7 +39,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
             ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
         `}>
-            <CloseButton sourceName={name} activeWebsites={activeWebsites} setActiveWebsites={setActiveWebsites} />
+            {/* <CloseButton sourceName={name} activeWebsites={activeWebsites} setActiveWebsites={setActiveWebsites} /> */}
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-4 mb-4 p-4">
                     <SourceName website={name} typography={typography} country={country} />
@@ -45,7 +47,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
                 </div>
                 <div>
                     <Subtitle subtitle={subtitle} />
-                    <SourceSlider headlines={headlines} date={date} setDate={setDate}/>
+                    {/* <SourceSlider headlines={headlines} date={date} setDate={setDate}/> */}
                     <SourceFooter url={headlines[0].link} headline={headline} />
                 </div>
             </div>

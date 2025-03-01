@@ -1,19 +1,14 @@
 'use client'
 
-import TopBar from "./TopBar/TopBar";
-
-// import SideSlider from "./SideSlider";
-import MainSection from "./MainSection";
-import RightPanel from "./RightPanel";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { add, sub } from "date-fns";
 import { getCountryDailySummary, getRecentHeadlines, getRecentSummaries } from "@/utils/database/countryData";
-import SideSlider from "./SideSlider";
 import getSourceOrder from "@/utils/sources/source orders";
-import { getTypographyOptions } from "@/utils/typography/typography";
-import HebrewFonts, { Typography_Hebrew } from "@/utils/typography/HebrewFonts";
+import CountryPageContent from "./CountryPage_content";
 
-export default function CountryPage({ initialSummaries, initialSources, initialDailySummary, locale, country }) {
+export default function CountryPageLive({ initialSummaries, initialSources, initialDailySummary, locale, country }) {
+    // State management
+    const [display, setDisplay] = useState(false);
     const [sources, setSources] = useState(initialSources);
     const [summaries, setSummaries] = useState(initialSummaries);
     const [dailySummaries, setDailySummaries] = useState([initialDailySummary]);
@@ -25,6 +20,7 @@ export default function CountryPage({ initialSummaries, initialSources, initialD
     });
     const [order, setOrder] = useState('default');
 
+    // Load live data
     useEffect(() => {
         (async () => {
             const allInitialHeadlines = Object.values(sources).flat().sort((a, b) => b.timestamp - a.timestamp)
@@ -62,27 +58,35 @@ export default function CountryPage({ initialSummaries, initialSources, initialD
                 dates.push(newDate.toDateString());
             }
             setFetchedDates(dates);
-
             setDate(new Date())
+            setDisplay(true);
         })()
     }, []);
 
+    // Hide static content when dynamic content is loaded
+    useEffect(() => {
+        if (!display) return;
+        const element = document.getElementById('remove_me');
+        if (element) element.style.display = 'none';
+    }, [display])
 
-    const typography = useMemo(() => getTypographyOptions(country), [country]);
+    // Don't render until live data is ready
+    if (!display) return null
 
+    // Once data is loaded, render using the shared content component
     return (
-        <div className={`absolute flex w-full h-full overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
-            <typography.component />
-            <SideSlider summaries={summaries} locale={locale} date={date} setDate={setDate} />
-            <div className={`flex-[1] ${locale == 'heb' ? 'border-l' : 'border-r'} border-gray-200 flex min-w-[400px] `}>
-                <div className={`flex-1 ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200`}>
-                    <RightPanel summaries={summaries} locale={locale} date={date} setDate={setDate} />
-                </div>
-            </div>
-            <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
-                <TopBar date={date} locale={locale} />
-                <MainSection {...{ sources, locale, country, date, setDate, activeWebsites, setActiveWebsites, order }} />
-            </div>
+        <div className="absolute z-10">
+            <CountryPageContent
+                sources={sources}
+                summaries={summaries}
+                locale={locale}
+                country={country}
+                date={date}
+                setDate={setDate}
+                activeWebsites={activeWebsites}
+                setActiveWebsites={setActiveWebsites}
+                order={order}
+            />
         </div>
     );
 }

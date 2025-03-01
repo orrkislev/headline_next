@@ -5,7 +5,7 @@ export default function EnglishFonts() {
 					--font-futura: 'FuturaHeavy';
 					--font-futura-italic: 'FuturaBoldItalic';
 					--font-helvetica: 'HelveticaBold';
-					--font-cheltenham: 'CheltenhamCondensed';
+					
 					--font-plantin-condensed: 'PlantinCondensed';
 				}
 				@font-face {
@@ -23,11 +23,7 @@ export default function EnglishFonts() {
 					src: url('/fonts/helvetica-bold.otf') format('opentype');
 					font-display: swap;
 				}
-				@font-face {
-					font-family: 'CheltenhamCondensed';
-					src: url('/fonts/cheltenham-cond-normal-700.ttf') format('truetype');
-					font-display: swap;
-				}
+				
 				@font-face {
 					font-family: 'PlantinCondensed';
 					src: url('/fonts/plantin-condensed.ttf') format('truetype');

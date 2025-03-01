@@ -119,3 +119,10 @@ body {
   overflow-y: auto;
   max-height: 100%;
 }
+
+
+
+#remove_me {
+  contain: layout style;
+  content-visibility: auto;
+}

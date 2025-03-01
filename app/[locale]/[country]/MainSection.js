@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import AddSourceButton from "./Source/AddSourceButton";
+// import AddSourceButton from "./Source/AddSourceButton";
 import SourceCard from "./Source/SourceCard";
 import getSourceOrder from "@/utils/sources/source orders";
 import { getTypographyOptions } from "@/utils/typography/typography";
@@ -33,7 +33,7 @@ export default function MainSection({ sources, locale, country, date, setDate, a
                     {...{ country, locale, date, setDate, activeWebsites, setActiveWebsites, font }}
                 />
             ))}
-            <AddSourceButton {...{ country, activeWebsites, setActiveWebsites, order }} />
+            {/* <AddSourceButton {...{ country, activeWebsites, setActiveWebsites, order }} /> */}
         </div>
     );
 }

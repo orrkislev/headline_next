@@ -41,6 +41,17 @@ export default function DynamicLogo({ locale }) {
 
     return (
         <Link href="/" className='hidden md:block'>
+            <style>{`
+                :root {
+                    --font-cheltenham: 'CheltenhamCondensed';
+                }
+                @font-face {
+                    font - family: 'CheltenhamCondensed';
+                src: url('/fonts/cheltenham-cond-normal-700.ttf') format('truetype');
+                font-display: swap;
+				}
+            `}</style>
+
             <div className={`logo-hover-container flex items-center justify-center relative border-b border-gray-200 p-4 ${isFakeHover ? 'fake-hover' : ''}`}>
                 <div className="logo-background absolute top-[37%] left-1/2 w-[285px] h-[25%] bg-[#EBEBEB] opacity-0 transform translate-y-[-50%] translate-x-[-50%] ml-[3px]"
                     style={{
