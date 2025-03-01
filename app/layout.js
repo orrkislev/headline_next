@@ -3,6 +3,7 @@
 // import { Lalezar, Amiri, Oswald, Roboto, Rubik, RocknRoll_One, Sawarabi_Gothic, Potta_One, Kiwi_Maru, Dela_Gothic_One, Noto_Sans_JP, Noto_Sans_SC, ZCOOL_QingKe_HuangYou, ZCOOL_KuaiLe, Noto_Sans_Devanagari, Palanquin_Dark } from "next/font/google";
 import { WebVitals } from "@/components/web-vitals";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 // const hadassah = localFont({
 //   src: "../utils/fonts/HadassahFriedlaender-Regular.otf",
@@ -125,6 +126,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <SpeedInsights />
         <WebVitals />
         {children}
       </body>
