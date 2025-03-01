@@ -7,7 +7,7 @@ import { getRandomTypography } from "@/utils/typography/typography";
 import Subtitle from "./Subtitle";
 import dynamic from "next/dynamic";
 
-// const SourceSlider = dynamic(() => import('./SourceSlider'));
+const SourceSlider = dynamic(() => import('./SourceSlider'));
 
 export default function SourceCard({ index, name, headlines, country, locale, date, setDate, font, activeWebsites, setActiveWebsites }) {
     const headline = useMemo(() => {
@@ -25,7 +25,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
     const typography = useMemo(() => {
         if (font.direction === 'rtl' && !isRTL) return getRandomTypography('default');
         return font;
-    }, [font, country, isRTL]);
+    }, [font, isRTL]);
 
     if (!headline) return null;
 
@@ -47,7 +47,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
                 </div>
                 <div>
                     <Subtitle subtitle={subtitle} />
-                    {/* <SourceSlider headlines={headlines} date={date} setDate={setDate}/> */}
+                    <SourceSlider headlines={headlines} date={date} setDate={setDate}/>
                     <SourceFooter url={headlines[0].link} headline={headline} />
                 </div>
             </div>

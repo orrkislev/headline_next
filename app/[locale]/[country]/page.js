@@ -1,9 +1,7 @@
 import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
 import { sub } from "date-fns";
 import { countries } from "@/utils/sources/countries";
-import CountryPageStatic from "./CountryPage_static";
-import dynamic from "next/dynamic";
-import CountryPageLiveWrapper from "./CountryPage_live_wrapper";
+import ContentWrapper from "./CountryPage_content_wrapper";
 
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
@@ -35,13 +33,7 @@ export default async function Page({ params }) {
     }
 
     return <>
-        <CountryPageStatic
-            initialSummaries={initialSummaries}
-            initialSources={initialSources}
-            initialDailySummary={initialDailySummary}
-            locale={locale}
-            country={country} />
-        <CountryPageLiveWrapper
+        <ContentWrapper
             initialSummaries={initialSummaries}
             initialSources={initialSources}
             initialDailySummary={initialDailySummary}
