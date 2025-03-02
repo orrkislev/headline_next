@@ -41,15 +41,14 @@ export default function DynamicLogo({ locale }) {
 
     return (
         <Link href="/" className='hidden md:block'>
-            <style>{`
-                :root {
-                    --font-cheltenham: 'CheltenhamCondensed';
-                }
+            <style jsx global>{`
                 @font-face {
-                    font - family: 'CheltenhamCondensed';
-                src: url('/fonts/cheltenham-cond-normal-700.ttf') format('truetype');
-                font-display: swap;
-				}
+                    font-family: 'CheltenhamCondensed';
+                    src: url('/fonts/cheltenham-cond-normal-700.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                    font-display: swap;
+                }
             `}</style>
 
             <div className={`logo-hover-container flex items-center justify-center relative border-b border-gray-200 p-4 ${isFakeHover ? 'fake-hover' : ''}`}>
@@ -63,7 +62,7 @@ export default function DynamicLogo({ locale }) {
 
                 <div className="logo-text-right absolute left-1/2 top-[38%] transform translate-y-[-50%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-50 pointer-events-none"
                     style={{
-                        fontFamily: '"cheltenham", serif',
+                        fontFamily: 'CheltenhamCondensed, serif',
                         fontSize: '2rem',
                         transform: `translateX(${locale === 'heb' ? '-120px' : '-130px'}) translateY(-50%)`,
                     }}>
@@ -75,7 +74,7 @@ export default function DynamicLogo({ locale }) {
 
                 <div className="logo-text-right absolute left-1/2 top-[38%] transform translate-y-[-50%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-500 pointer-events-none"
                     style={{
-                        fontFamily: '"cheltenham", serif',
+                        fontFamily: 'CheltenhamCondensed, serif',
                         fontSize: '2rem',
                         transition: 'opacity 0.1s ease',
                         transitionDelay: '0.5s',
