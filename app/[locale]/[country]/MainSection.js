@@ -2,9 +2,8 @@ import { useMemo } from "react";
 import AddSourceButton from "./Source/AddSourceButton";
 import SourceCard from "./Source/SourceCard";
 import getSourceOrder from "@/utils/sources/source orders";
-import { getTypographyOptions } from "@/utils/typography/typography";
 
-export default function MainSection({ sources, locale, country, date, setDate, activeWebsites, setActiveWebsites, order }) {
+export default function MainSection({ sources, summaries, locale, country, date, setDate, activeWebsites, setActiveWebsites, order, view, font }) {
 
     const displaySources = useMemo(() => {
         const sourceOrder = getSourceOrder(country, order);
@@ -12,16 +11,12 @@ export default function MainSection({ sources, locale, country, date, setDate, a
         return orderedSources.filter(source => activeWebsites.includes(source[0].toLowerCase()) || activeWebsites.includes(source[0]));
     }, [sources, activeWebsites, country, order]);
 
-    const typoOptions = useMemo(() => getTypographyOptions(country), [country]);
-    const font = useMemo(() => typoOptions.options[0], [typoOptions]);
-
     if (displaySources.length === 0) {
         return <div className="text-center">No sources available.</div>;
     }
 
     return (
         <div className={`custom-scrollbar h-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4`}>
-            <typoOptions.component />
             {displaySources.map((source, i) => (
                 <SourceCard
                     key={source[0]}

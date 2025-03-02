@@ -1,19 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
-export default function Summary({ summary, active, locale, setDate}) {
+export default function Summary({ summary, active, locale, setDate }) {
     const summaryRef = useRef(null);
-    
-    useEffect(() => {
-        // When a summary becomes active, scroll it into view
-        if (active && summaryRef.current) {
-            // Use scrollIntoView with options to position at the top with smooth scrolling
-            summaryRef.current.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start'
-            });
-        }
-    }, [active]);
-    
+
+    if (active && summaryRef.current) {
+        summaryRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+
     if (!summary) return null;
 
     let text = summary.summary;
@@ -32,7 +28,7 @@ export default function Summary({ summary, active, locale, setDate}) {
     const fontClass = locale === 'heb' ? 'frank-re' : 'font-roboto';
 
     return (
-        <div 
+        <div
             ref={summaryRef}
             className={`py-2 ${fontClass} leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'} border-b border-dashed border-gray-200 pb-5`}
             style={{
@@ -58,7 +54,7 @@ export default function Summary({ summary, active, locale, setDate}) {
             {parts.map((part, i) => (
                 <span key={i} className={
                     active ? (part.startsWith('(') ?
-                    `text-blue ${locale === 'heb' ? 'text-sm' : 'text-xs'}` :
+                        `text-blue ${locale === 'heb' ? 'text-sm' : 'text-xs'}` :
                         '') : ''
                 }>
                     {part}

@@ -1,43 +1,33 @@
 import CustomTooltip from "@/components/CustomTooltip";
-import { useData } from "@/components/DataManager";
 import { TopBarButton } from "@/components/IconButtons";
 import PopUpCleaner from "@/components/PopUp";
-import { usePreferences } from "@/components/PreferencesManager";
-import { useDate } from "@/components/TimeManager";
 import getSourceDescription from "@/utils/sources/source descriptions";
 import { getSourceName } from "@/utils/sources/source mapping";
 import getSourceOrder from "@/utils/sources/source orders";
 import { List } from "@mui/icons-material";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
 
 
-export default function SourcesToggle() {
+export default function SourcesToggle({ country, locale, sources, order, activeWebsites, setActiveWebsites }) {
     const [open, setOpen] = useState(false);
 
     return (
         <>
-        <PopUpCleaner open={open} close={() => setOpen(false)} />
-        <div className="relative">
-            <CustomTooltip title="Select news sources" placement="left">
-                <TopBarButton onClick={() => setOpen(p => !p)}>
-                    <List />
-                </TopBarButton>
-            </CustomTooltip>
-            <SourcesGrid open={open} />
-        </div>
+            <PopUpCleaner open={open} close={() => setOpen(false)} />
+            <div className="relative">
+                <CustomTooltip title="Select news sources" placement="left">
+                    <TopBarButton onClick={() => setOpen(p => !p)}>
+                        <List />
+                    </TopBarButton>
+                </CustomTooltip>
+                <SourcesGrid {...{ open, country, locale, sources, order, activeWebsites, setActiveWebsites }} />
+            </div>
         </>
     );
 }
 
-function SourcesGrid({ open }) {
-    const { country, locale } = useParams();
-    const day = useDate(state => state.date.toDateString());
-    const sources = useData(state => state.sources);
-    const order = usePreferences(state => state.order);
-    const activeWebsites = usePreferences(state => state.activeWebsites);
-    const setActiveWebsites = usePreferences(state => state.setActiveWebsites);
+function SourcesGrid({ open, country, locale, sources, order, activeWebsites, setActiveWebsites, day}) {
 
     const sourceOrder = useMemo(() => getSourceOrder(country, order), [country, order]);
 

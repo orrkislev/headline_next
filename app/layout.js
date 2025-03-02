@@ -127,7 +127,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <SpeedInsights />
-        <WebVitals />
+        {/* <WebVitals /> */}
         {children}
       </body>
     </html>

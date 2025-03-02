@@ -1,5 +1,3 @@
-'use client'
-
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
 import { useMemo } from "react";

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-// import CloseButton from "./CloseButton";
+import CloseButton from "./CloseButton";
 import Headline from "./Headine";
 import SourceName from "./SourceName";
 import { SourceFooter } from "./SourceFooter";
@@ -23,7 +23,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
     const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline), [headline]);
 
     const typography = useMemo(() => {
-        if (font.direction === 'rtl' && !isRTL) return getRandomTypography('default');
+        if (font == 'random' || (font.direction === 'rtl' && !isRTL)) return getRandomTypography('default');
         return font;
     }, [font, isRTL]);
 
@@ -31,7 +31,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
 
 
     return (
-        <div className={`
+        <div className={`source-card
             ${index === 0 ? 'col-span-2' : 'col-span-1'}
             ${(index === 7 || index === 8) ? 'max-2xl:col-span-1 2xl:col-span-2 qhd:col-span-1' : ''}
             ${(index === 11 || index === 12 || index === 13) ? 'max-qhd:col-span-1 qhd:col-span-2' : ''}
@@ -39,7 +39,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
             ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
         `}>
-            {/* <CloseButton sourceName={name} activeWebsites={activeWebsites} setActiveWebsites={setActiveWebsites} /> */}
+            <CloseButton sourceName={name} activeWebsites={activeWebsites} setActiveWebsites={setActiveWebsites} />
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
                     <SourceName website={name} typography={typography} country={country} />
@@ -47,7 +47,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
                 </div>
                 <div>
                     <Subtitle subtitle={subtitle} />
-                    <SourceSlider headlines={headlines} date={date} setDate={setDate}/>
+                    <SourceSlider headlines={headlines} date={date} setDate={setDate} />
                     <SourceFooter url={headlines[0].link} headline={headline} />
                 </div>
             </div>

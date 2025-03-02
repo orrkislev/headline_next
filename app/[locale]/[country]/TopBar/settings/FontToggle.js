@@ -1,19 +1,12 @@
-import { Box, IconButton } from "@mui/material";
 import { TextFields } from "@mui/icons-material";
 import { useMemo } from "react";
-import { useParams } from "next/navigation";
 import CustomTooltip from "@/components/CustomTooltip";
-import { usePreferences } from "@/components/PreferencesManager";
 import { getTypographyOptions } from "@/utils/typography/typography";
 import { TopBarButton } from "@/components/IconButtons";
 
-export default function FontToggle() {
-    const { country } = useParams();
-    const font = usePreferences((state) => state.font);
-    const setFont = usePreferences((state) => state.setFont);
-
+export default function FontToggle({ country, font, setFont }) {
     const fontOptions = useMemo(() => {
-        const options = [...getTypographyOptions(country), "random"];
+        const options = [...getTypographyOptions(country).options, "random"];
         return options;
     }, [country]);
 
@@ -27,12 +20,12 @@ export default function FontToggle() {
     const toolTip = font === "random" ? "Font Salad" : "Change headlines font";
 
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div className="flex flex-col items-center">
             <CustomTooltip title={toolTip} placement="left">
                 <TopBarButton onClick={handleNextFont}>
                     <TextFields sx={{ color: font === "random" ? "blue" : "inherit" }} />
                 </TopBarButton>
             </CustomTooltip>
-        </Box>
+        </div>
     );
 }

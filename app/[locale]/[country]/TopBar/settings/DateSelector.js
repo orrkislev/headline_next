@@ -1,4 +1,5 @@
-import { useDate } from "@/components/TimeManager";
+'use client'
+
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
@@ -6,25 +7,28 @@ import { add, sub } from "date-fns";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useState } from "react";
 import { LabeledContent } from "@/components/LabeledIcon";
-import { useParams } from "next/navigation";
 
-export function DateSelector() {
-    const { locale } = useParams()
-    const day = useDate(state => state.date.toDateString())
-    const setDay = useDate(state => state.setDay)
+export function DateSelector({ locale, date, setDate }) {
     const [open, setOpen] = useState(false)
 
+    const day = date.toDateString();
     const today = new Date()
     const isToday = day == today.toDateString()
 
-    const date = new Date(day);
-    const dateString = date.toLocaleDateString("en-GB")
+    const todayDate = new Date(day);
+    const dateString = todayDate.toLocaleDateString("en-GB")
         .slice(0, 8)
-        .replace(/(\d{2})$/, date.getFullYear().toString().slice(2))
-    const label = isToday ? "Today" : `${Math.floor((today - date) / (1000 * 60 * 60 * 24))} days ago`;
+        .replace(/(\d{2})$/, todayDate.getFullYear().toString().slice(2))
+    const label = isToday ? "Today" : `${Math.floor((today - todayDate) / (1000 * 60 * 60 * 24))} days ago`;
 
-    const yesterday = sub(date, { days: 1 });
-    const tomorrow = isToday ? null : add(date, { days: 1 });
+    const yesterday = sub(todayDate, { days: 1 });
+    const tomorrow = isToday ? null : add(todayDate, { days: 1 });
+
+    const setDay = (date) => {
+        if (date) {
+            setDate(date);
+        }
+    }
 
     return (
         <LabeledContent label={label}>
