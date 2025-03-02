@@ -41,7 +41,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
         `}>
             {/* <CloseButton sourceName={name} activeWebsites={activeWebsites} setActiveWebsites={setActiveWebsites} /> */}
             <div className="flex flex-col h-full justify-between">
-                <div className="flex flex-col gap-4 mb-4 p-4">
+                <div className="flex flex-col gap-2 mb-2 p-4">
                     <SourceName website={name} typography={typography} country={country} />
                     <Headline headline={headline} typography={typography} />
                 </div>

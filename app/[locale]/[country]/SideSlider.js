@@ -9,7 +9,17 @@ export default function SideSlider({ summaries, locale, date, setDate }) {
     const minutes = date.getHours() * 60 + date.getMinutes();
     const day = date.toDateString();
 
+    // Get current time to prevent sliding into the future
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const isToday = day === now.toDateString();
+
     const updateDate = (minutes) => {
+        // If today, don't allow setting time in the future
+        if (isToday && minutes > currentMinutes) {
+            minutes = currentMinutes;
+        }
+        
         const updatedDate = new Date(day + ' ' + Math.floor(minutes / 60) + ':' + (minutes % 60));
         setDate(updatedDate);
     }
@@ -22,22 +32,29 @@ export default function SideSlider({ summaries, locale, date, setDate }) {
         }));
     }, [summaries, day]);
 
-    const nextSummary = summaries.find(summary => summary.timestamp > date);
+    // Filter out future summaries if today
+    const nextSummary = summaries.find(summary => 
+        summary.timestamp > date && 
+        (!isToday || summary.timestamp <= now)
+    );
     const prevSummary = summaries.reverse().find(summary => summary.timestamp < date);
 
     return (
         <div className={`flex flex-col items-center justify-center ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
             <ResetTimerButton date={date} setDate={setDate} locale={locale}/>
-            <IconButton size="small" onClick={() => setDate(nextSummary.timestamp)} disabled={!nextSummary}>
+            <IconButton size="small" onClick={() => nextSummary && setDate(nextSummary.timestamp)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
             </IconButton>
             <CustomSlider orientation="vertical"
                 size="small"
-                value={minutes} min={0} max={24 * 60} step={1}
+                value={minutes}
+                min={0} 
+                max={24 * 60} 
+                step={1}
                 onChange={(_, value) => updateDate(value)}
                 marks={marks}
             />
-            <IconButton size="small" onClick={() => setDate(prevSummary.timestamp)} disabled={!prevSummary}>
+            <IconButton size="small" onClick={() => prevSummary && setDate(prevSummary.timestamp)} disabled={!prevSummary}>
                 <KeyboardArrowDown />
             </IconButton>
         </div>

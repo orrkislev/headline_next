@@ -1,4 +1,19 @@
+import { useEffect, useRef } from 'react';
+
 export default function Summary({ summary, active, locale, setDate}) {
+    const summaryRef = useRef(null);
+    
+    useEffect(() => {
+        // When a summary becomes active, scroll it into view
+        if (active && summaryRef.current) {
+            // Use scrollIntoView with options to position at the top with smooth scrolling
+            summaryRef.current.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start'
+            });
+        }
+    }, [active]);
+    
     if (!summary) return null;
 
     let text = summary.summary;
@@ -17,7 +32,9 @@ export default function Summary({ summary, active, locale, setDate}) {
     const fontClass = locale === 'heb' ? 'frank-re' : 'font-roboto';
 
     return (
-        <div className={`py-2 ${fontClass} leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'} border-b border-dashed border-gray-200 pb-5`}
+        <div 
+            ref={summaryRef}
+            className={`py-2 ${fontClass} leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'} border-b border-dashed border-gray-200 pb-5`}
             style={{
                 color: active ? 'black' : '#e8e8e8',
                 cursor: active ? 'default' : 'pointer',
