@@ -126,3 +126,10 @@ body {
   contain: layout style;
   content-visibility: auto;
 }
+
+@layer base {
+  ::selection {
+    background: yellow; 
+    color: blue;     /* Text color when highlighted */
+  }
+}

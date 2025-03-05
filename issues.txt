@@ -1,12 +1,6 @@
-1. in the bottom bar, add timeframe, not just timestamp
-2. Some favicons are not showing up (walla in israel)
-3. UTC timezone issue
-4. Link through the flag doesn't work
-5. Move close icon to the correct place based on language
-6. Some English fonts not loading (generic fonts instead)
-7. Random red blinks
-8. responsive widths and font sizes
-8. Loading state
-9. responsive grid
-
-(we can reduce the topbar height in the components/labeledicon.js)
+* Font-Salad not working
+* deployed version has a very buggy experience
+* In RTL countries the order should be RTL
+* English fonts for English Sources in RTL pages (not loading properly)
+* Source Order when adding new sources
+* FrankRe Tzar

@@ -137,10 +137,26 @@ export const countryTypographyOptions = {
     ukraine: russianTypographyOptions,
 };
 
-export function getRandomTypography(country) {
-    const options = countryTypographyOptions[country.toLowerCase()];
+export function getRandomTypography(language) {
+    // Map language to country/region typography options
+    const typographyMap = {
+        'default': 'default',
+        'english': 'default',
+        'hebrew': 'israel',
+        'arabic': 'arabic',
+        // Add more mappings as needed
+    };
+    
+    const country = typographyMap[language] || 'default';
+    const options = countryTypographyOptions[country.toLowerCase()] || countryTypographyOptions['default'];
+    
+    // If options is an object with options property
+    if (options.options) {
+        return choose(options.options);
+    }
+    
+    // Otherwise it's an array of options
     return choose(options);
-    // return options[0]
 }
 
 export function getTypographyOptions(country) {

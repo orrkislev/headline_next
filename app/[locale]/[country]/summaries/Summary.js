@@ -1,14 +1,19 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 export default function Summary({ summary, active, locale, setDate }) {
     const summaryRef = useRef(null);
 
-    if (active && summaryRef.current) {
-        summaryRef.current.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
+    useEffect(() => {
+        if (active && summaryRef.current) {
+            setTimeout(() => {
+                summaryRef.current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest'
+                });
+            }, 50);
+        }
+    }, [active]);
 
     if (!summary) return null;
 

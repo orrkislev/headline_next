@@ -23,9 +23,39 @@ export default function SourceCard({ index, name, headlines, country, locale, da
     const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline), [headline]);
 
     const typography = useMemo(() => {
-        if (font == 'random' || (font.direction === 'rtl' && !isRTL)) return getRandomTypography('default');
+        // Determine the appropriate typography based on content language
+        const contentLanguage = determineContentLanguage(headline?.headline);
+        
+        // If random font is requested, get appropriate random font based on content language
+        if (font === 'random') {
+            return getRandomTypography(contentLanguage);
+        }
+        
+        // If provided font doesn't match content language/direction, get appropriate font
+        const fontMatchesContent = (isRTL && font.direction === 'rtl') || (!isRTL && font.direction !== 'rtl');
+        if (!fontMatchesContent) {
+            return getRandomTypography(contentLanguage);
+        }
+        
+        // Otherwise use the provided font
         return font;
-    }, [font, isRTL]);
+    }, [font, isRTL, headline]);
+
+    // Helper function to determine content language
+    function determineContentLanguage(text) {
+        if (!text) return 'default';
+        
+        // Hebrew or Arabic
+        if (/[\u0590-\u05FF]/.test(text)) return 'hebrew';
+        if (/[\u0600-\u06FF]/.test(text)) return 'arabic';
+        
+        // Add more language detection as needed:
+        // Japanese: /[\u3040-\u309F\u30A0-\u30FF]/.test(text)
+        // Chinese: /[\u4E00-\u9FFF]/.test(text)
+        
+        // Default to English/Latin
+        return 'default';
+    }
 
     if (!headline) return null;
 
@@ -48,7 +78,7 @@ export default function SourceCard({ index, name, headlines, country, locale, da
                 <div>
                     <Subtitle subtitle={subtitle} />
                     <SourceSlider headlines={headlines} date={date} setDate={setDate} />
-                    <SourceFooter url={headlines[0].link} headline={headline} />
+                    <SourceFooter url={headlines[0].link} headline={headline} headlines={headlines} />
                 </div>
             </div>
         </div>
