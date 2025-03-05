@@ -20,7 +20,7 @@ export default async function Page({ params }) {
     const { country, locale } = await params;
     const initialHeadlines = await getCountryDayHeadlines(country, new Date(), 2);
     const initialSummaries = await getCountryDaySummaries(country, new Date(), 2);
-    const initialDailySummary = await getCountryDailySummary(country, sub(new Date(), { days: 2 }));
+    const initialDailySummary = await getCountryDailySummary(country, sub(new Date(), { days: 1 }));
 
     const initialSources = {};
     initialHeadlines.forEach(headline => {

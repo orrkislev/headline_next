@@ -1,21 +1,15 @@
 import { useState } from 'react';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { Collapse, IconButton, keyframes, styled } from '@mui/material';
-import { useDate } from '@/components/TimeManager';
-import { useData } from '@/components/DataManager';
-import { add } from 'date-fns';
 import { getHeadline, getSummaryContent } from '@/utils/daily summary utils';
 
-export default function DailySummary({ locale }) {
-    const day = useDate((state) => state.date.toDateString());
-    const dailySummaries = useData(state => state.dailySummaries);
+export default function DailySummary({ locale, day, dailySummaries }) {
     const [expanded, setExpanded] = useState(false);
 
-    if (!dailySummaries) return null
-
-    const dayString = add(new Date(day), { hours: 1 }).toISOString().split('T')[0]
-    const dailySummary = dailySummaries.find(summary => summary.date == dayString);
-
+    const dayString = new Date(day+'UTC').toISOString().split('T')[0];
+    const dailySummary = dailySummaries.find(summary => summary?.date === dayString);
+    
+    if (!dailySummary) return null;
 
     // Format date as dd.mm.yyyy
     const formattedDate = new Date(dayString)

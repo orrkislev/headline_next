@@ -13,7 +13,6 @@ export default function ContentWrapper({ initialSummaries, initialSources, initi
     const [sources, setSources] = useState(initialSources);
     const [summaries, setSummaries] = useState(initialSummaries);
     const [dailySummaries, setDailySummaries] = useState([initialDailySummary]);
-    const [fetchedDates, setFetchedDates] = useState([]);
     const [date, setDate] = useState(new Date());
     const [activeWebsites, setActiveWebsites] = useState(() => {
         const sourceOrder = getSourceOrder(country, 'default');
@@ -33,11 +32,10 @@ export default function ContentWrapper({ initialSummaries, initialSources, initi
                 setSources, sources,
                 setSummaries, initialSummaries,
                 setDailySummaries, initialDailySummary,
-                setFetchedDates, fetchedDates,
                 day, setDate,
             }} />
             <CountryPageContent {...{
-                sources, summaries,
+                sources, summaries,dailySummaries,
                 locale, country,
                 date, setDate, day,
                 activeWebsites, setActiveWebsites,
