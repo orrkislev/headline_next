@@ -4,7 +4,7 @@ import { getHeadline } from "@/utils/daily summary utils";
 import { useTime } from "@/utils/store";
 import { isToday, sub } from "date-fns";
 
-export default function YesterdaySummaryTitle({ locale, lastSummaryDayBefore, day, dailySummaries }) {
+export default function YesterdaySummaryTitle({ locale, summary, day, dailySummaries }) {
     const setDate = useTime(state => state.setDate);
 
     const yesterday = sub(new Date(day + 'UTC'), { days: 1 }).toISOString().split('T')[0];
@@ -23,7 +23,7 @@ export default function YesterdaySummaryTitle({ locale, lastSummaryDayBefore, da
             ? 'font-roboto pr-4'
             : 'frank-re pl-4'
             }`}
-            onClick={() => setDate(lastSummaryDayBefore.timestamp)}>
+            onClick={() => setDate(summary.timestamp)}>
                 
             <span>{dateString}</span>
             <span> {locale == 'heb' ? ' ⇠ ' : ' ⇢ '}</span>

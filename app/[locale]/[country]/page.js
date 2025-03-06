@@ -20,6 +20,8 @@ export async function generateStaticParams() {
 
 export default async function Page({ params, searchParams }) {
     const { country, locale } = await params;
+    const query = await searchParams;
+
     const initialHeadlines = await getCountryDayHeadlines(country, new Date(), 2);
     const initialSummaries = await getCountryDaySummaries(country, new Date(), 2);
     const initialDailySummary = await getCountryDailySummary(country, sub(new Date(), { days: 1 }));
@@ -35,7 +37,7 @@ export default async function Page({ params, searchParams }) {
     }
 
 
-    let websites = searchParams.websites?.split(',');
+    let websites = query.websites?.split(',');
     if (!websites || websites.length === 0) {
         const sourceOrder = getSourceOrder(country, 'default');
         websites = sourceOrder.slice(0, 4);

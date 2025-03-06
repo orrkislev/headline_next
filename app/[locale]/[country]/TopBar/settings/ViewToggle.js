@@ -2,19 +2,23 @@
 
 import CustomTooltip from '@/components/CustomTooltip';
 import { TopBarButton } from '@/components/IconButtons';
-import { useView } from '@/utils/store';
 import { AppsSharp, DynamicFeedSharp } from '@mui/icons-material';
+import { useState } from 'react';
 
 export default function ViewToggle() {
-    const { view, setView } = useView()
-    const isGridView = view === 'grid'
+    const [view, setView] = useState('grid');
+    const isGridView = view === 'grid';
+
+    const handleToggleView = () => {
+        setView(isGridView ? 'feed' : 'grid');
+    };
 
     return (
         <CustomTooltip 
             title={isGridView ? "switch to a feed view" : "back to the grid view"}
             placement="left"
         >
-            <TopBarButton onClick={() => setView(isGridView ? 'feed' : 'grid')}>
+            <TopBarButton onClick={handleToggleView}>
                 {isGridView ? <AppsSharp /> : <DynamicFeedSharp />}
             </TopBarButton>
         </CustomTooltip>

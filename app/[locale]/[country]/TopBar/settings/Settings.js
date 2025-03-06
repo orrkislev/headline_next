@@ -57,7 +57,7 @@ export default function Settings({ locale, country }) {
                 <LabeledIcon label="Order" icon={<OrderToggle locale={locale} />} />
             </div>
             <div className="px-4">
-                <LabeledIcon label="Sources" icon={<SourcesToggle country={country} locale={locale}/>} />
+                <LabeledIcon label="Sources" icon={<SourcesToggle {...{ country, locale }} />} />
             </div>
         </div>
     );

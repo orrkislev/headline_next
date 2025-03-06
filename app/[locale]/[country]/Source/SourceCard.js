@@ -29,13 +29,12 @@ export default function SourceCard({ index, name, headlines, country }) {
     const typography = useMemo(() => {
         let typo = font
         if (font == 'default') typo = getTypographyOptions(country).options[0]
-        else if (font == 'random') typo = choose(getRandomTypography(country).options)
+        else if (font == 'random') typo = choose(getTypographyOptions(country).options)
         if (typo.direction === 'rtl' && !isRTL) typo = choose(getTypographyOptions('default').options);
         return typo;
     }, [font, country, isRTL]);
 
     if (!headline) return null;
-
 
     return (
         <div className={`source-card

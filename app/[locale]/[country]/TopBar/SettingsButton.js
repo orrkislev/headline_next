@@ -19,7 +19,7 @@ export function SettingsButton({ locale, country }) {
                 </TopBarButton>
             </CustomTooltip>
             <div className={`transition-all duration-300 ease-in-out ${open ? 'w-auto opacity-100 ml-4' : 'w-0 opacity-0 ml-0'}`}>
-                <Settings {...{ locale, country }} />
+                <Settings {...{ locale, country}} />
             </div>
         </div>
     );

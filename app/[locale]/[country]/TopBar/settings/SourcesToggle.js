@@ -9,6 +9,7 @@ import getSourceOrder from "@/utils/sources/source orders";
 import { useActiveWebsites, useOrder } from "@/utils/store";
 import { List } from "@mui/icons-material";
 import Image from "next/image";
+import { redirect, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 
 
@@ -31,20 +32,27 @@ export default function SourcesToggle({ country, locale }) {
 }
 
 function SourcesGrid({ open, country, locale }) {
+    const searchParams = useSearchParams();
+    const websites = searchParams.get('websites')?.split(',') || [];
     const order = useOrder(state => state.order);
-    const { activeWebsites, setActiveWebsites } = useActiveWebsites()
+    // const { activeWebsites, setActiveWebsites } = useActiveWebsites()
+
+    const setActiveWebsites = (newWebsites) => {
+        const url = `/${locale}/${country}?websites=${newWebsites.join(',')}`;
+        redirect(url);
+    }
 
     const sourceOrder = useMemo(() => getSourceOrder(country, order), [country, order]);
 
     const orderedSources = sourceOrder.map(id => ({
         id,
         description: getSourceDescription(country, id),
-        active: activeWebsites.includes(id),
+        active: websites.includes(id),
         name: getSourceName(country, id),
         // sum: sources[id] ? sources[id].filter(headline => headline.timestamp.toDateString() === day).length : 0,
-        sum:0,
+        sum: 0,
         // website: sources[id] ? sources[id][0].link : '',
-        website:'www.google.com'
+        website: 'www.google.com'
     }));
 
     if (!open) return null;
@@ -68,8 +76,8 @@ function SourcesGrid({ open, country, locale }) {
                                     checked={source.active}
                                     onChange={() => {
                                         const updatedWebsites = source.active
-                                            ? activeWebsites.filter(id => id !== source.id)
-                                            : [...activeWebsites, source.id];
+                                            ? websites.filter(id => id !== source.id)
+                                            : [...websites, source.id];
                                         setActiveWebsites(updatedWebsites);
                                     }}
                                 />

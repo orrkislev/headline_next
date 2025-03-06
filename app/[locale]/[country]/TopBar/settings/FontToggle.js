@@ -16,7 +16,8 @@ export default function FontToggle({ country }) {
     }, [country]);
 
     const handleNextFont = () => {
-        const currentIndex = fontOptions.indexOf(font);
+        let currentIndex = fontOptions.indexOf(font)
+        if (currentIndex === -1) currentIndex = 0;
         const nextIndex = (currentIndex + 1) % fontOptions.length;
         const nextFont = fontOptions[nextIndex];
         setFont(nextFont);

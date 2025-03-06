@@ -22,7 +22,7 @@ export default function CountryPageContent({ sources, summaries, dailySummaries,
             </div>
 
             <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
-                <TopBar {...{ locale, country }} />
+                <TopBar {...{ locale, country}} />
                 <MainSection {...{ country, sources, locale, websites }} />
             </div>
         </div>
