@@ -1,8 +1,13 @@
-export default function TimeDisplay({ date, locale }) {
+'use client'
+
+import { useTime } from "@/utils/store";
+
+export default function TimeDisplay({ locale }) {
+    const date = useTime(state => state.date);
     const isPresent = Math.abs(new Date() - date) < 300000; // 5 minutes = 60 * 5 * 1000 = 300000
 
-    const hours = date.getHours()
-    const minutes = date.getMinutes()
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
 
     const paddingClass = locale === 'heb' ? 'pr-3' : 'pl-3';
     const blinkClass = isPresent ? 'timer-blink' : '';

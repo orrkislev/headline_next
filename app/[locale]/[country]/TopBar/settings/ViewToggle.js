@@ -1,8 +1,12 @@
+'use client';
+
 import CustomTooltip from '@/components/CustomTooltip';
 import { TopBarButton } from '@/components/IconButtons';
+import { useView } from '@/utils/store';
 import { AppsSharp, DynamicFeedSharp } from '@mui/icons-material';
 
-export default function ViewToggle({view, setView}) {
+export default function ViewToggle() {
+    const { view, setView } = useView()
     const isGridView = view === 'grid'
 
     return (

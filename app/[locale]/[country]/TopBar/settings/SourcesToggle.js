@@ -1,15 +1,18 @@
+'use client'
+
 import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
 import PopUpCleaner from "@/components/PopUp";
 import getSourceDescription from "@/utils/sources/source descriptions";
 import { getSourceName } from "@/utils/sources/source mapping";
 import getSourceOrder from "@/utils/sources/source orders";
+import { useActiveWebsites, useOrder } from "@/utils/store";
 import { List } from "@mui/icons-material";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 
 
-export default function SourcesToggle({ country, locale, sources, order, activeWebsites, setActiveWebsites }) {
+export default function SourcesToggle({ country, locale }) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -21,25 +24,27 @@ export default function SourcesToggle({ country, locale, sources, order, activeW
                         <List />
                     </TopBarButton>
                 </CustomTooltip>
-                <SourcesGrid {...{ open, country, locale, sources, order, activeWebsites, setActiveWebsites }} />
+                <SourcesGrid {...{ open, country, locale }} />
             </div>
         </>
     );
 }
 
-function SourcesGrid({ open, country, locale, sources, order, activeWebsites, setActiveWebsites, day}) {
+function SourcesGrid({ open, country, locale }) {
+    const order = useOrder(state => state.order);
+    const { activeWebsites, setActiveWebsites } = useActiveWebsites()
 
     const sourceOrder = useMemo(() => getSourceOrder(country, order), [country, order]);
-
-    if (!sources) return null;
 
     const orderedSources = sourceOrder.map(id => ({
         id,
         description: getSourceDescription(country, id),
         active: activeWebsites.includes(id),
         name: getSourceName(country, id),
-        sum: sources[id] ? sources[id].filter(headline => headline.timestamp.toDateString() === day).length : 0,
-        website: sources[id] ? sources[id][0].link : '',
+        // sum: sources[id] ? sources[id].filter(headline => headline.timestamp.toDateString() === day).length : 0,
+        sum:0,
+        // website: sources[id] ? sources[id][0].link : '',
+        website:'www.google.com'
     }));
 
     if (!open) return null;

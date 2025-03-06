@@ -1,10 +1,15 @@
+'use client'
+
 import { TextFields } from "@mui/icons-material";
 import { useMemo } from "react";
 import CustomTooltip from "@/components/CustomTooltip";
 import { getTypographyOptions } from "@/utils/typography/typography";
 import { TopBarButton } from "@/components/IconButtons";
+import { useFont } from "@/utils/store";
 
-export default function FontToggle({ country, font, setFont }) {
+export default function FontToggle({ country }) {
+    const { font, setFont } = useFont();
+
     const fontOptions = useMemo(() => {
         const options = [...getTypographyOptions(country).options, "random"];
         return options;

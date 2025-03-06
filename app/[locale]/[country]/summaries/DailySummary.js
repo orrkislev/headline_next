@@ -1,14 +1,25 @@
-import { useState } from 'react';
+'use client'
+
+import { useEffect, useState } from 'react';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { Collapse, IconButton, keyframes, styled } from '@mui/material';
 import { getHeadline, getSummaryContent } from '@/utils/daily summary utils';
+import { useTime } from '@/utils/store';
 
-export default function DailySummary({ locale, day, dailySummaries }) {
+export default function DailySummary({ locale, dailySummaries }) {
+    const date = useTime(state => state.date);
+    const [dayString, setDayString] = useState(new Date().toISOString().split('T')[0]);
+    const [dailySummary, setDailySummary] = useState(null);
     const [expanded, setExpanded] = useState(false);
 
-    const dayString = new Date(day+'UTC').toISOString().split('T')[0];
-    const dailySummary = dailySummaries.find(summary => summary?.date === dayString);
-    
+    useEffect(() => {
+        if (date) setDayString(date.toISOString().split('T')[0]);
+    }, [date]);
+
+    useEffect(() => {
+        setDailySummary(dailySummaries.find(summary => summary?.date === dayString));
+    }, [dayString, dailySummaries]);
+
     if (!dailySummary) return null;
 
     // Format date as dd.mm.yyyy

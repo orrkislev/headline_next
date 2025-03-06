@@ -6,19 +6,18 @@ import TranslateToggle from "./TranslateToggle";
 import OrderToggle from "./OrderToggle";
 import SourcesToggle from "./SourcesToggle";
 import { DateSelector } from "./DateSelector";
-import { useParams } from "next/navigation";
 import PopUpCleaner from "@/components/PopUp";
 import { PublicOutlined, InfoOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import { TopBarButton } from "@/components/IconButtons";
 import CustomTooltip from "@/components/CustomTooltip";
 
-export default function Settings({ locale, date, setDate, country, font, setFont, view, setView, order, setOrder, sources, activeWebsites, setActiveWebsites }) {
+export default function Settings({ locale, country }) {
 
     return (
         <div className="flex items-center divide-x divide-gray-200">
             <div className="pr-4">
-                <DateSelector {...{ locale, date, setDate }} />
+                <DateSelector {...{ locale }} />
             </div>
             <div className="flex items-center px-4">
                 <LabeledIcon
@@ -47,18 +46,18 @@ export default function Settings({ locale, date, setDate, country, font, setFont
                 />
             </div>
             <div className="flex items-center px-4">
-                <LabeledIcon label="Font" icon={<FontToggle {...{ country, font, setFont }} />} />
-                <LabeledIcon label="View" icon={<ViewToggle {...{ view, setView }} />} />
+                <LabeledIcon label="Font" icon={<FontToggle country={country} />} />
+                <LabeledIcon label="View" icon={<ViewToggle />} />
             </div>
             <div className="flex items-center px-4">
                 <LabeledIcon label="Language" icon={<LanguageToggle locale={locale} />} />
                 <LabeledIcon label="Translate" icon={<TranslateToggle />} />
             </div>
             <div className="px-4">
-                <LabeledIcon label="Order" icon={<OrderToggle {...{ locale, order, setOrder }} />} />
+                <LabeledIcon label="Order" icon={<OrderToggle locale={locale} />} />
             </div>
             <div className="px-4">
-                <LabeledIcon label="Sources" icon={<SourcesToggle {...{ country, locale, sources, order, activeWebsites, setActiveWebsites }} />} />
+                <LabeledIcon label="Sources" icon={<SourcesToggle country={country} locale={locale}/>} />
             </div>
         </div>
     );

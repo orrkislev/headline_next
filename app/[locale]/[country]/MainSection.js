@@ -1,32 +1,23 @@
-import { useMemo } from "react";
 import AddSourceButton from "./Source/AddSourceButton";
 import SourceCard from "./Source/SourceCard";
-import getSourceOrder from "@/utils/sources/source orders";
 
-export default function MainSection({ sources, summaries, locale, country, date, setDate, activeWebsites, setActiveWebsites, order, view, font }) {
+export default function MainSection({ sources, country, locale, websites }) {
 
-    const displaySources = useMemo(() => {
-        const sourceOrder = getSourceOrder(country, order);
-        const orderedSources = Object.entries(sources).sort((a, b) => sourceOrder.indexOf(a[0]) - sourceOrder.indexOf(b[0]));
-        return orderedSources.filter(source => activeWebsites.includes(source[0].toLowerCase()) || activeWebsites.includes(source[0]));
-    }, [sources, activeWebsites, country, order]);
-
-    if (displaySources.length === 0) {
-        return <div className="text-center">No sources available.</div>;
-    }
+    const displaySources = Object.entries(sources).filter(([sourceName]) => websites.includes(sourceName));
+    const sortedSources = displaySources.sort((a, b) => websites.indexOf(a[0]) - websites.indexOf(b[0]));
 
     return (
         <div className={`custom-scrollbar h-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4`}>
-            {displaySources.map((source, i) => (
+            {sortedSources.map((source, i) => (
                 <SourceCard
                     key={source[0]}
                     index={i}
                     name={source[0]}
                     headlines={source[1]}
-                    {...{ country, locale, date, setDate, activeWebsites, setActiveWebsites, font }}
+                    country={country}
                 />
             ))}
-            <AddSourceButton {...{ country, activeWebsites, setActiveWebsites, order }} />
+            <AddSourceButton {...{locale, country, websites }} />
         </div>
     );
 }

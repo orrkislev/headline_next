@@ -5,9 +5,11 @@ import { TopBarButton } from "@/components/IconButtons";
 import { SwapVert } from "@mui/icons-material";
 import { useState } from "react";
 import OrderMenu from "./OrderMenu";
+import { useOrder } from "@/utils/store";
 
-export default function OrderToggle({locale, order, setOrder}) {
-    const [open, setOpen] = useState(false)
+export default function OrderToggle({locale}) {
+    const { order, setOrder } = useOrder();
+    const [open, setOpen] = useState(false);
 
     return (
         <div className="relative">

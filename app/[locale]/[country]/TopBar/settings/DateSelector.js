@@ -7,8 +7,10 @@ import { add, sub } from "date-fns";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useState } from "react";
 import { LabeledContent } from "@/components/LabeledIcon";
+import { useTime } from "@/utils/store";
 
-export function DateSelector({ locale, date, setDate }) {
+export function DateSelector({ locale }) {
+    const { date, setDate } = useTime()
     const [open, setOpen] = useState(false)
 
     const day = date.toDateString();

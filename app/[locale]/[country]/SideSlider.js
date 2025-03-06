@@ -1,11 +1,22 @@
+'use client'
+
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ResetTimerButton from "./Slider/ResetTimerButton";
+import { useTime } from "@/utils/store";
 
-export default function SideSlider({ summaries, locale, date, setDate }) {
+
+export default function SideSlider({ summaries, locale }) {
+    const date = useTime(state => state.date);
+    const setDate = useTime(state => state.setDate);
+    const [day, setDay] = useState(date.toDateString());
+
+    useEffect(() => {
+        if (date) setDay(date.toDateString());
+    }, [date])
+
     const minutes = date.getHours() * 60 + date.getMinutes();
-    const day = date.toDateString();
 
     // Get current time to prevent sliding into the future
     const now = new Date();
@@ -17,7 +28,7 @@ export default function SideSlider({ summaries, locale, date, setDate }) {
         if (isToday && minutes > currentMinutes) {
             minutes = currentMinutes;
         }
-        
+
         const updatedDate = new Date(day + ' ' + Math.floor(minutes / 60) + ':' + (minutes % 60));
         setDate(updatedDate);
     }
@@ -31,23 +42,23 @@ export default function SideSlider({ summaries, locale, date, setDate }) {
     }, [summaries, day]);
 
     // Filter out future summaries if today
-    const nextSummary = summaries.find(summary => 
-        summary.timestamp > date && 
+    const nextSummary = summaries.find(summary =>
+        summary.timestamp > date &&
         (!isToday || summary.timestamp <= now)
     );
     const prevSummary = summaries.reverse().find(summary => summary.timestamp < date);
 
     return (
         <div className={`flex flex-col items-center justify-center ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
-            <ResetTimerButton date={date} setDate={setDate} locale={locale}/>
+            <ResetTimerButton date={date} setDate={setDate} locale={locale} />
             <IconButton size="small" onClick={() => nextSummary && setDate(nextSummary.timestamp)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
             </IconButton>
             <CustomSlider orientation="vertical"
                 size="small"
                 value={minutes}
-                min={0} 
-                max={24 * 60} 
+                min={0}
+                max={24 * 60}
                 step={1}
                 onChange={(_, value) => updateDate(value)}
                 marks={marks}

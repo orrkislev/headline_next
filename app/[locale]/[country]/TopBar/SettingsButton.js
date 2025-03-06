@@ -3,10 +3,12 @@
 import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
 import { SettingsRounded } from "@mui/icons-material";
-import Settings from "./settings/Settings";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 
-export function SettingsButton({ locale, date, setDate, country, font, setFont, view, setView, order, setOrder, sources, activeWebsites, setActiveWebsites }) {
+const Settings = dynamic(() => import("./settings/Settings"));
+
+export function SettingsButton({ locale, country }) {
     const [open, setOpen] = useState(false)
 
     return (
@@ -17,7 +19,7 @@ export function SettingsButton({ locale, date, setDate, country, font, setFont, 
                 </TopBarButton>
             </CustomTooltip>
             <div className={`transition-all duration-300 ease-in-out ${open ? 'w-auto opacity-100 ml-4' : 'w-0 opacity-0 ml-0'}`}>
-                <Settings {...{ locale, date, setDate, country, font, setFont, view, setView, order, setOrder, sources, activeWebsites, setActiveWebsites }} />
+                <Settings {...{ locale, country }} />
             </div>
         </div>
     );

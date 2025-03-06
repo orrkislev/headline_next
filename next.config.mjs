@@ -19,7 +19,7 @@ const nextConfig = {
             },
         ],
     },
-    reactStrictMode: true,
+    reactStrictMode: false,
 
 };
 export default withBundleAnalyzer({ enabled: process.env.ANALYZE === 'true' })(nextConfig);

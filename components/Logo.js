@@ -70,6 +70,7 @@ export default function DynamicLogo({ locale }) {
                 </div>
 
                 <Image className={`relative z-20 h-[165px] ${locale === 'heb' ? 'scale-x-[-1]' : ''} object-contain pb-2`}
+                    width="auto"
                     src={currentLogo} alt="The Hear Logo" />
 
                 <div className="logo-text-right absolute left-1/2 top-[38%] transform translate-y-[-50%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-500 pointer-events-none"

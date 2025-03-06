@@ -3,19 +3,22 @@
 import { useEffect, useState, useMemo } from "react";
 import { IconButton, Slider, styled } from "@mui/material";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { useTime } from "@/utils/store";
 
-export default function SourceSlider({ headlines, date, setDate }) {
+export default function SourceSlider({ headlines }) {
+    const date = useTime((state) => state.date);
+    const setDate = useTime((state) => state.setDate);
+    const [day, setDay] = useState(date.toDateString());
     const [sliderDate, setSliderDate] = useState(new Date());
 
     useEffect(() => {
         if (!date) return
+        setDay(date.toDateString());
         const timeout = setTimeout(() => {
             setSliderDate(date);
         }, 200);
         return () => clearTimeout(timeout);
     }, [date]);
-
-    const day = useMemo(() => date.toDateString(), [date]);
 
     const marks = useMemo(() => {
         const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === day);
@@ -30,7 +33,7 @@ export default function SourceSlider({ headlines, date, setDate }) {
 
     return (
         <div className="flex flex-row gap-4 justify-between items-center border-t border-b border-gray-200">
-            <IconButton size="small" disabled={!nextHeadline} onClick={() => setDate(nextHeadline.timestamp)}>
+            <IconButton size="small" disabled={!nextHeadline} onClick={() => setDate(nextHeadline.timestamp)} >
                 <KeyboardArrowRight color="gray" />
             </IconButton>
 
@@ -38,7 +41,7 @@ export default function SourceSlider({ headlines, date, setDate }) {
                 min={0} max={24 * 60} value={minutes}
                 marks={marks} />
 
-            <IconButton size="small" disabled={!prevHeadline} onClick={() => setDate(prevHeadline.timestamp)}>
+            <IconButton size="small" disabled={!prevHeadline} onClick={() => setDate(prevHeadline.timestamp)} >
                 <KeyboardArrowLeft color="gray" />
             </IconButton>
         </div >

@@ -1,6 +1,10 @@
+'use client'
+
+import { useTime } from '@/utils/store';
 import { useRef, useEffect } from 'react';
 
-export default function Summary({ summary, active, locale, setDate }) {
+export default function Summary({ summary, active, locale }) {
+    const setDate = useTime(state => state.setDate);
     const summaryRef = useRef(null);
 
     useEffect(() => {

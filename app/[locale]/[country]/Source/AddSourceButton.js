@@ -1,11 +1,21 @@
+'use client'
+
+import { redirect } from "next/navigation";
+
 import getSourceOrder from "@/utils/sources/source orders";
 
-export default function AddSourceButton({country, activeWebsites, setActiveWebsites, order}) {
-    const sourceOrder = getSourceOrder(country, order);
-    const nextSource = sourceOrder.find((source) => !activeWebsites.includes(source));
+export default function AddSourceButton({ locale, country, websites }) {
+    // const order = useOrder(state => state.order);
+    const order = 'default'
 
     const handleAddSource = () => {
-        if (nextSource) setActiveWebsites([...activeWebsites, nextSource]);
+        const sourceOrder = getSourceOrder(country, order);
+        const nextSource = sourceOrder.find((source) => !websites.includes(source));
+        if (nextSource) {
+            const newWebsite = [...websites, nextSource];
+            const url = `/${locale}/${country}?websites=${newWebsite.join(',')}`;
+            redirect(url);
+        }
     };
 
     return (
