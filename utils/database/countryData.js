@@ -50,7 +50,6 @@ function prepareHeadline(doc) {
 }
 
 export const getCountryDayHeadlines = cache(async (countryName, day, daysInclude = 1) => {
-  console.log('fetching headlines', day);
   const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
 
   const theDay = endOfDay(day);
@@ -115,7 +114,6 @@ function prepareSummary(doc) {
 }
 
 export const getCountryDaySummaries = cache(async (countryName, day, daysInclude = 1) => {
-  console.log('fetching summaries', day);
   const summariesCollection = getCountryCollectionRef(countryName, 'summaries');
 
   const theDay = endOfDay(day);

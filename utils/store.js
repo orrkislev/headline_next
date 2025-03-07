@@ -20,7 +20,7 @@ export const useOrder = create(set => ({
     setOrder: (order) => set({ order }),
 }));
 
-export const useActiveWebsites = create(set => ({
-    activeWebsites: [],
-    setActiveWebsites: (activeWebsites) => set({ activeWebsites }),
+export const useTranslate = create(set => ({
+    translate: false,
+    setTranslate: (translate) => set({ translate }),
 }));

@@ -8,16 +8,16 @@ export default function MainSection({ sources, country, locale }) {
 
     return (
         <div className={`custom-scrollbar h-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 p-4`}>
-            {Object.entries(sources).map((source, i) => (
+            {Object.entries(sources).map(([sourceName, source]) => (
                 <SourceCard
-                    key={source[0]}
-                    index={i}
-                    name={source[0]}
-                    headlines={source[1]}
+                    key={sourceName}
+                    name={sourceName}
+                    headlines={source}
                     country={country}
+                    locale={locale}
                 />
             ))}
-            <AddSourceButton {...{locale, country }} />
+            <AddSourceButton {...{ locale, country }} />
         </div>
     );
 }
