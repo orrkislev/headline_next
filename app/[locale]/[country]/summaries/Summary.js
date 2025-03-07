@@ -10,6 +10,7 @@ export default function Summary({ summary, active, locale }) {
     useEffect(() => {
         if (active && summaryRef.current) {
             setTimeout(() => {
+                if (!summaryRef.current) return;
                 summaryRef.current.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start',

@@ -26,9 +26,10 @@ export function DateSelector({ locale }) {
     const yesterday = sub(todayDate, { days: 1 });
     const tomorrow = isToday ? null : add(todayDate, { days: 1 });
 
-    const setDay = (date) => {
-        if (date) {
-            setDate(date);
+    const setDay = (newDate) => {
+        if (newDate) {
+            newDate.setHours(date.getHours(), date.getMinutes())
+            setDate(newDate);
         }
     }
 

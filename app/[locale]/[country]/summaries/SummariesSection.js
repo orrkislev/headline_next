@@ -21,7 +21,6 @@ export default function SummariesSection({ summaries, locale, dailySummaries }) 
     const [displaySummaries, setDisplaySummaries] = useState(calculateDisplaySummaries(new Date().toDateString()));
     const [activeSummaryId, setActiveSummaryId] = useState(summaries.sort((a, b) => b.timestamp - a.timestamp)[0]?.id);
 
-    
 
     useEffect(() => {
         if (!date) return

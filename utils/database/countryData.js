@@ -1,6 +1,7 @@
 import { getDb } from "@/utils/database/firebase";
 import { endOfDay, sub } from "date-fns";
 import { collection, doc, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { cache } from "react";
 
 export function getCountryCollectionRef(countryName, collectionName) {
   const db = getDb();
@@ -34,7 +35,22 @@ function prepareData(doc) {
 // ----------------- Headlines -----------------
 // ---------------------------------------------
 
-export const getCountryDayHeadlines = async (countryName, day, daysInclude = 1) => {
+function prepareHeadline(doc) {
+  const data = doc.data();
+  const cleanedData = JSON.parse(JSON.stringify(data));
+  const timestamp = new Date(data.timestamp.seconds * 1000);
+  return {
+    id: doc.id,
+    headline: cleanedData.headline,
+    subtitle: cleanedData.subtitle,
+    link: cleanedData.link,
+    timestamp: timestamp,
+    website_id: cleanedData.website_id,
+  };
+}
+
+export const getCountryDayHeadlines = cache(async (countryName, day, daysInclude = 1) => {
+  console.log('fetching headlines', day);
   const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
 
   const theDay = endOfDay(day);
@@ -48,9 +64,9 @@ export const getCountryDayHeadlines = async (countryName, day, daysInclude = 1) 
 
   let headlines = await getDocs(q);
   if (headlines.empty) return [];
-  headlines = headlines.docs.map(headline => prepareData(headline));
+  headlines = headlines.docs.map(headline => prepareHeadline(headline));
   return headlines;
-}
+});
 
 export const getRecentHeadlines = async (countryName, fromTime) => {
   const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
@@ -74,7 +90,7 @@ export const subscribeToHeadlines = (countryName, callback) => {
   );
   return onSnapshot(q, snapshot => {
     if (snapshot.empty) return
-    const headlines = snapshot.docs.map(doc => prepareData(doc));
+    const headlines = snapshot.docs.map(doc => prepareHeadline(doc));
     callback(headlines);
   });
 }
@@ -82,7 +98,24 @@ export const subscribeToHeadlines = (countryName, callback) => {
 // ----------------- Summaries -----------------
 // ---------------------------------------------
 
-export const getCountryDaySummaries = async (countryName, day, daysInclude = 1) => {
+function prepareSummary(doc) {
+  const data = doc.data();
+  const cleanedData = JSON.parse(JSON.stringify(data));
+  const timestamp = new Date(data.timestamp.seconds * 1000);
+  return {
+    id: doc.id,
+    summary: cleanedData.summary,
+    hebrewSummary: cleanedData.hebrewSummary,
+    translatedSummary: cleanedData.translatedSummary,
+    englishHeadline: cleanedData.englishHeadline,
+    hebrewHeadline: cleanedData.hebrewHeadline,
+    translatedHeadline: cleanedData.translatedHeadline,
+    timestamp: timestamp,
+  }
+}
+
+export const getCountryDaySummaries = cache(async (countryName, day, daysInclude = 1) => {
+  console.log('fetching summaries', day);
   const summariesCollection = getCountryCollectionRef(countryName, 'summaries');
 
   const theDay = endOfDay(day);
@@ -96,9 +129,9 @@ export const getCountryDaySummaries = async (countryName, day, daysInclude = 1) 
 
   let summaries = await getDocs(q);
   if (summaries.empty) return [];
-  summaries = summaries.docs.map(doc => prepareData(doc));
+  summaries = summaries.docs.map(doc => prepareSummary(doc));
   return summaries;
-}
+})
 
 export const getRecentSummaries = async (countryName, fromTime) => {
   const summariesCollection = getCountryCollectionRef(countryName, 'summaries');
@@ -109,7 +142,7 @@ export const getRecentSummaries = async (countryName, fromTime) => {
   );
   let summaries = await getDocs(q);
   if (summaries.empty) return [];
-  summaries = summaries.docs.map(doc => prepareData(doc));
+  summaries = summaries.docs.map(doc => prepareSummary(doc));
   return summaries;
 }
 
@@ -122,7 +155,7 @@ export const subscribeToSummaries = (countryName, callback) => {
   );
   return onSnapshot(q, snapshot => {
     if (snapshot.empty) return
-    const summaries = snapshot.docs.map(doc => prepareData(doc));
+    const summaries = snapshot.docs.map(doc => prepareSummary(doc));
     callback(summaries);
   });
 }
@@ -130,7 +163,7 @@ export const subscribeToSummaries = (countryName, callback) => {
 // ----------------- Daily Summaries -----------------
 // ---------------------------------------------------
 
-export const getCountryDailySummary = async (countryName, day) => {
+export const getCountryDailySummary = cache(async (countryName, day) => {
   const date = new Date(day);
   const dateString = date.toISOString().split('T')[0];
 
@@ -142,4 +175,4 @@ export const getCountryDailySummary = async (countryName, day) => {
   const snapshot = await getDocs(q);
   if (snapshot.empty) return null;
   return prepareData(snapshot.docs[0]);
-}
+})

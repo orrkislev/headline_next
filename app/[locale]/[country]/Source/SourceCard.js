@@ -10,10 +10,12 @@ import Subtitle from "./Subtitle";
 import dynamic from "next/dynamic";
 import { useFont, useTime } from "@/utils/store";
 import { choose } from "@/utils/utils";
+import useWebsites from "@/utils/useWebsites";
 
 const SourceSlider = dynamic(() => import('./SourceSlider'));
 
 export default function SourceCard({ index, name, headlines, country }) {
+    const { websites } = useWebsites(country)
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
     const [headline, setHeadline] = useState(headlines[0]);
@@ -23,6 +25,7 @@ export default function SourceCard({ index, name, headlines, country }) {
         if (!date) return;
         setHeadline(headlines.find(({ timestamp }) => timestamp < date));
     }, [headlines, date]);
+
 
     const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline), [headline]);
 
@@ -34,6 +37,7 @@ export default function SourceCard({ index, name, headlines, country }) {
         return typo;
     }, [font, country, isRTL]);
 
+    if (!websites.includes(name)) return null;
     if (!headline) return null;
 
     return (

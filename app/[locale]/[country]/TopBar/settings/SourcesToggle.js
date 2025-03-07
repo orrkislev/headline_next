@@ -6,10 +6,10 @@ import PopUpCleaner from "@/components/PopUp";
 import getSourceDescription from "@/utils/sources/source descriptions";
 import { getSourceName } from "@/utils/sources/source mapping";
 import getSourceOrder from "@/utils/sources/source orders";
-import { useActiveWebsites, useOrder } from "@/utils/store";
+import { useOrder } from "@/utils/store";
+import useWebsites from "@/utils/useWebsites";
 import { List } from "@mui/icons-material";
 import Image from "next/image";
-import { redirect, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 
 
@@ -32,15 +32,8 @@ export default function SourcesToggle({ country, locale }) {
 }
 
 function SourcesGrid({ open, country, locale }) {
-    const searchParams = useSearchParams();
-    const websites = searchParams.get('websites')?.split(',') || [];
+    const { websites, toggleSource } = useWebsites(country, locale);
     const order = useOrder(state => state.order);
-    // const { activeWebsites, setActiveWebsites } = useActiveWebsites()
-
-    const setActiveWebsites = (newWebsites) => {
-        const url = `/${locale}/${country}?websites=${newWebsites.join(',')}`;
-        redirect(url);
-    }
 
     const sourceOrder = useMemo(() => getSourceOrder(country, order), [country, order]);
 
@@ -74,12 +67,7 @@ function SourcesGrid({ open, country, locale }) {
                                 <input
                                     type="checkbox"
                                     checked={source.active}
-                                    onChange={() => {
-                                        const updatedWebsites = source.active
-                                            ? websites.filter(id => id !== source.id)
-                                            : [...websites, source.id];
-                                        setActiveWebsites(updatedWebsites);
-                                    }}
+                                    onChange={() => toggleSource(source.id)}
                                 />
                             </td>
                             <td className="mt-8 p-2 ">

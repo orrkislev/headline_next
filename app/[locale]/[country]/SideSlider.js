@@ -2,12 +2,12 @@
 
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ResetTimerButton from "./Slider/ResetTimerButton";
 import { useTime } from "@/utils/store";
 
-
 export default function SideSlider({ summaries, locale }) {
+
     const date = useTime(state => state.date);
     const setDate = useTime(state => state.setDate);
     const [day, setDay] = useState(date.toDateString());

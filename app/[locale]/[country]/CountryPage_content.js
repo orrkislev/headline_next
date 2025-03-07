@@ -6,7 +6,7 @@ import { getTypographyOptions } from "@/utils/typography/typography";
 import MainSection from "./MainSection";
 
 
-export default function CountryPageContent({ sources, summaries, dailySummaries, locale, country, websites }) {
+export default function CountryPageContent({ sources, summaries, dailySummaries, locale, country }) {
 
     const typography = getTypographyOptions(country);
 
@@ -23,7 +23,7 @@ export default function CountryPageContent({ sources, summaries, dailySummaries,
 
             <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
                 <TopBar {...{ locale, country}} />
-                <MainSection {...{ country, sources, locale, websites }} />
+                <MainSection {...{ country, sources, locale }} />
             </div>
         </div>
     );
