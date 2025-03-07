@@ -6,9 +6,9 @@ export default function useWebsites(country, locale) {
     const order = 'default'
     const searchParams = useSearchParams();
     let websites = searchParams.get('websites')?.split(',');
-    
+
     if (!websites || websites.length === 0) {
-        websites = getSourceOrder(country, order).slice(0, 4);
+        websites = getSourceOrder(country, order).slice(0, 6);
     }
 
     const addNextWebsite = () => {

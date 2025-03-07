@@ -1,23 +1,23 @@
 import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
 import { sub } from "date-fns";
-import { countries } from "@/utils/sources/countries";
+// import { countries } from "@/utils/sources/countries";
 import CountryPageContent from "./CountryPage_content";
-import getSourceOrder from "@/utils/sources/source orders";
-import { redirect } from "next/navigation";
+// import getSourceOrder from "@/utils/sources/source orders";
+// import { redirect } from "next/navigation";
 import DataManager from "./DataManager";
 
-export const revalidate = 900 // 15 minutes
-export const dynamicParams = false
+// export const revalidate = 900 // 15 minutes
+// export const dynamicParams = false
 
-export async function generateStaticParams() {
-    const countryNames = Object.keys(countries);
+// export async function generateStaticParams() {
+//     const countryNames = Object.keys(countries);
 
-    const routes = countryNames.flatMap(country => [
-        // { country, locale: 'en' },
-        { country, locale: 'heb' }
-    ]);
-    return routes;
-}
+//     const routes = countryNames.flatMap(country => [
+//         // { country, locale: 'en' },
+//         { country, locale: 'heb' }
+//     ]);
+//     return routes;
+// }
 
 export default async function Page({ params, searchParams }) {
     const { country, locale } = await params;
@@ -28,6 +28,7 @@ export default async function Page({ params, searchParams }) {
     const today = new Date()
     const todayStr = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0')
     if (query.day && query.day !== todayStr) {
+        console.log('--------- getting day', query.day)
         const day = new Date(query.day + ' UTC');
         headlines = await getCountryDayHeadlines(country, day, 2);
         summaries = await getCountryDaySummaries(country, day, 2);
@@ -36,6 +37,7 @@ export default async function Page({ params, searchParams }) {
             await getCountryDailySummary(country, sub(day, { days: 1 }))
         ]
     } else {
+        console.log('-------- getting today')
         headlines = await getCountryDayHeadlines(country, today, 2);
         summaries = await getCountryDaySummaries(country, today, 2);
         dailySummaries = [await getCountryDailySummary(country, sub(today, { days: 1 }))];
