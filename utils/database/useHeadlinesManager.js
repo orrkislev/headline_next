@@ -15,7 +15,6 @@ export default function useHeadlinesManager(country, name, initialHeadlines) {
     const addHeadlines = (newHeadlines) => {
         setHeadlines(prev => {
             const onlyNewOnes = newHeadlines.filter(newHeadline => !prev.some(headline => headline.id === newHeadline.id));
-            console.log('headlines at', name, ':', prev.length + onlyNewOnes.length);
             return [...prev, ...onlyNewOnes];
         });
     };
@@ -25,7 +24,6 @@ export default function useHeadlinesManager(country, name, initialHeadlines) {
     }, [date]);
 
     useEffect(() => {
-        console.log('useEffect at', name);
         setHeadlines(initialHeadlines);
         const initialDates = initialHeadlines.reduce((acc, headline) => {
             const date = headline.timestamp.toDateString();
@@ -39,12 +37,16 @@ export default function useHeadlinesManager(country, name, initialHeadlines) {
         if (!firebase.db || !dates.current || !day) return;
         if (!websites.includes(name)) return;
         getDayHeadlines(day);
+
+        const unsubscribe = firebase.subscribeToHeadlines(country, name, (newHeadline) => {
+            addHeadlines([newHeadline]);
+        });
+        return unsubscribe;
     }, [firebase.db, day, websites]);
 
     const getDayHeadlines = async (day) => {
         const dayDate = new Date(day + ' UTC');
         if (!dates.current.includes(day)) {
-            console.log('getting headlines for', dayDate);
             const headlinesData = await firebase.getCountrySourceDayHeadlines(country, name, dayDate);
             addHeadlines(headlinesData);
             dates.current.push(day);
@@ -52,7 +54,6 @@ export default function useHeadlinesManager(country, name, initialHeadlines) {
 
         const dayBefore = sub(dayDate, { days: 1 });
         if (!dates.current.includes(dayBefore.toDateString())) {
-            console.log('getting headlines for', dayBefore);
             const dayBeforeHeadlines = await firebase.getCountrySourceDayHeadlines(country, name, dayBefore);
             addHeadlines(dayBeforeHeadlines);
             dates.current.push(dayBefore.toDateString());

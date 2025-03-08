@@ -1,10 +1,15 @@
-import { getDb } from "@/utils/database/firebase";
 import { endOfDay, sub } from "date-fns";
-import { collection, doc, getDocs, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { initializeApp } from 'firebase/app';
+import { collection, doc, getDocs, limit, onSnapshot, orderBy, query, where, getFirestore } from "firebase/firestore";
 import { cache } from "react";
 
+import { firebaseConfig } from './firebaseConfig';
+
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 export function getCountryCollectionRef(countryName, collectionName) {
-  const db = getDb();
   const countriesCollection = collection(db, '- Countries -');
 
   let processedName = countryName.replace(/-/g, ' ');

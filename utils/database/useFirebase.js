@@ -106,10 +106,11 @@ export default function useFirebase() {
     return headlines;
   }
 
-  const subscribeToHeadlines = (countryName, callback) => {
+  const subscribeToHeadlines = (countryName, sourceName, callback) => {
     const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
     const q = firestore.query(
       headlinesCollection,
+      firestore.where('website_id', '==', sourceName),
       firestore.orderBy('timestamp', 'desc'),
       firestore.limit(1),
     );

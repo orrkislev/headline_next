@@ -52,10 +52,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
         let typo = font
         if (font == 'default') typo = getTypographyOptions(country).options[0]
         else if (font == 'random') typo = choose(getTypographyOptions(country).options)
-        if (typo.direction === 'rtl' && !isRTL) {
-            console.log(`english font for ${name}`)
-            typo = choose(getTypographyOptions('default').options);
-        }
+        if (typo.direction === 'rtl' && !isRTL) typo = getTypographyOptions('default').options[0];
         return typo;
     }, [font, country, isRTL]);
 

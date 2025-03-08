@@ -32,7 +32,6 @@ export default function useDailySummariesManager(country, initialDailySummaries)
     }, [initialDailySummaries]);
 
     useEffect(() => {
-        console.log('useEffect', firebase.db, dates.current, day);
         if (!firebase.db || !dates.current || !day) return;
         getDayDailySummaries(day);
     }, [firebase.db, day]);
@@ -40,14 +39,12 @@ export default function useDailySummariesManager(country, initialDailySummaries)
     const getDayDailySummaries = async (day) => {
         const dayDate = new Date(day + ' UTC');
         if (!dates.current.includes(day)) {
-            console.log('getting dailySummaries for', dayDate);
             const dailySummary = await firebase.getCountryDailySummary(country, dayDate);
             if (dailySummary) addDailySummaries([dailySummary]);
         }
 
         const dayBefore = sub(dayDate, { days: 1 });
         if (!dates.current.includes(dayBefore.toDateString())) {
-            console.log('getting dailySummaries for', dayBefore);
             const dailySummaryBefore = await firebase.getCountryDailySummary(country, dayBefore);
             if (dailySummaryBefore) addDailySummaries([dailySummaryBefore]);
         }
