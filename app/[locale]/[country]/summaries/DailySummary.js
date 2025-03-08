@@ -51,7 +51,7 @@ function DailySummaryContent({ locale, setOpen }) {
     const summaryContent = getSummaryContent(dailySummary, locale);
 
     return (
-        <div className="bg-white pb-2  border-gray-200 max-w-[400px] pt-4 flex-[1] border-l border-r">
+        <div className="bg-white pb-2  border-gray-200 max-w-[300px] pt-4 border-l border-r">
             <div className='flex items-start justify-between relative cursor-pointer flex-row-reverse' onClick={() => setOpen(false)}>
                 <div className={`text-blue flex-1 pl-2 pr-2 ${locale === 'heb' ? 'pl-8' : 'pr-12'} mb-2 text-[1.5rem] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={locale === 'heb' ? { lineHeight: '1.5' } : {}}>
                     <span className="font-mono">{formattedDate}</span>
@@ -70,7 +70,7 @@ function DailySummaryContent({ locale, setOpen }) {
                     }
                 </div> */}
             </div>
-            <div className={`custom-scrollbar max-h-[45vh] leading-none font-normal mt-1 ${locale === 'heb' ? 'pl-4 pr-2' : 'pl-2 pr-4'} text-[17px] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={{ lineHeight: '1.3', }}>
+            <div className={`custom-scrollbar leading-none font-normal mt-1 ${locale === 'heb' ? 'pl-4 pr-2' : 'pl-2 pr-4'} text-[17px] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={{ lineHeight: '1.3', }}>
                 <div dangerouslySetInnerHTML={{ __html: summaryContent }} />
             </div>
         </div>

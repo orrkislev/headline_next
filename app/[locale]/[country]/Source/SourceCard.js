@@ -22,7 +22,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
     const [headline, setHeadline] = useState(initialHeadlines[0]);
-    const translations = useRef({});
+    const [translations, setTranslations] = useState({});
 
     useEffect(() => {
         if (!headlines) return;
@@ -33,17 +33,18 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
     useEffect(() => {
         if (translate && headline && headline.headline) {
             if (!websites.includes(name)) return;
-            if (translations.current[headline.id]) return;
+            if (translations[headline.id]) return;
+            console.log('translating', headline.headline)
             (async () => {
                 const res = await fetch('/api/translate', {
                     method: 'POST',
                     body: JSON.stringify({ headline: headline.headline })
                 })
                 const resData = await res.json()
-                translations.current[headline.id] = resData.text;
+                setTranslations((prev) => ({ ...prev, [headline.id]: resData.translation }))
             })();
         }
-    }, [translate, headline, websites, name]);
+    }, [translate, headline, websites, name, translations]);
 
 
     const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline), [headline]);
@@ -74,7 +75,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
                     <SourceName website={name} typography={typography} country={country} />
-                    <Headline headline={headline} typography={typography} translation={translate ? translations.current[headline.id] : null} />
+                    <Headline headline={headline} typography={typography} translation={translate ? translations[headline.id] : null} />
                 </div>
                 <div>
                     <Subtitle headline={headline} />
