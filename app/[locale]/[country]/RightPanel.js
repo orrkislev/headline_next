@@ -1,5 +1,3 @@
-'use client'
-
 import DynamicLogo from "@/components/Logo";
 import SummariesSection from "./summaries/SummariesSection";
 

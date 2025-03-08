@@ -14,6 +14,5 @@ export async function POST(req) {
     const prompt = `Translate the following news headline into natural-sounding ${targetLang}. Prioritize fluency over word-for-word accuracy, and ensure proper grammar. Only return the direct translation without any additional text or explanations: "${headline}"`;
     const { text } = await generateText({ model, prompt });
 
-    console.log('translated:', text);
     return Response.json({ text });
 }

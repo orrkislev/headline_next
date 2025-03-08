@@ -1,6 +1,14 @@
 export default function HebrewFonts() {
     return (
-        <style>{`
+        <>
+            {/* Preload fonts */}
+            <link rel="preload" href="/fonts/TelAviv-ModernistBold.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+            <link rel="preload" href="/fonts/frank-re-tzar-regular-aaa.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+            <link rel="preload" href="/fonts/frank-re-medium-aaa.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+            <link rel="preload" href="/fonts/Mandatory-18.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+            <link rel="preload" href="/fonts/Mandatory-29.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+            
+            <style>{`
                 :root {
                     --font-tel-aviv: 'TelAviv';
                     --font-frank-re-tzar: 'FrankReTzar';
@@ -11,29 +19,30 @@ export default function HebrewFonts() {
                 @font-face {
                     font-family: 'TelAviv';
                     src: url('/fonts/TelAviv-ModernistBold.ttf') format('truetype');
-                    font-display: swap;
+                    font-display: block;
                 }
                 @font-face {
                     font-family: 'FrankReTzar';
                     src: url('/fonts/frank-re-tzar-regular-aaa.otf') format('opentype');
-                    font-display: swap;
+                    font-display: block;
                 }
                 @font-face {
                     font-family: 'FrankRe';
                     src: url('/fonts/frank-re-medium-aaa.otf') format('opentype');
-                    font-display: swap;
+                    font-display: block;
                 }
                 @font-face {
                     font-family: 'Mandatory';
                     src: url('/fonts/Mandatory-18.otf') format('opentype');
-                    font-display: swap;
+                    font-display: block;
                 }
                 @font-face {
                     font-family: 'Mandatory29';
                     src: url('/fonts/Mandatory-29.otf') format('opentype');
-                    font-display: swap;
+                    font-display: block;
                 }
             `}</style>
+        </>
     );
 }
 

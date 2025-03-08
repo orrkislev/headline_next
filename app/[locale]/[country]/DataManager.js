@@ -12,6 +12,7 @@ export default function DataManager({ locale, country }) {
     const [day, setDay] = useState(date.toDateString())
 
     useEffect(() => {
+        console.log('new date', date)
         if (date) setDay(date.toDateString())
     }, [date])
 
@@ -19,6 +20,7 @@ export default function DataManager({ locale, country }) {
 
     useEffect(() => {
         if (!day) return
+        console.log('new day', day)
         const date = new Date(day + ' UTC');
         const dayStr = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0')
         const urlParams = new URLSearchParams(window.location.search);
@@ -26,8 +28,6 @@ export default function DataManager({ locale, country }) {
         urlParams.set('day', dayStr);
         const url = `/${locale}/${country}?${urlParams.toString()}`
         router.push(url)
-        // window.history.replaceState({}, '', '?' + urlParams.toString())
-        // router.push({ search: '?' + urlParams.toString() }, undefined, { shallow: true })
     }, [day])
 
     useEffect(() => {

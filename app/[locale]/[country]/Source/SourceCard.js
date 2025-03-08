@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import { useFont, useTime, useTranslate } from "@/utils/store";
 import { choose } from "@/utils/utils";
 import useWebsites from "@/utils/useWebsites";
+import { Skeleton } from "@mui/material";
 
 const SourceSlider = dynamic(() => import('./SourceSlider'));
 
@@ -20,13 +21,14 @@ export default function SourceCard({ name, headlines, country, locale }) {
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
     const [headline, setHeadline] = useState(headlines[0]);
+    const allHeadlines = useSourceHeadlinesManager(headlines, name)
     const translations = useRef({});
 
     useEffect(() => {
-        if (!headlines) return;
+        if (!allHeadlines) return;
         if (!date) return;
-        setHeadline(headlines.find(({ timestamp }) => timestamp < date));
-    }, [headlines, date]);
+        setHeadline(allHeadlines.find(({ timestamp }) => timestamp < date));
+    }, [allHeadlines, date]);
 
     useEffect(() => {
         if (translate && headline && headline.headline) {
@@ -50,12 +52,14 @@ export default function SourceCard({ name, headlines, country, locale }) {
         let typo = font
         if (font == 'default') typo = getTypographyOptions(country).options[0]
         else if (font == 'random') typo = choose(getTypographyOptions(country).options)
-        if (typo.direction === 'rtl' && !isRTL) typo = choose(getTypographyOptions('default').options);
+        if (typo.direction === 'rtl' && !isRTL) {
+            console.log(`english font for ${name}`)
+            typo = choose(getTypographyOptions('default').options);
+        }
         return typo;
     }, [font, country, isRTL]);
 
     if (!websites.includes(name)) return null;
-    if (!headline) return null;
 
     const index = websites.indexOf(name);
 
@@ -73,14 +77,46 @@ export default function SourceCard({ name, headlines, country, locale }) {
             <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
                     <SourceName website={name} typography={typography} country={country} />
-                    <Headline headline={ headline} typography={typography} translation={translate ? translations.current[headline.id] : null} />
+                    <Headline headline={headline} typography={typography} translation={translate ? translations.current[headline.id] : null} />
                 </div>
                 <div>
-                    <Subtitle subtitle={headline?.subtitle} />
+                    <Subtitle headline={headline} />
                     <SourceSlider headlines={headlines} />
                     <SourceFooter url={headlines[0].link} headline={headline} headlines={headlines} />
                 </div>
             </div>
         </div>
     );
+}
+
+
+function useSourceHeadlinesManager(headlines, name) {
+    const [allHeadlines, setAllHeadlines] = useState([]);
+
+    const updateAllHeadlines = (newHeadlines) => {
+        setAllHeadlines(prev => {
+            const onlyNewOnes = newHeadlines.filter(({ id }) => !prev.find(({ id: prevId }) => prevId === id));
+            return [...prev, ...onlyNewOnes].sort((a, b) => a.timestamp - b.timestamp);
+        });
+    };
+
+    useEffect(() => {
+        const storedHeadlines = JSON.parse(localStorage.getItem(name));
+        if (storedHeadlines) updateAllHeadlines(storedHeadlines);
+    }, [name]);
+
+    useEffect(() => {
+        if (!headlines) return;
+        updateAllHeadlines(headlines);
+    }, [headlines])
+
+    useEffect(() => {
+        if (allHeadlines.length === 0) return;
+        try {
+            localStorage.setItem(name, JSON.stringify(allHeadlines));
+        } catch (e) {
+        }
+    }, [allHeadlines, name]);
+
+    return allHeadlines;
 }
