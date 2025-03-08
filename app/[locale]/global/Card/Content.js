@@ -21,16 +21,21 @@ export default function Content({ summary, locale }) {
     return (
         <div className="p-4">
             <div className="w-full flex justify-between items-center">
-                <p>{hours}:{minutes}</p>
+                <p style={{
+                    fontFamily: 'monospace',
+                    fontWeight: 'bold',
+                    fontSize: '0.95rem',
+                    padding: 6,
+                }}>{hours}:{minutes}</p>
                 <TopBarButton onClick={() => setOpen(!open)}>
                     {open ? <ExpandLess color='gray'/> : <ExpandMore color='gray'/>}
                 </TopBarButton>
             </div>
             <Collapse in={open}>
                 <div style={{
-                    fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+                    fontFamily: locale === 'heb' ? 'sans-serif' : 'Roboto, sans-serif',
                     fontWeight: 200,
-                    letterSpacing: '0.00938em',
+                    padding: 6,
                     direction: locale === 'heb' ? 'rtl' : 'ltr',
                     textAlign: locale === 'heb' ? 'right' : 'left',
                     fontSize: '0.95rem',

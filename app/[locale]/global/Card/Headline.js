@@ -13,7 +13,7 @@ export default function Headline({ country, locale, summary, typography, index }
 
     return (
         <Link href={`/${locale}/${country}`}>
-            <div className={`animate-headline w-full text-lg font-semibold break-words`}
+            <div className={`animate-headline w-full text-lg font-semibold break-words px-1`}
                 style={{ ...typography, width: '100%' }} key={summary.id}>
                 {headline}
             </div>
