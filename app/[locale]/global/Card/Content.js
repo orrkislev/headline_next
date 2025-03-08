@@ -1,13 +1,11 @@
 import { TopBarButton } from "@/components/IconButtons";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
-import { useParams } from "next/navigation";
 import { useState } from "react";
 
 
-export default function Content({ summary }) {
-    const { locale } = useParams();
-    const [open, setOpen] = useState(false);
+export default function Content({ summary, locale }) {
+    const [open, setOpen] = useState(true);
 
     const minutes = summary.timestamp.getUTCMinutes();
     const hours = summary.timestamp.getUTCHours();
@@ -29,7 +27,16 @@ export default function Content({ summary }) {
                 </TopBarButton>
             </div>
             <Collapse in={open}>
-                <div className="text-sm">
+                <div style={{
+                    fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+                    fontWeight: 200,
+                    letterSpacing: '0.00938em',
+                    direction: locale === 'heb' ? 'rtl' : 'ltr',
+                    textAlign: locale === 'heb' ? 'right' : 'left',
+                    fontSize: '0.95rem',
+                    lineHeight: 1.4
+                }}>
+
                     {text}
                 </div>
             </Collapse>

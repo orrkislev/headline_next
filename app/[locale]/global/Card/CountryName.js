@@ -4,10 +4,8 @@ import { getTypographyOptions } from "@/utils/typography/typography"
 import { Divider } from "@mui/material"
 import { useParams } from "next/navigation"
 
-export default function CountryName({ country }) {
+export default function CountryName({ country, typography}) {
     const { locale } = useParams()
-
-    const typography = getTypographyOptions(locale == 'heb' ? 'Israel' : 'US')[0]
 
     return (
         <span className="flex items-center gap-2 text-sm text-blue cursor-help" style={{ ...typography, fontSize: '1.2rem' }}>

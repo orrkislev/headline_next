@@ -1,12 +1,6 @@
-import { getTypographyOptions } from "@/utils/typography/typography";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 
-export default function Headline({ country, summary, index }) {
-    const { locale } = useParams()
-
-    let typography = getTypographyOptions(locale == 'heb' ? 'Israel' : 'US')[0]
-    typography = JSON.parse(JSON.stringify(typography))
+export default function Headline({ country, locale, summary, typography, index }) {
 
     let headline = summary.englishHeadline;
     if (locale === 'heb') {
@@ -15,7 +9,7 @@ export default function Headline({ country, summary, index }) {
         headline = summary ? (summary.translatedHeadline || summary.headline) : '';
     }
 
-    if (index == 0) typography.fontSize = '4rem'
+    typography.fontSize = index == 0 ? '4rem' : '3rem'
 
     return (
         <Link href={`/${locale}/${country}`}>
