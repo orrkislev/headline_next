@@ -66,6 +66,7 @@ export const Typography_Hebrew = [
         fontSize: "2.4rem",
         lineHeight: 1.1,
         fontWeight: 400,
+        direction: 'rtl',
     },
     {
         fontFamily: 'var(--font-mandatory)',
