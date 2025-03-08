@@ -8,13 +8,13 @@ import { useState } from "react";
 
 const Settings = dynamic(() => import("./settings/Settings"));
 
-export function SettingsButton({ locale, country }) {
+export function SettingsButton({ locale, country, sources }) {
     const [open, setOpen] = useState(false)
 
     return (
         <>
             <div className={`transition-all duration-300 ease-in-out ${open ? 'w-auto opacity-100 ml-4' : 'w-0 opacity-0 ml-0'}`}>
-                <Settings {...{ locale, country }} />
+                <Settings {...{ locale, country, sources }} />
             </div>
             <div className="flex items-center">
                 <CustomTooltip title="Settings" arrow>

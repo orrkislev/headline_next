@@ -13,7 +13,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 
 
-export default function SourcesToggle({ country, locale }) {
+export default function SourcesToggle({ country, locale, sources }) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -25,13 +25,13 @@ export default function SourcesToggle({ country, locale }) {
                         <List />
                     </TopBarButton>
                 </CustomTooltip>
-                <SourcesGrid {...{ open, country, locale }} />
+                <SourcesGrid {...{ open, country, locale, sources }} />
             </div>
         </>
     );
 }
 
-function SourcesGrid({ open, country, locale }) {
+function SourcesGrid({ open, country, locale, sources }) {
     const { websites, toggleSource } = useWebsites(country, locale);
     const order = useOrder(state => state.order);
 
@@ -42,21 +42,17 @@ function SourcesGrid({ open, country, locale }) {
         description: getSourceDescription(country, id),
         active: websites.includes(id),
         name: getSourceName(country, id),
-        // sum: sources[id] ? sources[id].filter(headline => headline.timestamp.toDateString() === day).length : 0,
-        sum: 0,
-        // website: sources[id] ? sources[id][0].link : '',
-        website: 'www.google.com'
+        website: sources[id] ? sources[id][0].link : '',
     }));
 
     if (!open) return null;
     return (
-        <div className={`absolute top-8 ${locale === 'heb' ? 'left-0' : 'right-0'} bg-white rounded-lg shadow-lg p-4 h-[65vh] w-[40vw] overflow-y-auto direction-ltr z-[1000]`}>
+        <div className={`absolute top-8 ${locale === 'heb' ? 'left-0' : 'right-0'} bg-white rounded-lg shadow-lg p-4 h-[65vh] w-[55vw] overflow-y-auto direction-ltr z-[1000]`}>
             <table className="border border-gray-300 text-sm">
                 <thead className="border-b border-gray-300">
                     <tr className="text-left">
                         <th className="p-2">Active</th>
                         <th className="p-2">Source</th>
-                        <th className="p-2">Today</th>
                         <th className="p-2">Description</th>
                     </tr>
                 </thead>
@@ -79,7 +75,6 @@ function SourcesGrid({ open, country, locale }) {
                                     {source.name}
                                 </div>
                             </td>
-                            <td className="mt-8 p-2">{source.sum}</td>
                             <td className="mt-8 p-2">{source.description}</td>
                         </tr>
                     ))}

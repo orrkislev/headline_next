@@ -388,14 +388,17 @@ const sourceDescriptions = {
     "verkkouutiset": "Verkkouutiset is the online news outlet affiliated with the conservative National Coalition Party, reaching around 300,000 monthly readers. It presents news from a center-right, pro-business perspective.",
     "voima": "Voima is an independent alternative newspaper, reaching about 200,000 monthly online readers. Known for its left-wing perspective and investigative journalism, it often focuses on environmental and social justice issues.",
     "yle": "Yleisradio is Finland's national public broadcasting company, reaching about 7 million monthly online readers. As a public broadcaster, it maintains political neutrality while providing comprehensive news coverage in multiple languages."
-    },
+  },
 }
 
 
 export default function getSourceDescription(country, source) {
   const countrySources = sourceDescriptions[country];
   if (countrySources) {
-    return countrySources[source] || countrySources[source.toLowerCase()] || "No description available.";
+    return countrySources[source] ||
+      countrySources[source.toLowerCase()] ||
+      countrySources[source.toLowerCase().replace(' ', '_')] ||
+      "No description available.";
   }
   return "No description available.";
 }

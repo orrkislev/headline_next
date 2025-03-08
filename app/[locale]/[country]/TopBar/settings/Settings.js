@@ -12,7 +12,7 @@ import Link from "next/link";
 import { TopBarButton } from "@/components/IconButtons";
 import CustomTooltip from "@/components/CustomTooltip";
 
-export default function Settings({ locale, country }) {
+export default function Settings({ locale, country, sources }) {
 
     return (
         <div className={`flex items-center divide-x divide-gray-200 ${locale == 'heb' ? 'divide-x-reverse' : ''}`}>
@@ -55,7 +55,7 @@ export default function Settings({ locale, country }) {
             </div>
             <div className="flex items-center">
                 <LabeledIcon label="Order" icon={<OrderToggle locale={locale} />} />
-                <LabeledIcon label="Sources" icon={<SourcesToggle {...{ country, locale }} />} />
+                <LabeledIcon label="Sources" icon={<SourcesToggle {...{ country, locale, sources }} />} />
             </div>
         </div>
     );
