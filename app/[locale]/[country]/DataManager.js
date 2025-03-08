@@ -26,8 +26,10 @@ export default function DataManager({ locale, country }) {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('day') === dayStr) return
         urlParams.set('day', dayStr);
-        const url = `/${locale}/${country}?${urlParams.toString()}`
-        router.push(url)
+        // const url = `/${locale}/${country}?${urlParams.toString()}`
+        // router.push(url)
+        const url = `/${locale}/${country}?day=${dayStr}`
+        window.history.replaceState(null, '', url);
     }, [day])
 
     useEffect(() => {

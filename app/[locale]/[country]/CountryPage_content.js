@@ -17,7 +17,7 @@ export default function CountryPageContent({ sources, summaries, dailySummaries,
             <SideSlider summaries={summaries} locale={locale} />
             <div className={`flex-[1] ${locale == 'heb' ? 'border-l' : 'border-r'} border-gray-200 flex max-w-[400px] `}>
                 <div className={`flex-1 ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200`}>
-                    <RightPanel {...{ summaries, locale, dailySummaries }} />
+                    <RightPanel {...{ summaries, locale, country, dailySummaries }} />
                 </div>
             </div>
 

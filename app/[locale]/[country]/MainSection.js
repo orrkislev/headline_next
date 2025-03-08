@@ -12,7 +12,7 @@ export default function MainSection({ sources, country, locale }) {
                 <SourceCard
                     key={sourceName}
                     name={sourceName}
-                    headlines={source}
+                    initialHeadlines={source}
                     country={country}
                     locale={locale}
                 />

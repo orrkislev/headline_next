@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useFirebase from "./useFirebase";
 import { useTime } from "../store";
+import { sub } from "date-fns";
 
 export default function useSummariesManager(country, initialSummaries) {
     const [summaries, setSummaries] = useState(initialSummaries);
@@ -31,14 +32,26 @@ export default function useSummariesManager(country, initialSummaries) {
     }, [initialSummaries])
 
     useEffect(() => {
+        console.log('useEffect', firebase.db, dates.current, day)
         if (!firebase.db || !dates.current || !day) return
-        if (dates.current.includes(day)) return
-
-        (async () => {
-            const summaries = await firebase.getCountryDaySummaries(country, day)
-            addSummaries(summaries)
-        })()
+        getDaySummaries(day)
     }, [firebase.db, day])
+
+    const getDaySummaries = async (day) => {
+        const dayDate = new Date(day + ' UTC')
+        if (!dates.current.includes(day)) {
+            console.log('getting summaries for', dayDate)
+            const summaries = await firebase.getCountryDaySummaries(country, dayDate)
+            addSummaries(summaries)
+        }
+
+        const dayBefore = sub(dayDate, { days: 1 })
+        if (!dates.current.includes(dayBefore.toDateString())) {
+            console.log('getting summaries for', dayBefore)
+            const dayBeforeSummaries = await firebase.getCountryDaySummaries(country, dayBefore)
+            addSummaries(dayBeforeSummaries)
+        }
+    }
 
     return summaries
 }

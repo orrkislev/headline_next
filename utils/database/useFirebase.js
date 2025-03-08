@@ -4,16 +4,16 @@ import { useEffect, useState } from 'react';
 import { firebaseConfig } from './firebaseConfig';
 import { endOfDay, sub } from 'date-fns';
 
+let cachedFirestore;
+let cachedDb;
+
 export default function useFirebase() {
-  const [firestore, setFirestore] = useState(null);
-  const [db, setDb] = useState(null);
+  const [firestore, setFirestore] = useState(cachedFirestore);
+  const [db, setDb] = useState(cachedDb);
 
   useEffect(() => {
     const loadFirebase = async () => {
-      // wait for 5 seconds before importing firebase
-      console.log('waiting 10 seconds');
-      await new Promise(resolve => setTimeout(resolve, 10000));
-      console.log('loading firebase');
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       const { initializeApp } = await import('firebase/app');
       const _firestore = await import('firebase/firestore');
@@ -23,8 +23,7 @@ export default function useFirebase() {
       setDb(_db);
       setFirestore(_firestore);
     }
-    // window.requestIdleCallback(loadFirebase);
-    loadFirebase()
+    if (!firestore) loadFirebase()
   }, []);
 
   const getCountryCollectionRef = (countryName, collectionName) => {
@@ -70,6 +69,24 @@ export default function useFirebase() {
       firestore.orderBy('timestamp', 'desc'),
     );
 
+    let headlines = await firestore.getDocs(q);
+    if (headlines.empty) return [];
+    headlines = headlines.docs.map(headline => prepareData(headline));
+    return headlines;
+  }
+
+  const getCountrySourceDayHeadlines = async (countryName, sourceName, day) => {
+    const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
+
+    const theDay = endOfDay(day);
+    const dayBefore = sub(theDay, { days: 1 });
+    const q = firestore.query(
+      headlinesCollection,
+      firestore.where('timestamp', '>=', dayBefore),
+      firestore.where('timestamp', '<=', theDay),
+      firestore.where('website_id', '==', sourceName),
+      firestore.orderBy('timestamp', 'desc'),
+    );
     let headlines = await firestore.getDocs(q);
     if (headlines.empty) return [];
     headlines = headlines.docs.map(headline => prepareData(headline));
@@ -171,6 +188,7 @@ export default function useFirebase() {
   return {
     db,
     getCountryDayHeadlines,
+    getCountrySourceDayHeadlines,
     getRecentHeadlines,
     subscribeToHeadlines,
     getCountryDaySummaries,

@@ -11,24 +11,24 @@ import dynamic from "next/dynamic";
 import { useFont, useTime, useTranslate } from "@/utils/store";
 import { choose } from "@/utils/utils";
 import useWebsites from "@/utils/useWebsites";
-import { Skeleton } from "@mui/material";
+import useHeadlinesManager from "@/utils/database/useHeadlinesManager";
 
 const SourceSlider = dynamic(() => import('./SourceSlider'));
 
-export default function SourceCard({ name, headlines, country, locale }) {
+export default function SourceCard({ name, initialHeadlines, country, locale }) {
+    const headlines = useHeadlinesManager(country, name, initialHeadlines);
     const { websites, toggleSource } = useWebsites(country, locale)
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
-    const [headline, setHeadline] = useState(headlines[0]);
-    const allHeadlines = useSourceHeadlinesManager(headlines, name)
+    const [headline, setHeadline] = useState(initialHeadlines[0]);
     const translations = useRef({});
 
     useEffect(() => {
-        if (!allHeadlines) return;
+        if (!headlines) return;
         if (!date) return;
-        setHeadline(allHeadlines.find(({ timestamp }) => timestamp < date));
-    }, [allHeadlines, date]);
+        setHeadline(headlines.find(({ timestamp }) => timestamp < date));
+    }, [headlines, date]);
 
     useEffect(() => {
         if (translate && headline && headline.headline) {
@@ -87,36 +87,4 @@ export default function SourceCard({ name, headlines, country, locale }) {
             </div>
         </div>
     );
-}
-
-
-function useSourceHeadlinesManager(headlines, name) {
-    const [allHeadlines, setAllHeadlines] = useState([]);
-
-    const updateAllHeadlines = (newHeadlines) => {
-        setAllHeadlines(prev => {
-            const onlyNewOnes = newHeadlines.filter(({ id }) => !prev.find(({ id: prevId }) => prevId === id));
-            return [...prev, ...onlyNewOnes].sort((a, b) => a.timestamp - b.timestamp);
-        });
-    };
-
-    useEffect(() => {
-        const storedHeadlines = JSON.parse(localStorage.getItem(name));
-        if (storedHeadlines) updateAllHeadlines(storedHeadlines);
-    }, [name]);
-
-    useEffect(() => {
-        if (!headlines) return;
-        updateAllHeadlines(headlines);
-    }, [headlines])
-
-    useEffect(() => {
-        if (allHeadlines.length === 0) return;
-        try {
-            localStorage.setItem(name, JSON.stringify(allHeadlines));
-        } catch (e) {
-        }
-    }, [allHeadlines, name]);
-
-    return allHeadlines;
 }
