@@ -22,8 +22,8 @@ export default function SummariesSection({ initialSummaries, locale, country, in
     const dailySummaries = useDailySummariesManager(country, initialDailySummaries);
     const summaries = useSummariesManager(country, initialSummaries);
     const date = useTime(state => state.date);
-    const [day, setDay] = useState(date ? date.toDateString() : new Date().toDateString());
-    const [displaySummaries, setDisplaySummaries] = useState(date ? calculateDisplaySummaries(date.toDateString(), summaries) : calculateDisplaySummaries(new Date().toDateString(), summaries));
+    const [day, setDay] = useState(new Date().toDateString());
+    const [displaySummaries, setDisplaySummaries] = useState(calculateDisplaySummaries(new Date().toDateString(), initialSummaries));
     const [activeSummaryId, setActiveSummaryId] = useState(summaries.sort((a, b) => b.timestamp - a.timestamp)[0]?.id);
 
 

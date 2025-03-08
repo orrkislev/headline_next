@@ -2,16 +2,15 @@
 import { useSearchParams } from "next/navigation";
 import getSourceOrder from "./sources/source orders";
 import { useOrder } from "./store";
+import { useEffect, useMemo } from "react";
 
 export default function useWebsites(country, locale) {
     const { order, setOrder } = useOrder()
     const searchParams = useSearchParams();
-    let websites = searchParams.get('websites')?.split(',');
-
-    if (!websites || websites.length === 0) {
-        websites = getSourceOrder(country, order).slice(0, 6);
-    }
-
+    const websites = useMemo(() => {
+        return searchParams.get('websites')?.split(',');
+    }, [searchParams]);
+    
     const addNextWebsite = () => {
         const sourceOrder = getSourceOrder(country, order);
         const nextSource = sourceOrder.find((source) => !websites.includes(source));

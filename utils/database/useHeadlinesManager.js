@@ -1,16 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import useFirebase from "./useFirebase";
 import { useTime } from "../store";
-import { sub } from "date-fns";
+import { endOfDay, sub } from "date-fns";
 import useWebsites from "../useWebsites";
 
 export default function useHeadlinesManager(country, name, initialHeadlines) {
+
     const [headlines, setHeadlines] = useState(initialHeadlines);
     const { websites } = useWebsites(country);
     const date = useTime(state => state.date);
     const [day, setDay] = useState(date ? date.toDateString() : new Date().toDateString());
     const dates = useRef();
     const firebase = useFirebase();
+
 
     const addHeadlines = (newHeadlines) => {
         setHeadlines(prev => {
@@ -33,32 +35,74 @@ export default function useHeadlinesManager(country, name, initialHeadlines) {
         dates.current = initialDates;
     }, [initialHeadlines]);
 
+
+
     useEffect(() => {
         if (!firebase.db || !dates.current || !day) return;
         if (!websites.includes(name)) return;
         getDayHeadlines(day);
-
-        const unsubscribe = firebase.subscribeToHeadlines(country, name, (newHeadline) => {
-            addHeadlines([newHeadline]);
-        });
-        return unsubscribe;
+        getDayHeadlines(sub(new Date(day + ' UTC'), { days: 1 }).toDateString());
     }, [firebase.db, day, websites]);
 
-    const getDayHeadlines = async (day) => {
-        const dayDate = new Date(day + ' UTC');
-        if (!dates.current.includes(day)) {
-            const headlinesData = await firebase.getCountrySourceDayHeadlines(country, name, dayDate);
-            addHeadlines(headlinesData);
-            dates.current.push(day);
-        }
 
-        const dayBefore = sub(dayDate, { days: 1 });
-        if (!dates.current.includes(dayBefore.toDateString())) {
-            const dayBeforeHeadlines = await firebase.getCountrySourceDayHeadlines(country, name, dayBefore);
-            addHeadlines(dayBeforeHeadlines);
-            dates.current.push(dayBefore.toDateString());
-        }
-    };
+    useEffect(() => {
+        if (!firebase.db) return;
+
+        const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
+        const q = firebase.firestore.query(
+            headlinesCollection,
+            firebase.firestore.where('website_id', '==', name),
+            firebase.firestore.orderBy('timestamp', 'desc'),
+            firebase.firestore.limit(1),
+        );
+
+        const unsubscribe = firebase.firestore.onSnapshot(q, snapshot => {
+            if (snapshot.empty) return
+            const headlines = snapshot.docs.map(doc => firebase.prepareData(doc));
+            addHeadlines(headlines);
+        });
+        return unsubscribe;
+    }, [firebase.db])
+
+
+
+
+
+    // functions
+    const getDayHeadlines = async (dayString) => {
+        if (dates.current.includes(dayString)) return;
+
+        const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
+
+        const dayDate = new Date(dayString + ' UTC');
+        const theDay = endOfDay(dayDate);
+        const dayBefore = sub(theDay, { days: 1 });
+        const q = firebase.firestore.query(
+            headlinesCollection,
+            firebase.firestore.where('timestamp', '>=', dayBefore),
+            firebase.firestore.where('timestamp', '<=', theDay),
+            firebase.firestore.where('website_id', '==', name),
+            firebase.firestore.orderBy('timestamp', 'desc'),
+        );
+        let newHeadlines = await firebase.firestore.getDocs(q);
+        if (newHeadlines.empty) return [];
+        newHeadlines = newHeadlines.docs.map(headline => firebase.prepareData(headline));
+        addHeadlines(newHeadlines);
+        dates.current.push(dayString);
+    }
+
+    // const getRecentHeadlines = async (countryName, fromTime) => {
+    //     const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
+    //     const q = firestore.query(
+    //         headlinesCollection,
+    //         firestore.where('timestamp', '>', fromTime),
+    //         firestore.orderBy('timestamp', 'desc'),
+    //     );
+    //     let headlines = await firestore.getDocs(q);
+    //     if (headlines.empty) return [];
+    //     headlines = headlines.docs.map(headline => prepareData(headline));
+    //     return headlines;
+    // }
 
     return headlines;
 }

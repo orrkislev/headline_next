@@ -26,6 +26,10 @@ export default function useFirebase() {
     if (!firestore) loadFirebase()
   }, []);
 
+  
+  // ----------------- Helpers -----------------
+  // ---------------------------------------------
+
   const getCountryCollectionRef = (countryName, collectionName) => {
     const countriesCollection = firestore.collection(db, '- Countries -');
 
@@ -53,73 +57,6 @@ export default function useFirebase() {
     return { id: doc.id, ...cleanedData, timestamp };
   }
 
-
-  // ----------------- Headlines -----------------
-  // ---------------------------------------------
-
-  const getCountryDayHeadlines = async (countryName, day, daysInclude = 1) => {
-    const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
-
-    const theDay = endOfDay(day);
-    const dayBefore = sub(theDay, { days: daysInclude });
-    const q = firestore.query(
-      headlinesCollection,
-      firestore.where('timestamp', '>=', dayBefore),
-      firestore.where('timestamp', '<=', theDay),
-      firestore.orderBy('timestamp', 'desc'),
-    );
-
-    let headlines = await firestore.getDocs(q);
-    if (headlines.empty) return [];
-    headlines = headlines.docs.map(headline => prepareData(headline));
-    return headlines;
-  }
-
-  const getCountrySourceDayHeadlines = async (countryName, sourceName, day) => {
-    const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
-
-    const theDay = endOfDay(day);
-    const dayBefore = sub(theDay, { days: 1 });
-    const q = firestore.query(
-      headlinesCollection,
-      firestore.where('timestamp', '>=', dayBefore),
-      firestore.where('timestamp', '<=', theDay),
-      firestore.where('website_id', '==', sourceName),
-      firestore.orderBy('timestamp', 'desc'),
-    );
-    let headlines = await firestore.getDocs(q);
-    if (headlines.empty) return [];
-    headlines = headlines.docs.map(headline => prepareData(headline));
-    return headlines;
-  }
-
-  const getRecentHeadlines = async (countryName, fromTime) => {
-    const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
-    const q = firestore.query(
-      headlinesCollection,
-      firestore.where('timestamp', '>', fromTime),
-      firestore.orderBy('timestamp', 'desc'),
-    );
-    let headlines = await firestore.getDocs(q);
-    if (headlines.empty) return [];
-    headlines = headlines.docs.map(headline => prepareData(headline));
-    return headlines;
-  }
-
-  const subscribeToHeadlines = (countryName, sourceName, callback) => {
-    const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');
-    const q = firestore.query(
-      headlinesCollection,
-      firestore.where('website_id', '==', sourceName),
-      firestore.orderBy('timestamp', 'desc'),
-      firestore.limit(1),
-    );
-    return firestore.onSnapshot(q, snapshot => {
-      if (snapshot.empty) return
-      const headlines = snapshot.docs.map(doc => prepareData(doc));
-      callback(headlines);
-    });
-  }
 
   // ----------------- Summaries -----------------
   // ---------------------------------------------
@@ -187,11 +124,9 @@ export default function useFirebase() {
   }
 
   return {
-    db,
-    getCountryDayHeadlines,
-    getCountrySourceDayHeadlines,
-    getRecentHeadlines,
-    subscribeToHeadlines,
+    db,firestore,
+    getCountryCollectionRef,
+    prepareData,
     getCountryDaySummaries,
     getRecentSummaries,
     subscribeToSummaries,

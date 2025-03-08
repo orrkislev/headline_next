@@ -41,12 +41,15 @@ export default function useSummariesManager(country, initialSummaries) {
     useEffect(() => {
         if (!firebase.db || !dates.current || !day) return
         getDaySummaries(day)
+    }, [firebase.db, day])
 
+    useEffect(() => {
+        if (!firebase.db) return
         const unsubscribe = firebase.subscribeToSummaries(country, (newSummary) => {
-            addSummaries([newSummary])
+            addSummaries(newSummary)
         })
         return unsubscribe
-    }, [firebase.db, day])
+    }, [firebase.db])
 
     useEffect(() => {
         const daySummaries = summaries.filter(summary => summary.timestamp.toDateString() === day);
