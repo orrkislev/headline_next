@@ -41,8 +41,15 @@ export default function Content({ summary, locale }) {
                     fontSize: '0.95rem',
                     lineHeight: 1.4
                 }}>
-
-                    {text}
+                    {text.split(/(\([^)]+\))/g).map((part, index) => 
+                        part.startsWith('(') && part.endsWith(')') ? (
+                            <span key={index} style={{ fontSize: '0.75rem', color: 'grey' }}>
+                                {part}
+                            </span>
+                        ) : (
+                            part
+                        )
+                    )}
                 </div>
             </Collapse>
         </div>

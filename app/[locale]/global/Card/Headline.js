@@ -1,7 +1,11 @@
+'use client'
+
 import Link from "next/link";
+import { useResponsiveFontSizes, calculateTitleFontSize } from "@/utils/typography/responsiveFontSizes";
 
 export default function Headline({ country, locale, summary, typography, index }) {
-
+    const responsiveFontSizes = useResponsiveFontSizes();
+    
     let headline = summary.englishHeadline;
     if (locale === 'heb') {
         headline = summary.hebrewHeadline || summary.headline
@@ -9,12 +13,22 @@ export default function Headline({ country, locale, summary, typography, index }
         headline = summary ? (summary.translatedHeadline || summary.headline) : '';
     }
 
-    typography.fontSize = index == 0 ? '4rem' : '3rem'
+    // Determine language for font size calculation
+    const language = locale === 'heb' ? 'hebrew' : 'english';
+    
+    // Calculate font size based on index and language
+    const fontSize = calculateTitleFontSize(index, language, responsiveFontSizes);
+    
+    // Update typography with calculated font size
+    const updatedTypography = {
+        ...typography,
+        fontSize
+    };
 
     return (
         <Link href={`/${locale}/${country}`}>
             <div className={`animate-headline w-full text-lg font-semibold break-words px-1`}
-                style={{ ...typography, width: '100%' }} key={summary.id}>
+                style={{ ...updatedTypography, width: '100%' }} key={summary.id}>
                 {headline}
             </div>
         </Link>
