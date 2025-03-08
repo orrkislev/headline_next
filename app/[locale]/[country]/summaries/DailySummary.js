@@ -8,7 +8,7 @@ import { useTime } from '@/utils/store';
 import { useDailySummary } from '@/utils/database/useDailySummariesManager';
 
 export default function DailySummary({ locale }) {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     return (
         <Collapse in={open} orientation='horizontal'>
             <DailySummaryContent locale={locale} setOpen={setOpen} />
@@ -16,7 +16,7 @@ export default function DailySummary({ locale }) {
     )
 }
 
-function DailySummaryContent({ locale, setOpen}) {
+function DailySummaryContent({ locale, setOpen }) {
     // const date = useTime(state => state.date);
     // const [dayString, setDayString] = useState(new Date().toISOString().split('T')[0]);
     // const [dailySummary, setDailySummary] = useState(null);
@@ -24,9 +24,9 @@ function DailySummaryContent({ locale, setOpen}) {
     const dayString = useDailySummary(state => state.day);
     // const [expanded, setExpanded] = useState(true);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (dailySummary) setOpen(true);
-    },[dailySummary])
+    }, [dailySummary])
 
     // useEffect(() => {
     //     if (date) setDayString(date.toISOString().split('T')[0]);
@@ -36,7 +36,7 @@ function DailySummaryContent({ locale, setOpen}) {
     //     setDailySummary(dailySummaries.find(summary => summary?.date === dayString));
     // }, [dayString, dailySummaries]);
 
-    if (!dailySummary) return null;
+    if (!dailySummary) return null
 
     // Format date as dd.mm.yyyy
     const formattedDate = new Date(dayString)
