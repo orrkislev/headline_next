@@ -20,16 +20,14 @@ import CountryPageContent from "./CountryPage_content";
 
 export default async function Page({ params }) {
     const { country, locale } = await params;
-    let headlines, summaries, dailySummaries;
 
     const today = new Date()
-    headlines = await getCountryDayHeadlines(country, today, 2);
-    summaries = await getCountryDaySummaries(country, today, 2);
-    dailySummaries = [
+    const headlines = await getCountryDayHeadlines(country, today, 2);
+    const initialSummaries = await getCountryDaySummaries(country, today, 2);
+    const initialDailySummaries = [
         await getCountryDailySummary(country, sub(today, { days: 1 })),
         await getCountryDailySummary(country, sub(today, { days: 2 }))
     ];
-    // }
 
     const sources = {};
     headlines.forEach(headline => {
@@ -37,15 +35,15 @@ export default async function Page({ params }) {
         sources[headline.website_id].push(headline);
     });
 
-    if (summaries.length === 0) {
+    if (initialSummaries.length === 0) {
         return 'no summaries found';
     }
 
     return <>
         <CountryPageContent
             sources={sources}
-            summaries={summaries}
-            dailySummaries={dailySummaries}
+            initialSummaries={initialSummaries}
+            initialDailySummaries={initialDailySummaries}
             locale={locale}
             country={country}
         />

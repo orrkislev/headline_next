@@ -1,13 +1,12 @@
 'use client'
 
 import Disclaimer from "@/components/Disclaimer";
-import DailySummary from "./DailySummary";
 import SummariesList from "./SummariesList";
 import YesterdaySummaryTitle from "./YesterSummaryTitle";
 import { useTime } from "@/utils/store";
-import { useEffect, useMemo, useState } from "react";
-import useSummariesManager from "@/utils/database/useSummariesManager";
+import { useEffect, useState } from "react";
 import useDailySummariesManager from "@/utils/database/useDailySummariesManager";
+import useSummariesManager from "@/utils/database/useSummariesManager";
 
 const calculateDisplaySummaries = (day, summaries) => {
     const daySummaries = summaries.filter(summary => summary.timestamp.toDateString() === day).sort((a, b) => b.timestamp - a.timestamp)
@@ -23,7 +22,7 @@ export default function SummariesSection({ initialSummaries, locale, country, in
     const summaries = useSummariesManager(country, initialSummaries);
     const date = useTime(state => state.date);
     const [day, setDay] = useState(new Date().toDateString());
-    const [displaySummaries, setDisplaySummaries] = useState(calculateDisplaySummaries(new Date().toDateString(), initialSummaries));
+    const [displaySummaries, setDisplaySummaries] = useState(calculateDisplaySummaries(new Date().toDateString(), summaries));
     const [activeSummaryId, setActiveSummaryId] = useState(summaries.sort((a, b) => b.timestamp - a.timestamp)[0]?.id);
 
 
@@ -40,7 +39,6 @@ export default function SummariesSection({ initialSummaries, locale, country, in
 
     return (
         <>
-            <DailySummary {...{ locale, day, dailySummaries }} />
             <SummariesList summaries={displaySummaries} {...{ activeSummaryId, locale }} />
             <div className='py-2 bg-white border-t border-gray-200'>
                 <YesterdaySummaryTitle {...{ locale, day, dailySummaries }} summary={displaySummaries[displaySummaries.length - 1]} />

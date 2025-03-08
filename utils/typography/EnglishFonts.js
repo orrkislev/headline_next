@@ -1,6 +1,12 @@
 export default function EnglishFonts() {
     return (
-        <style>{`
+        <>
+            <link rel="preload" href="/fonts/futura-heavy.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+            <link rel="preload" href="/fonts/futura-bold-italic.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+            <link rel="preload" href="/fonts/helvetica-bold.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+            <link rel="preload" href="/fonts/plantin-condensed.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+            <link rel="preload" href="/fonts/cheltenham.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+            <style>{`
 				:root {
 					--font-futura: 'FuturaHeavy';
 					--font-futura-italic: 'FuturaBoldItalic';
@@ -30,6 +36,7 @@ export default function EnglishFonts() {
 					font-display: swap;
 				}
 			`}</style>
+        </>
     );
 }
 

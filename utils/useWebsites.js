@@ -25,7 +25,7 @@ export default function useWebsites(country, locale) {
 
     const toggleSource = (source) => {
         const newWebsites = orderedWebsites.includes(source)
-            ? websites.filter(website => website !== source)
+            ? orderedWebsites.filter(website => website !== source)
             : [...orderedWebsites, source];
         changeUrl(newWebsites);
     };

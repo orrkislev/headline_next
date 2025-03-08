@@ -5,20 +5,36 @@ import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { Collapse, IconButton, keyframes, styled } from '@mui/material';
 import { getHeadline, getSummaryContent } from '@/utils/daily summary utils';
 import { useTime } from '@/utils/store';
+import { useDailySummary } from '@/utils/database/useDailySummariesManager';
 
-export default function DailySummary({ locale, dailySummaries }) {
-    const date = useTime(state => state.date);
-    const [dayString, setDayString] = useState(new Date().toISOString().split('T')[0]);
-    const [dailySummary, setDailySummary] = useState(null);
-    const [expanded, setExpanded] = useState(false);
+export default function DailySummary({ locale }) {
+    const [open, setOpen] = useState(true);
+    return (
+        <Collapse in={open} orientation='horizontal'>
+            <DailySummaryContent locale={locale} setOpen={setOpen} />
+        </Collapse>
+    )
+}
 
-    useEffect(() => {
-        if (date) setDayString(date.toISOString().split('T')[0]);
-    }, [date]);
+function DailySummaryContent({ locale, setOpen}) {
+    // const date = useTime(state => state.date);
+    // const [dayString, setDayString] = useState(new Date().toISOString().split('T')[0]);
+    // const [dailySummary, setDailySummary] = useState(null);
+    const dailySummary = useDailySummary(state => state.dailySummary);
+    const dayString = useDailySummary(state => state.day);
+    // const [expanded, setExpanded] = useState(true);
 
-    useEffect(() => {
-        setDailySummary(dailySummaries.find(summary => summary?.date === dayString));
-    }, [dayString, dailySummaries]);
+    useEffect(()=>{
+        if (dailySummary) setOpen(true);
+    },[dailySummary])
+
+    // useEffect(() => {
+    //     if (date) setDayString(date.toISOString().split('T')[0]);
+    // }, [date]);
+
+    // useEffect(() => {
+    //     setDailySummary(dailySummaries.find(summary => summary?.date === dayString));
+    // }, [dayString, dailySummaries]);
 
     if (!dailySummary) return null;
 
@@ -35,17 +51,15 @@ export default function DailySummary({ locale, dailySummaries }) {
     const summaryContent = getSummaryContent(dailySummary, locale);
 
     return (
-        <div className="bg-white pb-2 border-b border-gray-200">
-            <div className='flex items-start justify-between relative cursor-pointer flex-row-reverse'
-                onClick={() => setExpanded(p => !p)}
-            >
+        <div className="bg-white pb-2  border-gray-200 max-w-[400px] pt-4 flex-[1] border-l border-r">
+            <div className='flex items-start justify-between relative cursor-pointer flex-row-reverse' onClick={() => setOpen(false)}>
                 <div className={`text-blue flex-1 pl-2 pr-2 ${locale === 'heb' ? 'pl-8' : 'pr-12'} mb-2 text-[1.5rem] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={locale === 'heb' ? { lineHeight: '1.5' } : {}}>
                     <span className="font-mono">{formattedDate}</span>
-                    <span> {locale === 'heb' ? ' ⇠ ' : ' ⇢ '}</span>
-                    <span>{headline}</span>
+                    {/* <span> {locale === 'heb' ? ' ⇠ ' : ' ⇢ '}</span> */}
+                    <div>{headline}</div>
                 </div>
 
-                <div className={`absolute top-0 flex flex-col gap-[-0.5em] ${locale === 'heb' ? 'left-0' : 'right-0'}`}>
+                {/* <div className={`absolute top-0 flex flex-col gap-[-0.5em] ${locale === 'heb' ? 'left-0' : 'right-0'}`}>
                     {expanded ? (
                         <KeyboardArrowUp sx={{ color: 'blue' }} />
                     ) : [0, 1, 2].map((index) => (
@@ -54,15 +68,13 @@ export default function DailySummary({ locale, dailySummaries }) {
                         </RunwayButton>
                     ))
                     }
-                </div>
+                </div> */}
             </div>
-            <Collapse in={expanded}>
-                <div className={`custom-scrollbar max-h-[45vh] leading-none font-normal mt-1 ${locale === 'heb' ? 'pl-4 pr-2' : 'pl-2 pr-4'} text-[17px] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={{ lineHeight: '1.3', }}>
-                    <div dangerouslySetInnerHTML={{ __html: summaryContent }} />
-                </div>
-            </Collapse>
+            <div className={`custom-scrollbar max-h-[45vh] leading-none font-normal mt-1 ${locale === 'heb' ? 'pl-4 pr-2' : 'pl-2 pr-4'} text-[17px] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={{ lineHeight: '1.3', }}>
+                <div dangerouslySetInnerHTML={{ __html: summaryContent }} />
+            </div>
         </div>
-    );
+    )
 }
 
 
