@@ -20,9 +20,9 @@ export default function OrderMenu({ open, close, locale, order, setOrder }) {
     return (
         <>
             <PopUpCleaner open={open} close={close} />
-            <div className={`absolute z-[1000] top-[-2em] ${locale == 'heb' ? 'left-0' : 'right-0'} mt-12 bg-white shadow-lg rounded-lg p-4 direction-rtl`}>
-                <div className="w-64 bg-white rounded-lg p-4 text-sm">
-                    <div className="text-blue text-lg mb-1">Source Order</div>
+            <div className={`absolute z-[1000] top-[-2em] ${locale == 'heb' ? 'left-0' : 'right-0'} mt-12 bg-white shadow-lg rounded-lg p-6 pt-4`} style={{ direction: 'ltr' }}>
+                <div className="w-64 bg-white rounded-lg text-sm">
+                    <div className="text-blue text-lg mb-2">Source Order</div>
 
                     <ToggleButtonGroup
                         orientation="vertical"
@@ -33,12 +33,12 @@ export default function OrderMenu({ open, close, locale, order, setOrder }) {
                     >
                         {Object.keys(orderOptionLabels).map(optionName => (
                             <ToggleButton key={optionName} value={optionName} sx={toggleButtonStyle}>
-                                <div style={{ fontSize: '0.9rem' }}>{orderOptionLabels[optionName]}</div>
+                                <div className="text-sm">{orderOptionLabels[optionName]}</div>
                             </ToggleButton>
                         ))}
                     </ToggleButtonGroup>
 
-                    <div className="text-xs">
+                    <div className="text-sm">
                         Sorting the sources can be done through:
                         (a) <span style={{ color: 'blue' }}>reputation</span> - the perceived credibility of the source,
                         (b) <span style={{ color: 'blue' }}>circulation</span> - the estimated number of readers,
@@ -46,7 +46,7 @@ export default function OrderMenu({ open, close, locale, order, setOrder }) {
                         (d) <span style={{ color: 'blue' }}>Right to Left</span> - placing "conservative" and right-wing sources at the top.
                         The (e) <span style={{ color: 'blue' }}>default</span> view gives a selection of prominent sources, creating contrasts when possible.
                         <br /><br />
-                        <div style={{ fontSize: '0.7rem', mt: 1, color: '#757575' }}>
+                        <div className="text-xs py-1" style={{ color: '#757575' }}>
                             * Notice that all these orders were determined mainly through AI assessments: they are not definitive lists or established rankings.
                         </div>
                     </div>
