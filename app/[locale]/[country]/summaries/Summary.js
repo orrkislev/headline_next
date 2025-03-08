@@ -46,15 +46,16 @@ export default function Summary({ summary, active, locale }) {
                 cursor: active ? 'default' : 'pointer',
                 fontSize: active ? '17px' : '.9rem',
                 fontWeight: 400,
-                lineHeight: active ? '1.3' : '1.3',
+                lineHeight: active ? '1.4' : '1.3',
             }}
             onClick={() => setDate(summary.timestamp)}
         >
             <div className={`${active ? 'text-blue' : ''} mb-2`}
                 style={{
                     fontSize: active ? '1.25rem' : '1.15rem',
-                    lineHeight: active ? '1.3' : '1.3',
+                    lineHeight: active ? '1.5' : '1.3',
                     marginTop: active ? '0px' : '12px',
+                    marginBottom: active ? '20px' : '10px',
                 }}
             >
                 <span className="font-mono">{timestamp}</span>
