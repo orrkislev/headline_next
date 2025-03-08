@@ -32,8 +32,9 @@ export default function useWebsites(country, locale) {
         window.history.replaceState(null, '', url);
     }
 
+    
     const sourceOrder = getSourceOrder(country, order);
-    const orderedWebsites = websites ? websites.map(website => sourceOrder.indexOf(website)).sort((a, b) => a - b).map(index => sourceOrder[index]) : [];
+    const orderedWebsites = websites ? websites.map(website => sourceOrder.indexOf(website)).sort((a, b) => a - b).map(index => sourceOrder[index]) : sourceOrder.slice(0, 6);
 
     return { websites: orderedWebsites, addNextWebsite, toggleSource };
 }

@@ -17,12 +17,21 @@ export default function YesterdaySummaryTitle({ locale, summary, day, dailySumma
     const yesterdayString = locale == 'heb' ? 'אתמול' : 'Yesterday';
     const dateString = isToday(new Date(day + 'UTC')) ? yesterdayString : yesterday;
 
+    const click = () => {
+        if (summary) setDate(summary.timestamp);
+        else {
+            const yesterdayDate = new Date(yesterday + 'UTC');
+            yesterdayDate.setHours(23, 59);
+            setDate(yesterdayDate);
+        }
+    }
+
     return (
         <div className={`py-2 px-2 pb-4 cursor-pointer text-2xl text-blue ${locale === 'en'
             ? 'font-roboto pr-4'
             : 'frank-re pl-4'
             }`}
-            onClick={() => setDate(summary.timestamp)}>
+            onClick={click}>
 
             <span>{dateString}</span>
             <span> {locale == 'heb' ? ' ⇠ ' : ' ⇢ '}</span>

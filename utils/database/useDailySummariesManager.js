@@ -10,10 +10,10 @@ export default function useDailySummariesManager(country, initialDailySummaries)
     const dates = useRef();
     const firebase = useFirebase();
 
-    const addDailySummaries = (newDailySummaries) => {
+    const addDailySummary = (newDailySummary) => {
         setDailySummaries(prev => {
-            const onlyNewOnes = newDailySummaries.filter(newSummary => !prev.some(summary => summary.id === newSummary.id));
-            return [...prev, ...onlyNewOnes];
+            if (prev.find(summary => summary.date === newDailySummary.date)) return prev;
+            return [...prev, newDailySummary];
         });
     };
 
@@ -33,20 +33,17 @@ export default function useDailySummariesManager(country, initialDailySummaries)
 
     useEffect(() => {
         if (!firebase.db || !dates.current || !day) return;
-        getDayDailySummaries(day);
+        const dayDate = new Date(day + 'UTC');
+        getDayDailySummaries(dayDate);
+        getDayDailySummaries(sub(dayDate, { days: 1 }));
+        getDayDailySummaries(sub(dayDate, { days: 2 }));
     }, [firebase.db, day]);
 
-    const getDayDailySummaries = async (day) => {
-        const dayDate = new Date(day + ' UTC');
-        if (!dates.current.includes(day)) {
+    const getDayDailySummaries = async (dayDate) => {
+        if (!dates.current.includes(dayDate.toDateString())) {
             const dailySummary = await firebase.getCountryDailySummary(country, dayDate);
-            if (dailySummary) addDailySummaries([dailySummary]);
-        }
-
-        const dayBefore = sub(dayDate, { days: 1 });
-        if (!dates.current.includes(dayBefore.toDateString())) {
-            const dailySummaryBefore = await firebase.getCountryDailySummary(country, dayBefore);
-            if (dailySummaryBefore) addDailySummaries([dailySummaryBefore]);
+            if (dailySummary) addDailySummary(dailySummary);
+            dates.current.push(dayDate.toDateString());
         }
     };
 

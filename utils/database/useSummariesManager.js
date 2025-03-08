@@ -40,7 +40,9 @@ export default function useSummariesManager(country, initialSummaries) {
 
     useEffect(() => {
         if (!firebase.db || !dates.current || !day) return
-        getDaySummaries(day)
+        const dayDate = new Date(day)
+        getDaySummaries(dayDate)
+        getDaySummaries(sub(dayDate, { days: 1 }))
     }, [firebase.db, day])
 
     useEffect(() => {
@@ -56,17 +58,11 @@ export default function useSummariesManager(country, initialSummaries) {
         setDailySummaries(daySummaries)
     }, [summaries, day])
 
-    const getDaySummaries = async (day) => {
-        const dayDate = new Date(day + ' UTC')
-        if (!dates.current.includes(day)) {
+    const getDaySummaries = async (dayDate) => {
+        if (!dates.current.includes(dayDate.toDateString())) {
             const summaries = await firebase.getCountryDaySummaries(country, dayDate)
             addSummaries(summaries)
-        }
-
-        const dayBefore = sub(dayDate, { days: 1 })
-        if (!dates.current.includes(dayBefore.toDateString())) {
-            const dayBeforeSummaries = await firebase.getCountryDaySummaries(country, dayBefore)
-            addSummaries(dayBeforeSummaries)
+            dates.current.push(dayDate.toDateString())
         }
     }
 
