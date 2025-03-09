@@ -72,7 +72,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
         `}>
             <CloseButton sourceName={name} click={() => toggleSource(name)} />
-            <div className="flex flex-col h-full justify-between">
+            <div className="flex flex-col h-full justify-normal sm:justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
                     <SourceName website={name} typography={typography} country={country} />
                     <Headline headline={headline} typography={typography} translation={translate ? translations[headline.id] : null} />

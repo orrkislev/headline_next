@@ -4,7 +4,7 @@ import { SettingsButton } from "./SettingsButton.js";
 
 export default function TopBar({ locale, country, sources}) {
     return (
-        <div className="flex border-b border-gray-200 px-2 py-1">
+        <div className="hidden sm:flex border-b border-gray-200 px-2 py-1">
             <div className="flex justify-between w-full">
                 <div className="flex items-center">
                     <TimeDisplay locale={locale} />

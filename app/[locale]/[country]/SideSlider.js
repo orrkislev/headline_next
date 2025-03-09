@@ -1,11 +1,12 @@
 'use client'
 
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import { KeyboardArrowDown, KeyboardArrowLeft, KeyboardArrowRight, KeyboardArrowUp } from "@mui/icons-material";
 import { IconButton, Slider, styled } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import ResetTimerButton from "./Slider/ResetTimerButton";
 import { useTime } from "@/utils/store";
 import { useDaySummaries } from "@/utils/database/useSummariesManager";
+import { CustomSlider_Source } from "./Source/SourceSlider";
 
 export default function SideSlider({ locale }) {
     const summaries = useDaySummaries(state => state.daySummaries);
@@ -49,20 +50,37 @@ export default function SideSlider({ locale }) {
     );
     const prevSummary = summaries.reverse().find(summary => summary.timestamp < date);
 
+
+    const isMobile = window.innerWidth < 740;
+    if (isMobile) return (
+        <div className={`fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-gray-200
+            flex items-center justify-between py-2 px-1 gap-2`}>
+            <IconButton size="small" onClick={() => nextSummary && setDate(nextSummary.timestamp)} disabled={!nextSummary}>
+                <KeyboardArrowRight />
+            </IconButton>
+            <CustomSlider_Source orientation="horizontal" size="small"
+                min={0} max={24 * 60} step={1}
+                onChange={(_, value) => updateDate(value)}
+                value={minutes} marks={marks}
+                sx={{ height: 4 }}
+            />
+            <IconButton size="small" onClick={() => prevSummary && setDate(prevSummary.timestamp)} disabled={!prevSummary}>
+                <KeyboardArrowLeft />
+            </IconButton>
+        </div>
+    )
+
     return (
         <div className={`flex flex-col items-center justify-center ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
             <ResetTimerButton date={date} setDate={setDate} locale={locale} />
             <IconButton size="small" onClick={() => nextSummary && setDate(nextSummary.timestamp)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
             </IconButton>
-            <CustomSlider orientation="vertical"
-                size="small"
-                value={minutes}
-                min={0}
-                max={24 * 60}
-                step={1}
+            <CustomSlider_Side orientation="vertical" size="small"
+                min={0} max={24 * 60} step={1}
                 onChange={(_, value) => updateDate(value)}
-                marks={marks}
+                value={minutes} marks={marks}
+                sx={{ width: 4 }}
             />
             <IconButton size="small" onClick={() => prevSummary && setDate(prevSummary.timestamp)} disabled={!prevSummary}>
                 <KeyboardArrowDown />
@@ -73,9 +91,8 @@ export default function SideSlider({ locale }) {
 
 
 
-const CustomSlider = styled(Slider)(({ theme }) => ({
+export const CustomSlider_Side = styled(Slider)(({ theme }) => ({
     color: 'navy',
-    width: 4,
     '& .MuiSlider-thumb': {
         width: 10,
         height: 10,

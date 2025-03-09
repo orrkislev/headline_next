@@ -6,17 +6,16 @@ import { getTypographyOptions } from "@/utils/typography/typography";
 import MainSection from "./MainSection";
 import DailySummary from "./summaries/DailySummary";
 
-
 export default function CountryPageContent({ sources, initialSummaries, initialDailySummaries, locale, country }) {
 
     const typography = getTypographyOptions(country);
 
     return (
-        <div className={`absolute flex w-full h-full overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
+        <div className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
             <EnglishFonts />
             <typography.component />
             <SideSlider locale={locale} />
-            <div className={`flex-[1] border-l border-r border-gray-200 flex max-w-[400px] `}>
+            <div className={`flex-[1 sm:border-l sm:border-r border-gray-200 flex max-w-[400px] `}>
                 <RightPanel {...{ initialSummaries, locale, country, initialDailySummaries }} />
             </div>
             <DailySummary locale={locale} />

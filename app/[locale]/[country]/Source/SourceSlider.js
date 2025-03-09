@@ -37,7 +37,7 @@ export default function SourceSlider({ headlines }) {
                 <KeyboardArrowRight color="gray" />
             </IconButton>
 
-            <CustomSlider size="small" readOnly
+            <CustomSlider_Source size="small" readOnly
                 min={0} max={24 * 60} value={minutes}
                 marks={marks} />
 
@@ -48,7 +48,7 @@ export default function SourceSlider({ headlines }) {
     );
 }
 
-const CustomSlider = styled(Slider)(({ theme }) => ({
+export const CustomSlider_Source = styled(Slider)(({ theme }) => ({
     color: 'navy',
     height: 4,
     '& .MuiSlider-thumb': {

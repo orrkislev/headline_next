@@ -40,7 +40,7 @@ export default function DynamicLogo({ locale }) {
     }, []);
 
     return (
-        <Link href="/" className='hidden md:block'>
+        <Link href="/" className=''>
             <style jsx global>{`
                 @font-face {
                     font-family: 'CheltenhamCondensed';

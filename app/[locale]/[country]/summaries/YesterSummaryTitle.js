@@ -27,7 +27,7 @@ export default function YesterdaySummaryTitle({ locale, summary, day, dailySumma
     }
 
     return (
-        <div className={`py-2 px-2 pb-4 cursor-pointer text-2xl text-blue ${locale === 'en'
+        <div className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer text-2xl text-blue ${locale === 'en'
             ? 'font-roboto pr-4'
             : 'frank-re pl-4'
             }`}
