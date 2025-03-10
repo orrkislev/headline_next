@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import AddSourceButton from "./Source/AddSourceButton";
 import SourceCard from "./Source/SourceCard";
+import { countries } from "@/utils/sources/countries";
 
 export default function MainSection({ sources, country, locale }) {
     return (
@@ -12,6 +13,7 @@ export default function MainSection({ sources, country, locale }) {
                         lg:grid-cols-3 
                         fhd:grid-cols-4 
                         qhd:grid-cols-6 
+                        direction-${countries[country].languageDirection}
                         `}>
             {Object.entries(sources).map(([sourceName, source]) => (
                 <Suspense key={sourceName} fallback={<div>Loading...</div>}>
@@ -24,7 +26,7 @@ export default function MainSection({ sources, country, locale }) {
                 </Suspense>
             ))}
             <Suspense fallback={<div>Loading...</div>}>
-                <AddSourceButton {...{ locale, country }} />
+                <AddSourceButton {...{ locale, country, sources}} />
             </Suspense>
         </div>
     );

@@ -30,3 +30,8 @@ export const useTranslate = create(set => ({
     }),
     clearTranslations: () => set({ translate: [] }),
 }));
+
+export const useActiveWebsites = create(set => ({
+    activeWebsites: [],
+    setActiveWebsites: (websites) => set({ activeWebsites: websites }),
+}));

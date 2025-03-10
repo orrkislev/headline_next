@@ -60,7 +60,6 @@ export const countryTypographyOptions = {
     iran: arabicTypographyOptions,
     palestine: arabicTypographyOptions,
     uae: arabicTypographyOptions,
-    'united-arab-emirates': arabicTypographyOptions,
     japan: [
         {
             fontFamily: 'var(--font-rocknroll-one)',
@@ -161,6 +160,6 @@ export function getRandomTypography(language) {
 
 export function getTypographyOptions(country) {
     // return countryTypographyOptions[country.toLowerCase()] || baseTypographyOptions;
-    if (country === 'Israel') return countryTypographyOptions['israel'];
+    if (country === 'israel') return countryTypographyOptions['israel'];
     else return countryTypographyOptions['default'];
 }

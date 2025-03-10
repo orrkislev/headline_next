@@ -4,6 +4,7 @@ import { collection, doc, getDocs, limit, onSnapshot, orderBy, query, where, get
 import { cache } from "react";
 
 import { firebaseConfig } from './firebaseConfig';
+import { countries } from "../sources/countries";
 
 
 const app = initializeApp(firebaseConfig);
@@ -11,20 +12,9 @@ const db = getFirestore(app);
 
 export function getCountryCollectionRef(countryName, collectionName) {
   const countriesCollection = collection(db, '- Countries -');
-
-  let processedName = countryName.replace(/-/g, ' ');
-  let countryNameWithCapital;
-
-  if (['us', 'uk'].includes(processedName.toLowerCase())) {
-    countryNameWithCapital = processedName.toUpperCase();
-  } else if (processedName.toLowerCase() === 'united arab emirates') {
-    countryNameWithCapital = 'United Arab Emirates';
-  } else {
-    countryNameWithCapital = processedName.split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  }
-  const countryDoc = doc(countriesCollection, countryNameWithCapital);
+  
+  const countryID = countries[countryName].english;
+  const countryDoc = doc(countriesCollection, countryID);
   return collection(countryDoc, collectionName);
 }
 

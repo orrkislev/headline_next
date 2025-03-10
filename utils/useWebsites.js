@@ -1,34 +1,46 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 import getSourceOrder from "./sources/source orders";
-import { useOrder } from "./store";
-import { useMemo } from "react";
+import { useActiveWebsites, useOrder } from "./store";
+import { useEffect, useMemo } from "react";
 
-export default function useWebsites(country, locale) {
+export default function useWebsites(country, locale, sources) {
     const { order, setOrder } = useOrder()
-    const searchParams = useSearchParams();
-    const websites = useMemo(() => {
-        return searchParams.get('websites')?.split(',');
-    }, [searchParams]);
+    const { activeWebsites, setActiveWebsites } = useActiveWebsites()
+    // const searchParams = useSearchParams();
+    // const websites = useMemo(() => {
+    //     return searchParams.get('websites')?.split(',');
+    // }, [searchParams]);
 
-    const sourceOrder = getSourceOrder(country, order);
-    const orderedWebsites = websites ? websites.map(website => sourceOrder.indexOf(website)).sort((a, b) => a - b).map(index => sourceOrder[index]) : sourceOrder.slice(0, 6);
-
-    
-    const addNextWebsite = () => {
+    useEffect(() => {
+        if (!sources) return;
         const sourceOrder = getSourceOrder(country, order);
-        const nextSource = sourceOrder.find((source) => !orderedWebsites.includes(source));
+        setActiveWebsites(sourceOrder.filter(source => sources[source] || sources[source.toLowerCase()] || Object.keys(sources).find(s => s.toLowerCase() === source.toLowerCase())).slice(0, 6));
+    }, [sources])
+
+    // let orderedWebsites
+    // if (websites) orderedWebsites = websites.map(website => sourceOrder.indexOf(website)).sort((a, b) => a - b).map(index => sourceOrder[index])
+    // else orderedWebsites = sourceOrder.slice(0, 6);
+
+    const addNextWebsite = (sources) => {
+        const sourceOrder = getSourceOrder(country, order);
+        const availableSources = sourceOrder.filter(source => sources[source]);
+
+        const nextSource = availableSources.find((source) => !websites.includes(source));
         if (nextSource) {
-            const newWebsite = [...orderedWebsites, nextSource];
-            changeUrl(newWebsite);
+            changeUrl([...websites, nextSource]);
         }
     };
 
     const toggleSource = (source) => {
-        const newWebsites = orderedWebsites.includes(source)
-            ? orderedWebsites.filter(website => website !== source)
-            : [...orderedWebsites, source];
-        changeUrl(newWebsites);
+        const newWebsites = activeWebsites.includes(source)
+            ? activeWebsites.filter(website => website !== source)
+            : [...activeWebsites, source];
+        // changeUrl(newWebsites);
+        const sourceOrder = getSourceOrder(country, order);
+        const orderedWebsites = sourceOrder.filter(source => newWebsites.includes(source));
+        setActiveWebsites(orderedWebsites);
+
     };
 
     const changeUrl = (newWebsites) => {
@@ -36,8 +48,8 @@ export default function useWebsites(country, locale) {
         if (window) window.history.replaceState(null, '', url);
     }
 
-    const isActive = (source) => orderedWebsites.find(website => website.toLowerCase() === source.toLowerCase());
-    const getIndex = (source) => orderedWebsites.findIndex(website => website.toLowerCase() === source.toLowerCase());
+    const isActive = (source) => activeWebsites.find(website => website.toLowerCase() === source.toLowerCase());
+    const getIndex = (source) => activeWebsites.findIndex(website => website.toLowerCase() === source.toLowerCase());
 
-    return { websites: orderedWebsites, addNextWebsite, toggleSource, isActive, getIndex}
+    return { websites: activeWebsites, addNextWebsite, toggleSource, isActive, getIndex }
 }
