@@ -1,44 +1,35 @@
 export default function EnglishFonts() {
     return (
         <>
-            <link rel="preload" href="/fonts/futura-heavy.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-            <link rel="preload" href="/fonts/futura-bold-italic.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+            {/* Preload local fonts */}
+            <link rel="preload" href="/fonts/cheltenham-cond-normal-700.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
             <link rel="preload" href="/fonts/helvetica-bold.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-            <link rel="preload" href="/fonts/plantin-condensed.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-            <link rel="preload" href="/fonts/CheltenhamStdBook.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+            
             <style>{`
 				:root {
-					--font-futura: 'FuturaHeavy';
-					--font-futura-italic: 'FuturaBoldItalic';
-					--font-helvetica: 'HelveticaBold';
-                    --font-cheltenham: 'CheltenhamStdBook';
-					--font-plantin-condensed: 'PlantinCondensed';
+					--font-futura: 'futura-pt', sans-serif;
+					--font-futura-italic: 'futura-pt', sans-serif;
+					--font-futura-bold: 'futura-pt-bold', sans-serif;
+					--font-helvetica: 'Helvetica-Bold', Arial, sans-serif;
+                    --font-cheltenham: 'Cheltenham', serif;
+					--font-plantin-condensed: 'plantin-condensed', sans-serif;
 				}
-				@font-face {
-					font-family: 'FuturaHeavy';
-					src: url('/fonts/futura-heavy.ttf') format('truetype');
-					font-display: block;
-				}
-				@font-face {
-					font-family: 'FuturaBoldItalic';
-					src: url('/fonts/futura-bold-italic.ttf') format('truetype');
-					font-display: block;
-				}
-				@font-face {
-					font-family: 'HelveticaBold';
-					src: url('/fonts/helvetica-bold.otf') format('opentype');
-					font-display: block;
-				}
-				@font-face {
-                    font-family: 'CheltenhamStdBook';
-                    src: url('/fonts/CheltenhamStdBook.otf') format('opentype');
+                
+                @font-face {
+                    font-family: 'Cheltenham';
+                    src: url('/fonts/cheltenham-cond-normal-700.ttf') format('truetype');
+                    font-weight: 700;
+                    font-style: normal;
                     font-display: block;
                 }
-				@font-face {
-					font-family: 'PlantinCondensed';
-					src: url('/fonts/plantin-condensed.ttf') format('truetype');
-					font-display: block;
-				}
+                
+                @font-face {
+                    font-family: 'Helvetica-Bold';
+                    src: url('/fonts/helvetica-bold.otf') format('opentype');
+                    font-weight: 700;
+                    font-style: normal;
+                    font-display: block;
+                }
 			`}</style>
         </>
     );
@@ -55,24 +46,31 @@ export const Typography_English = [
         fontFamily: 'var(--font-futura-italic)',
         fontSize: '2.1rem',
         lineHeight: 1.15,
+        fontWeight: 400,
+        fontStyle: 'italic',
+    },
+    {
+        fontFamily: 'var(--font-futura-bold)',
+        fontSize: '2.3rem',
+        lineHeight: 1.15,
         fontWeight: 700,
     },
     {
         fontFamily: 'var(--font-plantin-condensed)',
         fontSize: '2.3rem',
         lineHeight: 1.1,
-        fontWeight: 700,
+        fontWeight: 400,
     },
     {
         fontFamily: 'var(--font-helvetica)',
         fontSize: '2.1rem',
         lineHeight: 1.2,
-        fontWeight: 400,
+        fontWeight: 700,
     },
     {
         fontFamily: 'var(--font-cheltenham)',
         fontSize: '2.8rem',
         lineHeight: 1.1,
-        fontWeight: 400,
+        fontWeight: 700,
     },
 ];
