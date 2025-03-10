@@ -6,11 +6,10 @@ import { useTranslate } from "@/utils/store";
 import { Translate } from "@mui/icons-material";
 
 export default function TranslateToggle() {
-    const { translate, setTranslate } = useTranslate();
+    const { setTranslate } = useTranslate();
 
     const handleClick = () => {
-        if (translate) setTranslate(false);
-        else setTranslate(true);
+        setTranslate('ALL');
     }
     return (
         <CustomTooltip title="Translate" placement="bottom">

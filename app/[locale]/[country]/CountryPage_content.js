@@ -4,6 +4,7 @@ import TopBar from "./TopBar/TopBar";
 import EnglishFonts from "@/utils/typography/EnglishFonts";
 import { getTypographyOptions } from "@/utils/typography/typography";
 import MainSection from "./MainSection";
+import HebrewFonts from "@/utils/typography/HebrewFonts";
 
 export default function CountryPageContent({ sources, initialSummaries, initialDailySummaries, locale, country }) {
 
@@ -12,6 +13,7 @@ export default function CountryPageContent({ sources, initialSummaries, initialD
     return (
         <div className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
             <EnglishFonts />
+            {locale == 'heb' && <HebrewFonts />}
             <typography.component />
             <SideSlider locale={locale} />
             <div className={`flex-[1 sm:border-l sm:border-r border-gray-200 flex max-w-[400px] `}>

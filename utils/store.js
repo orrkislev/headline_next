@@ -21,6 +21,12 @@ export const useOrder = create(set => ({
 }));
 
 export const useTranslate = create(set => ({
-    translate: false,
-    setTranslate: (translate) => set({ translate }),
+    translate: [],
+    setTranslate: (sourceName) => set(state => {
+        if (state.translate.includes(sourceName)) {
+            return { translate: state.translate.filter(name => name !== sourceName) }
+        }
+        return { translate: [...state.translate, sourceName] }
+    }),
+    clearTranslations: () => set({ translate: [] }),
 }));

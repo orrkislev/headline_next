@@ -25,6 +25,8 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
     const [headline, setHeadline] = useState(initialHeadlines[0]);
     const [translations, setTranslations] = useState({});
 
+    const shouldTranslate = useMemo(() => translate.includes(name) || translate.includes('ALL'), [translate, name]);
+
     useEffect(() => {
         if (!headlines) return;
         if (!date) return;
@@ -32,7 +34,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
     }, [headlines, date]);
 
     useEffect(() => {
-        if (translate && headline && headline.headline) {
+        if (shouldTranslate && headline && headline.headline) {
             if (!isActive(name)) return;
             if (translations[headline.id]) return;
             (async () => {
@@ -41,15 +43,15 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
                     body: JSON.stringify({ headline: headline.headline })
                 })
                 const resData = await res.json()
-                setTranslations((prev) => ({ ...prev, [headline.id]: resData.translation }))
+                setTranslations((prev) => ({ ...prev, [headline.id]: resData.text }))
             })();
         }
-    }, [translate, headline, isActive, name, translations]);
+    }, [shouldTranslate, headline, isActive, name, translations]);
 
 
     const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline) ||
-                                /[\u0590-\u05FF\u0600-\u06FF]/.test(getSourceName(country, name))
-                                ,[headline]);
+        /[\u0590-\u05FF\u0600-\u06FF]/.test(getSourceName(country, name))
+        , [headline]);
 
     const typography = useMemo(() => {
         let typo = font
@@ -77,12 +79,12 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
             <div className="flex flex-col h-full justify-normal sm:justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
                     <SourceName website={name} typography={typography} country={country} />
-                    <Headline headline={headline} typography={typography} translation={translate ? translations[headline.id] : null} />
+                    <Headline headline={headline} typography={typography} translation={shouldTranslate ? translations[headline.id] : null} />
                 </div>
                 <div>
                     <Subtitle headline={headline} />
                     <SourceSlider headlines={headlines} />
-                    <SourceFooter url={headlines[0].link} headline={headline} headlines={headlines} />
+                    <SourceFooter url={headlines[0].link} {...{ headline, headlines, name }} />
                 </div>
             </div>
         </div>
