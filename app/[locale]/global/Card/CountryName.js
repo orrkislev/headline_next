@@ -1,6 +1,5 @@
 import FlagIcon from "@/components/FlagIcon"
 import { countries } from "@/utils/sources/countries"
-import { getTypographyOptions } from "@/utils/typography/typography"
 import { Divider } from "@mui/material"
 import { useParams } from "next/navigation"
 

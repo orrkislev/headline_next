@@ -1,5 +1,5 @@
 const sourceDescriptions = {
-  "US": {
+  "us": {
     "yahoo": "Yahoo News is a popular online news aggregator, attracting approximately 175 million unique monthly visitors globally, appealing to a broad demographic and generally considered to have a slightly left-of-center bias.",
     "foxnews": "Fox News is a conservative news website and cable channel, drawing about 80 million unique monthly visitors online, catering to a right-leaning audience and known for its politically conservative bias.",
     "nytimes": "The New York Times is a prestigious newspaper and digital news platform, reaching around 130 million unique monthly visitors monthly, appealing to an educated, often liberal-leaning readership and known for its in-depth reporting.",
@@ -36,7 +36,7 @@ const sourceDescriptions = {
     "wallstreetjournal": "The Wall Street Journal is a center-right business-focused newspaper, with a print circulation of about 2.8 million and significant digital readership. It's known for its in-depth coverage of business and financial news, as well as its conservative editorial pages.",
     "theatlantic": "The Atlantic is a left-leaning magazine and multi-platform publisher, reaching over 40 million visitors monthly across all platforms. It's known for its long-form journalism on politics, culture, and current affairs, often featuring in-depth analysis and thought-provoking commentary."
   },
-  "Italy": {
+  "italy": {
     "il_fatto_quotidiano": "Il Fatto Quotidiano is an Italian daily newspaper and news website, attracting about 20 million unique monthly visitors online, known for its investigative journalism and anti-establishment stance with a left-leaning bias.",
     "la_repubblica": "La Repubblica is one of Italy's largest circulation daily newspapers, with approximately 40 million unique monthly visitors online, appealing to a center-left readership and known for its liberal stance on political and social issues.",
     "adnkronos": "Adnkronos is a prominent Italian news agency, reaching about 5 million unique monthly visitors through its website, providing a wide range of news content with a generally neutral editorial stance.",
@@ -53,7 +53,7 @@ const sourceDescriptions = {
     "il_manifesto": "Il Manifesto is a left-wing daily newspaper, appealing to a niche readership. It's known for its communist and socialist leanings, offering alternative perspectives on Italian and international news.",
     "il_primato_nazionale": "Il Primato Nazionale is a right-wing news and opinion website, attracting a dedicated online following. It's known for its nationalist stance and often controversial takes on Italian politics and society."
   },
-  "France": {
+  "france": {
     "20minutes": "20 Minutes is a free daily newspaper with a centrist stance, reaching about 20 million monthly readers online. It focuses on concise news coverage for urban commuters.",
     "bfmtv": "BFMTV is France's most-watched news channel, owned by Altice Group, with a right-leaning editorial line. It attracts around 40 million monthly online visitors, known for its 24/7 breaking news coverage.",
     "bvoltaire": "Boulevard Voltaire is a far-right news website, founded by Robert Ménard, with approximately 2 million monthly readers. It's known for its nationalist and anti-immigration stance.",
@@ -70,7 +70,7 @@ const sourceDescriptions = {
     "nouvelobs": "L'Obs (formerly Le Nouvel Observateur) is a center-left weekly news magazine, reaching about 10 million monthly online readers. It's known for its political analysis and cultural coverage.",
     "valeursactuelles": "Valeurs Actuelles is a far-right weekly magazine, known for its conservative stance on social issues and anti-immigration rhetoric. It attracts around 5 million monthly online readers, appealing to a nationalist audience."
   },
-  "Germany": {
+  "germany": {
     "bild": "Bild is Germany's largest tabloid, known for sensationalist headlines and conservative stance. It reaches about 30 million monthly online readers, appealing to a working-class audience.",
     "sueddeutsche_zeitung": "Süddeutsche Zeitung is a center-left quality newspaper, respected for its investigative journalism. It attracts about 20 million monthly online readers, popular among educated, liberal-leaning audiences.",
     "faz": "Frankfurter Allgemeine Zeitung (FAZ) is a conservative-liberal newspaper known for its in-depth analysis. It reaches about 15 million monthly online readers, appealing to business and intellectual circles.",
@@ -88,7 +88,7 @@ const sourceDescriptions = {
     "junge_freiheit": "Junge Freiheit is a far-right weekly newspaper, known for its nationalist and conservative views. It reaches about 1 million monthly online readers.",
     "neues_deutschland": "Neues Deutschland is a socialist daily, formerly the official party newspaper of East Germany. It attracts about 1 million monthly online readers, appealing to left-wing audiences."
   },
-  "Poland": {
+  "poland": {
     "dorzeczy": "Do Rzeczy is a conservative weekly magazine, known for its right-wing political stance. It attracts around 2 million monthly online readers.",
     "fakt": "Fakt is Poland's largest tabloid newspaper, owned by Ringier Axel Springer. It reaches about 6 million monthly online readers, known for sensationalist headlines.",
     "gazetaprawna": "Gazeta Prawna is a daily newspaper focusing on legal and economic news. It attracts about 3 million monthly online readers, appealing to professionals and business-oriented readers.",
@@ -108,7 +108,7 @@ const sourceDescriptions = {
     "wprost": "Wprost is a weekly news magazine with a center-right stance. It reaches about 5 million monthly online readers.",
     "wyborcza": "Gazeta Wyborcza is Poland's leading daily newspaper, known for its liberal stance and investigative journalism. It reaches about 7 million monthly online readers, popular among educated, urban audiences."
   },
-  "Russia": {
+  "russia": {
     "gazeta_russia": "Gazeta.ru is an online newspaper reaching about 20 million monthly readers. It maintains a relatively independent editorial policy despite state pressure.",
     "interfax_russia": "Interfax is one of Russia's largest news agencies, serving about 15 million monthly online readers. It's considered more independent than state-run agencies.",
     "iz_russia": "Izvestia, owned by National Media Group, is a pro-government daily newspaper attracting around 30 million monthly online readers. It often reflects official state positions.",
@@ -127,8 +127,7 @@ const sourceDescriptions = {
     "tass_russia": "TASS, Russia's largest state-owned news agency, reaches about 45 million monthly online readers. It's a primary source of official information.",
     "vesti_russia": "Vesti.ru, the news website of the state-owned Russia-24 TV channel, attracts about 15 million monthly readers. It closely follows the government line."
   },
-
-  "Lebanon": {
+  "lebanon": {
     "addiyar": "Addiyar is a daily Arabic-language newspaper known for its pro-Syrian stance. It has a relatively small readership and is considered less influential than other major Lebanese newspapers.",
     "alakhbar": "Al Akhbar is a left-leaning, pro-Hezbollah Arabic-language newspaper. It's known for its investigative journalism and critical stance towards Western policies in the region.",
     "aljoumhouria": "Al Joumhouria is an Arabic-language daily newspaper with a centrist political stance. It has a moderate readership and covers a wide range of national and international news.",
@@ -145,7 +144,7 @@ const sourceDescriptions = {
     "naharnet": "Naharnet is the English-language news website of An-Nahar newspaper. It provides English speakers with coverage of Lebanese and regional news from a generally liberal perspective.",
     "tayyar": "Tayyar is the news website associated with the Free Patriotic Movement, a Christian political party. It presents news from a perspective aligned with the party's political stance."
   },
-  "Iran": {
+  "iran": {
     "alalam": "Al-Alam is an Arabic language news channel owned by the state-run Islamic Republic of Iran Broadcasting (IRIB). It presents news from a pro-Iranian government perspective, focusing on regional affairs. Its website receives approximately 2 million monthly visits.",
     "bbc_persian": "BBC Persian is the Persian language service of the BBC World Service. It provides independent news coverage and analysis, often critical of the Iranian government. It reaches an estimated 13 million people weekly across all platforms.",
     "borna_news": "Borna News Agency is affiliated with Iran's Ministry of Sports and Youth. It covers a wide range of news but has a particular focus on sports and youth-related issues. The website attracts about 5 million monthly visits.",
@@ -165,7 +164,7 @@ const sourceDescriptions = {
     "tehrantimes": "Tehran Times is an English-language newspaper owned by the Islamic Ideology Dissemination Organization. It presents Iran's official line for an international audience. Its website attracts about 3 million monthly visits.",
     "voanews": "Voice of America Persian News Network is funded by the U.S. government. It provides news from a perspective that's often critical of the Iranian government. It reaches an estimated 15.9% of Iranian adults weekly across all platforms."
   },
-  "UK": {
+  "uk": {
     "bbc": "The BBC is the UK's public service broadcaster, reaching over 400 million people weekly worldwide. It strives for impartiality but is sometimes criticized for a perceived center-left bias. Funded by the license fee, it appeals to a broad demographic.",
     "breitbartLondon": "Breitbart London is the UK arm of the right-wing American news site. It attracts around 2 million monthly visitors in the UK, appealing to a conservative, Eurosceptic readership with its nationalist stance.",
     "channel4": "Channel 4 is a publicly-owned, commercially-funded broadcaster. Its news division reaches about 10 million viewers weekly, known for investigative journalism and a left-of-center editorial stance.",
@@ -187,7 +186,7 @@ const sourceDescriptions = {
     "thejc": "The Jewish Chronicle is the oldest continuously published Jewish newspaper in the world. It has a weekly circulation of about 20,000, focusing on news relevant to the British Jewish community.",
     "times": "The Times is a center-right broadsheet owned by News UK. It has a daily circulation of about 360,000, known for its high-quality journalism and appealing to a middle to upper-class, conservative-leaning readership."
   },
-  "Spain": {
+  "spain": {
     "elconfidencial": "El Confidencial is a leading digital newspaper in Spain, founded in 2001. It has around 15 million monthly readers, known for its investigative journalism and economic news. It maintains a center-right editorial line, appealing to a business-oriented, middle to upper-class readership.",
     "eldiario": "elDiario.es is a digital newspaper founded in 2012, with about 12 million monthly readers. It has a left-leaning editorial stance, focusing on political and social issues. Partially owned by its journalists, it appeals to a young, progressive audience.",
     "elespanol": "El Español is a digital newspaper launched in 2015 by Pedro J. Ramírez. It attracts around 20 million monthly readers, positioning itself as center-right and liberal. It appeals to a middle-class, politically engaged readership.",
@@ -206,7 +205,7 @@ const sourceDescriptions = {
     "20minutos": "20 Minutos is a free daily newspaper and digital platform, owned by Henneo. It has a large readership due to its free distribution in urban areas. It maintains a centrist editorial line, focusing on concise news for commuters.",
     "abc": "ABC is one of Spain's oldest national daily newspapers, founded in 1903. Owned by Vocento, it has a circulation of about 75,000. It's known for its conservative, monarchist stance, appealing to a traditional, right-leaning readership."
   },
-  "Ukraine": {
+  "ukraine": {
     "glavcom": "Glavcom is an online news portal founded in 2009. It attracts around 2 million monthly visitors. Known for its political analysis and investigative journalism, it appeals to a politically engaged, middle-class readership. The site maintains a pro-Western editorial stance.",
     "hromadske": "Hromadske is a public broadcaster launched in 2013. It reaches over 10 million viewers monthly across various platforms. Funded by grants and donations, it's known for its independent journalism and appeals to a young, progressive audience. It maintains a pro-reform, pro-European stance.",
     "kyivpost": "Kyiv Post is Ukraine's oldest English-language newspaper, founded in 1995. It has a print circulation of about 10,000 and a significant online presence. Owned by Adnan Kivan since 2018, it targets expatriates, diplomats, and internationally-minded Ukrainians. It's known for its pro-Western editorial stance.",
@@ -220,7 +219,7 @@ const sourceDescriptions = {
     "ukrinform_ua": "Ukrinform_ua is the Ukrainian-language service of Ukrinform, Ukraine's state news agency. It focuses on delivering news to the domestic Ukrainian-speaking audience. Like its parent organization, it reflects the government's position on national and international matters.",
     "unian": "UNIAN is a major Ukrainian news agency founded in 1993. It attracts over 15 million monthly visitors to its website. Owned by oligarch Ihor Kolomoisky, it provides comprehensive news coverage and appeals to a broad audience. Its editorial stance can be influenced by ownership interests."
   },
-  "India": {
+  "india": {
     "aajtak": "Aaj Tak is a Hindi news channel owned by TV Today Network. It reaches over 100 million viewers. Known for its sensationalist approach, it appeals to a mass Hindi-speaking audience across urban and rural areas.",
     "abplive": "ABP News is a Hindi news channel owned by ABP Group. It has a viewership of about 50 million. It maintains a centrist editorial stance and caters to a broad Hindi-speaking audience.",
     "bhaskar": "Dainik Bhaskar is a Hindi-language daily with a circulation of over 4 million. Owned by D B Corp Ltd, it's popular in central and northern India, appealing to a middle-class, conservative readership.",
@@ -242,7 +241,7 @@ const sourceDescriptions = {
     "toi": "Times of India is an English-language daily with the largest circulation for an English newspaper in the world, over 3 million. Owned by Bennett, Coleman & Co. Ltd, it maintains a centrist stance with a focus on urban issues.",
     "zeenews": "Zee News is a Hindi-language news channel owned by Zee Media. It reaches over 60 million viewers. Known for its nationalist editorial stance, it appeals to a conservative Hindi-speaking audience."
   },
-  "Netherlands": {
+  "netherlands": {
     "fd": "Het Financieele Dagblad is the leading Dutch financial newspaper, with a circulation of about 50,000. It targets a business-oriented readership and is known for its in-depth coverage of economic and financial news.",
     "metronieuws": "Metro is a free daily newspaper in the Netherlands, distributed mainly in public transport. With a circulation of about 350,000, it offers concise news coverage aimed at commuters and has a politically neutral stance.",
     "nos": "Nederlandse Omroep Stichting is the Dutch public broadcaster, reaching millions through TV, radio, and online platforms. It's known for its objective reporting and is generally considered centrist in its editorial stance.",
@@ -256,7 +255,7 @@ const sourceDescriptions = {
     "ad": "Algemeen Dagblad is one of the largest Dutch newspapers with a circulation of about 300,000. It's known for its accessible style, focus on local news, and slightly right-of-center editorial stance.",
     "nu": "NU.nl is one of the most visited Dutch news websites. It offers concise, up-to-date news coverage and aims for a politically neutral stance, appealing to a broad online audience."
   },
-  "China": {
+  "china": {
     "bbc_chinese": "BBC Chinese, the Chinese language service of the British Broadcasting Corporation, provides independent news coverage and analysis, free from Chinese government control. It attracts approximately 4 million unique visitors per month.",
     "bjd": "Beijing Daily, the official newspaper of the Beijing municipal committee of the Communist Party of China, focuses on local news and party directives. It has a daily circulation of about 400,000 copies.",
     "caixin_chinese": "Caixin, a Beijing-based media group known for its investigative journalism and financial news coverage, often pushes the boundaries of permissible reporting within China. Its website receives around 10 million unique visitors monthly.",
@@ -284,7 +283,7 @@ const sourceDescriptions = {
     "xinhua": "Xinhua News Agency, the official state-run press agency of China, serves as the primary news source for China's media outlets. Its content reaches hundreds of millions of people daily through various platforms and syndication.",
     "xinhua_cn": "The Chinese-language website of Xinhua News Agency primarily serves domestic audiences with official news and government perspectives, attracting over 100 million unique visitors monthly."
   },
-  "Japan": {
+  "japan": {
     "asahi": "Asahi Shimbun is one of Japan's largest national newspapers with a circulation of about 5.6 million. It is known for its liberal-leaning editorial stance and investigative journalism.",
     "chunichi": "Chunichi Shimbun is a regional newspaper based in Nagoya with a circulation of about 2.2 million. It maintains a centrist political stance.",
     "hokkaido": "Hokkaido Shimbun is the largest newspaper in Hokkaido, with a circulation of about 1 million. It generally maintains a centrist to slightly liberal editorial stance.",
@@ -301,7 +300,7 @@ const sourceDescriptions = {
     "yahoo": "Yahoo! Japan News is one of the most visited news portals in Japan, aggregating news from various sources. It attracts over 70 million monthly active users and generally maintains a centrist stance.",
     "yomiuri": "Yomiuri Shimbun is Japan's largest newspaper with a circulation of about 8.1 million. It is known for its conservative-leaning editorial stance."
   },
-  "Turkey": {
+  "turkey": {
     "aydinlik": "Aydınlık is a daily newspaper with a circulation of about 50,000. It has a left-wing, nationalist editorial stance and is associated with the Patriotic Party (Vatan Partisi). Its readership primarily consists of supporters of Kemalist and anti-imperialist ideologies.",
     "bianet": "Bianet (Independent Communication Network) is an online news site focusing on human rights, women's rights, and minority issues. It has a progressive, left-wing stance and is popular among activists, academics, and socially conscious readers. It operates on a non-profit basis and is supported by various international organizations.",
     "birgun": "BirGün is a left-wing daily newspaper with a circulation of about 25,000. It's known for its socialist stance and critical reporting on government policies. Its readership mainly consists of left-wing intellectuals, students, and workers.",
@@ -318,7 +317,7 @@ const sourceDescriptions = {
     "t24": "T24 is an independent online news portal known for its critical journalism and diverse columnists. It has a liberal-leaning editorial stance and is popular among educated, urban readers seeking alternative viewpoints.",
     "yeniakit": "Yeni Akit is a conservative Islamist daily with a circulation of about 60,000. It strongly supports the current government and is known for its hardline Islamist stance. Its readership consists primarily of conservative, religious segments of society."
   },
-  "Israel": {
+  "israel": {
     "mako": "Mako is a popular Israeli news and entertainment website. It's owned by Keshet Media Group, one of Israel's largest media companies. It is one of the most visited sites in Israel. Its content tends to be centrist to slightly right-leaning, appealing to a broad audience, particularly younger, tech-savvy Israelis.",
     "maariv": "Maariv is one of Israel's oldest newspapers, with a daily circulation of about 25,000. It has a center-right editorial stance. Once a leading newspaper, it now appeals mainly to an older, more conservative readership. It's currently owned by The Jerusalem Post Group.",
     "israel_hayom": "Israel Hayom is a free daily newspaper with the largest circulation in Israel, around 275,000 daily readers. It has a right-wing, pro-Netanyahu stance. Owned by American billionaire Sheldon Adelson's family, it's popular among conservative Israelis and is often criticized for its strong pro-government bias.",
@@ -339,7 +338,7 @@ const sourceDescriptions = {
     "kipa": "Kipa is a news website catering to the religious-Zionist community. While its readership numbers aren't public, it's a popular source within this demographic. It has a right-wing, religious-Zionist editorial stance, similar to Srugim, but with more focus on religious content and lifestyle issues.",
     "i24news": "i24news is an international news channel broadcasting from Tel Aviv in English, French, and Arabic. Launched in 2013, it aims to cover Israeli and Middle Eastern affairs for a global audience. Its viewership in Israel is relatively small. It is perceived as slightly center-right. The channel is owned by Patrick Drahi's Altice group."
   },
-  "Palestine": {
+  "palestine": {
     "alayyam": "Al-Ayyam is a daily newspaper based in Ramallah with a circulation of about 50,000. It has a moderate, slightly left-leaning editorial stance and is considered close to the Palestinian Authority. Its readership primarily consists of educated, urban Palestinians in the West Bank.",
     "alquds": "Al-Quds is the largest Palestinian newspaper, with a daily circulation of around 100,000. It maintains a relatively neutral stance but is generally supportive of the peace process. Based in East Jerusalem, it reaches a broad cross-section of Palestinian society in both the West Bank and East Jerusalem.",
     "alresalah": "Al-Resalah is a Hamas-affiliated newspaper based in Gaza. While exact circulation figures are not available, it has a significant online presence. It presents news from a conservative, Islamist perspective and is popular among Hamas supporters in Gaza.",
@@ -358,7 +357,7 @@ const sourceDescriptions = {
     "samanews": "Sama News Agency is an independent online news portal based in Gaza. It strives for balanced reporting but operates under the constraints of Hamas control in Gaza. It has a significant online readership among Palestinians in Gaza and the West Bank.",
     "ultrapal": "Ultra Palestine is a youth-oriented online news and culture platform. It has a growing online readership, particularly among younger, urban Palestinians. It covers a mix of news, culture, and lifestyle content with a generally progressive stance."
   },
-  "united-arab-emirates": {
+  "uae": {
     "gulfnews": "Gulf News is one of the largest English-language newspapers in the UAE, with a daily circulation of around 100,000. It has a pro-government stance and covers local and international news.",
     "aletihad": "Al Ittihad (Arabic: الاتحاد) is a leading Arabic-language newspaper in the UAE. It has a pro-government editorial policy and focuses on local and regional news.",
     "albayan": "Al Bayan (Arabic: البيان) is a popular Arabic-language newspaper in Dubai. It has a pro-government stance and covers a wide range of local and international topics.",
@@ -370,7 +369,7 @@ const sourceDescriptions = {
     "alain": "Al Ain News (Arabic: العين الإخبارية) is an online news portal that provides coverage in both Arabic and English. It focuses on UAE and regional news with a pro-government stance.",
     "alwahdanews": "Al Wahda (Arabic: الوحدة) is an Arabic-language news outlet that covers local and regional news. It maintains a pro-government editorial line."
   },
-  "Finland": {
+  "finland": {
     "aamulehti": "Aamulehti is a major regional daily based in Tampere, Finland's second-largest city, reaching about 1 million monthly online readers. It maintains a centrist editorial line while providing national coverage alongside regional news.",
     "hbl": "Hufvudstadsbladet is Finland's largest Swedish-language newspaper, serving the Swedish-speaking minority. With a liberal-centrist stance, it reaches around 300,000 monthly online readers, covering both domestic and international news.",
     "hs": "Helsingin Sanomat is Finland's largest subscription newspaper and the most influential daily, reaching about 8 million monthly online readers. Owned by Sanoma Group, it maintains a center-left to centrist stance with comprehensive national and international coverage.",

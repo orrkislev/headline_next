@@ -22,13 +22,14 @@ export default function useWebsites(country, locale, sources) {
     // if (websites) orderedWebsites = websites.map(website => sourceOrder.indexOf(website)).sort((a, b) => a - b).map(index => sourceOrder[index])
     // else orderedWebsites = sourceOrder.slice(0, 6);
 
-    const addNextWebsite = (sources) => {
+    const addNextWebsite = () => {
         const sourceOrder = getSourceOrder(country, order);
-        const availableSources = sourceOrder.filter(source => sources[source]);
+        const availableSources = sources ? sourceOrder.filter(source => sources[source]) : sourceOrder;
 
-        const nextSource = availableSources.find((source) => !websites.includes(source));
+        const nextSource = availableSources.find((source) => !activeWebsites.includes(source));
         if (nextSource) {
-            changeUrl([...websites, nextSource]);
+            setActiveWebsites([...activeWebsites, nextSource]);
+            // changeUrl([...websites, nextSource]);
         }
     };
 
@@ -40,13 +41,12 @@ export default function useWebsites(country, locale, sources) {
         const sourceOrder = getSourceOrder(country, order);
         const orderedWebsites = sourceOrder.filter(source => newWebsites.includes(source));
         setActiveWebsites(orderedWebsites);
-
     };
 
-    const changeUrl = (newWebsites) => {
-        const url = `/${locale}/${country}?websites=${newWebsites.join(',')}`;
-        if (window) window.history.replaceState(null, '', url);
-    }
+    // const changeUrl = (newWebsites) => {
+    //     const url = `/${locale}/${country}?websites=${newWebsites.join(',')}`;
+    //     if (window) window.history.replaceState(null, '', url);
+    // }
 
     const isActive = (source) => activeWebsites.find(website => website.toLowerCase() === source.toLowerCase());
     const getIndex = (source) => activeWebsites.findIndex(website => website.toLowerCase() === source.toLowerCase());
