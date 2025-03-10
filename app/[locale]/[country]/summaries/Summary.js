@@ -43,7 +43,7 @@ export default function Summary({ summary, active, locale }) {
             className={`py-2 ${fontClass} leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'} border-b border-dashed border-gray-200 pb-5`}
             style={{
                 color: active ? 'black' : '#e8e8e8',
-                cursor: active ? 'default' : 'pointer',
+                cursor: active ? 'text' : 'pointer',
                 fontSize: active ? '17px' : '.9rem',
                 fontWeight: 400,
                 lineHeight: active ? '1.4' : '1.3',
@@ -65,7 +65,7 @@ export default function Summary({ summary, active, locale }) {
             {parts.map((part, i) => (
                 <span key={i} className={
                     active ? (part.startsWith('(') ?
-                        `text-blue ${locale === 'heb' ? 'text-sm' : 'text-xs'}` :
+                        `text-gray-400 ${locale === 'heb' ? 'text-sm' : 'text-xs'}` :
                         '') : ''
                 }>
                     {part}

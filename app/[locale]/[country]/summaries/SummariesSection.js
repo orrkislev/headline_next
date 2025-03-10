@@ -7,6 +7,7 @@ import { useTime } from "@/utils/store";
 import { useEffect, useState } from "react";
 import useDailySummariesManager from "@/utils/database/useDailySummariesManager";
 import useSummariesManager from "@/utils/database/useSummariesManager";
+import DailySummary from "./DailySummary";
 
 const calculateDisplaySummaries = (day, summaries) => {
     const daySummaries = summaries.filter(summary => summary.timestamp.toDateString() === day).sort((a, b) => b.timestamp - a.timestamp)
@@ -39,6 +40,7 @@ export default function SummariesSection({ initialSummaries, locale, country, in
 
     return (
         <>
+            <DailySummary locale={locale} />
             <SummariesList summaries={displaySummaries} {...{ activeSummaryId, locale }} />
             <div className='py-2 bg-white border-t border-gray-200'>
                 <YesterdaySummaryTitle {...{ locale, day, dailySummaries }} summary={displaySummaries[displaySummaries.length - 1]} />
