@@ -15,7 +15,7 @@ export default function LanguageToggle({ locale }) {
         <div className='flex flex-col items-center gap-2 pt-1'>
             <CustomTooltip
                 title={toolTipText}
-                placement="left"
+                placement="bottom"
             >
                 <TopBarButton onClick={switchLanguage}>
                     <Language />

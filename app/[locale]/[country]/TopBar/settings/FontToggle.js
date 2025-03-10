@@ -27,7 +27,7 @@ export default function FontToggle({ country }) {
 
     return (
         <div className="flex flex-col items-center">
-            <CustomTooltip title={toolTip} placement="left">
+            <CustomTooltip title={toolTip} placement="bottom">
                 <TopBarButton onClick={handleNextFont}>
                     <TextFields sx={{ color: font === "random" ? "blue" : "inherit" }} />
                 </TopBarButton>

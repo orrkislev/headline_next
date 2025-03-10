@@ -14,7 +14,7 @@ export default function OrderToggle({locale}) {
     return (
         <div className="relative">
             <div className="flex flex-col items-center">
-                <CustomTooltip title="Sort the sources" placement="left" arrow
+                <CustomTooltip title="Sort the sources" placement="bottom" arrow
                     onClick={() => setOpen(p => !p)}>
                     <TopBarButton >
                         <SwapVert />

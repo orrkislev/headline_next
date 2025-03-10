@@ -13,7 +13,7 @@ export default function TranslateToggle() {
         else setTranslate(true);
     }
     return (
-        <CustomTooltip title="Translate" placement="left">
+        <CustomTooltip title="Translate" placement="bottom">
             <TopBarButton onClick={handleClick}>
                 <Translate />
             </TopBarButton>

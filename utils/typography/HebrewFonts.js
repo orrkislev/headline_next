@@ -2,9 +2,9 @@ export default function HebrewFonts() {
     return (
         <>
             {/* Preload fonts */}
+            <link rel="preload" href="/fonts/frank-re-medium-aaa.otf" as="font" type="font/otf" crossOrigin="anonymous" />
             <link rel="preload" href="/fonts/TelAviv-ModernistBold.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
             <link rel="preload" href="/fonts/frank-re-tzar-regular-aaa.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-            <link rel="preload" href="/fonts/frank-re-medium-aaa.otf" as="font" type="font/otf" crossOrigin="anonymous" />
             <link rel="preload" href="/fonts/Mandatory-18.otf" as="font" type="font/otf" crossOrigin="anonymous" />
             <link rel="preload" href="/fonts/Mandatory-29.otf" as="font" type="font/otf" crossOrigin="anonymous" />
             
@@ -48,16 +48,16 @@ export default function HebrewFonts() {
 
 export const Typography_Hebrew = [
     {
-        fontFamily: 'var(--font-tel-aviv)',
-        fontSize: '2.1rem',
-        lineHeight: 1.15,
+        fontFamily: 'var(--font-frank-re)',
+        fontSize: "2.4rem",
+        lineHeight: 1.1,
         fontWeight: 400,
         direction: 'rtl',
     },
     {
-        fontFamily: 'var(--font-frank-re)',
-        fontSize: "2.4rem",
-        lineHeight: 1.1,
+        fontFamily: 'var(--font-tel-aviv)',
+        fontSize: '2.1rem',
+        lineHeight: 1.15,
         fontWeight: 400,
         direction: 'rtl',
     },

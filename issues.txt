@@ -1,6 +1,10 @@
-* Font-Salad not working
-* deployed version has a very buggy experience
 * In RTL countries the order should be RTL
 * English fonts for English Sources in RTL pages (not loading properly)
 * Source Order when adding new sources
 * FrankRe Tzar
+* duplicate position of the reset tooltip
+* Countries that aren't Israel don't respect the typography settings for the summaries
+* revert to daily summary in the same bar
+* randomize initial fonts
+* try giving navigating back in time an different card bg color
+* Tooltip directionality in Hebrew Interface
