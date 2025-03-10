@@ -18,5 +18,5 @@ export const countries = {
 	"UK": "בריטניה",
 	"US": "ארצות הברית",
 	"Ukraine": "אוקראינה",
-	"United Arab Emirates": "איחוד האמירויות"
+	"UAE": "איחוד האמירויות"
 };
