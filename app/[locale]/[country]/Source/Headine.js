@@ -6,7 +6,7 @@ export default function Headline({ headline, typography, translation }) {
     const isRTL = /[\u0590-\u05FF\u0600-\u06FF]/.test(txt)
     return (
         <a href={headline.link} target="_blank" rel="noopener noreferrer">
-            <div className={`animate-headline w-full text-lg font-semibold break-words`}    
+            <div className={`animate-headline w-full text-lg font-semibold break-words line-clamp-6`}    
                 style={{ ...typography, width: '100%', direction: isRTL ? 'rtl' : 'ltr' }} key={headline.id}>
                 {txt}
             </div>
