@@ -32,17 +32,17 @@ export default function SourceSlider({ headlines }) {
     const prevHeadline = headlines.find(({ timestamp }) => timestamp < sliderDate);
 
     return (
-        <div className="flex flex-row gap-4 justify-between items-center border-t border-b border-gray-200">
-            <IconButton size="small" disabled={!nextHeadline} onClick={() => setDate(nextHeadline.timestamp)} >
-                <KeyboardArrowRight color="gray" />
+        <div className="flex flex-row gap-4 justify-between items-center border-t border-b border-gray-200" dir="ltr">
+            <IconButton size="small" disabled={!prevHeadline} onClick={() => setDate(prevHeadline.timestamp)} >
+                <KeyboardArrowLeft color="gray" />
             </IconButton>
 
             <CustomSlider_Source size="small" readOnly
                 min={0} max={24 * 60} value={minutes}
                 marks={marks} />
 
-            <IconButton size="small" disabled={!prevHeadline} onClick={() => setDate(prevHeadline.timestamp)} >
-                <KeyboardArrowLeft color="gray" />
+            <IconButton size="small" disabled={!nextHeadline} onClick={() => setDate(nextHeadline.timestamp)} >
+                <KeyboardArrowRight color="gray" />
             </IconButton>
         </div >
     );
