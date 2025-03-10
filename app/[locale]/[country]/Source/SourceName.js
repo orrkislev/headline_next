@@ -33,7 +33,10 @@ export default function SourceName({ website, typography, country}) {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
         >
-            <span className="text-sm text-blue cursor-help" style={{ ...typography, fontSize: '1.5rem' }}>
+            <span className="text-sm text-blue cursor-help" style={{ 
+                ...typography, 
+                fontSize: typography.fontFamily === 'var(--font-frank-re-tzar)' ? '2.3rem' : '1.5rem' 
+            }}>
                 {name}
             </span>
             {tooltipVisible && (

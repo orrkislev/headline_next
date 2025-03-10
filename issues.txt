@@ -4,7 +4,5 @@
 * FrankRe Tzar
 * duplicate position of the reset tooltip
 * Countries that aren't Israel don't respect the typography settings for the summaries
-* revert to daily summary in the same bar
 * randomize initial fonts
 * try giving navigating back in time an different card bg color
-* Tooltip directionality in Hebrew Interface
