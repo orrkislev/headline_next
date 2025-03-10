@@ -18,7 +18,7 @@ const SourceSlider = dynamic(() => import('./SourceSlider'));
 
 export default function SourceCard({ name, initialHeadlines, country, locale }) {
     const headlines = useHeadlinesManager(country, name, initialHeadlines);
-    const { websites, toggleSource, isActive } = useWebsites(country, locale)
+    const { websites, toggleSource, isActive, getIndex } = useWebsites(country, locale)
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
@@ -55,15 +55,16 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
 
     const typography = useMemo(() => {
         let typo = font
-        if (font == 'default') typo = getTypographyOptions(country).options[0]
-        else if (font == 'random') typo = choose(getTypographyOptions(country).options)
+        const options = getTypographyOptions(country).options
+        if (typeof font === 'number') typo = options[font % options.length]
+        else if (font == 'random') typo = choose(options)
         if (typo.direction === 'rtl' && !isRTL) typo = choose(getTypographyOptions('default').options);
         return typo;
     }, [font, country, isRTL]);
 
     if (!isActive(name)) return null;
 
-    const index = websites.indexOf(name);
+    const index = getIndex(name);
 
     return (
         <div style={{ order: index }}
@@ -75,7 +76,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
             ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
         `}>
-            <CloseButton sourceName={name} click={() => toggleSource(name)} />
+            <CloseButton click={() => toggleSource(name)} isRTL={isRTL} />
             <div className="flex flex-col h-full justify-normal sm:justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
                     <SourceName website={name} typography={typography} country={country} />

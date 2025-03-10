@@ -37,6 +37,7 @@ export default function useWebsites(country, locale) {
     }
 
     const isActive = (source) => orderedWebsites.find(website => website.toLowerCase() === source.toLowerCase());
+    const getIndex = (source) => orderedWebsites.findIndex(website => website.toLowerCase() === source.toLowerCase());
 
-    return { websites: orderedWebsites, addNextWebsite, toggleSource, isActive };
+    return { websites: orderedWebsites, addNextWebsite, toggleSource, isActive, getIndex}
 }

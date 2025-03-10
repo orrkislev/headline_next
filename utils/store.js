@@ -6,7 +6,7 @@ export const useTime = create(set => ({
 }));
 
 export const useFont = create(set => ({
-    font: 'default',
+    font: Math.round(Math.random() * 5),
     setFont: (font) => set({ font }),
 }));
 
