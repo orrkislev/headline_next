@@ -160,7 +160,7 @@ const sourceOrders = {
 }
 
 export default function getSourceOrder(country, order) {
-  return sourceOrders[country.toLowerCase()][order]
+  return sourceOrders[country][order]
 }
 export const orderOptionLabels = {
   'largest': 'Largest',
