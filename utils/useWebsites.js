@@ -2,7 +2,7 @@
 import { useSearchParams } from "next/navigation";
 import getSourceOrder from "./sources/source orders";
 import { useOrder } from "./store";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 export default function useWebsites(country, locale) {
     const { order, setOrder } = useOrder()
@@ -13,6 +13,7 @@ export default function useWebsites(country, locale) {
 
     const sourceOrder = getSourceOrder(country, order);
     const orderedWebsites = websites ? websites.map(website => sourceOrder.indexOf(website)).sort((a, b) => a - b).map(index => sourceOrder[index]) : sourceOrder.slice(0, 6);
+
     
     const addNextWebsite = () => {
         const sourceOrder = getSourceOrder(country, order);
@@ -35,5 +36,7 @@ export default function useWebsites(country, locale) {
         window.history.replaceState(null, '', url);
     }
 
-    return { websites: orderedWebsites, addNextWebsite, toggleSource };
+    const isActive = (source) => orderedWebsites.find(website => website.toLowerCase() === source.toLowerCase());
+
+    return { websites: orderedWebsites, addNextWebsite, toggleSource, isActive };
 }

@@ -12,12 +12,13 @@ import { useFont, useTime, useTranslate } from "@/utils/store";
 import { choose } from "@/utils/utils";
 import useWebsites from "@/utils/useWebsites";
 import useHeadlinesManager from "@/utils/database/useHeadlinesManager";
+import { getSourceName } from "@/utils/sources/source mapping";
 
 const SourceSlider = dynamic(() => import('./SourceSlider'));
 
 export default function SourceCard({ name, initialHeadlines, country, locale }) {
     const headlines = useHeadlinesManager(country, name, initialHeadlines);
-    const { websites, toggleSource } = useWebsites(country, locale)
+    const { websites, toggleSource, isActive } = useWebsites(country, locale)
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
@@ -32,9 +33,8 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
 
     useEffect(() => {
         if (translate && headline && headline.headline) {
-            if (!websites.includes(name)) return;
+            if (!isActive(name)) return;
             if (translations[headline.id]) return;
-            console.log('translating', headline.headline)
             (async () => {
                 const res = await fetch('/api/translate', {
                     method: 'POST',
@@ -44,10 +44,12 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
                 setTranslations((prev) => ({ ...prev, [headline.id]: resData.translation }))
             })();
         }
-    }, [translate, headline, websites, name, translations]);
+    }, [translate, headline, isActive, name, translations]);
 
 
-    const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline), [headline]);
+    const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline) ||
+                                /[\u0590-\u05FF\u0600-\u06FF]/.test(getSourceName(country, name))
+                                ,[headline]);
 
     const typography = useMemo(() => {
         let typo = font
@@ -57,7 +59,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
         return typo;
     }, [font, country, isRTL]);
 
-    if (!websites.includes(name)) return null;
+    if (!isActive(name)) return null;
 
     const index = websites.indexOf(name);
 

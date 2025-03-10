@@ -51,7 +51,7 @@ export default function SideSlider({ locale }) {
     const prevSummary = summaries.reverse().find(summary => summary.timestamp < date);
 
 
-    const isMobile = window.innerWidth < 740;
+    const isMobile = window && window.innerWidth < 740;
     if (isMobile) return (
         <div className={`fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-gray-200
             flex items-center justify-between py-2 px-1 gap-2`}>
