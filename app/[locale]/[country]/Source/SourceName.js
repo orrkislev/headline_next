@@ -4,9 +4,10 @@ import { useState, useRef } from "react"
 import getSourceDescription from "@/utils/sources/source descriptions"
 import { getSourceName } from "@/utils/sources/source mapping"
 
-export default function SourceName({ website, typography, country}) {
+export default function SourceName({ website, typography, country, date }) {
     const name = getSourceName(country, website)
     const description = getSourceDescription(country, website)
+    const isPresent = date ? new Date() - date < 60 * 1000 * 5 : true
 
     const [tooltipVisible, setTooltipVisible] = useState(false)
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 })
@@ -33,7 +34,7 @@ export default function SourceName({ website, typography, country}) {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
         >
-            <span className="text-sm text-blue cursor-help" style={{ 
+            <span className={`text-sm cursor-help ${isPresent ? 'text-blue' : 'text-gray-800'}`} style={{ 
                 ...typography, 
                 fontSize: typography.fontFamily === 'var(--font-frank-re-tzar)' ? '2.3rem' : '1.5rem' 
             }}>
