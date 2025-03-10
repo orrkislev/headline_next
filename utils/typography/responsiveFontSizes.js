@@ -29,8 +29,11 @@ const fontSizes = {
 
 export const useResponsiveFontSizes = () => {
   const [screenSize, setScreenSize] = useState('regular');
+  
 
   useEffect(() => {
+    if (!window) return;
+
     const handleResize = () => {
       const width = window.innerWidth;
       if (width < 600) {

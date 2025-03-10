@@ -2,12 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import useFirebase from "./useFirebase";
 import { useTime } from "../store";
 import { endOfDay, sub } from "date-fns";
-import useWebsites from "../useWebsites";
 
 export default function useHeadlinesManager(country, name, initialHeadlines) {
 
     const [headlines, setHeadlines] = useState(initialHeadlines);
-    // const { websites } = useWebsites(country);
     const date = useTime(state => state.date);
     const [day, setDay] = useState(date ? date.toDateString() : new Date().toDateString());
     const dates = useRef();
@@ -39,7 +37,6 @@ export default function useHeadlinesManager(country, name, initialHeadlines) {
 
     useEffect(() => {
         if (!firebase.db || !dates.current || !day) return;
-        // if (!websites.includes(name)) return;
         getDayHeadlines(day);
         getDayHeadlines(sub(new Date(day + ' UTC'), { days: 1 }).toDateString());
     }, [firebase.db, day]);

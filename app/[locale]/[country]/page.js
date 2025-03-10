@@ -1,22 +1,20 @@
 import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
 import { sub } from "date-fns";
-// import { countries } from "@/utils/sources/countries";
+import { countries } from "@/utils/sources/countries";
 import CountryPageContent from "./CountryPage_content";
-// import getSourceOrder from "@/utils/sources/source orders";
-// import { redirect } from "next/navigation";
 
-// export const revalidate = 900 // 15 minutes
-// export const dynamicParams = false
+export const revalidate = 900 // 15 minutes
+export const dynamicParams = false
 
-// export async function generateStaticParams() {
-//     const countryNames = Object.keys(countries);
+export async function generateStaticParams() {
+    const countryNames = Object.keys(countries);
 
-//     const routes = countryNames.flatMap(country => [
-//         // { country, locale: 'en' },
-//         { country, locale: 'heb' }
-//     ]);
-//     return routes;
-// }
+    const routes = countryNames.flatMap(country => [
+        { country, locale: 'en' },
+        { country, locale: 'heb' }
+    ]);
+    return routes;
+}
 
 export default async function Page({ params }) {
     const { country, locale } = await params;

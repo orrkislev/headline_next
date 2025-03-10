@@ -10,7 +10,7 @@ import { useOrder } from "@/utils/store";
 import useWebsites from "@/utils/useWebsites";
 import { List } from "@mui/icons-material";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 
 
 export default function SourcesToggle({ country, locale, sources }) {
@@ -25,7 +25,9 @@ export default function SourcesToggle({ country, locale, sources }) {
                         <List />
                     </TopBarButton>
                 </CustomTooltip>
-                <SourcesGrid {...{ open, country, locale, sources }} />
+                <Suspense>
+                    <SourcesGrid {...{ open, country, locale, sources }} />
+                </Suspense>
             </div>
         </>
     );

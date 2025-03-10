@@ -33,7 +33,7 @@ export default function useWebsites(country, locale) {
 
     const changeUrl = (newWebsites) => {
         const url = `/${locale}/${country}?websites=${newWebsites.join(',')}`;
-        window.history.replaceState(null, '', url);
+        if (window) window.history.replaceState(null, '', url);
     }
 
     const isActive = (source) => orderedWebsites.find(website => website.toLowerCase() === source.toLowerCase());

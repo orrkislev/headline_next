@@ -5,9 +5,10 @@ import { Language } from "@mui/icons-material";
 export default function LanguageToggle({ locale }) {
 
     const toolTipText = locale === 'en' ? 'Switch to Hebrew' : 'Switch to English';
-
+    
     const switchLanguage = () => {
         const newLocale = locale === 'en' ? 'heb' : 'en';
+        if (!window) return
         window.location.href = window.location.pathname.replace(`/${locale}/`, `/${newLocale}/`);
     }
 

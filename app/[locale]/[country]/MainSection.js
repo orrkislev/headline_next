@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import AddSourceButton from "./Source/AddSourceButton";
 import SourceCard from "./Source/SourceCard";
 
@@ -13,15 +14,18 @@ export default function MainSection({ sources, country, locale }) {
                         qhd:grid-cols-6 
                         `}>
             {Object.entries(sources).map(([sourceName, source]) => (
-                <SourceCard
-                    key={sourceName}
-                    name={sourceName}
-                    initialHeadlines={source}
-                    country={country}
-                    locale={locale}
-                />
+                <Suspense key={sourceName} fallback={<div>Loading...</div>}>
+                    <SourceCard
+                        name={sourceName}
+                        initialHeadlines={source}
+                        country={country}
+                        locale={locale}
+                    />
+                </Suspense>
             ))}
-            <AddSourceButton {...{ locale, country }} />
+            <Suspense fallback={<div>Loading...</div>}>
+                <AddSourceButton {...{ locale, country }} />
+            </Suspense>
         </div>
     );
 }
