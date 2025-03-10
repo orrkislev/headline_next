@@ -51,7 +51,7 @@ function DailySummaryContent({ locale, setOpen }) {
     const summaryContent = getSummaryContent(dailySummary, locale);
 
     return (
-        <div className="bg-white pb-2  border-gray-200 max-w-[300px] pt-4 border-l border-r">
+        <div className="bg-white pb-2 border-gray-200 max-w-[300px] pt-4 border-l border-r px-2">
             <div className='flex items-start justify-between relative cursor-pointer flex-row-reverse' onClick={() => setOpen(false)}>
                 <div className={`text-blue flex-1 pl-2 pr-2 ${locale === 'heb' ? 'pl-8' : 'pr-12'} mb-2 text-[1.5rem] ${locale === 'heb' ? 'frank-re' : 'font-roboto'}`} style={locale === 'heb' ? { lineHeight: '1.5' } : {}}>
                     <span className="font-mono">{formattedDate}</span>

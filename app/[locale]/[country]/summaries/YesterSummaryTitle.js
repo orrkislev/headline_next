@@ -15,7 +15,9 @@ export default function YesterdaySummaryTitle({ locale, summary, day, dailySumma
     if (yesterdaySummary) headline = getHeadline(yesterdaySummary, locale);
 
     const yesterdayString = locale == 'heb' ? 'אתמול' : 'Yesterday';
-    const dateString = isToday(new Date(day + 'UTC')) ? yesterdayString : yesterday;
+    const dateString = isToday(new Date(day + 'UTC')) 
+        ? yesterdayString 
+        : <span className="font-mono">{new Date(yesterday + 'UTC').toLocaleDateString('en-GB').replace(/\//g, '.')}</span>;
 
     const click = () => {
         if (summary) setDate(summary.timestamp);
@@ -31,6 +33,7 @@ export default function YesterdaySummaryTitle({ locale, summary, day, dailySumma
             ? 'font-roboto pr-4'
             : 'frank-re pl-4'
             }`}
+            style={{ lineHeight: '1.4em' }}
             onClick={click}>
 
             <span>{dateString}</span>

@@ -34,7 +34,7 @@ export function DateSelector({ locale }) {
     }
 
     return (
-        <LabeledContent label={label}>
+        <LabeledContent label={<span dir="ltr">{label}</span>}>
             <div className={`flex items-center gap-1 relative ${locale === 'heb' ? 'flex-row-reverse' : 'flex-row'}`}>
                 <>
                     <IconButton
