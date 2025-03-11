@@ -18,7 +18,7 @@ const SourceSlider = dynamic(() => import('./SourceSlider'));
 
 export default function SourceCard({ name, initialHeadlines, country, locale, data, index }) {
     const headlines = useHeadlinesManager(country, name, initialHeadlines);
-    const { toggleSource } = useWebsites(country, locale)
+    const { toggleSource } = useWebsites(country)
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
@@ -69,14 +69,11 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         if (typeof font === 'number') typo = options[font % options.length]
         else if (font == 'random') typo = choose(options)
         if (typo.direction === 'rtl' && !isRTL) typo = choose(getTypographyOptions('default').options);
+        else if (isRTL && typo.direction === 'ltr') typo = choose(getTypographyOptions('israel').options);
         return typo;
     }, [font, country, isRTL]);
 
     const isPresent = date ? new Date() - date < 60 * 1000 * 5 : true;
-
-    if (!isActive(name)) return null;
-
-
 
     return (
         <div style={{ order: index }}

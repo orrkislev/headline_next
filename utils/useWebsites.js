@@ -3,7 +3,7 @@ import { getSourceOrder } from "./sources/getCountryData";
 import { useActiveWebsites, useOrder } from "./store";
 import { useEffect } from "react";
 
-export default function useWebsites(country, locale, sources) {
+export default function useWebsites(country, sources) {
     const { order, setOrder } = useOrder()
     const { activeWebsites, setActiveWebsites } = useActiveWebsites();
 
@@ -11,7 +11,7 @@ export default function useWebsites(country, locale, sources) {
         if (!sources) return;
         const sourceOrder = getSourceOrder(country, order);
         setActiveWebsites(sourceOrder.filter(source => sources[source]).slice(0, 6));
-    }, [sources])
+    }, [sources, country])
 
 
     const addNextWebsite = () => {

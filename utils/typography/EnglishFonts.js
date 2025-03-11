@@ -41,6 +41,7 @@ export const Typography_English = [
         fontSize: '2.5rem',
         lineHeight: 1.15,
         fontWeight: 500,
+        direction: 'ltr',
     },
     {
         fontFamily: 'var(--font-futura-italic)',
@@ -48,29 +49,34 @@ export const Typography_English = [
         lineHeight: 1.15,
         fontWeight: 400,
         fontStyle: 'italic',
+        direction: 'ltr',
     },
     {
         fontFamily: 'var(--font-futura-bold)',
         fontSize: '2.3rem',
         lineHeight: 1.15,
         fontWeight: 700,
+        direction: 'ltr',
     },
     {
         fontFamily: 'var(--font-plantin-condensed)',
         fontSize: '2.3rem',
         lineHeight: 1.1,
         fontWeight: 400,
+        direction: 'ltr',
     },
     {
         fontFamily: 'var(--font-helvetica)',
         fontSize: '2.1rem',
         lineHeight: 1.2,
         fontWeight: 700,
+        direction: 'ltr',
     },
     {
         fontFamily: 'var(--font-cheltenham)',
         fontSize: '2.8rem',
         lineHeight: 1.1,
         fontWeight: 700,
+        direction: 'ltr',
     },
 ];

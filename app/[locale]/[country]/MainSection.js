@@ -8,13 +8,15 @@ import useWebsites from "@/utils/useWebsites";
 import { getSourceData } from "@/utils/sources/getCountryData";
 
 export default function MainSection({ sources, country, locale }) {
-    const { websites } = useWebsites(country, locale, sources)
+    const { websites } = useWebsites(country, sources)
 
-    const activeSources = websites.map(website => ({
-        name: website,
-        headlines: sources[website],
-        data: getSourceData(country, website)
-    }));
+    const activeSources = websites
+        .filter(website => sources[website])
+        .map(website => ({
+            name: website,
+            headlines: sources[website],
+            data: getSourceData(country, website)
+        }));
 
     return (
         <div className={`custom-scrollbar 
@@ -27,7 +29,7 @@ export default function MainSection({ sources, country, locale }) {
                         qhd:grid-cols-6 
                         direction-${countries[country].languageDirection}
                         `}>
-            {activeSources.map((source,index) => (
+            {activeSources.map((source, index) => (
                 <Suspense key={source.name} fallback={<div>Loading...</div>}>
                     <SourceCard
                         index={index}

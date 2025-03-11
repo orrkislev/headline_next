@@ -32,7 +32,7 @@ export default function SourcesToggle({ country, locale, sources }) {
 }
 
 function SourcesGrid({ open, country, locale, sources }) {
-    const { websites, toggleSource } = useWebsites(country, locale);
+    const { websites, toggleSource } = useWebsites(country);
     const order = useOrder(state => state.order);
 
     const sourceOrder = useMemo(() => getSourceOrder(country, order), [country, order]);
