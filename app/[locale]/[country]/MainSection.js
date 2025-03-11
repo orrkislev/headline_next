@@ -10,13 +10,11 @@ import { getSourceData } from "@/utils/sources/getCountryData";
 export default function MainSection({ sources, country, locale }) {
     const { websites } = useWebsites(country, locale, sources)
 
-    const sourcesData = useMemo(() => Object.entries(sources).map(([sourceName, source]) => ({
-        name: sourceName,
-        headlines: source,
-        data: getSourceData(country, sourceName)
-    })), [sources, country])
-
-    const activeSources = sourcesData.filter(source => websites.includes(source.name))
+    const activeSources = websites.map(website => ({
+        name: website,
+        headlines: sources[website],
+        data: getSourceData(country, website)
+    }));
 
     return (
         <div className={`custom-scrollbar 

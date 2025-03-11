@@ -10,7 +10,7 @@ export default function useWebsites(country, locale, sources) {
     useEffect(() => {
         if (!sources) return;
         const sourceOrder = getSourceOrder(country, order);
-        setActiveWebsites(sourceOrder.filter(source => sources[source] || sources[source.toLowerCase()] || Object.keys(sources).find(s => s.toLowerCase() === source.toLowerCase())).slice(0, 6));
+        setActiveWebsites(sourceOrder.filter(source => sources[source]).slice(0, 6));
     }, [sources])
 
 
@@ -19,9 +19,9 @@ export default function useWebsites(country, locale, sources) {
         const availableSources = sources ? sourceOrder.filter(source => sources[source]) : sourceOrder;
 
         const nextSource = availableSources.find((source) => !activeWebsites.includes(source));
-        if (nextSource) {
-            setActiveWebsites([...activeWebsites, nextSource]);
-        }
+        const newSources = [...activeWebsites, nextSource]
+            .sort((a, b) => sourceOrder.indexOf(a) - sourceOrder.indexOf(b));
+        setActiveWebsites(newSources);
     };
 
     const toggleSource = (source) => {
