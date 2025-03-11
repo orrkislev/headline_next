@@ -1,12 +1,8 @@
 'use client'
 
 import { useState, useRef } from "react"
-import getSourceDescription from "@/utils/sources/source descriptions"
-import { getSourceName } from "@/utils/sources/source mapping"
 
-export default function SourceName({ website, typography, country, date }) {
-    const name = getSourceName(country, website)
-    const description = getSourceDescription(country, website)
+export default function SourceName({ name, description, typography, date }) {
     const isPresent = date ? new Date() - date < 60 * 1000 * 5 : true
 
     const [tooltipVisible, setTooltipVisible] = useState(false)

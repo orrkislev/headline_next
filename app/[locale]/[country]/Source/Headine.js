@@ -1,9 +1,10 @@
+import { checkRTL } from "@/utils/utils";
 import { Skeleton } from "@mui/material";
 
-export default function Headline({ headline, typography, translation }) {
+export default function Headline({ headline, typography }) {
     if (!headline) return <Skeleton variant="text" width={200} />;
-    const txt = translation || headline.headline;
-    const isRTL = /[\u0590-\u05FF\u0600-\u06FF]/.test(txt)
+    const txt = headline.headline;
+    const isRTL = checkRTL(txt);
     return (
         <a href={headline.link} target="_blank" rel="noopener noreferrer">
             <div className={`animate-headline w-full text-lg font-semibold break-words line-clamp-6`}    
