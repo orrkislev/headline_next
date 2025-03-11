@@ -72,12 +72,9 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         return typo;
     }, [font, country, isRTL]);
 
-<<<<<<< HEAD
     const isPresent = date ? new Date() - date < 60 * 1000 * 5 : true;
 
     if (!isActive(name)) return null;
-=======
->>>>>>> 5936f9db238181a71ca6553f48745dcd9a5a8475
 
 
 
@@ -89,11 +86,8 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             ${(index === 11 || index === 12 || index === 13) ? 'max-qhd:col-span-1 qhd:col-span-2' : ''}
             relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
             ${index == 0 ? 'col-span-2' : ''}
-<<<<<<< HEAD
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
             ${!isPresent ? 'bg-neutral-50 ' : ''}
-=======
->>>>>>> 5936f9db238181a71ca6553f48745dcd9a5a8475
         `}>
             <CloseButton click={() => toggleSource(name)} isRTL={isRTL} />
             <TranslatedLabel locale={locale} active={shouldTranslate} />

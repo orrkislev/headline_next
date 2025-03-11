@@ -29,13 +29,8 @@ export default function MainSection({ sources, country, locale }) {
                         qhd:grid-cols-6 
                         direction-${countries[country].languageDirection}
                         `}>
-<<<<<<< HEAD
-            {Object.entries(sources).map(([sourceName, source]) => (
-                <Suspense key={sourceName} fallback={null}>
-=======
             {activeSources.map((source,index) => (
                 <Suspense key={source.name} fallback={<div>Loading...</div>}>
->>>>>>> 5936f9db238181a71ca6553f48745dcd9a5a8475
                     <SourceCard
                         index={index}
                         name={source.name}
@@ -46,13 +41,8 @@ export default function MainSection({ sources, country, locale }) {
                     />
                 </Suspense>
             ))}
-<<<<<<< HEAD
-            <Suspense fallback={null}>
-                <AddSourceButton {...{ locale, country, sources}} />
-=======
             <Suspense fallback={<div>Loading...</div>}>
                 <AddSourceButton {...{ locale, country, sources }} />
->>>>>>> 5936f9db238181a71ca6553f48745dcd9a5a8475
             </Suspense>
         </div>
     );
