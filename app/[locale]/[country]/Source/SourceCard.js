@@ -1,24 +1,24 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CloseButton from "./CloseButton";
 import Headline from "./Headine";
 import SourceName from "./SourceName";
 import { SourceFooter } from "./SourceFooter";
-import { getRandomTypography, getTypographyOptions } from "@/utils/typography/typography";
+import { getTypographyOptions } from "@/utils/typography/typography";
 import Subtitle from "./Subtitle";
 import dynamic from "next/dynamic";
 import { useFont, useTime, useTranslate } from "@/utils/store";
-import { choose } from "@/utils/utils";
+import { checkRTL, choose } from "@/utils/utils";
 import useWebsites from "@/utils/useWebsites";
 import useHeadlinesManager from "@/utils/database/useHeadlinesManager";
-import { getSourceName } from "@/utils/sources/source mapping";
+import TranslatedLabel from "./TranslatedLabel";
 
 const SourceSlider = dynamic(() => import('./SourceSlider'));
 
-export default function SourceCard({ name, initialHeadlines, country, locale }) {
+export default function SourceCard({ name, initialHeadlines, country, locale, data, index }) {
     const headlines = useHeadlinesManager(country, name, initialHeadlines);
-    const { websites, toggleSource, isActive, getIndex } = useWebsites(country, locale)
+    const { toggleSource } = useWebsites(country, locale)
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
@@ -35,23 +35,33 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
 
     useEffect(() => {
         if (shouldTranslate && headline && headline.headline) {
-            if (!isActive(name)) return;
             if (translations[headline.id]) return;
             (async () => {
                 const res = await fetch('/api/translate', {
                     method: 'POST',
-                    body: JSON.stringify({ headline: headline.headline })
+                    body: JSON.stringify({ headline: headline.headline, subtitle: headline.subtitle, locale}),
+                    headers: { 'Content-Type': 'application/json' }
                 })
                 const resData = await res.json()
-                setTranslations((prev) => ({ ...prev, [headline.id]: resData.text }))
+                setTranslations((prev) => ({ ...prev, [headline.id]: resData }))
             })();
         }
-    }, [shouldTranslate, headline, isActive, name, translations]);
+    }, [shouldTranslate, headline, name, translations]);
 
 
-    const isRTL = useMemo(() => /[\u0590-\u05FF\u0600-\u06FF]/.test(headline?.headline) ||
-        /[\u0590-\u05FF\u0600-\u06FF]/.test(getSourceName(country, name))
-        , [headline]);
+
+    const displayHeadline = { ...headline };
+    let displayName = data.name
+    if (shouldTranslate && translations[headline.id]) {
+        displayHeadline.headline = translations[headline.id].headline;
+        displayHeadline.subtitle = translations[headline.id].subtitle;
+        displayName = checkRTL(translations[headline.id].headline) ? data.translations.he : data.translations.en
+    }
+
+
+    const isRTL = useMemo(() => (
+        displayHeadline.headline && checkRTL(displayHeadline.headline)) || checkRTL(displayName)
+        , [displayHeadline.headline, displayName]);
 
     const typography = useMemo(() => {
         let typo = font
@@ -62,9 +72,8 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
         return typo;
     }, [font, country, isRTL]);
 
-    if (!isActive(name)) return null;
 
-    const index = getIndex(name);
+
 
     return (
         <div style={{ order: index }}
@@ -74,16 +83,16 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
             ${(index === 11 || index === 12 || index === 13) ? 'max-qhd:col-span-1 qhd:col-span-2' : ''}
             relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
             ${index == 0 ? 'col-span-2' : ''}
-            ${isRTL ? 'direction-rtl' : 'direction-ltr'}
         `}>
             <CloseButton click={() => toggleSource(name)} isRTL={isRTL} />
+            <TranslatedLabel locale={locale} active={shouldTranslate} />
             <div className="flex flex-col h-full justify-normal sm:justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
-                    <SourceName website={name} typography={typography} country={country} date={date} />
-                    <Headline headline={headline} typography={typography} translation={shouldTranslate ? translations[headline.id] : null} />
+                    <SourceName name={displayName} typography={typography} description={data.description} date={date} />
+                    <Headline headline={displayHeadline} typography={typography} />
                 </div>
                 <div>
-                    <Subtitle headline={headline} />
+                    <Subtitle headlineData={displayHeadline} />
                     <SourceSlider headlines={headlines} />
                     <SourceFooter url={headlines[0].link} {...{ headline, headlines, name }} />
                 </div>

@@ -10,11 +10,6 @@ export const useFont = create(set => ({
     setFont: (font) => set({ font }),
 }));
 
-// export const useView = create(set => ({
-//     view: 'grid',
-//     setView: (view) => set({ view }),
-// }));
-
 export const useOrder = create(set => ({
     order: 'default',
     setOrder: (order) => set({ order }),

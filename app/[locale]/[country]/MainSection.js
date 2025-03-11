@@ -1,9 +1,23 @@
-import { Suspense } from "react";
+'use client'
+
+import { Suspense, useMemo } from "react";
 import AddSourceButton from "./Source/AddSourceButton";
 import SourceCard from "./Source/SourceCard";
 import { countries } from "@/utils/sources/countries";
+import useWebsites from "@/utils/useWebsites";
+import { getSourceData } from "@/utils/sources/getCountryData";
 
 export default function MainSection({ sources, country, locale }) {
+    const { websites } = useWebsites(country, locale, sources)
+
+    const sourcesData = useMemo(() => Object.entries(sources).map(([sourceName, source]) => ({
+        name: sourceName,
+        headlines: source,
+        data: getSourceData(country, sourceName)
+    })), [sources, country])
+
+    const activeSources = sourcesData.filter(source => websites.includes(source.name))
+
     return (
         <div className={`custom-scrollbar 
                         gap-4 p-4
@@ -15,18 +29,20 @@ export default function MainSection({ sources, country, locale }) {
                         qhd:grid-cols-6 
                         direction-${countries[country].languageDirection}
                         `}>
-            {Object.entries(sources).map(([sourceName, source]) => (
-                <Suspense key={sourceName} fallback={<div>Loading...</div>}>
+            {activeSources.map((source,index) => (
+                <Suspense key={source.name} fallback={<div>Loading...</div>}>
                     <SourceCard
-                        name={sourceName}
-                        initialHeadlines={source}
+                        index={index}
+                        name={source.name}
+                        initialHeadlines={source.headlines}
                         country={country}
                         locale={locale}
+                        data={source.data}
                     />
                 </Suspense>
             ))}
             <Suspense fallback={<div>Loading...</div>}>
-                <AddSourceButton {...{ locale, country, sources}} />
+                <AddSourceButton {...{ locale, country, sources }} />
             </Suspense>
         </div>
     );

@@ -38,12 +38,12 @@ export default async function Page({ params }) {
     }
 
     return <>
-        <CountryPageContent
-            sources={sources}
-            initialSummaries={initialSummaries}
-            initialDailySummaries={initialDailySummaries}
-            locale={locale}
-            country={country}
+        <CountryPageContent 
+            {...{ sources, 
+                initialSummaries, 
+                initialDailySummaries, 
+                locale, 
+                country }}
         />
     </>
 }

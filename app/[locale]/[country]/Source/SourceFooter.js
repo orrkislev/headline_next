@@ -42,7 +42,7 @@ export function SourceFooter({ name, headline, url, headlines }) {
                 />
                 <div className="w-px h-4 bg-gray-200 mx-1"></div>
                 <IconButton onClick={clickTranslate}>
-                    <Languages size={16} color={translate.includes(name) || translate === 'ALL' ? 'blue' : 'lightgray'} />
+                    <Languages size={16} color={translate.includes(name) || translate.includes('ALL') ? 'blue' : 'lightgray'} />
                 </IconButton>
                 <div className="w-1 h-full bg-gray-300"></div>
             </div>

@@ -1,14 +1,19 @@
+import { checkRTL } from "@/utils/utils";
 import { Skeleton } from "@mui/material";
 
-export default function Subtitle({headline}) {
-    if (!headline) return (
+export default function Subtitle({headlineData}) {
+    
+    if (!headlineData) return (
         <div className="px-4 pb-6">
             <Skeleton variant="text" width={`${Math.floor(Math.random() * (50 - 10 + 1)) + 10}%`} />
         </div>
     );
+    
+    const isRTL = checkRTL(headlineData.subtitle);
+    
     return (
-        <div className={`px-4 pb-2`} style={{ fontSize: '0.8rem' }}>
-            {headline.subtitle}
+        <div className={`px-4 pb-2 ${isRTL ? 'text-right' : 'text-left'}`} style={{ fontSize: '0.8rem' }}>
+            {headlineData.subtitle}
         </div>
     );
 }

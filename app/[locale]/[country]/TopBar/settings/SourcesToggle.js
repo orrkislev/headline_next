@@ -3,9 +3,7 @@
 import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
 import PopUpCleaner from "@/components/PopUp";
-import getSourceDescription from "@/utils/sources/source descriptions";
-import { getSourceName } from "@/utils/sources/source mapping";
-import getSourceOrder from "@/utils/sources/source orders";
+import { getSourceData, getSourceOrder } from "@/utils/sources/getCountryData";
 import { useOrder } from "@/utils/store";
 import useWebsites from "@/utils/useWebsites";
 import { List } from "@mui/icons-material";
@@ -39,13 +37,16 @@ function SourcesGrid({ open, country, locale, sources }) {
 
     const sourceOrder = useMemo(() => getSourceOrder(country, order), [country, order]);
 
-    const orderedSources = sourceOrder.map(id => ({
-        id,
-        description: getSourceDescription(country, id),
-        active: websites.includes(id),
-        name: getSourceName(country, id),
-        website: sources[id] ? sources[id][0].link : '',
-    }));
+    const orderedSources = sourceOrder.map(id => {
+        const sourceData = getSourceData(country, id);
+        return {
+            id,
+            description: sourceData.description,
+            active: websites.includes(id),
+            name: sourceData.name,
+            website: sources[id] ? sources[id][0].link : '',
+        }
+    });
 
     if (!open) return null;
     return (

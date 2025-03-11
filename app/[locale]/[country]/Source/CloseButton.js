@@ -1,3 +1,4 @@
+
 import { XIcon } from "lucide-react";
 
 export default function CloseButton({ isRTL, click }) {
