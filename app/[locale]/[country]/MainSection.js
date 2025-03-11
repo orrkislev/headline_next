@@ -16,7 +16,7 @@ export default function MainSection({ sources, country, locale }) {
                         direction-${countries[country].languageDirection}
                         `}>
             {Object.entries(sources).map(([sourceName, source]) => (
-                <Suspense key={sourceName} fallback={<div>Loading...</div>}>
+                <Suspense key={sourceName} fallback={null}>
                     <SourceCard
                         name={sourceName}
                         initialHeadlines={source}
@@ -25,7 +25,7 @@ export default function MainSection({ sources, country, locale }) {
                     />
                 </Suspense>
             ))}
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={null}>
                 <AddSourceButton {...{ locale, country, sources}} />
             </Suspense>
         </div>

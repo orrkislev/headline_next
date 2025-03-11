@@ -1,14 +1,5 @@
-* In RTL countries the order should be RTL
-* English fonts for English Sources in RTL pages (not loading properly)
-* Source Order when adding new sources
-* FrankRe Tzar
-* duplicate position of the reset tooltip
-* Countries that aren't Israel don't respect the typography settings for the summaries
-* randomize initial fonts
 * try giving navigating back in time an different card bg color
-* main grid direction should respect the country, not locale
 * Country-specific typography settings
-* US doesn't work?...
 * clear loading indicator when moving between countries
 
 ==== Mobile ====

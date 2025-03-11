@@ -31,7 +31,9 @@ export default function Summary({ summary, active, locale }) {
         text = summary ? summary.translatedSummary : '';
         headline = summary ? (summary.translatedHeadline || summary.headline) : '';
     }
-    const timestamp = summary.timestamp.getHours() + ':' + (summary.timestamp.getMinutes() < 10 ? '0' : '') + summary.timestamp.getMinutes();
+    const timestamp = 
+        (summary.timestamp.getHours() < 10 ? '0' : '') + summary.timestamp.getHours() + ':' + 
+        (summary.timestamp.getMinutes() < 10 ? '0' : '') + summary.timestamp.getMinutes();
 
     const parts = text.split(/(\(.*?\))/g)
 
@@ -44,7 +46,7 @@ export default function Summary({ summary, active, locale }) {
             style={{
                 color: active ? 'black' : '#e8e8e8',
                 cursor: active ? 'text' : 'pointer',
-                fontSize: active ? '17px' : '.9rem',
+                fontSize: locale === 'heb' ? (active ? '17px' : '0.9rem') : (active ? '16px' : '0.9rem'),
                 fontWeight: 400,
                 lineHeight: active ? '1.4' : '1.3',
             }}
@@ -55,7 +57,7 @@ export default function Summary({ summary, active, locale }) {
                     fontSize: active ? '1.25rem' : '1.15rem',
                     lineHeight: active ? '1.5' : '1.3',
                     marginTop: active ? '0px' : '12px',
-                    marginBottom: active ? '20px' : '10px',
+                    marginBottom: '10px',
                 }}
             >
                 <span className="font-mono">{timestamp}</span>

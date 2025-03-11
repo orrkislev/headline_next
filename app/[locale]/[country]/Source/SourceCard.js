@@ -62,6 +62,8 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
         return typo;
     }, [font, country, isRTL]);
 
+    const isPresent = date ? new Date() - date < 60 * 1000 * 5 : true;
+
     if (!isActive(name)) return null;
 
     const index = getIndex(name);
@@ -75,6 +77,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale }) 
             relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
             ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
+            ${!isPresent ? 'bg-neutral-50 ' : ''}
         `}>
             <CloseButton click={() => toggleSource(name)} isRTL={isRTL} />
             <div className="flex flex-col h-full justify-normal sm:justify-between">
