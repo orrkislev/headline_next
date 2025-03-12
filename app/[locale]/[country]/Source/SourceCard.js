@@ -73,7 +73,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         return typo;
     }, [font, country, isRTL]);
 
-    const isPresent = date ? new Date() - date < 60 * 1000 * 5 : true;
+    const isPresent = new Date() - date < 60 * 1000 * 5;
 
     return (
         <div style={{ order: index }}
@@ -84,7 +84,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
             ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
-            ${!isPresent ? 'bg-neutral-50 ' : ''}
+            ${!isPresent ? 'bg-neutral-50 outline outline-1 outline-neutral-300 outline-dotted' : ''}
         `}>
             <CloseButton click={() => toggleSource(name)} isRTL={isRTL} />
             <TranslatedLabel locale={locale} active={shouldTranslate} />

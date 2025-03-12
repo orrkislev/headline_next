@@ -30,9 +30,9 @@ export default function SourceName({ name, description, typography, date }) {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
         >
-            <span className={`text-sm cursor-help ${isPresent ? 'text-blue' : 'text-black'}`} style={{ 
+            <span className={`text-sm cursor-help ${isPresent ? 'text-blue' : 'text-[#0000CC]'}`} style={{ 
                 ...typography, 
-                fontSize: typography.fontFamily === 'var(--font-frank-re-tzar)' ? '2.3rem' : '1.5rem' 
+                fontSize: typography.fontFamily === 'var(--font-frank-re-tzar)' ? '2.1rem' : '1.5rem' 
             }}>
                 {name}
             </span>
