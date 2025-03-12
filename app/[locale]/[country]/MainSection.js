@@ -30,7 +30,9 @@ export default function MainSection({ sources, country, locale }) {
                         direction-${countries[country].languageDirection}
                         `}>
             {activeSources.map((source, index) => (
-                <Suspense key={source.name} fallback={<div>Loading...</div>}>
+                <Suspense key={source.name} fallback={
+                    <div className="animate-pulse bg-neutral-100 dark:bg-neutral-500 h-[300px]" />
+                }>
                     <SourceCard
                         index={index}
                         name={source.name}
@@ -41,7 +43,9 @@ export default function MainSection({ sources, country, locale }) {
                     />
                 </Suspense>
             ))}
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={
+                <div className="animate-pulse bg-neutral-100 dark:bg-neutral-500 h-[300px]" />
+            }>
                 <AddSourceButton {...{ locale, country, sources }} />
             </Suspense>
         </div>
