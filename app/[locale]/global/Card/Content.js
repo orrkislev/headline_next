@@ -10,6 +10,8 @@ export default function Content({ summary, locale }) {
     const minutes = summary.timestamp.getUTCMinutes();
     const hours = summary.timestamp.getUTCHours();
 
+    // Format time to ensure two digits for minutes
+    const formattedTime = `${hours}:${minutes.toString().padStart(2, '0')}`;
 
     let text = summary.summary;
     if (locale === 'heb') {
@@ -23,18 +25,18 @@ export default function Content({ summary, locale }) {
             <div className="w-full flex justify-between items-center">
                 <p style={{
                     fontFamily: 'monospace',
-                    fontWeight: 'bold',
-                    fontSize: '0.95rem',
+                    fontWeight: 400,
+                    fontSize: '0.85rem',
                     padding: 6,
-                }}>{hours}:{minutes}</p>
+                }}>{formattedTime}</p>
                 <TopBarButton onClick={() => setOpen(!open)}>
                     {open ? <ExpandLess color='gray'/> : <ExpandMore color='gray'/>}
                 </TopBarButton>
             </div>
             <Collapse in={open}>
                 <div style={{
-                    fontFamily: locale === 'heb' ? 'sans-serif' : 'Roboto, sans-serif',
-                    fontWeight: 200,
+                    fontFamily: locale === 'heb' ? 'Roboto, sans-serif' : 'Roboto, sans-serif',
+                    fontWeight: 400,
                     padding: 6,
                     direction: locale === 'heb' ? 'rtl' : 'ltr',
                     textAlign: locale === 'heb' ? 'right' : 'left',
