@@ -3,9 +3,17 @@
 import CustomTooltip from "@/components/CustomTooltip";
 import { Restore } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
+import { useEffect } from "react";
 
-export default function ResetTimerButton({date, setDate, locale, className}) {
+export default function ResetTimerButton({ date, setDate, locale, className }) {
     const isPresent = new Date() - date < 60 * 1000 * 5;
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            if (!isPresent) setDate(new Date());
+        }, 60 * 1000);
+        return () => clearInterval(timer);
+    }, [isPresent, setDate]);
 
     const tooltip = locale === 'heb' ? 'בחזרה לעכשיו' : 'Reset To Now';
     const placement = locale === 'heb' ? 'left' : 'right';
