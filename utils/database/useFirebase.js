@@ -26,7 +26,7 @@ export default function useFirebase() {
     if (!firestore) loadFirebase()
   }, []);
 
-  
+
   // ----------------- Helpers -----------------
   // ---------------------------------------------
 
@@ -123,13 +123,39 @@ export default function useFirebase() {
     return prepareData(snapshot.docs[0]);
   }
 
+  // ---------------- Global Overviews ----------------
+  // --------------------------------------------------
+
+  const subscribeToGlobalOverviews = async (callback) => {
+    const globalOverviewsRef = firestore.collection(db, '- metadata -', 'globalOverviews', 'overviews');
+    const q = firestore.query(globalOverviewsRef, firestore.orderBy('timestamp', 'desc'), firestore.limit(1));
+
+    return firestore.onSnapshot(q, { includeMetadataChanges: false }, (snapshot) => {
+      if (!snapshot.empty) {
+        const data = prepareData(snapshot.docs[0]);
+
+        data.overview = data.english?.overview || data.english || null;
+        data.english = {
+          headline: data.english?.headline || '',
+          overview: data.english?.overview || ''
+        };
+        data.hebrew = {
+          headline: data.hebrew?.headline || '',
+          overview: data.hebrew?.overview || ''
+        };
+        callback(data);
+      }
+    });
+  }
+
   return {
-    db,firestore,
+    db, firestore,
     getCountryCollectionRef,
     prepareData,
     getCountryDaySummaries,
     getRecentSummaries,
     subscribeToSummaries,
-    getCountryDailySummary
+    getCountryDailySummary,
+    subscribeToGlobalOverviews
   }
 }

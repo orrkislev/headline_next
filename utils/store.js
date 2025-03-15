@@ -30,3 +30,13 @@ export const useActiveWebsites = create(set => ({
     activeWebsites: [],
     setActiveWebsites: (websites) => set({ activeWebsites: websites }),
 }));
+
+
+export const useGlobalSort = create(set => ({
+    globalSort: 'ai',
+    setGlobalSort: (sort) => set({ globalSort: sort }),
+}));
+export const useGlobalCountryCohesion = create(set => ({
+    globalCountryCohesion: {},
+    setGlobalCountryCohesion: (country, cohesion) => set(state => ({ globalCountryCohesion: { ...state.globalCountryCohesion, [country]: cohesion } })),
+}));
