@@ -1,4 +1,4 @@
-import { orderOptionLabels } from "@/utils/sources/source orders";
+import { orderOptionLabels } from "@/utils/sources/getCountryData";
 import PopUpCleaner from "@/components/PopUp";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
@@ -13,6 +13,7 @@ const toggleButtonStyle = {
 export default function OrderMenu({ open, close, locale, order, setOrder }) {
 
     const handleSortChange = (event, newSortType) => {
+        if (!newSortType) return;
         setOrder(newSortType)
     }
 

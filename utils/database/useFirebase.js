@@ -10,6 +10,7 @@ let cachedDb;
 export default function useFirebase() {
   const [firestore, setFirestore] = useState(cachedFirestore);
   const [db, setDb] = useState(cachedDb);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const loadFirebase = async () => {
@@ -22,6 +23,7 @@ export default function useFirebase() {
       const _db = _firestore.getFirestore(app);
       setDb(_db);
       setFirestore(_firestore);
+      setReady(true);
     }
     if (!firestore) loadFirebase()
   }, []);
@@ -149,6 +151,7 @@ export default function useFirebase() {
   }
 
   return {
+    ready,
     db, firestore,
     getCountryCollectionRef,
     prepareData,

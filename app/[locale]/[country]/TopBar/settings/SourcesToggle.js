@@ -4,8 +4,7 @@ import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
 import PopUpCleaner from "@/components/PopUp";
 import { getSourceData, getSourceOrder } from "@/utils/sources/getCountryData";
-import { useOrder } from "@/utils/store";
-import useWebsites from "@/utils/useWebsites";
+import { useOrder, useActiveWebsites } from "@/utils/store";
 import { List } from "@mui/icons-material";
 import Image from "next/image";
 import { Suspense, useMemo, useState } from "react";
@@ -32,7 +31,8 @@ export default function SourcesToggle({ country, locale, sources }) {
 }
 
 function SourcesGrid({ open, country, locale, sources }) {
-    const { websites, toggleSource } = useWebsites(country);
+    const activeWebsites = useActiveWebsites(state => state.activeWebsites)
+    const setActiveWebsites = useActiveWebsites(state => state.setActiveWebsites)
     const order = useOrder(state => state.order);
 
     const sourceOrder = useMemo(() => getSourceOrder(country, order), [country, order]);
@@ -42,11 +42,18 @@ function SourcesGrid({ open, country, locale, sources }) {
         return {
             id,
             description: sourceData.description,
-            active: websites.includes(id),
+            active: activeWebsites.includes(id),
             name: sourceData.name,
             website: sources[id] ? sources[id][0].link : '',
         }
     });
+
+    const toggleSource = (source) => {
+        const newWebsites = activeWebsites.includes(source)
+            ? activeWebsites.filter(website => website !== source)
+            : [...activeWebsites, source];
+        setActiveWebsites(newWebsites);
+    };
 
     if (!open) return null;
     return (

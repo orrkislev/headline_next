@@ -1,22 +1,15 @@
 'use client'
 
-import { Suspense, useMemo } from "react";
+import { Suspense } from "react";
 import AddSourceButton from "./Source/AddSourceButton";
 import SourceCard from "./Source/SourceCard";
 import { countries } from "@/utils/sources/countries";
-import useWebsites from "@/utils/useWebsites";
 import { getSourceData } from "@/utils/sources/getCountryData";
+import useWebsitesManager from "@/utils/useWebsites";
+
 
 export default function MainSection({ sources, country, locale }) {
-    const { websites } = useWebsites(country, sources)
-
-    const activeSources = websites
-        .filter(website => sources[website])
-        .map(website => ({
-            name: website,
-            headlines: sources[website],
-            data: getSourceData(country, website)
-        }));
+    const websitesManager = useWebsitesManager(country, sources)
 
     return (
         <div className={`custom-scrollbar 
@@ -29,17 +22,17 @@ export default function MainSection({ sources, country, locale }) {
                         qhd:grid-cols-6 
                         direction-${countries[country].languageDirection}
                         `}>
-            {activeSources.map((source, index) => (
-                <Suspense key={source.name} fallback={
+            {Object.keys(sources).map((source) => (
+                <Suspense key={source} fallback={
                     <div className="animate-pulse bg-neutral-100 dark:bg-neutral-500 h-[300px]" />
                 }>
                     <SourceCard
-                        index={index}
-                        name={source.name}
-                        initialHeadlines={source.headlines}
+                        key={source}
+                        name={source}
+                        initialHeadlines={sources[source]}
                         country={country}
                         locale={locale}
-                        data={source.data}
+                        data={getSourceData(country, source)}
                     />
                 </Suspense>
             ))}

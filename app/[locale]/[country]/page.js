@@ -2,6 +2,7 @@ import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries 
 import { sub } from "date-fns";
 import { countries } from "@/utils/sources/countries";
 import CountryPageContent from "./CountryPage_content";
+import { getWebsiteName } from "@/utils/sources/getCountryData";
 
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
@@ -29,8 +30,9 @@ export default async function Page({ params }) {
 
     const sources = {};
     headlines.forEach(headline => {
-        if (!sources[headline.website_id]) sources[headline.website_id] = [];
-        sources[headline.website_id].push(headline);
+        const sourceName = getWebsiteName(country, headline.website_id);
+        if (!sources[sourceName]) sources[sourceName] = [];
+        sources[sourceName].push(headline);
     });
 
     if (initialSummaries.length === 0) {

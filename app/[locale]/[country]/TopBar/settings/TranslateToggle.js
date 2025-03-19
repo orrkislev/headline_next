@@ -14,9 +14,9 @@ export default function TranslateToggle({ locale, country }) {
     const { setTranslate } = useTranslate();
 
     useEffect(()=>{
-        if (locale === 'en' && !englishSpeakingCountries.includes(country)) {
+        if (locale === 'en' && !englishSpeakingCountries.includes(country) && !hebrewSpeakingCountries.includes(country)) {
             setTranslate('ALL');
-        } else if (locale === 'heb' && !hebrewSpeakingCountries.includes(country)) {
+        } else if (locale === 'heb' && !hebrewSpeakingCountries.includes(country) && !englishSpeakingCountries.includes(country)) {
             setTranslate('ALL');
         }
     },[locale,country])

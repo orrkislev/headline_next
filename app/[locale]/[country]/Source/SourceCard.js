@@ -8,22 +8,21 @@ import { SourceFooter } from "./SourceFooter";
 import { getTypographyOptions } from "@/utils/typography/typography";
 import Subtitle from "./Subtitle";
 import dynamic from "next/dynamic";
-import { useFont, useTime, useTranslate } from "@/utils/store";
+import { useFont, useTime, useTranslate, useActiveWebsites } from "@/utils/store";
 import { checkRTL, choose } from "@/utils/utils";
-import useWebsites from "@/utils/useWebsites";
 import useHeadlinesManager from "@/utils/database/useHeadlinesManager";
 import TranslatedLabel from "./TranslatedLabel";
 
 const SourceSlider = dynamic(() => import('./SourceSlider'));
 
-export default function SourceCard({ name, initialHeadlines, country, locale, data, index }) {
-    const headlines = useHeadlinesManager(country, name, initialHeadlines);
-    const { toggleSource } = useWebsites(country)
+export default function SourceCard({ name, initialHeadlines, country, locale, data }) {
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
     const [headline, setHeadline] = useState(initialHeadlines[0]);
     const [translations, setTranslations] = useState({});
+    const websites = useActiveWebsites(state => state.activeWebsites)
+    const headlines = useHeadlinesManager(country, name, initialHeadlines, websites.includes(name));
 
     const shouldTranslate = useMemo(() => translate.includes(name) || translate.includes('ALL'), [translate, name]);
 
@@ -39,7 +38,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             (async () => {
                 const res = await fetch('/api/translate', {
                     method: 'POST',
-                    body: JSON.stringify({ headline: headline.headline, subtitle: headline.subtitle, locale}),
+                    body: JSON.stringify({ headline: headline.headline, subtitle: headline.subtitle, locale }),
                     headers: { 'Content-Type': 'application/json' }
                 })
                 const resData = await res.json()
@@ -75,6 +74,9 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
 
     const isPresent = new Date() - date < 60 * 1000 * 5;
 
+    const index = websites.indexOf(name);
+    if (index == -1) return null;
+
     return (
         <div style={{ order: index }}
             className={`source-card
@@ -86,7 +88,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
             ${!isPresent ? 'bg-neutral-50 outline outline-1 outline-neutral-300 outline-dotted' : ''}
         `}>
-            <CloseButton click={() => toggleSource(name)} isRTL={isRTL} />
+            <CloseButton name={name} isRTL={isRTL} />
             <TranslatedLabel locale={locale} active={shouldTranslate} />
             <div className="flex flex-col h-full justify-normal sm:justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">

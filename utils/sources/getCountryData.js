@@ -1,3 +1,5 @@
+import stringSimilarity from "string-similarity-js";
+
 // Import registry - will store loaded country data
 const loadedCountries = {};
 
@@ -32,7 +34,8 @@ export const normalizeSourceName = (name) => {
   return name.toLowerCase().replace(/\./g, '_').replace(/ /g, '_');
 };
 export function getSourceData(country, source) {
-    return sources.countries[country].sources[normalizeSourceName(source)];
+    // return sources.countries[country].sources[normalizeSourceName(source)];
+    return sources.countries[country].sources[source];
 }
 
 export function getSourceOrder(country, order) {
@@ -44,4 +47,15 @@ export const orderOptionLabels = {
     'progressiveToConservative': 'Progressive to Conservative',
     'conservativeToProgressive': 'Conservative to Progressive',
     'default': 'Default'
+}
+
+
+export const getWebsiteName = (country, website) => {
+    const defaultOrder = getSourceOrder(country, 'default');
+    const sourceName = defaultOrder.reduce((a, b) => {
+        const similarity1 = stringSimilarity(website, b);
+        const similarity2 = stringSimilarity(website, a);
+        return similarity1 > similarity2 ? b : a;
+    }, defaultOrder[0])
+    return sourceName
 }

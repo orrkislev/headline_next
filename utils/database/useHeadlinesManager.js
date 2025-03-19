@@ -3,7 +3,7 @@ import useFirebase from "./useFirebase";
 import { useTime } from "../store";
 import { endOfDay, sub } from "date-fns";
 
-export default function useHeadlinesManager(country, name, initialHeadlines) {
+export default function useHeadlinesManager(country, name, initialHeadlines, active) {
 
     const [headlines, setHeadlines] = useState(initialHeadlines);
     const date = useTime(state => state.date);
@@ -31,7 +31,12 @@ export default function useHeadlinesManager(country, name, initialHeadlines) {
             return acc;
         }, []);
         dates.current = initialDates;
+    }, [initialHeadlines]);
 
+    useEffect(() => {
+        if (!firebase.ready) return
+        if (!active) return
+        
         (async () => {
             const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
             const initialTimes = initialHeadlines.map(headline => headline.timestamp);
@@ -47,19 +52,6 @@ export default function useHeadlinesManager(country, name, initialHeadlines) {
             newHeadlines = newHeadlines.docs.map(headline => firebase.prepareData(headline));
             addHeadlines(newHeadlines);
         })();
-    }, [initialHeadlines]);
-
-
-
-    useEffect(() => {
-        if (!firebase.db || !dates.current || !day) return;
-        getDayHeadlines(day);
-        getDayHeadlines(sub(new Date(day + ' UTC'), { days: 1 }).toDateString());
-    }, [firebase.db, day]);
-
-
-    useEffect(() => {
-        if (!firebase.db) return;
 
         const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
         const q = firebase.firestore.query(
@@ -68,14 +60,21 @@ export default function useHeadlinesManager(country, name, initialHeadlines) {
             firebase.firestore.orderBy('timestamp', 'desc'),
             firebase.firestore.limit(1),
         );
-
         const unsubscribe = firebase.firestore.onSnapshot(q, snapshot => {
             if (snapshot.empty) return
             const headlines = snapshot.docs.map(doc => firebase.prepareData(doc));
             addHeadlines(headlines);
         });
         return unsubscribe;
-    }, [firebase.db])
+    }, [firebase.ready, active]);
+
+
+
+    useEffect(() => {
+        if (!firebase.db || !dates.current || !day) return;
+        getDayHeadlines(day);
+        getDayHeadlines(sub(new Date(day + ' UTC'), { days: 1 }).toDateString());
+    }, [firebase.db, day]);
 
 
 

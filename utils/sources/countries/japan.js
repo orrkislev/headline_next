@@ -160,7 +160,6 @@ export default {
     "progressiveToConservative": [
       "asahi",
       "mainichi",
-      "tokyo",
       "huffpost",
       "tbs",
       "nhk",
@@ -189,7 +188,6 @@ export default {
       "nhk",
       "tbs",
       "huffpost",
-      "tokyo",
       "mainichi",
       "asahi"
     ],
