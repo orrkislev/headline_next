@@ -138,7 +138,7 @@ export default function LandingPageContent() {
   } : {};
 
   return (
-    <div className="fixed inset-0 w-full bg-white overflow-x-hidden overflow-y-auto flex justify-center">
+    <div className="fixed inset-0 w-full bg-white overflow-x-hidden overflow-y-auto flex justify-center custom-scrollbar">
       <EnglishFonts />
       <HebrewFonts />
       
@@ -158,7 +158,7 @@ export default function LandingPageContent() {
           <div className="md:col-span-8">
             <div className="h-full bg-gray-100 rounded-lg shadow-md p-10">
               <h1 
-                className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4"
+                className="text-2xl md:text-3xl font-semibold text-gray-800 mb-2"
                 style={typographyStyle}
               >
                 <span className="text-blue">The Hear</span> is a newsstand with a brain,
@@ -252,10 +252,12 @@ export default function LandingPageContent() {
           ))}
 
           {/* Countries List - now spans 8 columns */}
-          <CountriesList typographyStyle={typographyStyle} />
+          <div className="md:col-span-8 mb-4">
+            <CountriesList typographyStyle={typographyStyle} />
+          </div>
 
           {/* Welcome Card */}
-          <div className="md:col-span-4">
+          <div className="md:col-span-4 mb-4">
             <div 
               onClick={() => router.push('/en/global')}
               className="h-full bg-[#223052] hover:bg-[#495A7F] rounded-lg shadow-md flex items-center justify-center cursor-pointer"
