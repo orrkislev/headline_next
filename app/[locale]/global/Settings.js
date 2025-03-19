@@ -1,13 +1,16 @@
 'use client'
 
 import CustomTooltip from "@/components/CustomTooltip";
-import { List } from "@mui/icons-material";
+import { List, SettingsRounded } from "@mui/icons-material";
+import { Collapse } from "@mui/material";
 import { useState } from "react";
 import { useGlobalSort } from "@/utils/store";
+
 export default function Settings({ locale }) {
-    // const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false)
     const { globalSort, setGlobalSort } = useGlobalSort()
     const [sourcesDialogOpen, setSourcesDialogOpen] = useState(false)
+    const [isSortExpanded, setIsSortExpanded] = useState(false)
 
     const handleSortTypeChange = (newSortType) => {
         setGlobalSort(newSortType)
@@ -32,68 +35,117 @@ export default function Settings({ locale }) {
     ]
 
     const languageOptions = [
-        { label: "Hebrew", value: "heb", title: "Shows headlines in Hebrew" },
-        { label: "English", value: "en", title: "Shows headlines in English" },
+        { label: "HE", value: "heb", title: "Shows headlines in Hebrew" },
+        { label: "EN", value: "en", title: "Shows headlines in English" },
     ]
 
+    const visibleSortOptions = isSortExpanded ? sortOptions : sortOptions.filter(option => 
+        ['ai', 'cohesion'].includes(option.value)
+    )
+
     return (
-        <div>
-            {/* <CustomTooltip title="Settings" arrow>
-                <TopBarButton size="small" onClick={() => setOpen(prev => !prev)}>
-                    <SettingsRounded sx={{ color: open ? "blue" : "inherit" }} />
-                </TopBarButton>
-            </CustomTooltip> */}
-
-            {/* <Collapse in={open} orientation="horizontal"> */}
-            <div className="flex items-center">
-                <div className="mx-2 h-full border-l border-gray-300" />
-
-                <span className="text-xs whitespace-nowrap text-[#707070] mr-2 hover:text-blue-500">
-                    SORT BY
-                </span>
-
-                <div className="h-6 flex">
-                    <div className="inline-flex h-full rounded-md border border-gray-300 divide-x">
-                        {sortOptions.map(sortOption => (
-                            <CustomTooltip key={sortOption.value} title={sortOption.title} placement="bottom" arrow>
-                                <button
-                                    onClick={() => handleSortTypeChange(sortOption.value)}
-                                    className={`px-1.5 py-0.5 text-xs ${globalSort === sortOption.value ? "bg-gray-300" : "hover:bg-gray-100"}`}
-                                >
-                                    {sortOption.label}
-                                </button>
-                            </CustomTooltip>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="mx-2 h-full border-l border-gray-300" />
-
-                <div className="h-6">
-                    <div className="inline-flex h-full rounded-md border border-gray-300 divide-x">
-                        {languageOptions.map(languageOption => (
-                            <CustomTooltip key={languageOption.value} title={languageOption.title} placement="bottom" arrow>
-                                <button
-                                    onClick={() => handleLanguageChange(languageOption.value)}
-                                    className={`px-1.5 py-0.5 text-xs ${locale === languageOption.value ? "bg-gray-300" : "hover:bg-gray-100"}`}
-                                >
-                                    {languageOption.label}
-                                </button>
-                            </CustomTooltip>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="mx-2 h-full border-l border-gray-300" />
-
-                <button
-                    onClick={() => setSourcesDialogOpen(true)}
-                    className="p-1 hover:bg-gray-100 rounded-full"
+        <div className="flex items-center">
+            <CustomTooltip title="Settings" arrow>
+                <button 
+                    className={`p-1 hover:bg-gray-100 rounded-full ${locale === 'heb' && open ? 'pl-4' : ''}`}
+                    onClick={() => setOpen(prev => !prev)}
                 >
-                    <List className="text-base" />
+                    <SettingsRounded sx={{ color: open ? "blue" : "inherit" }} className="!text-base" />
                 </button>
-            </div>
-            {/* </Collapse> */}
+            </CustomTooltip>
+
+            <Collapse in={open} orientation="horizontal">
+                <div className={`flex items-center ${locale === 'heb' ? 'flex-row-reverse' : ''}`}>
+                    {locale === 'heb' ? (
+                        <>
+                            <button
+                                onClick={() => setSourcesDialogOpen(true)}
+                                className="p-1 hover:bg-gray-100 rounded-full"
+                            >
+                                <List className="text-base" />
+                            </button>
+
+                            <div className="mx-2 h-full border-l border-gray-300" />
+
+                            <div className="h-6 flex items-center">
+                                <div className="inline-flex h-full border border-gray-300 divide-x">
+                                    {languageOptions.map(languageOption => (
+                                        <CustomTooltip key={languageOption.value} title={languageOption.title} placement="bottom" arrow>
+                                            <button
+                                                onClick={() => handleLanguageChange(languageOption.value)}
+                                                className={`px-1.5 py-0.5 text-xs ${locale === languageOption.value ? "bg-gray-300" : "hover:bg-gray-100"}`}
+                                            >
+                                                {languageOption.label}
+                                            </button>
+                                        </CustomTooltip>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="mx-2 h-full border-l border-gray-300" />
+                        </>
+                    ) : null}
+
+                    <div className="flex items-center" dir="ltr">
+                        {locale !== 'heb' && <div className="mx-2 h-full border-l border-gray-300" />}
+
+                        <span className="text-xs whitespace-nowrap text-[#707070] mr-2 hover:text-blue-500">
+                            SORT BY
+                        </span>
+
+                        <div className="h-6 flex">
+                            <div className="inline-flex h-full border border-gray-300 divide-x">
+                                {visibleSortOptions.map(sortOption => (
+                                    <CustomTooltip key={sortOption.value} title={sortOption.title} placement="bottom" arrow>
+                                        <button
+                                            onClick={() => handleSortTypeChange(sortOption.value)}
+                                            className={`px-1.5 py-0.5 text-xs ${globalSort === sortOption.value ? "bg-gray-300" : "hover:bg-gray-100"}`}
+                                        >
+                                            {sortOption.label}
+                                        </button>
+                                    </CustomTooltip>
+                                ))}
+                                <button
+                                    onClick={() => setIsSortExpanded(!isSortExpanded)}
+                                    className="px-1.5 py-0.5 text-xs hover:bg-gray-100"
+                                >
+                                    {isSortExpanded ? '−' : '+'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {locale !== 'heb' ? (
+                        <>
+                            <div className="mx-2 h-full border-l border-gray-300" />
+
+                            <div className="h-6 flex items-center">
+                                <div className="inline-flex h-full border border-gray-300 divide-x">
+                                    {languageOptions.map(languageOption => (
+                                        <CustomTooltip key={languageOption.value} title={languageOption.title} placement="bottom" arrow>
+                                            <button
+                                                onClick={() => handleLanguageChange(languageOption.value)}
+                                                className={`px-1.5 py-0.5 text-xs ${locale === languageOption.value ? "bg-gray-300" : "hover:bg-gray-100"}`}
+                                            >
+                                                {languageOption.label}
+                                            </button>
+                                        </CustomTooltip>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="mx-2 h-full border-l border-gray-300" />
+
+                            <button
+                                onClick={() => setSourcesDialogOpen(true)}
+                                className="p-1 hover:bg-gray-100 rounded-full"
+                            >
+                                <List className="text-base" />
+                            </button>
+                        </>
+                    ) : null}
+                </div>
+            </Collapse>
         </div>
     )
 }

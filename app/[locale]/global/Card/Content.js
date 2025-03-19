@@ -30,7 +30,7 @@ export default function Content({ summary, locale }) {
                     padding: 6,
                 }}>{formattedTime}</p>
                 <TopBarButton onClick={() => setOpen(!open)}>
-                    {open ? <ExpandLess color='gray'/> : <ExpandMore color='gray'/>}
+                    {open ? <ExpandLess color='gray'/> : <ExpandMore color='gray' className="animate-pulse"/>}
                 </TopBarButton>
             </div>
             <Collapse in={open}>

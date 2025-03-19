@@ -6,22 +6,22 @@ const MIN_FONT_SIZE = 2.1;
 
 const fontSizes = {
   small: {
-    card0: '4rem',
+    card0: '3rem',
     baseMax: 2.5,
     decrease: 0.1
   },
   regular: {
-    card0: '4rem',
+    card0: '3rem',
     baseMax: 2.5,
     decrease: 0.12
   },
   large: {
-    card0: '4rem',
+    card0: '3rem',
     baseMax: 2.5,
     decrease: 0.15
   },
   hd: {
-    card0: '4rem',
+    card0: '3rem',
     baseMax: 2.5,
     decrease: 0.12
   }

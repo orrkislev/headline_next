@@ -5,7 +5,7 @@ export default function GlobalTopBar({ locale }) {
 
 
     return (
-        <div className="flex border-b border-gray-200 p-4">
+        <div className="flex border-b border-gray-200 p-2">
             <div className="flex justify-between w-full">
                 <div className="flex items-center">
                     <Clock locale={locale} />

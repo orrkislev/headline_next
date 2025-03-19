@@ -36,12 +36,12 @@ export default function GlobalCard({ country, locale, AICountrySort }) {
     if (globalSort == 'pressFreedom') index = Object.entries(countries).sort((a, b) => a[1].pressFreedom - b[1].pressFreedom).findIndex(c => c[0] == country)
     if (index < 0) index = 100
 
-    let typography = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options[index == 0 ? 1 : 0]
+    let typography = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options[0]
     typography = JSON.parse(JSON.stringify(typography))
 
     return (
         <div style={{ order: index }}
-            className={`global-card source-card relative bg-white hover:bg-neutral-100 transition-colors duration-200 border border-dotted border-neutral-200
+            className={`global-card source-card relative bg-white hover:bg-neutral-100 border border-dotted border-neutral-200 hover:shadow-xl
                         ${[0, 1, 11, 12, 16, 17].includes(index) ? 'col-span-3' : 'col-span-2'}
                         ${locale == 'heb' ? 'direction-rtl text-right' : 'direction-ltr'}
                         flex flex-col h-full justify-between`}>

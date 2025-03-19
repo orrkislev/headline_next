@@ -9,7 +9,7 @@ export default function GlobalOverview({ locale }) {
 
     if (!overview) {
         return (
-            <div className="px-2 mb-2">
+            <div className="mb-2">
                 <Skeleton variant="text" width="90%" height={30} sx={{ mb: 1 }} />
                 <Skeleton variant="text" width="85%" height={24} />
                 <Skeleton variant="text" width="80%" height={24} />
@@ -34,8 +34,8 @@ export default function GlobalOverview({ locale }) {
             if (titleMatch) {
                 return (
                     <>
-                        <div className="text-blue-600 inline font-normal text-[1.125rem]">
-                            ⇢ {titleMatch[1]}:
+                        <div className="text-blue inline font-normal text-[1.125rem]">
+                            {locale === 'heb' ? '⇠' : '⇢'} {titleMatch[1]}:
                         </div>
                         {" " + titleMatch[2]}
                     </>
@@ -77,16 +77,16 @@ export default function GlobalOverview({ locale }) {
     };
 
     return (
-        <div className="px-2 mb-2 custom-scrollbar overflow-auto">
-            <div className={`text-blue mb-8 leading-tight font-normal ${locale === 'heb' ? 'frank-re' : 'font-roboto'} text-[1.25rem]`}>
-                {formattedTime} ⇢ {overview.headline}
+        <div className="mb-3 custom-scrollbar overflow-auto">
+            <div className={`text-blue mb-2 font-normal ${locale === 'heb' ? 'frank-re' : 'font-roboto'} text-[1.25rem]`} style={{ lineHeight: '1.4' }}>
+                {formattedTime} {locale === 'heb' ? '⇠' : '⇢'} {overview.headline}
             </div>
 
             {/* Gentle divider */}
-            <div className="mb-8 border-b border-black/20" />
+            <div className="mb-3 border border-gray-200 border-dashed border-[0.5px]" />
 
             {/* Overview Text */}
-            <div className={`${locale == 'heb' ? 'frank-re' : 'font-roboto'} text-[1.125rem] leading-[1.3] font-normal text-black whitespace-pre-wrap`}>
+            <div className={`${locale == 'heb' ? 'frank-re' : 'font-roboto'} text-[1.125rem] font-normal text-black whitespace-pre-wrap`} style={{ lineHeight: '1.4' }}>
                 {formatText(overview.overview)}
             </div>
         </div>
