@@ -63,7 +63,7 @@ export default function Content({ country, summary, locale, pinned }) {
             </div>
             <Collapse in={open}>
                 <div style={{
-                    fontFamily: locale === 'heb' ? 'Roboto, sans-serif' : 'Roboto, sans-serif',
+                    fontFamily: 'Roboto, sans-serif',
                     fontWeight: 400,
                     padding: 6,
                     direction: locale === 'heb' ? 'rtl' : 'ltr',

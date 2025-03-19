@@ -25,7 +25,7 @@ export default function GlobalCard({ country, locale, pinned, index }) {
 
     if (!summary) return null;
 
-    let typography = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options[index == 0 ? 1 : 0]
+    let typography = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options[0]
     typography = JSON.parse(JSON.stringify(typography))
 
     return (
