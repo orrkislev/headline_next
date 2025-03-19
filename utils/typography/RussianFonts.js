@@ -15,18 +15,18 @@ export default function RussianFonts() {
 export const Typography_Russian = [
     {
         fontFamily: '"Oswald", serif',
-        fontSize: 2.3,
+        fontSize: '2.3rem',
         fontWeight: 400,
     },
     {
         fontFamily: '"Roboto", sans-serif',
-        fontSize: 2.4,
+        fontSize: '2.4rem',
         lineHeight: 1.2,
         fontWeight: 400,
     },
     {
         fontFamily: '"Rubik", sans-serif',
-        fontSize: 2.2,
+        fontSize: '2.2rem',
         lineHeight: 1.2,
         fontWeight: 600,
         fontStyle: 'italic',
@@ -34,7 +34,7 @@ export const Typography_Russian = [
     },
     {
         fontFamily: '"Oswald", serif',
-        fontSize: 2.3,
+        fontSize: '2.3rem',
         fontWeight: 700,
         fontVariationSettings: '"wght" 700',
     }

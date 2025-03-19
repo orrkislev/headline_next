@@ -14,13 +14,13 @@ export default function IndiaFonts() {
 export const Typography_India = [
     {
         fontFamily: '"Noto Sans Devanagari", Arial, sans-serif',
-        fontSize: 2.2,
+        fontSize: '2.2rem',
         lineHeight: 1.15,
         fontWeight: 400,
     },
     {
         fontFamily: '"Palanquin Dark", Arial, sans-serif',
-        fontSize: 2.2,
+        fontSize: '2.2rem',
         lineHeight: 1,
         fontWeight: 400,
     }

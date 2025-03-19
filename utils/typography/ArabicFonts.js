@@ -15,19 +15,19 @@ export default function ArabicFonts() {
 export const Typography_Arabic = [
     {
         fontFamily: '"Lalezar", sans-serif',
-        fontSize: 2.3,
+        fontSize: '2.3rem',
         lineHeight: 1.2,
         fontWeight: 400,
     },
     {
         fontFamily: '"Amiri", serif',
-        fontSize: 2.3,
+        fontSize: '2.3rem',
         lineHeight: 1.2,
         fontWeight: 400,
     },
     {
         fontFamily: '"Alexandria", serif',
-        fontSize: 2.3,
+        fontSize: '2.3rem',
         fontWeight: 400,
     }
 ]; 
