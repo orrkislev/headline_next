@@ -20,7 +20,6 @@ export default function useGlobalOverviews(locale) {
                 }
             }
         })
-
         return unsubscribe
     }, [firebase.db])
 

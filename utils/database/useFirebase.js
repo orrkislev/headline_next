@@ -126,7 +126,7 @@ export default function useFirebase() {
   // ---------------- Global Overviews ----------------
   // --------------------------------------------------
 
-  const subscribeToGlobalOverviews = async (callback) => {
+  const subscribeToGlobalOverviews = (callback) => {
     const globalOverviewsRef = firestore.collection(db, '- metadata -', 'globalOverviews', 'overviews');
     const q = firestore.query(globalOverviewsRef, firestore.orderBy('timestamp', 'desc'), firestore.limit(1));
 

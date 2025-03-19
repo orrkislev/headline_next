@@ -31,6 +31,22 @@ export default function useHeadlinesManager(country, name, initialHeadlines) {
             return acc;
         }, []);
         dates.current = initialDates;
+
+        (async () => {
+            const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
+            const initialTimes = initialHeadlines.map(headline => headline.timestamp);
+            const lastHeadlineTime = Math.max(...initialTimes);
+            const q = firebase.firestore.query(
+                headlinesCollection,
+                firebase.firestore.where('timestamp', '>=', lastHeadlineTime),
+                firebase.firestore.where('website_id', '==', name),
+                firebase.firestore.orderBy('timestamp', 'desc'),
+            );
+            let newHeadlines = await firebase.firestore.getDocs(q);
+            if (newHeadlines.empty) return [];
+            newHeadlines = newHeadlines.docs.map(headline => firebase.prepareData(headline));
+            addHeadlines(newHeadlines);
+        })();
     }, [initialHeadlines]);
 
 

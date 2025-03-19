@@ -26,6 +26,13 @@ export async function middleware(request) {
 
   const segments = pathname.split('/').filter(Boolean);
 
+  // Handle root path
+  if (segments.length === 0) {
+    const acceptLanguage = request.headers.get('accept-language') || '';
+    const locale = acceptLanguage.trim().toLowerCase().startsWith('he') ? 'heb' : 'en';
+    return NextResponse.redirect(new URL(`/${locale}/global`, request.url));
+  }
+
   // Path with locale: /locale/country
   if (segments.length >= 2 && (segments[0] === 'en' || segments[0] === 'heb')) {
     const locale = segments[0];

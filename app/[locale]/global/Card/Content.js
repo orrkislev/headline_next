@@ -1,11 +1,14 @@
+import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { ExpandLess, ExpandMore, PushPin, PushPinOutlined } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 import { useState } from "react";
+import { useGlobalSort } from "@/utils/store";
 
 
-export default function Content({ summary, locale }) {
+export default function Content({ country, summary, locale, pinned }) {
     const [open, setOpen] = useState(true);
+    const setPinnedCountries = useGlobalSort(state => state.setPinnedCountries)
 
     const minutes = summary.timestamp.getUTCMinutes();
     const hours = summary.timestamp.getUTCHours();
@@ -20,6 +23,22 @@ export default function Content({ summary, locale }) {
         text = summary ? summary.translatedSummary : '';
     }
 
+    const pin = () => {
+        let pinnedCountries = localStorage.getItem('pinnedCountries');
+        console.log({ pinnedCountries })
+        if (pinnedCountries) {
+            pinnedCountries = JSON.parse(pinnedCountries);
+            console.log({ pinnedCountries, country })
+            if (pinnedCountries.indexOf(country) >= 0) {
+                pinnedCountries.splice(pinnedCountries.indexOf(country), 1);
+            } else {
+                pinnedCountries.push(country);
+            }
+        } else pinnedCountries = [country];
+        localStorage.setItem('pinnedCountries', JSON.stringify(pinnedCountries));
+        setPinnedCountries(pinnedCountries);
+    }
+
     return (
         <div className="p-4">
             <div className="w-full flex justify-between items-center">
@@ -29,8 +48,17 @@ export default function Content({ summary, locale }) {
                     fontSize: '0.85rem',
                     padding: 6,
                 }}>{formattedTime}</p>
+
+                <TopBarButton onClick={pin} >
+                    <CustomTooltip title="pin country in place">
+                        {pinned >= 0 ? <PushPin /> : <PushPinOutlined />}
+                    </CustomTooltip>
+                </TopBarButton>
+
+
+
                 <TopBarButton onClick={() => setOpen(!open)}>
-                    {open ? <ExpandLess color='gray'/> : <ExpandMore color='gray' className="animate-pulse"/>}
+                    {open ? <ExpandLess color='gray' /> : <ExpandMore color='gray' />}
                 </TopBarButton>
             </div>
             <Collapse in={open}>
@@ -43,7 +71,7 @@ export default function Content({ summary, locale }) {
                     fontSize: '0.95rem',
                     lineHeight: 1.4
                 }}>
-                    {text.split(/(\([^)]+\))/g).map((part, index) => 
+                    {text.split(/(\([^)]+\))/g).map((part, index) =>
                         part.startsWith('(') && part.endsWith(')') ? (
                             <span key={index} style={{ fontSize: '0.75rem', color: 'grey' }}>
                                 {part}

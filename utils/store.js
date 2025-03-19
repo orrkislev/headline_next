@@ -35,6 +35,8 @@ export const useActiveWebsites = create(set => ({
 export const useGlobalSort = create(set => ({
     globalSort: 'ai',
     setGlobalSort: (sort) => set({ globalSort: sort }),
+    pinnedCountries: [],
+    setPinnedCountries: (countries) => set({ pinnedCountries: countries }),
 }));
 export const useGlobalCountryCohesion = create(set => ({
     globalCountryCohesion: {},

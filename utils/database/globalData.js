@@ -5,6 +5,7 @@ import { cache } from "react";
 
 import { firebaseConfig } from './firebaseConfig';
 import { countries } from "../sources/countries";
+import { countryToAlpha2 } from "country-to-iso";
 
 
 const app = initializeApp(firebaseConfig);
@@ -20,7 +21,8 @@ export const getAICountrySort = async () => {
     if (latestSortedHeadlines.sortedHeadlines && Array.isArray(latestSortedHeadlines.sortedHeadlines)) {
         const sortedOrder = latestSortedHeadlines.sortedHeadlines
             .sort((a, b) => a.rank - b.rank)
-            .map(item => item.country.toLowerCase());
+            .map(item => item.country.toLowerCase())
+            .map(item => Object.keys(countries).find(c => countryToAlpha2(c) == countryToAlpha2(item)))
 
         return sortedOrder;
     } else {
