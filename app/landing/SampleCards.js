@@ -3,75 +3,23 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import FlagIcon from "@/components/FlagIcon";
+import useLandingHeadlines from './useLandingHeadlines';
 
-// Move sources to this file for cleaner organization
-export const sources = [
-  {
-    websiteId: 'NYTimes',
-    countryId: 'US',
-    label: 'The New York Times',
-    domain: 'nytimes.com'
-  },
-  {
-    websiteId: 'Spiegel',
-    countryId: 'Germany',
-    label: 'Der Spiegel',
-    domain: 'spiegel.de'
-  },
-  {
-    websiteId: 'bbc',
-    countryId: 'UK',
-    label: 'BBC News',
-    domain: 'bbc.com'
-  },
-  {
-    websiteId: 'Ynet',
-    countryId: 'Israel',
-    label: 'ווינט',
-    domain: 'ynet.co.il'
-  },
-  {
-    websiteId: 'lemonde',
-    countryId: 'France',
-    label: 'Le Monde',
-    domain: 'lemonde.fr'
-  },
-  {
-    websiteId: 'elpais',
-    countryId: 'Spain',
-    label: 'El País',
-    domain: 'elpais.com'
-  }
-];
-
-export function RandomSampleCards({ typographyStyle }) {
-  const [randomSources, setRandomSources] = useState(
-    sources.sort(() => Math.random() - 0.5).slice(0, 3)
-  );
-  const [isVisible, setIsVisible] = useState(true);
+export function RandomSampleCards() {
+  const { headlines, refreshHeadlines } = useLandingHeadlines()
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Start the fade-out animation
-      setIsVisible(false);
-
-      // After the fade-out transition (500ms), swap in new content and fade back in
-      setTimeout(() => {
-        const newSources = sources.sort(() => Math.random() - 0.5).slice(0, 3);
-        setRandomSources(newSources);
-        setIsVisible(true);
-      }, 500);
-    }, 5000);
-
+    const interval = setInterval(refreshHeadlines, 5000);
     return () => clearInterval(interval);
   }, []);
 
+
   return (
     <>
-      {randomSources.map((sourceConfig, index) => (
-        <div className="md:col-span-4" key={`sample-${index}`}>
+      {headlines.map(({headlineData, country, source}, index) => (
+        <div className="fade-in md:col-span-4" key={country + '-' + source}>
           <div 
-            className={`transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+            className={`transition-opacity duration-500`}
           >
             <div className="h-full bg-white rounded-lg shadow-sm p-4 flex flex-col justify-between">
               <div>
@@ -84,7 +32,7 @@ export function RandomSampleCards({ typographyStyle }) {
                     color: 'blue'
                   }}
                 >
-                  {sourceConfig.label}
+                  {source}
                 </h3>
                 <p 
                   className="text-xl mb-4"
@@ -95,24 +43,23 @@ export function RandomSampleCards({ typographyStyle }) {
                     lineHeight: 1.2,
                   }}
                 >
-                  Sample headline for {sourceConfig.label}
+                  {headlineData.headline}
                 </p>
               </div>
               
               <div className="flex items-center text-xs text-gray-500 mt-auto">
                 <div className="mr-1">
-                  <FlagIcon country={sourceConfig.countryId} />
+                  <FlagIcon country={country} />
                 </div>
                 <span className="border-r border-gray-300 h-4 mx-2"></span>
                 <div className="flex items-center">
                   <Image 
-                    src={`https://www.google.com/s2/favicons?sz=64&domain=${sourceConfig.domain}`}
-                    alt={`${sourceConfig.label} favicon`}
+                    src={`https://www.google.com/s2/favicons?sz=64&domain=${headlineData.link}`}
+                    alt={`${source} favicon`}
                     width={16}
                     height={16}
                     className="mr-2"
                   />
-                  <span>{sourceConfig.websiteId}</span>
                 </div>
                 <span className="border-r border-gray-300 h-4 mx-2"></span>
                 <span>{new Date().toLocaleTimeString('en-GB', {
@@ -131,7 +78,7 @@ export function RandomSampleCards({ typographyStyle }) {
                   fontWeight: 400
                 }}
               >
-                This is a sample subtitle that would typically appear under the main headline.
+                {headlineData.subtitle}
               </p>
             </div>
           </div>

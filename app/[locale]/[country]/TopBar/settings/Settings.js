@@ -46,7 +46,7 @@ export default function Settings({ locale, country, sources }) {
                 />
             </div>
             <div className="flex items-center">
-                <LabeledIcon label="Language" icon={<LanguageToggle locale={locale} />} />
+                <LabeledIcon label="Language" icon={<LanguageToggle />} />
                 {/* <LabeledIcon label="View" icon={<ViewToggle />} /> */}
             </div>
             <div className="flex items-center">
