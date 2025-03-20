@@ -16,6 +16,7 @@ export const Typography_Russian = [
     {
         fontFamily: '"Oswald", serif',
         fontSize: '2.3rem',
+        lineHeight: 1.2,
         fontWeight: 400,
     },
     {
@@ -35,6 +36,7 @@ export const Typography_Russian = [
     {
         fontFamily: '"Oswald", serif',
         fontSize: '2.3rem',
+        lineHeight: 1.2,
         fontWeight: 700,
         fontVariationSettings: '"wght" 700',
     }
