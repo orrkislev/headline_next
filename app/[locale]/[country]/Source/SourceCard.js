@@ -49,12 +49,14 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
 
 
 
-    const displayHeadline = { ...headline };
+    let displayHeadline = { ...headline };
     let displayName = data.name
     if (shouldTranslate && translations[headline.id]) {
         displayHeadline.headline = translations[headline.id].headline;
         displayHeadline.subtitle = translations[headline.id].subtitle;
         displayName = checkRTL(translations[headline.id].headline) ? data.translations.he : data.translations.en
+    } else if (shouldTranslate && !translations[headline.id]) {
+        displayHeadline = {}
     }
 
 
