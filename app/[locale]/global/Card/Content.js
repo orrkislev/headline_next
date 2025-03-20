@@ -42,20 +42,20 @@ export default function Content({ country, summary, locale, pinned }) {
     return (
         <div className="p-4">
             <div className="w-full flex justify-between items-center">
-                <p style={{
-                    fontFamily: 'monospace',
-                    fontWeight: 400,
-                    fontSize: '0.85rem',
-                    padding: 6,
-                }}>{formattedTime}</p>
-
-                <TopBarButton onClick={pin} >
-                    <CustomTooltip title="pin country in place">
-                        {pinned >= 0 ? <PushPin /> : <PushPinOutlined />}
-                    </CustomTooltip>
-                </TopBarButton>
-
-
+                <div className="flex items-center gap-2">
+                    <p style={{
+                        fontFamily: 'monospace',
+                        fontWeight: 400,
+                        fontSize: '0.85rem',
+                        padding: 6,
+                    }}>{formattedTime}</p>
+                    <div className="h-4 w-px bg-gray-300"></div>
+                    <TopBarButton onClick={pin} >
+                        <CustomTooltip title="pin country in place">
+                            {pinned >= 0 ? <PushPin style={{ fontSize: '0.7rem', color: 'blue' }} /> : <PushPinOutlined style={{ fontSize: '0.7rem' }} />}
+                        </CustomTooltip>
+                    </TopBarButton>
+                </div>
 
                 <TopBarButton onClick={() => setOpen(!open)}>
                     {open ? <ExpandLess color='gray' /> : <ExpandMore color='gray' />}

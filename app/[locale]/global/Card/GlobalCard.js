@@ -30,7 +30,7 @@ export default function GlobalCard({ country, locale, pinned, index }) {
 
     return (
         <div style={{ order: index }}
-            className={`global-card source-card relative bg-neutral-50 hover:bg-white border border-dotted border-neutral-200 hover:shadow-xl
+            className={`global-card source-card relative ${pinned >= 0 ? 'bg-gray-100' : 'white'} hover:bg-white border border-dotted border-neutral-200 hover:shadow-xl
                         ${[0, 1, 11, 12, 16, 17].includes(index) ? 'col-span-3' : 'col-span-2'}
                         ${locale == 'heb' ? 'direction-rtl text-right' : 'direction-ltr'}
                         flex flex-col h-full justify-between`}>
