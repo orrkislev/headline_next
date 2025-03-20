@@ -4,7 +4,7 @@ import { Languages } from "lucide-react";
 import Image from "next/image";
 
 export function SourceFooter({ name, headline, url, headlines }) {
-    const { translate, setTranslate } = useTranslate()
+    const { translate, toggleTranslate } = useTranslate()
 
     let timeString = '';
     if (headline) {
@@ -28,7 +28,7 @@ export function SourceFooter({ name, headline, url, headlines }) {
     }
 
     const clickTranslate = () => {
-        setTranslate(name)
+        toggleTranslate(name)
     }
 
     return (

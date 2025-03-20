@@ -18,17 +18,20 @@ export const Typography_China = [
         fontSize: '2.2rem',
         lineHeight: 1.15,
         fontWeight: 400,
+        direction: 'ltr',
     },
     {
         fontFamily: '"ZCOOL QingKe HuangYou", Arial, sans-serif',
         fontSize: '2.4rem',
         lineHeight: 1,
         fontWeight: 400,
+        direction: 'ltr',
     },
     {
         fontFamily: '"ZCOOL KuaiLe", serif',
         fontSize: '2.2rem',
         lineHeight: 1.1,
         fontWeight: 400,
+        direction: 'ltr',
     }
 ]; 

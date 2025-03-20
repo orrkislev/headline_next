@@ -21,35 +21,41 @@ export const Typography_Japanese = [
         fontSize: '2.2rem',
         lineHeight: 1.15,
         fontWeight: 400,
+        direction: 'ltr',
     },
     {
         fontFamily: '"Sawarabi Gothic", Arial, sans-serif',
         fontSize: '2.2rem',
         lineHeight: 1,
         fontWeight: 400,
+        direction: 'ltr',
     },
     {
         fontFamily: '"Potta One", serif',
         fontSize: '2.2rem',
         lineHeight: 1.1,
         fontWeight: 400,
+        direction: 'ltr',
     },
     {
         fontFamily: '"Kiwi Maru", serif',
         fontSize: '2.2rem',
         lineHeight: 1.2,
         fontWeight: 400,
+        direction: 'ltr',
     },
     {
         fontFamily: '"Dela Gothic One", serif',
         fontSize: '2.2rem',
         lineHeight: 1.2,
         fontWeight: 400,
+        direction: 'ltr',
     },
     {
         fontFamily: '"Noto Sans JP", serif',
         fontSize: '2.2rem',
         lineHeight: 1.2,
         fontWeight: 400,
+        direction: 'ltr',
     }
 ]; 

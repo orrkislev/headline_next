@@ -1,9 +1,10 @@
 'use client'
 
-import { useTime } from '@/utils/store';
+import { useTime, useTranslate } from '@/utils/store';
 import { useRef, useEffect } from 'react';
 
 export default function Summary({ summary, active, locale }) {
+    const useLocalLanguage = useTranslate(state => state.useLocalLanguage)
     const setDate = useTime(state => state.setDate);
     const summaryRef = useRef(null);
 
@@ -27,7 +28,8 @@ export default function Summary({ summary, active, locale }) {
     if (locale === 'heb') {
         text = summary.hebrewSummary;
         headline = summary.hebrewHeadline || summary.headline
-    } else if (locale === 'translated') {
+    } 
+    if (useLocalLanguage) {
         text = summary ? summary.translatedSummary : '';
         headline = summary ? (summary.translatedHeadline || summary.headline) : '';
     }

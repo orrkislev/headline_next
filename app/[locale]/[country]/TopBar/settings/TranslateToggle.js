@@ -11,15 +11,15 @@ const englishSpeakingCountries = ['us', 'canada', 'australia', 'uk', 'ireland', 
 const hebrewSpeakingCountries = ['israel'];
 const allCountries = [...englishSpeakingCountries, ...hebrewSpeakingCountries];
 
-export default function TranslateToggle({ locale, country }) {
-    const { setTranslate } = useTranslate();
+export default function TranslateToggle({ locale, country, sources }) {
+    const setTranslate= useTranslate(state => state.setTranslate)
 
     useEffect(() => {
-        if (!allCountries.includes(country)) setTranslate('ALL');
+        if (!allCountries.includes(country)) setTranslate(Object.keys(sources))
     }, [locale, country])
 
     const handleClick = () => {
-        setTranslate('ALL');
+        setTranslate(Object.keys(sources))
     }
     return (
         <CustomTooltip title="Translate" placement="bottom">

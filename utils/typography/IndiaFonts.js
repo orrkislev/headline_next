@@ -17,11 +17,13 @@ export const Typography_India = [
         fontSize: '2.2rem',
         lineHeight: 1.15,
         fontWeight: 400,
+        direction: 'ltr',
     },
     {
         fontFamily: '"Palanquin Dark", Arial, sans-serif',
         fontSize: '2.2rem',
         lineHeight: 1,
         fontWeight: 400,
+        direction: 'ltr',
     }
 ]; 

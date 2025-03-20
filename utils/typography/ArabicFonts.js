@@ -18,16 +18,19 @@ export const Typography_Arabic = [
         fontSize: '2.3rem',
         lineHeight: 1.2,
         fontWeight: 400,
+        direction: 'rtl',
     },
     {
         fontFamily: '"Amiri", serif',
         fontSize: '2.3rem',
         lineHeight: 1.2,
         fontWeight: 400,
+        direction: 'rtl',
     },
     {
         fontFamily: '"Alexandria", serif',
         fontSize: '2.3rem',
         fontWeight: 400,
+        direction: 'rtl',
     }
 ]; 

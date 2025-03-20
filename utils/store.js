@@ -17,13 +17,17 @@ export const useOrder = create(set => ({
 
 export const useTranslate = create(set => ({
     translate: [],
-    setTranslate: (sourceName) => set(state => {
+    setTranslate: (sourceNames) => set({ translate: sourceNames }),
+    toggleTranslate: (sourceName) => set(state => {
         if (state.translate.includes(sourceName)) {
             return { translate: state.translate.filter(name => name !== sourceName) }
         }
         return { translate: [...state.translate, sourceName] }
     }),
     clearTranslations: () => set({ translate: [] }),
+
+    useLocalLanguage: false,
+    toggleLocalLanguage: () => set(state => ({ useLocalLanguage: !state.useLocalLanguage })),
 }));
 
 export const useActiveWebsites = create(set => ({

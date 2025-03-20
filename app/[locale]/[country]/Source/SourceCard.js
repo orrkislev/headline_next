@@ -71,8 +71,14 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         else if (font == 'random') typo = choose(options)
         if (typo.direction === 'rtl' && !isRTL) typo = choose(getTypographyOptions('default').options);
         else if (isRTL && typo.direction === 'ltr') typo = choose(getTypographyOptions('israel').options);
+
+        if (shouldTranslate) {
+            if (locale === 'heb') typo = choose(getTypographyOptions('israel').options)
+            else if (locale === 'en') typo = choose(getTypographyOptions('default').options)
+        }
+
         return typo;
-    }, [font, country, isRTL]);
+    }, [font, country, isRTL, shouldTranslate, locale]);
 
     const isPresent = new Date() - date < 60 * 1000 * 5;
 

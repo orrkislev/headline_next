@@ -51,7 +51,7 @@ export default function Settings({ locale, country, sources }) {
             </div>
             <div className="flex items-center">
                 <LabeledIcon label="Font" icon={<FontToggle country={country}/>} />
-                <LabeledIcon label="Translate" icon={<TranslateToggle {...{ locale, country }}  />} />
+                <LabeledIcon label="Translate" icon={<TranslateToggle {...{ locale, country, sources }}  />} />
             </div>
             <div className="flex items-center">
                 <LabeledIcon label="Order" icon={<OrderToggle locale={locale} />} />
