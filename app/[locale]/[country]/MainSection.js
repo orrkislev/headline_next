@@ -29,7 +29,7 @@ export default function MainSection({ sources, country, locale }) {
                     <SourceCard
                         key={source}
                         name={source}
-                        initialHeadlines={sources[source]}
+                        initialHeadlines={sources[source].headlines}
                         country={country}
                         locale={locale}
                         data={getSourceData(country, source)}

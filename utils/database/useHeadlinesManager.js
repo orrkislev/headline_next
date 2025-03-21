@@ -3,7 +3,7 @@ import useFirebase from "./useFirebase";
 import { useTime } from "../store";
 import { endOfDay, sub } from "date-fns";
 
-export default function useHeadlinesManager(country, name, initialHeadlines, active) {
+export default function useHeadlinesManager(country, initialHeadlines, active) {
 
     const [headlines, setHeadlines] = useState(initialHeadlines);
     const date = useTime(state => state.date);
@@ -37,18 +37,19 @@ export default function useHeadlinesManager(country, name, initialHeadlines, act
         if (!firebase.ready) return
         if (!active) return
         
+        const website_id = initialHeadlines[0].website_id;
         (async () => {
             const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
-            const initialTimes = initialHeadlines.map(headline => headline.timestamp);
-            const lastHeadlineTime = Math.max(...initialTimes);
+            const initialTimes = initialHeadlines.map(headline => headline.timestamp)
+            const lastHeadlineTime = new Date(Math.max(...initialTimes));
             const q = firebase.firestore.query(
                 headlinesCollection,
                 firebase.firestore.where('timestamp', '>=', lastHeadlineTime),
-                firebase.firestore.where('website_id', '==', name),
+                firebase.firestore.where('website_id', '==', website_id),
                 firebase.firestore.orderBy('timestamp', 'desc'),
             );
             let newHeadlines = await firebase.firestore.getDocs(q);
-            if (newHeadlines.empty) return [];
+            if (newHeadlines.empty) return;
             newHeadlines = newHeadlines.docs.map(headline => firebase.prepareData(headline));
             addHeadlines(newHeadlines);
         })();
@@ -56,7 +57,7 @@ export default function useHeadlinesManager(country, name, initialHeadlines, act
         const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
         const q = firebase.firestore.query(
             headlinesCollection,
-            firebase.firestore.where('website_id', '==', name),
+            firebase.firestore.where('website_id', '==', website_id),
             firebase.firestore.orderBy('timestamp', 'desc'),
             firebase.firestore.limit(1),
         );
@@ -85,6 +86,7 @@ export default function useHeadlinesManager(country, name, initialHeadlines, act
         if (dates.current.includes(dayString)) return;
 
         const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
+        const website_id = initialHeadlines[0].website_id;
 
         const dayDate = new Date(dayString + ' UTC');
         const theDay = endOfDay(dayDate);
@@ -93,7 +95,7 @@ export default function useHeadlinesManager(country, name, initialHeadlines, act
             headlinesCollection,
             firebase.firestore.where('timestamp', '>=', dayBefore),
             firebase.firestore.where('timestamp', '<=', theDay),
-            firebase.firestore.where('website_id', '==', name),
+            firebase.firestore.where('website_id', '==', website_id),
             firebase.firestore.orderBy('timestamp', 'desc'),
         );
         let newHeadlines = await firebase.firestore.getDocs(q);

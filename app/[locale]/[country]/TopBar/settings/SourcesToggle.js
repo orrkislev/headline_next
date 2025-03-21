@@ -44,7 +44,7 @@ function SourcesGrid({ open, country, locale, sources }) {
             description: sourceData.description,
             active: activeWebsites.includes(id),
             name: sourceData.name,
-            website: sources[id] ? sources[id][0].link : '',
+            website: sources[id] ? sources[id].headlines[0].link : '',
         }
     });
 

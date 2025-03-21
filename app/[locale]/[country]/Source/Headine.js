@@ -2,7 +2,7 @@ import { checkRTL } from "@/utils/utils";
 import { Skeleton } from "@mui/material";
 
 export default function Headline({ headline, typography }) {
-    if (!headline.headline) return <Skeleton variant="text" width={200} />;
+    if (!headline.headline || headline.headline == '') return <Skeleton variant="text" width={200} />;
     const txt = headline.headline;
     const isRTL = checkRTL(txt);
     return (

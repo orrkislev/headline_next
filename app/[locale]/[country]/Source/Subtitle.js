@@ -3,7 +3,7 @@ import { Skeleton } from "@mui/material";
 
 export default function Subtitle({headlineData}) {
     
-    if (!headlineData.subtitle) return (
+    if (headlineData.subtitle == '') return (
         <div className="px-4 pb-6">
             <Skeleton variant="text" width={`${Math.floor(Math.random() * (50 - 10 + 1)) + 10}%`} />
         </div>

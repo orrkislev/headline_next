@@ -31,10 +31,10 @@ export default async function Page({ params }) {
     const sources = {};
     headlines.forEach(headline => {
         const sourceName = getWebsiteName(country, headline.website_id);
-        if (!sources[sourceName]) sources[sourceName] = [];
-        sources[sourceName].push(headline);
+        if (!sources[sourceName]) sources[sourceName] = {headlines: [], website_id: headline.website_id};
+        sources[sourceName].headlines.push(headline);
     });
-
+    
     if (initialSummaries.length === 0) {
         return 'no summaries found';
     }
