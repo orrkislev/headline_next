@@ -87,7 +87,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
 
     return (
         <div style={{ order: index }}
-            className={`source-card
+            className={`source-card group
             ${index === 0 ? 'col-span-2' : 'col-span-1'}
             ${(index === 7 || index === 8) ? 'max-2xl:col-span-1 2xl:col-span-2 qhd:col-span-1' : ''}
             ${(index === 11 || index === 12 || index === 13) ? 'max-qhd:col-span-1 qhd:col-span-2' : ''}
@@ -95,9 +95,10 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
             ${!isPresent ? 'bg-neutral-50 outline outline-1 outline-neutral-300 outline-dotted' : ''}
+            ${shouldTranslate ? 'bg-white shadow-lg border border-dotted' : ''}
         `}>
-            <CloseButton name={name} isRTL={isRTL} />
-            <TranslatedLabel locale={locale} active={shouldTranslate} />
+            <TranslatedLabel locale={locale} active={shouldTranslate} className="group-hover:opacity-0" />
+            <CloseButton name={name} isRTL={isRTL} className="z-[2]" />
             <div className="flex flex-col h-full justify-normal sm:justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
                     <SourceName name={displayName} typography={typography} description={data.description} date={date} />
