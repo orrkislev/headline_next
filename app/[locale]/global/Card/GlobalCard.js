@@ -7,7 +7,7 @@ import Content from "./Content";
 import useFirebase from "@/utils/database/useFirebase";
 import { getTypographyOptions } from "@/utils/typography/typography";
 import { useGlobalSort, useGlobalCountryCohesion } from "@/utils/store";
-
+import { getCardSpanClasses } from "../responsiveGrid";
 
 export default function GlobalCard({ country, locale, pinned, index }) {
     const [summary, setSummary] = useState(null)
@@ -31,7 +31,7 @@ export default function GlobalCard({ country, locale, pinned, index }) {
     return (
         <div style={{ order: index }}
             className={`global-card source-card relative ${pinned >= 0 ? 'bg-gray-100' : 'white'} hover:bg-white border border-dotted border-neutral-200 hover:shadow-xl
-                        ${[0, 1, 11, 12, 16, 17].includes(index) ? 'col-span-3' : 'col-span-2'}
+                        ${getCardSpanClasses(index)}
                         ${locale == 'heb' ? 'direction-rtl text-right' : 'direction-ltr'}
                         flex flex-col h-full justify-between`}>
             <div className="flex flex-col gap-4 mb-1 p-4">
