@@ -35,7 +35,7 @@ export default function Settings({ locale, country, sources }) {
                 <LabeledIcon
                     label="About"
                     icon={
-                        <Link href="/about">
+                        <Link href="/landing">
                             <CustomTooltip title="About the Hear" placement="bottom" arrow>
                                 <TopBarButton>
                                     <InfoOutlined />
