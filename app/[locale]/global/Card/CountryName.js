@@ -5,7 +5,7 @@ import { Divider } from "@mui/material"
 export default function CountryName({ country, typography, locale}) {
 
     return (
-        <span className="flex items-center gap-2 text-sm text-blue cursor-help pt-1 px-1" style={{ ...typography, fontSize: '1.2rem' }}>
+        <span className="flex items-center gap-2 text-sm text-blue cursor-text pt-1 px-1" style={{ ...typography, fontSize: '1.2rem' }}>
             {locale == 'heb' ? countries[country].hebrew : countries[country].english}
             <Divider orientation="vertical" flexItem />
             <div className="px-1">
