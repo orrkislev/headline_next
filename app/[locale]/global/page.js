@@ -10,7 +10,7 @@ export default async function GlobalPage({ params }) {
     const AICountrySort = await getAICountrySort();
 
     return (
-        <div className={`absolute flex w-full h-full overflow-auto ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
+        <div className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
             <HebrewFonts />
             <EnglishFonts />
             <div className={`flex-[1] sm:border-l sm:border-r border-gray-200 flex max-w-[400px]`}>
