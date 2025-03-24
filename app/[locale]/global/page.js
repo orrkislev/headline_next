@@ -13,7 +13,7 @@ export default async function GlobalPage({ params }) {
         <div className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
             <HebrewFonts />
             <EnglishFonts />
-            <div className={`flex-[1] sm:border-l sm:border-r border-gray-200 flex max-w-[400px]`}>
+            <div className={`w-[370px] flex-shrink-0 sm:border-l sm:border-r border-gray-200 flex`}>
                 <GlobalSummarySection locale={locale}/>
             </div>
             <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
