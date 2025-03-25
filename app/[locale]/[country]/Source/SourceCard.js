@@ -93,7 +93,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
             ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
-            ${!isPresent ? 'bg-neutral-50 outline outline-1 outline-neutral-300 outline-dotted' : ''}
+            ${!isPresent ? 'bg-[#FBFAF7] outline outline-1 outline-neutral-300 outline-dotted' : ''}
             ${shouldTranslate ? 'bg-white shadow-lg border border-dotted' : ''}
         `}>
             <TranslatedLabel locale={locale} active={shouldTranslate} className="group-hover:opacity-0" />
