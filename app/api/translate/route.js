@@ -23,5 +23,5 @@ export async function POST(req) {
         prompt: prompt, // changed this line to use the constructed prompt
       });
 
-    return Response.json({ headline: object.headline, subtitle: object.subtitle });
+    return Response.json({ headline: object.headline, subtitle: subtitle ? object.subtitle : '' });
 }

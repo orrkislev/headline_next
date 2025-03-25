@@ -9,6 +9,8 @@ import { getTypographyOptions } from "@/utils/typography/typography";
 import { useGlobalSort, useGlobalCountryCohesion } from "@/utils/store";
 import { getCardSpanClasses } from "../responsiveGrid";
 
+const randomFontIndex = Math.floor(Math.random() * 100)
+
 export default function GlobalCard({ country, locale, pinned, index }) {
     const [summary, setSummary] = useState(null)
     const setGlobalCountryCohesion = useGlobalCountryCohesion(state => state.setGlobalCountryCohesion)
@@ -25,7 +27,8 @@ export default function GlobalCard({ country, locale, pinned, index }) {
 
     if (!summary) return null;
 
-    let typography = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options[0]
+    const typographyOptions = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options
+    let typography = typographyOptions[randomFontIndex % typographyOptions.length]
     typography = JSON.parse(JSON.stringify(typography))
 
     return (

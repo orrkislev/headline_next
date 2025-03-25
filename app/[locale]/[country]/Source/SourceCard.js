@@ -15,6 +15,8 @@ import TranslatedLabel from "./TranslatedLabel";
 
 const SourceSlider = dynamic(() => import('./SourceSlider'));
 
+const randomFontIndex = Math.floor(Math.random() * 100)
+
 export default function SourceCard({ name, initialHeadlines, country, locale, data }) {
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
@@ -69,13 +71,10 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         const options = getTypographyOptions(country).options
         if (typeof font === 'number') typo = options[font % options.length]
         else if (font == 'random') typo = choose(options)
-        if (typo.direction === 'rtl' && !isRTL) typo = choose(getTypographyOptions('default').options);
-        else if (isRTL && typo.direction === 'ltr') typo = choose(getTypographyOptions('israel').options);
 
-        if (shouldTranslate) {
-            if (locale === 'heb') typo = choose(getTypographyOptions('israel').options)
-            else if (locale === 'en') typo = choose(getTypographyOptions('default').options)
-        }
+        const translatedOptions = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options
+        if ((typo.direction === 'rtl' && !isRTL) || (typo.direction === 'ltr' && isRTL)) typo = options[randomFontIndex % options.length]
+        if (shouldTranslate) typo = translatedOptions[randomFontIndex % translatedOptions.length]
 
         return typo;
     }, [font, country, isRTL, shouldTranslate, locale]);

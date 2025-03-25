@@ -15,7 +15,7 @@ export default function Subtitle({headlineData}) {
     
     return (
         <div className={`px-4 pb-2 ${isRTL ? 'text-right' : 'text-left'}`} style={{ fontSize: '0.8rem' }}>
-            {headlineData.subtitle}
+            {headlineData.subtitle || ''}
         </div>
     );
 }
