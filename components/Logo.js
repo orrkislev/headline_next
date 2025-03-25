@@ -6,6 +6,7 @@ import logoB from './logo/logo-head-2.png';
 import logoC from './logo/logo-head-4.png';
 import Link from 'next/link';
 import Image from 'next/image';
+import InnerLink from './InnerLink';
 
 export default function DynamicLogo({ locale }) {
     const [currentLogo, setCurrentLogo] = useState(logoA);
@@ -40,7 +41,7 @@ export default function DynamicLogo({ locale }) {
     }, []);
 
     return (
-        <Link href={`/${locale}/global`} className=''>
+        <InnerLink href={`/${locale}/global`} className=''>
             <style jsx global>{`
                 @font-face {
                     font-family: 'CheltenhamCondensed';
@@ -102,6 +103,6 @@ export default function DynamicLogo({ locale }) {
                     opacity: 1 !important;
                 }
             `}</style>
-        </Link>
+        </InnerLink>
     );
 };

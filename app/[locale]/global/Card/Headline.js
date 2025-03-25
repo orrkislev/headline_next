@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useResponsiveFontSizes, calculateTitleFontSize } from "@/utils/typography/responsiveFontSizes";
+import InnerLink from "@/components/InnerLink";
 
 export default function Headline({ country, locale, summary, typography, index }) {
     const responsiveFontSizes = useResponsiveFontSizes();
@@ -26,11 +27,11 @@ export default function Headline({ country, locale, summary, typography, index }
     };
 
     return (
-        <Link href={`/${locale}/${country}`}>
+        <InnerLink href={`/${locale}/${country}`}>
             <div className={`animate-headline w-full text-lg font-semibold break-words px-1`}
                 style={{ ...updatedTypography, width: '100%' }} key={summary.id}>
                 {headline}
             </div>
-        </Link>
+        </InnerLink>
     );
 }

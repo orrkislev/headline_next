@@ -11,6 +11,7 @@ import { PublicOutlined, InfoOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import { TopBarButton } from "@/components/IconButtons";
 import CustomTooltip from "@/components/CustomTooltip";
+import InnerLink from "@/components/InnerLink";
 
 export default function Settings({ locale, country, sources }) {
 
@@ -23,25 +24,25 @@ export default function Settings({ locale, country, sources }) {
                 <LabeledIcon
                     label="Home"
                     icon={
-                        <Link href="/global">
+                        <InnerLink href="/global">
                             <CustomTooltip title="to the global view" placement="bottom" arrow>
                                 <TopBarButton>
                                     <PublicOutlined />
                                 </TopBarButton>
                             </CustomTooltip>
-                        </Link>
+                        </InnerLink>
                     }
                 />
                 <LabeledIcon
                     label="About"
                     icon={
-                        <Link href="/landing">
+                        <InnerLink href="/landing">
                             <CustomTooltip title="About the Hear" placement="bottom" arrow>
                                 <TopBarButton>
                                     <InfoOutlined />
                                 </TopBarButton>
                             </CustomTooltip>
-                        </Link>
+                        </InnerLink>
                     }
                 />
             </div>

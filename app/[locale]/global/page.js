@@ -8,7 +8,6 @@ import { getAICountrySort } from "@/utils/database/globalData";
 export default async function GlobalPage({ params }) {
     const { locale } = await params;  
     const AICountrySort = await getAICountrySort();
-
     return (
         <div className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
             <HebrewFonts />

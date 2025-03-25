@@ -10,6 +10,7 @@ import { countries } from "@/utils/sources/countries";
 import DynamicLogo from "@/components/Logo";
 import Link from 'next/link';
 import { sources, RandomSampleCards } from "./SampleCards";
+import InnerLink from '@/components/InnerLink';
 
 const styleTheHear = (text) => {
   return text.replace(/\bthe hear\b/gi, (match) => 
@@ -84,7 +85,7 @@ const CountriesList = ({ typographyStyle }) => {
           </h2>
           <div className="flex flex-wrap gap-3">
             {Object.entries(countries).map(([id, country]) => (
-              <Link 
+              <InnerLink 
                 key={id} 
                 href={id.toLowerCase() === 'uk' ? '/en/uk' : `/en/${id}`}
                 className="no-underline text-inherit"
@@ -94,7 +95,7 @@ const CountriesList = ({ typographyStyle }) => {
                   <div className="text-xs font-medium">{country.english}</div>
                   <span className="text-xs text-gray-300">|</span>
                 </div>
-              </Link>
+              </InnerLink>
             ))}
           </div>
         </div>

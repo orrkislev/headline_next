@@ -3,7 +3,6 @@ import { sub } from "date-fns";
 import { countries } from "@/utils/sources/countries";
 import CountryPageContent from "./CountryPage_content";
 import { getWebsiteName } from "@/utils/sources/getCountryData";
-
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
 

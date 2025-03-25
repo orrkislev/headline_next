@@ -18,5 +18,5 @@ export const countries = {
 	"uk": { id: "UK", hebrew: "בריטניה", english: "UK", languageDirection: "ltr", population: 67.2, softPower: 2, pressFreedom: 26 },
 	"us": { id: "US", hebrew: "ארצות הברית", english: "US", languageDirection: "ltr", population: 331.0, softPower: 1, pressFreedom: 45 },
 	"ukraine": { id: "Ukraine", hebrew: "אוקראינה", english: "Ukraine", languageDirection: "ltr", population: 44.1, softPower: 43, pressFreedom: 79 },
-	"uae": { id: "UAE", hebrew: "איחוד האמירויות", english: "UAE", languageDirection: "ltr", population: 9.9, softPower: 10, pressFreedom: 145 }
+	"uae": { id: "United Arab Emirates", hebrew: "איחוד האמירויות", english: "UAE", languageDirection: "ltr", population: 9.9, softPower: 10, pressFreedom: 145 }
 };

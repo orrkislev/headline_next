@@ -7,6 +7,7 @@ import TimeDisplay from "./TopBar/TimeDisplay";
 import { PublicOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import useMobile from "@/components/useMobile";
+import InnerLink from "@/components/InnerLink";
 
 export default function MobileBar({ locale, country }) {
     const { date, setDate } = useTime();
@@ -16,9 +17,9 @@ export default function MobileBar({ locale, country }) {
     return (
         <div className="flex justify-between items-center p-4 bg-white border-b border-gray-200 divide-x-reverse divide-gray-200">
             <div className="flex flex-1 justify-between items-center">
-                <Link href="/global">
+                <InnerLink href="/global">
                     <PublicOutlined />
-                </Link>
+                </InnerLink>
                 <Flag {...{ country, locale }} />
             </div>
             <div className="flex flex-1 justify-between items-center">

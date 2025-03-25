@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { firebaseConfig } from './firebaseConfig';
 import { endOfDay, sub } from 'date-fns';
+import { countries } from '../sources/countries';
 
 let cachedFirestore;
 let cachedDb;
@@ -34,20 +35,7 @@ export default function useFirebase() {
 
   const getCountryCollectionRef = (countryName, collectionName) => {
     const countriesCollection = firestore.collection(db, '- Countries -');
-
-    let processedName = countryName.replace(/-/g, ' ');
-    let countryNameWithCapital;
-
-    if (['us', 'uk'].includes(processedName.toLowerCase())) {
-      countryNameWithCapital = processedName.toUpperCase();
-    } else if (processedName.toLowerCase() === 'united arab emirates') {
-      countryNameWithCapital = 'United Arab Emirates';
-    } else {
-      countryNameWithCapital = processedName.split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-    }
-    const countryDoc = firestore.doc(countriesCollection, countryNameWithCapital);
+    const countryDoc = firestore.doc(countriesCollection, countries[countryName].id);
     return firestore.collection(countryDoc, collectionName);
   }
 

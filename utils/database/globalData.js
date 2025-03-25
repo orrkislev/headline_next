@@ -23,6 +23,13 @@ export const getAICountrySort = async () => {
             .sort((a, b) => a.rank - b.rank)
             .map(item => item.country.toLowerCase())
             .map(item => Object.keys(countries).find(c => countryToAlpha2(c) == countryToAlpha2(item)))
+            .filter(item => item != undefined)
+        
+            Object.keys(countries).forEach(country => {
+            if (!sortedOrder.includes(country)) {
+                sortedOrder.push(country)
+            }
+        })
 
         return sortedOrder;
     } else {

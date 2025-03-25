@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import PopUpCleaner from "@/components/PopUp";
 import FlagIcon from "@/components/FlagIcon";
 import { countries } from "@/utils/sources/countries";
+import InnerLink from "@/components/InnerLink";
 
 
 export default function Flag({ country, locale }) {
@@ -31,12 +32,12 @@ function FlagSelector({ country, open, close, locale }) {
             <PopUpCleaner open={open} close={close} />
             <div className="absolute top-4 p-4 right-0 grid grid-cols-2 gap-4 bg-white rounded-md shadow-lg w-64 z-[1000]" dir="ltr">
                 {Object.keys(countries).map((c, i) => (
-                    <Link key={i} href={`/${locale}/${c}`}>
+                    <InnerLink key={i} href={`/${locale}/${c}`}>
                         <div key={i} className={`flex justify-start items-center gap-2 text-sm hover:bg-gray-100 px-2 rounded-md cursor-pointer ${c === country ? 'bg-gray-100' : ''}`}>
                             <FlagIcon country={c} />
                             {countries[c].english}
                         </div>
-                    </Link>
+                    </InnerLink>
                 ))}
             </div>
         </>

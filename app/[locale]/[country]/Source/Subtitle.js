@@ -2,6 +2,8 @@ import { checkRTL } from "@/utils/utils";
 import { Skeleton } from "@mui/material";
 
 export default function Subtitle({headlineData}) {
+
+    if (!headlineData || !headlineData.subtitle) return null;
     
     if (headlineData.subtitle == '') return (
         <div className="px-4 pb-6">
