@@ -44,7 +44,7 @@ export const getCardSpanClasses = (index) => {
     : 'xl:col-span-2';
   
   // Full HD screens (fhd: 1920px+)
-  const fhdScreenSpan = [0, 11, 12].includes(index) 
+  const fhdScreenSpan = [0, 1, 14, 15].includes(index) 
     ? 'fhd:col-span-4' 
     : 'fhd:col-span-2';
   
