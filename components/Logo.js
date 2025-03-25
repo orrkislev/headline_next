@@ -51,7 +51,7 @@ export default function DynamicLogo({ locale }) {
                 }
             `}</style>
 
-            <div className={`logo-hover-container flex items-center justify-center relative border-b border-gray-200 p-4 ${isFakeHover ? 'fake-hover' : ''}`}>
+            <div className={`logo-hover-container flex items-center justify-center relative p-4 ${isFakeHover ? 'fake-hover' : ''}`}>
                 <div className="logo-background absolute top-[37%] left-1/2 w-[285px] h-[25%] bg-[#EBEBEB] opacity-0 transform translate-y-[-50%] translate-x-[-50%] ml-[3px]"
                     style={{
                         transition: 'opacity 0.2s ease',

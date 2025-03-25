@@ -7,7 +7,7 @@ import { useGlobalSort } from "@/utils/store";
 
 
 export default function Content({ country, summary, locale, pinned }) {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const setPinnedCountries = useGlobalSort(state => state.setPinnedCountries)
 
     const minutes = summary.timestamp.getUTCMinutes();
@@ -58,7 +58,7 @@ export default function Content({ country, summary, locale, pinned }) {
                 </div>
 
                 <TopBarButton onClick={() => setOpen(!open)}>
-                    {open ? <ExpandLess color='gray' /> : <ExpandMore color='gray' />}
+                    {open ? <ExpandLess color='gray' /> : <ExpandMore className="animate-pulse" color='gray' />}
                 </TopBarButton>
             </div>
             <Collapse in={open}>

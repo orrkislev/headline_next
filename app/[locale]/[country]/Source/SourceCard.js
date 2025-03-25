@@ -25,6 +25,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
     const [translations, setTranslations] = useState({});
     const websites = useActiveWebsites(state => state.activeWebsites)
     const headlines = useHeadlinesManager(country, initialHeadlines, websites.includes(name));
+    const [isPresent, setIsPresent] = useState(true);
 
     const shouldTranslate = useMemo(() => translate.includes(name) || translate.includes('ALL'), [translate, name]);
 
@@ -49,7 +50,10 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         }
     }, [shouldTranslate, headline, name, translations]);
 
-
+    useEffect(() => {
+        // Calculate isPresent on the client side only
+        setIsPresent(new Date() - date < 60 * 1000 * 5);
+    }, [date]);
 
     let displayHeadline = { ...headline };
     let displayName = data.name
@@ -78,8 +82,6 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
 
         return typo;
     }, [font, country, isRTL, shouldTranslate, locale]);
-
-    const isPresent = new Date() - date < 60 * 1000 * 5;
 
     const index = websites.indexOf(name);
     if (index == -1) return null;
