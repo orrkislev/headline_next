@@ -81,7 +81,7 @@ const CountriesList = ({ typographyStyle }) => {
             className="text-xl font-semibold mb-10"
             style={typographyStyle}
           >
-            The Hear is available for 19 countries.
+            The Hear is available for 20 countries.
           </h2>
           <div className="flex flex-wrap gap-3">
             {Object.entries(countries).map(([id, country]) => (
@@ -144,7 +144,7 @@ export default function LandingPageContent() {
       <HebrewFonts />
       
       {/* Main Content */}
-      <div className="w-[60%] min-w-[800px] max-w-[1200px] p-5 overflow-visible">
+      <div className="w-[70%] min-w-[800px] max-w-[1200px] p-5 overflow-visible">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-5">
           {/* Logo */}
           <div className="md:col-span-4">
@@ -193,7 +193,7 @@ export default function LandingPageContent() {
               )}
               <div className="md:col-span-4">
                 <div className="h-full bg-gray-100 rounded-lg shadow-md">
-                  <div className="p-6">
+                  <div className="p-4">
                     <h2 
                       className="text-xl font-semibold mb-10"
                       style={typographyStyle}
