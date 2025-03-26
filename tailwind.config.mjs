@@ -11,6 +11,7 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         blue: "blue",
+        'off-white': '#F7F7F3',
       },
       screens: {
         'xs': '600px',    // Mobile (600px+)

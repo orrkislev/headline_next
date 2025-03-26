@@ -29,6 +29,12 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
 
     const shouldTranslate = useMemo(() => translate.includes(name) || translate.includes('ALL'), [translate, name]);
 
+    // Generate a random bg-opacity class (50, 60, 70, 80, 90, or 100)
+    const randomBgOpacity = useMemo(() => {
+        const opacities = ['bg-opacity-40', 'bg-opacity-50', 'bg-opacity-60', 'bg-opacity-70', 'bg-opacity-80', 'bg-opacity-90', 'bg-opacity-100'];
+        return opacities[Math.floor(Math.random() * opacities.length)];
+    }, []);
+
     useEffect(() => {
         if (!headlines) return;
         if (!date) return;
@@ -95,7 +101,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
             ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
-            ${!isPresent ? 'bg-[#FDFDFB] outline outline-1 outline-neutral-300 outline-dotted' : ''}
+            ${!isPresent ? `bg-off-white ${randomBgOpacity} outline outline-1 outline-neutral-300 outline-dotted` : ''}
             ${shouldTranslate ? 'bg-white shadow-lg border border-dotted' : ''}
         `}>
             <TranslatedLabel locale={locale} active={shouldTranslate} className="group-hover:opacity-0" />
