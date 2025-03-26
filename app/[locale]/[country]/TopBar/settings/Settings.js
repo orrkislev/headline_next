@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect } from 'react';
 import LabeledIcon from "@/components/LabeledIcon";
 import FontToggle from "./FontToggle";
 import ViewToggle from "./ViewToggle";
@@ -13,7 +16,25 @@ import { TopBarButton } from "@/components/IconButtons";
 import CustomTooltip from "@/components/CustomTooltip";
 import InnerLink from "@/components/InnerLink";
 
-export default function Settings({ locale, country, sources }) {
+export default function Settings({ locale, country, sources, hideLanguageToggle, hideTranslateToggle }) {
+    // Debug logging
+    useEffect(() => {
+        console.log("Settings component received:", { 
+            locale, 
+            country, 
+            hideLanguageToggle, 
+            hideTranslateToggle 
+        });
+    }, [locale, country, hideLanguageToggle, hideTranslateToggle]);
+
+    // Force the hiding based on direct check as a fallback
+    const shouldHideLanguage = hideLanguageToggle || 
+        (locale === 'heb' && country === 'Israel') || 
+        (locale === 'en' && (country === 'US' || country === 'UK'));
+    
+    const shouldHideTranslate = hideTranslateToggle || 
+        (locale === 'heb' && country === 'Israel') || 
+        (locale === 'en' && (country === 'US' || country === 'UK'));
 
     return (
         <div className={`flex items-center divide-x divide-gray-200 ${locale == 'heb' ? 'divide-x-reverse' : ''}`}>
@@ -46,13 +67,16 @@ export default function Settings({ locale, country, sources }) {
                     }
                 />
             </div>
-            <div className="flex items-center">
-                <LabeledIcon label="Overview Language" icon={<LanguageToggle />} />
-                {/* <LabeledIcon label="View" icon={<ViewToggle />} /> */}
-            </div>
+            {!shouldHideLanguage && (
+                <div className="flex items-center">
+                    <LabeledIcon label="Overview Language" icon={<LanguageToggle />} />
+                </div>
+            )}
             <div className="flex items-center">
                 <LabeledIcon label="Display Font" icon={<FontToggle country={country}/>} />
-                <LabeledIcon label="Translate Headlines" icon={<TranslateToggle {...{ locale, country, sources }}  />} />
+                {!shouldHideTranslate && (
+                    <LabeledIcon label="Translate Headlines" icon={<TranslateToggle {...{ locale, country, sources }} />} />
+                )}
             </div>
             <div className="flex items-center">
                 <LabeledIcon label="Source Order" icon={<OrderToggle locale={locale} />} />

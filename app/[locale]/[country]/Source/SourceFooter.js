@@ -2,9 +2,17 @@ import IconButton from "@/components/IconButton";
 import { useTranslate } from "@/utils/store";
 import { Languages } from "lucide-react";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 
 export function SourceFooter({ name, headline, url, headlines }) {
-    const { translate, toggleTranslate } = useTranslate()
+    const { translate, toggleTranslate } = useTranslate();
+    const params = useParams();
+    const { locale, country } = params;
+
+    // Hide translate icon for specific routes
+    const shouldHideTranslate = 
+        (locale === 'heb' && country?.toLowerCase() === 'israel') || 
+        (locale === 'en' && (country?.toLowerCase() === 'us' || country?.toLowerCase() === 'uk'));
 
     let timeString = '';
     if (headline) {
@@ -40,10 +48,14 @@ export function SourceFooter({ name, headline, url, headlines }) {
                         verticalAlign: 'middle'
                     }}
                 />
-                <div className="w-px h-4 bg-gray-200 mx-1"></div>
-                <IconButton onClick={clickTranslate}>
-                    <Languages size={16} color={translate.includes(name) || translate.includes('ALL') ? 'blue' : 'lightgray'} />
-                </IconButton>
+                {!shouldHideTranslate && (
+                    <>
+                        <div className="w-px h-4 bg-gray-200 mx-1"></div>
+                        <IconButton onClick={clickTranslate}>
+                            <Languages size={16} color={translate.includes(name) || translate.includes('ALL') ? 'blue' : 'gray'} />
+                        </IconButton>
+                    </>
+                )}
                 <div className="w-1 h-full bg-gray-300"></div>
             </div>
             <div className="flex gap-4 items-center">
