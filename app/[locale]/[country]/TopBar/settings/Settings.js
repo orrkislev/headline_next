@@ -34,7 +34,7 @@ export default function Settings({ locale, country, sources }) {
                     }
                 />
                 <LabeledIcon
-                    label="About"
+                    label="About the Hear"
                     icon={
                         <InnerLink href="/landing">
                             <CustomTooltip title="About the Hear" placement="bottom" arrow>
