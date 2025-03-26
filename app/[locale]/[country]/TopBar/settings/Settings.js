@@ -22,7 +22,7 @@ export default function Settings({ locale, country, sources }) {
             </div>
             <div className="flex items-center">
                 <LabeledIcon
-                    label="Home"
+                    label="Global View"
                     icon={
                         <InnerLink href="/global">
                             <CustomTooltip title="to the global view" placement="bottom" arrow>
@@ -47,15 +47,15 @@ export default function Settings({ locale, country, sources }) {
                 />
             </div>
             <div className="flex items-center">
-                <LabeledIcon label="Language" icon={<LanguageToggle />} />
+                <LabeledIcon label="Overview Language" icon={<LanguageToggle />} />
                 {/* <LabeledIcon label="View" icon={<ViewToggle />} /> */}
             </div>
             <div className="flex items-center">
-                <LabeledIcon label="Font" icon={<FontToggle country={country}/>} />
-                <LabeledIcon label="Translate" icon={<TranslateToggle {...{ locale, country, sources }}  />} />
+                <LabeledIcon label="Display Font" icon={<FontToggle country={country}/>} />
+                <LabeledIcon label="Translate Headlines" icon={<TranslateToggle {...{ locale, country, sources }}  />} />
             </div>
             <div className="flex items-center">
-                <LabeledIcon label="Order" icon={<OrderToggle locale={locale} />} />
+                <LabeledIcon label="Source Order" icon={<OrderToggle locale={locale} />} />
                 <LabeledIcon label="Sources" icon={<SourcesToggle {...{ country, locale, sources }} />} />
             </div>
         </div>
