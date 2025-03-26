@@ -30,7 +30,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
     const shouldTranslate = useMemo(() => translate.includes(name) || translate.includes('ALL'), [translate, name]);
 
     const randomBgOpacity = useMemo(() => {
-        const opacities = ['bg-opacity-20', 'bg-opacity-30', 'bg-opacity-40', 'bg-opacity-50', 'bg-opacity-60', 'bg-opacity-70', 'bg-opacity-80', 'bg-opacity-90', 'bg-opacity-100'];
+        const opacities = ['bg-opacity-20', 'bg-opacity-30', 'bg-opacity-40', 'bg-opacity-50', 'bg-opacity-60', 'bg-opacity-70', 'bg-opacity-80', 'bg-opacity-90'];
         return opacities[Math.floor(Math.random() * opacities.length)];
     }, []);
 
