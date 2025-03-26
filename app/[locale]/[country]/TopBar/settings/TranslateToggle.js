@@ -12,21 +12,32 @@ const hebrewSpeakingCountries = ['israel'];
 const allCountries = [...englishSpeakingCountries, ...hebrewSpeakingCountries];
 
 export default function TranslateToggle({ locale, country, sources }) {
-    const setTranslate= useTranslate(state => state.setTranslate)
-    const [on, setOn] = useState(false)
+    const translate = useTranslate(state => state.translate);
+    const setTranslate = useTranslate(state => state.setTranslate);
+    const [on, setOn] = useState(false);
 
+    // Initialize translation state based on country
     useEffect(() => {
-        if (!allCountries.includes(country)) setTranslate(Object.keys(sources))
-    }, [locale, country])
+        if (!allCountries.includes(country)) {
+            setTranslate(Object.keys(sources));
+        }
+    }, [locale, country, sources, setTranslate]);
+
+    // Sync the toggle state with the actual translation state
+    useEffect(() => {
+        // If any sources are being translated, the toggle should be on
+        setOn(translate.length > 0);
+    }, [translate]);
 
     const handleClick = () => {
-        setTranslate(on ? [] : Object.keys(sources))
-        setOn(!on)
+        setTranslate(on ? [] : Object.keys(sources));
+        setOn(!on);
     }
+    
     return (
         <CustomTooltip title="Translate" placement="bottom">
             <TopBarButton onClick={handleClick}>
-                <Translate color={on ? 'primary' : ''} />
+                <Translate sx={{ color: on ? '#0000FF' : '' }} />
             </TopBarButton>
         </CustomTooltip>
     );
