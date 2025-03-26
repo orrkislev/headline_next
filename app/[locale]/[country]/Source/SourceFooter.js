@@ -35,6 +35,16 @@ export function SourceFooter({ name, headline, url, headlines }) {
         }
     }
 
+    let domain = '';
+    try {
+        if (url && typeof url === 'string') {
+            domain = new URL(url).hostname.replace('www.', '');
+        }
+    } catch (error) {
+        console.error('Invalid URL:', url);
+        domain = null; // Set to null if URL is invalid
+    }
+
     const clickTranslate = () => {
         toggleTranslate(name)
     }
@@ -42,12 +52,14 @@ export function SourceFooter({ name, headline, url, headlines }) {
     return (
         <div className="flex justify-between items-center gap-4 bg-white p-2 px-2">
             <div className="flex gap-2 items-center">
-                <Image src={`https://www.google.com/s2/favicons?sz=64&domain=${url}`}
-                    width={16} height={16} alt=""
-                    style={{
-                        verticalAlign: 'middle'
-                    }}
-                />
+                {domain && (
+                    <Image src={`https://www.google.com/s2/favicons?sz=64&domain=${domain}`}
+                        width={16} height={16} alt=""
+                        style={{
+                            verticalAlign: 'middle'
+                        }}
+                    />
+                )}
                 {!shouldHideTranslate && (
                     <>
                         <div className="w-px h-4 bg-gray-200 mx-1"></div>
