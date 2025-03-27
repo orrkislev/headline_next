@@ -73,7 +73,7 @@ export default function SideSlider({ locale }) {
 
     return (
         <div className={`flex flex-col items-center justify-center ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
-            <ResetTimerButton date={date} setDate={setDate} locale={locale} />
+            <ResetTimerButton locale={locale} />
             <IconButton size="small" onClick={() => nextSummary && setDate(nextSummary.timestamp)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
             </IconButton>
