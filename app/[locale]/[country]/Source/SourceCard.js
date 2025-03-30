@@ -81,9 +81,12 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         if (typeof font === 'number') typo = options[font % options.length]
         else if (font == 'random') typo = choose(options)
 
-        const translatedOptions = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options
-        if ((typo.direction === 'rtl' && !isRTL) || (typo.direction === 'ltr' && isRTL)) typo = options[randomFontIndex % options.length]
-        if (shouldTranslate) typo = translatedOptions[randomFontIndex % translatedOptions.length]
+        if ((typo.direction === 'rtl' && !isRTL) || (typo.direction === 'ltr' && isRTL)) {
+            const translatedOptions = getTypographyOptions(isRTL ? 'israel' : 'us').options
+            typo = translatedOptions[randomFontIndex % translatedOptions.length]
+        }
+
+        if (shouldTranslate) typo = options[randomFontIndex % options.length]
 
         return typo;
     }, [font, country, isRTL, shouldTranslate, locale]);
@@ -103,6 +106,8 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             ${!isPresent ? `bg-off-white ${randomBgOpacity} outline outline-1 outline-neutral-300 outline-dotted` : ''}
             ${shouldTranslate ? 'bg-white shadow-lg border border-dotted' : ''}
         `}>
+            <div className="absolute top-0 right-0 bg-red-500"> {isRTL ? 'rtl' : 'ltr'}</div>
+            <div className="absolute top-0 left-0 bg-blue-300"> {typography.direction}</div>
             <TranslatedLabel locale={locale} active={shouldTranslate} className="group-hover:opacity-0" />
             <CloseButton name={name} isRTL={isRTL} className="z-[2]" />
             <div className="flex flex-col h-full justify-normal sm:justify-between">
