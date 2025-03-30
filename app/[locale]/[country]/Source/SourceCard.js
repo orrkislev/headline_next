@@ -106,8 +106,6 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             ${!isPresent ? `bg-off-white ${randomBgOpacity} outline outline-1 outline-neutral-300 outline-dotted` : ''}
             ${shouldTranslate ? 'bg-white shadow-lg border border-dotted' : ''}
         `}>
-            <div className="absolute top-0 right-0 bg-red-500"> {isRTL ? 'rtl' : 'ltr'}</div>
-            <div className="absolute top-0 left-0 bg-blue-300"> {typography.direction}</div>
             <TranslatedLabel locale={locale} active={shouldTranslate} className="group-hover:opacity-0" />
             <CloseButton name={name} isRTL={isRTL} className="z-[2]" />
             <div className="flex flex-col h-full justify-normal sm:justify-between">
