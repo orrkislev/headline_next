@@ -82,11 +82,14 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         else if (font == 'random') typo = choose(options)
 
         if ((typo.direction === 'rtl' && !isRTL) || (typo.direction === 'ltr' && isRTL)) {
-            const translatedOptions = getTypographyOptions(isRTL ? 'israel' : 'us').options
-            typo = translatedOptions[randomFontIndex % translatedOptions.length]
+            const otherOptions = getTypographyOptions(isRTL ? 'israel' : 'us').options
+            typo = otherOptions[randomFontIndex % otherOptions.length]
         }
 
-        if (shouldTranslate) typo = options[randomFontIndex % options.length]
+        if (shouldTranslate) {
+            const translatedOptions = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options
+            typo = translatedOptions[randomFontIndex % translatedOptions.length]
+        }
 
         return typo;
     }, [font, country, isRTL, shouldTranslate, locale]);
