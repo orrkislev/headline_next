@@ -1,4 +1,6 @@
 import LandingPageContent from './LandingPage_content';
+import TopBar from './TopBar';
+import Footer from './footer';
 
 export const revalidate = 900 // 15 minutes
 
@@ -7,6 +9,12 @@ export default async function Page() {
     // For now, we'll just render the content component
 
     return (
-        <LandingPageContent />
+        <div className="min-h-screen flex flex-col">
+            <TopBar />
+            <main className="flex-grow">
+                <LandingPageContent />
+            </main>
+            <Footer />
+        </div>
     );
 } 

@@ -3,13 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import EnglishFonts, { Typography_English } from "@/utils/typography/EnglishFonts";
-import HebrewFonts from "@/utils/typography/HebrewFonts";
 import Image from 'next/image';
 import FlagIcon from "@/components/FlagIcon";
 import { countries } from "@/utils/sources/countries";
 import DynamicLogo from "@/components/Logo";
 import Link from 'next/link';
-import { sources, RandomSampleCards } from "./SampleCards";
+// import { sources, RandomSampleCards } from "./SampleCards";  // Comment out this import
 import InnerLink from '@/components/InnerLink';
 
 const styleTheHear = (text) => {
@@ -75,7 +74,7 @@ const imageCards = [
 const CountriesList = ({ typographyStyle }) => {
   return (
     <div className="md:col-span-8">
-      <div className="h-full bg-gray-100 rounded-lg shadow-md">
+      <div className="h-full bg-gray-100 rounded-sm p-2 hover:bg-gray-200 transition-colors">
         <div className="p-6">
           <h2 
             className="text-xl font-semibold mb-10"
@@ -139,33 +138,34 @@ export default function LandingPageContent() {
   } : {};
 
   return (
-    <div className="fixed inset-0 w-full bg-white overflow-x-hidden overflow-y-auto flex justify-center custom-scrollbar">
+    <div className="w-full bg-white overflow-x-hidden overflow-y-auto custom-scrollbar pt-12">
       <EnglishFonts />
-      <HebrewFonts />
       
-      {/* Main Content */}
-      <div className="w-[70%] min-w-[800px] max-w-[1200px] p-5 overflow-visible">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-5">
-          {/* Logo */}
-          <div className="md:col-span-4">
-            <div className="h-full bg-white flex justify-center items-center">
+      <div className="w-[70%] min-w-[800px] max-w-[1200px] p-5 overflow-visible mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          {/* Logo - Centered and alone in its row */}
+          <div className="md:col-span-12 flex justify-center">
+            <div className="h-full bg-white">
               <div className="no-underline">
                 <DynamicLogo locale="en" />
               </div>
             </div>
           </div>
 
-          {/* Title Card */}
-          <div className="md:col-span-8">
-            <div className="h-full bg-gray-100 rounded-lg shadow-md p-10">
+          {/* Title Card - Spanning full row (3 cards) */}
+          <div className="md:col-span-12">
+            <div className="h-full bg-gray-100 rounded-sm p-10 hover:bg-gray-200 transition-colors">
               <h1 
-                className="text-2xl md:text-3xl font-semibold text-gray-800 mb-2"
-                style={typographyStyle}
+                className="text-2xl md:text-3xl font-semibold text-gray-800 mb-2 text-center"
+                style={{
+                  ...typographyStyle,
+                  fontSize: typographyStyle.fontSize ? `calc(${typographyStyle.fontSize} * 1.5)` : undefined
+                }}
               >
                 <span className="text-blue">The Hear</span> is a newsstand with a brain,
                 meant to fight filter bubbles and foster media literacy.
               </h1>
-              <p className="text-sm text-gray-700 font-normal">
+              <p className="text-sm text-gray-700 font-normal text-center">
                 {/* Main headline description */}
               </p>
             </div>
@@ -176,7 +176,7 @@ export default function LandingPageContent() {
             <React.Fragment key={`first-group-${index}`}>
               {card.image && (
                 <div className="md:col-span-4">
-                  <div className="h-full bg-gray-100 rounded-lg shadow-md flex items-center">
+                  <div className="h-full bg-gray-100 rounded-sm flex items-center hover:bg-gray-200 transition-colors">
                     <div className="w-full p-6">
                       <div className="w-full flex justify-center items-center">
                         <Image 
@@ -192,7 +192,7 @@ export default function LandingPageContent() {
                 </div>
               )}
               <div className="md:col-span-4">
-                <div className="h-full bg-gray-100 rounded-lg shadow-md">
+                <div className="h-full bg-gray-100 rounded-sm p-2 hover:bg-gray-200 transition-colors">
                   <div className="p-4">
                     <h2 
                       className="text-xl font-semibold mb-10"
@@ -210,15 +210,16 @@ export default function LandingPageContent() {
             </React.Fragment>
           ))}
 
-          {/* Random Sample Cards */}
-          <RandomSampleCards typographyStyle={typographyStyle} />
+          {/* Add video card
+          {videoCard}
+          {videoCard2} */}
 
           {/* Second Group of Cards */}
           {secondGroup.map((card, index) => (
             <React.Fragment key={`second-group-${index}`}>
               {card.image && (
                 <div className="md:col-span-4">
-                  <div className="h-full bg-gray-100 rounded-lg shadow-md flex items-center">
+                  <div className="h-full bg-gray-100 rounded-sm flex items-center hover:bg-gray-200 transition-colors">
                     <div className="w-full p-6">
                       <div className="w-full flex justify-center items-center">
                         <Image 
@@ -234,7 +235,7 @@ export default function LandingPageContent() {
                 </div>
               )}
               <div className="md:col-span-4">
-                <div className="h-full bg-gray-100 rounded-lg shadow-md">
+                <div className="h-full bg-gray-100 rounded-sm p-2 hover:bg-gray-200 transition-colors">
                   <div className="p-6">
                     <h2 
                       className="text-xl font-semibold mb-10"
@@ -251,7 +252,6 @@ export default function LandingPageContent() {
               </div>
             </React.Fragment>
           ))}
-
           {/* Countries List - now spans 8 columns */}
           <div className="md:col-span-8 mb-4">
             <CountriesList typographyStyle={typographyStyle} />
@@ -261,9 +261,9 @@ export default function LandingPageContent() {
           <div className="md:col-span-4 mb-4">
             <div 
               onClick={() => router.push('/en/global')}
-              className="h-full bg-[#223052] hover:bg-[#495A7F] rounded-lg shadow-md flex items-center justify-center cursor-pointer"
+              className="h-full bg-[#223052] hover:bg-[#495A7F] rounded-sm p-2 flex items-center justify-center cursor-pointer"
             >
-              <div className="text-center p-6">
+              <div className="text-center p-4">
                 <h2 
                   className="text-xl font-semibold text-white"
                   style={typographyStyle}

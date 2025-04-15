@@ -28,9 +28,7 @@ export async function middleware(request) {
 
   // Handle root path
   if (segments.length === 0) {
-    const acceptLanguage = request.headers.get('accept-language') || '';
-    const locale = acceptLanguage.trim().toLowerCase().startsWith('he') ? 'heb' : 'en';
-    return NextResponse.redirect(new URL(`/${locale}/global`, request.url));
+    return NextResponse.redirect(new URL('/landing', request.url));
   }
 
   // Path with locale: /locale/country

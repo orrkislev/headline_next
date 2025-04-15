@@ -119,7 +119,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
   title: "The Hear",
-  description: "",
+  description: "A newsstand with a brain",
 };
 
 export default function RootLayout({ children }) {
