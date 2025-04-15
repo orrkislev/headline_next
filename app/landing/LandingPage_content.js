@@ -114,11 +114,11 @@ export default function LandingPageContent() {
   }, []);
   
   // Add useEffect for mobile redirect
-  useEffect(() => {
-    if (window.innerWidth <= 768) {  // Standard mobile breakpoint
-      router.push('/en/israel');
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   if (window.innerWidth <= 768) {  // Standard mobile breakpoint
+  //     router.push('/en/israel');
+  //   }
+  // }, [router]);
 
   // No need to split the final card anymore
   const nonFinalCards = imageCards;
