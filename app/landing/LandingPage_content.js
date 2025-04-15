@@ -106,20 +106,15 @@ const CountriesList = ({ typographyStyle }) => {
 export default function LandingPageContent() {
   const router = useRouter();
   const [randomTypography, setRandomTypography] = useState(null);
+  const [mounted, setMounted] = useState(false);
   
   // Select a random typography style on component mount
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * Typography_English.length);
     setRandomTypography(Typography_English[randomIndex]);
+    setMounted(true);
   }, []);
   
-  // Add useEffect for mobile redirect
-  // useEffect(() => {
-  //   if (window.innerWidth <= 768) {  // Standard mobile breakpoint
-  //     router.push('/en/israel');
-  //   }
-  // }, [router]);
-
   // No need to split the final card anymore
   const nonFinalCards = imageCards;
 
@@ -136,6 +131,17 @@ export default function LandingPageContent() {
     fontStyle: randomTypography.fontStyle || 'normal',
     direction: randomTypography.direction
   } : {};
+
+  // Calculate fontSize without using window object during SSR
+  const getResponsiveFontSize = () => {
+    if (!mounted) return {};
+    
+    return {
+      fontSize: typographyStyle.fontSize 
+        ? `calc(${typographyStyle.fontSize} * ${window.innerWidth > 768 ? 1.5 : 1})` 
+        : undefined
+    };
+  };
 
   return (
     <div className="w-full bg-white overflow-x-hidden overflow-y-auto custom-scrollbar pt-12">
@@ -159,7 +165,7 @@ export default function LandingPageContent() {
                 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-2 text-center"
                 style={{
                   ...typographyStyle,
-                  fontSize: typographyStyle.fontSize ? `calc(${typographyStyle.fontSize} * ${window.innerWidth > 768 ? 1.5 : 1})` : undefined
+                  ...(mounted ? getResponsiveFontSize() : {})
                 }}
               >
                 <span className="text-blue">The Hear</span> is a newsstand with a brain,
@@ -185,6 +191,7 @@ export default function LandingPageContent() {
                           width={200} 
                           height={150} 
                           className="w-full max-w-[200px] h-auto"
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -210,10 +217,6 @@ export default function LandingPageContent() {
             </React.Fragment>
           ))}
 
-          {/* Add video card
-          {videoCard}
-          {videoCard2} */}
-
           {/* Second Group of Cards */}
           {secondGroup.map((card, index) => (
             <React.Fragment key={`second-group-${index}`}>
@@ -228,6 +231,7 @@ export default function LandingPageContent() {
                           width={200} 
                           height={150} 
                           className="w-full max-w-[200px] h-auto"
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -252,6 +256,7 @@ export default function LandingPageContent() {
               </div>
             </React.Fragment>
           ))}
+          
           {/* Countries List - now spans 8 columns */}
           <div className="col-span-1 md:col-span-8 mb-4">
             <CountriesList typographyStyle={typographyStyle} />
