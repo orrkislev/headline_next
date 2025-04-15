@@ -17,15 +17,6 @@ import CustomTooltip from "@/components/CustomTooltip";
 import InnerLink from "@/components/InnerLink";
 
 export default function Settings({ locale, country, sources, hideLanguageToggle, hideTranslateToggle }) {
-    // Debug logging
-    useEffect(() => {
-        console.log("Settings component received:", { 
-            locale, 
-            country, 
-            hideLanguageToggle, 
-            hideTranslateToggle 
-        });
-    }, [locale, country, hideLanguageToggle, hideTranslateToggle]);
 
     // Force the hiding based on direct check as a fallback
     const shouldHideLanguage = hideLanguageToggle || 

@@ -67,7 +67,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         displayHeadline.subtitle = translations[headline.id].subtitle;
         displayName = checkRTL(translations[headline.id].headline) ? data.translations.he : data.translations.en
     } else if (shouldTranslate && !translations[headline.id]) {
-        displayHeadline = {headline: '', subtitle: ''}
+        displayHeadline = { headline: '', subtitle: '' }
     }
 
 
@@ -81,9 +81,15 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         if (typeof font === 'number') typo = options[font % options.length]
         else if (font == 'random') typo = choose(options)
 
-        const translatedOptions = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options
-        if ((typo.direction === 'rtl' && !isRTL) || (typo.direction === 'ltr' && isRTL)) typo = options[randomFontIndex % options.length]
-        if (shouldTranslate) typo = translatedOptions[randomFontIndex % translatedOptions.length]
+        if ((typo.direction === 'rtl' && !isRTL) || (typo.direction === 'ltr' && isRTL)) {
+            const otherOptions = getTypographyOptions(isRTL ? 'israel' : 'us').options
+            typo = otherOptions[randomFontIndex % otherOptions.length]
+        }
+
+        if (shouldTranslate) {
+            const translatedOptions = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options
+            typo = translatedOptions[randomFontIndex % translatedOptions.length]
+        }
 
         return typo;
     }, [font, country, isRTL, shouldTranslate, locale]);

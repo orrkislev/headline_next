@@ -27,21 +27,13 @@ export default async function Page({ params }) {
         await getCountryDailySummary(country, sub(today, { days: 2 }))
     ].filter(summary => summary);
 
-    const websites = {}
-    headlines.forEach(headline => {
-        const website = headline.website_id
-        if (!websites[website]) websites[website] = 0
-        websites[website]++
-    });
-    console.log(websites)
-
     const sources = {};
     headlines.forEach(headline => {
         const sourceName = getWebsiteName(country, headline.website_id);
         if (!sources[sourceName]) sources[sourceName] = {headlines: [], website_id: headline.website_id};
         sources[sourceName].headlines.push(headline);
     });
-    
+
     if (initialSummaries.length === 0) {
         return 'no summaries found';
     }

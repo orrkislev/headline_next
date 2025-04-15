@@ -4,8 +4,11 @@ import CustomTooltip from "@/components/CustomTooltip";
 import { Restore } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { useEffect } from "react";
+import { useTime } from "@/utils/store";
 
-export default function ResetTimerButton({ date, setDate, locale, className }) {
+export default function ResetTimerButton({ locale, className }) {
+    const date = useTime(state => state.date);
+    const setDate = useTime(state => state.setDate);
     const isPresent = new Date() - date < 60 * 1000 * 5;
 
     useEffect(() => {
@@ -14,6 +17,16 @@ export default function ResetTimerButton({ date, setDate, locale, className }) {
         }, 60 * 1000);
         return () => clearInterval(timer);
     }, [isPresent, setDate]);
+
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "visible") setDate(new Date());
+        };
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        return () => {
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+        };
+    }, [])
 
     const tooltip = locale === 'heb' ? 'בחזרה לעכשיו' : 'Reset To Now';
     const placement = locale === 'heb' ? 'left' : 'right';
