@@ -39,37 +39,37 @@ export default function Summary({ summary, active, locale }) {
 
     const parts = text.split(/(\(.*?\))/g)
 
-    const fontClass = locale === 'heb' ? 'frank-re' : 'font-roboto';
+    const fontClass = locale === 'heb' ? 'frank-re' : 'font-["Geist"]';
 
     return (
         <div
             ref={summaryRef}
-            className={`py-2 ${fontClass} leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'} border-b border-dashed border-gray-200 pb-5`}
+            className={`py-2 ${fontClass} leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'} border-b border-dashed border-gray-200 pb-5 ${
+                active ? (locale === 'heb' ? 'text-[17px]' : 'text-base') : 'text-sm'
+            }`}
             style={{
                 color: active ? 'black' : '#e8e8e8',
                 cursor: active ? 'text' : 'pointer',
-                fontSize: locale === 'heb' ? (active ? '17px' : '0.9rem') : (active ? '16px' : '0.9rem'),
                 fontWeight: 400,
                 lineHeight: active ? '1.4' : '1.3',
             }}
             onClick={() => setDate(summary.timestamp)}
         >
-            <div className={`${active ? 'text-blue' : ''} mb-2`}
+            <div className={`${active ? 'text-blue' : ''} mb-2 text-lg font-medium`}
                 style={{
-                    fontSize: active ? '1.25rem' : '1.15rem',
                     lineHeight: active ? '1.5' : '1.3',
                     marginTop: active ? '0px' : '12px',
                     marginBottom: '10px',
                 }}
             >
-                <span className="font-mono">{timestamp}</span>
+                <span className="font-['GeistMono'] text-lg">{timestamp}</span>
                 <span className="mx-1">{locale == 'heb' ? '⇠' : '⇢'}</span>
                 <span>{headline}</span>
             </div>
             {parts.map((part, i) => (
                 <span key={i} className={
                     active ? (part.startsWith('(') ?
-                        `text-gray-400 ${locale === 'heb' ? 'text-sm' : 'text-xs'}` :
+                        `text-gray-400 ${locale === 'heb' ? 'text-sm' : 'text-sm'}` :
                         '') : ''
                 }>
                     {part}

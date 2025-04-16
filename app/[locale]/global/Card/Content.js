@@ -63,13 +63,13 @@ export default function Content({ country, summary, locale, pinned }) {
             </div>
             <Collapse in={open}>
                 <div style={{
-                    fontFamily: 'Roboto, sans-serif',
-                    fontWeight: 400,
+                    fontFamily: 'Geist, sans-serif',
+                    // fontWeight: 400,
                     padding: 6,
                     direction: locale === 'heb' ? 'rtl' : 'ltr',
                     textAlign: locale === 'heb' ? 'right' : 'left',
-                    fontSize: '0.95rem',
-                    lineHeight: 1.4
+                    fontSize: '0.93rem',
+                    // lineHeight: 1.4
                 }}>
                     {text.split(/(\([^)]+\))/g).map((part, index) =>
                         part.startsWith('(') && part.endsWith(')') ? (

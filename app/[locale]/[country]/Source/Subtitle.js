@@ -14,7 +14,10 @@ export default function Subtitle({headlineData}) {
     const isRTL = checkRTL(headlineData.subtitle);
     
     return (
-        <div className={`px-4 pb-2 ${isRTL ? 'text-right' : 'text-left'}`} style={{ fontSize: '0.8rem' }}>
+        <div 
+            className={`px-4 pb-2 ${isRTL ? 'text-right' : 'text-left'} font-["Geist"]`} 
+            style={{ fontSize: '0.8rem' }}
+        >
             {headlineData.subtitle || ''}
         </div>
     );

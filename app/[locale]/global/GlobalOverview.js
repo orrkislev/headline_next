@@ -34,7 +34,7 @@ export default function GlobalOverview({ locale }) {
             if (titleMatch) {
                 return (
                     <>
-                        <div className="text-blue inline font-normal text-[1.125rem]">
+                        <div className="text-blue inline font-['Geist'] text-base font-medium">
                             {locale === 'heb' ? '⇠' : '⇢'} {titleMatch[1]}:
                         </div>
                         {" " + titleMatch[2]}
@@ -58,7 +58,7 @@ export default function GlobalOverview({ locale }) {
                 return (
                     <div
                         key={`parenthesis-${index}`}
-                        className="text-[#757575] text-[0.9rem] inline"
+                        className="text-gray-400 text-sm inline"
                     >
                         {part}
                     </div>
@@ -78,7 +78,7 @@ export default function GlobalOverview({ locale }) {
 
     return (
         <div className="mb-3 custom-scrollbar overflow-auto">
-            <div className={`text-blue mb-2 font-normal ${locale === 'heb' ? 'frank-re' : 'font-roboto'} text-[1.25rem]`} style={{ lineHeight: '1.4' }}>
+            <div className={`text-blue mb-2 font-medium ${locale === 'heb' ? 'frank-re' : 'font-["Geist"]'} text-lg`} >
                 {formattedTime} {locale === 'heb' ? '⇠' : '⇢'} {overview.headline}
             </div>
 
@@ -86,7 +86,7 @@ export default function GlobalOverview({ locale }) {
             <div className="mb-3 border border-gray-200 border-dashed border-[0.5px]" />
 
             {/* Overview Text */}
-            <div className={`${locale == 'heb' ? 'frank-re' : 'font-roboto'} text-[1.125rem] font-normal text-black whitespace-pre-wrap`} style={{ lineHeight: '1.4' }}>
+            <div className={`${locale == 'heb' ? 'frank-re' : 'font-["Geist"]'} text-base font-normal text-black whitespace-pre-wrap`} >
                 {formatText(overview.overview)}
             </div>
         </div>

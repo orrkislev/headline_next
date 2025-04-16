@@ -26,6 +26,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
     const websites = useActiveWebsites(state => state.activeWebsites)
     const headlines = useHeadlinesManager(country, initialHeadlines, websites.includes(name));
     const [isPresent, setIsPresent] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     const shouldTranslate = useMemo(() => translate.includes(name) || translate.includes('ALL'), [translate, name]);
 
@@ -59,6 +60,12 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         // Calculate isPresent on the client side only
         setIsPresent(new Date() - date < 60 * 1000 * 5);
     }, [date]);
+
+    useEffect(() => {
+        if (headlines && headlines.length > 0) {
+            setIsLoading(false);
+        }
+    }, [headlines]);
 
     let displayHeadline = { ...headline };
     let displayName = data.name
@@ -113,7 +120,13 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             <CloseButton name={name} isRTL={isRTL} className="z-[2]" />
             <div className="flex flex-col h-full justify-normal sm:justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
-                    <SourceName name={displayName} typography={typography} description={data.description} date={date} />
+                    <SourceName 
+                        name={displayName} 
+                        typography={typography} 
+                        description={data.description} 
+                        date={date}
+                        isLoading={isLoading}
+                    />
                     <Headline headline={displayHeadline} typography={typography} />
                 </div>
                 <div>

@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useRef } from "react"
+import { CircularProgress } from "@mui/material"
 
-export default function SourceName({ name, description, typography, date }) {
+export default function SourceName({ name, description, typography, date, isLoading }) {
     const isPresent = date ? new Date() - date < 60 * 1000 * 5 : true
 
     const [tooltipVisible, setTooltipVisible] = useState(false)
@@ -30,12 +31,15 @@ export default function SourceName({ name, description, typography, date }) {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
         >
-            <span className={`text-sm cursor-help ${isPresent ? 'text-blue' : 'text-gray-500'}`} style={{ 
-                ...typography, 
-                fontSize: typography.fontFamily === 'var(--font-frank-re-tzar)' ? '2.1rem' : '1.5rem' 
-            }}>
-                {name}
-            </span>
+            <div className="flex items-center gap-2">
+                <span className={`text-sm cursor-help ${isPresent ? 'text-blue' : 'text-gray-500'}`} style={{ 
+                    ...typography, 
+                    fontSize: typography.fontFamily === 'var(--font-frank-re-tzar)' ? '2.1rem' : '1.5rem' 
+                }}>
+                    {name}
+                </span>
+                {isLoading && <CircularProgress size={16} />}
+            </div>
             {tooltipVisible && (
                 <div className="fixed bg-white rounded-lg shadow-lg border border-gray-200 p-4 w-[400px] z-[1000] direction-ltr"
                 style={{
