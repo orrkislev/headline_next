@@ -12,8 +12,10 @@ export default async function GlobalSummarySection({ locale }) {
                     <GlobalOverview locale={locale} />
                 </div>
             </div>
-            <div className='py-2 bg-white border-t border-gray-200'>
-                <Disclaimer locale={locale} />
+            <div className='py-1 bg-white border-t border-gray-200'>
+                <div className="hidden sm:block">
+                    <Disclaimer locale={locale} />
+                </div>
             </div>
         </div>
     )

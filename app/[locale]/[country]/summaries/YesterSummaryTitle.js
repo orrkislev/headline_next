@@ -29,11 +29,11 @@ export default function YesterdaySummaryTitle({ locale, summary, day, dailySumma
     }
 
     return (
-        <div className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer text-base text-blue ${locale === 'en'
+        <div className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer ${locale === 'heb' ? 'text-lg' : 'text-base'} text-blue ${locale === 'en'
             ? 'font-["Geist"] pr-4 font-medium'
             : 'frank-re pl-4'
             }`}
-            style={{ lineHeight: '1.4em' }}
+            style={{ lineHeight: '1.4em', borderBottom: '1px solid #e5e7eb' }}
             onClick={click}>
 
             <span>{dateString}</span>
