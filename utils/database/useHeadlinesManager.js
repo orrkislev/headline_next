@@ -10,7 +10,7 @@ export default function useHeadlinesManager(country, initialHeadlines, active) {
     const [day, setDay] = useState(date ? date.toDateString() : new Date().toDateString());
     const dates = useRef();
     const firebase = useFirebase();
-    const shouldGrab = useRef(true);
+    const [loading, setLoading] = useState(true);
 
     const addHeadlines = (newHeadlines) => {
         setHeadlines(prev => {
@@ -73,6 +73,7 @@ export default function useHeadlinesManager(country, initialHeadlines, active) {
 
 
     const getRecentHeadlines = async () => {
+        setLoading(true);
         const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
         const initialTimes = headlines.map(headline => headline.timestamp)
         const lastHeadlineTime = new Date(Math.max(...initialTimes));
@@ -83,6 +84,8 @@ export default function useHeadlinesManager(country, initialHeadlines, active) {
             firebase.firestore.orderBy('timestamp', 'desc'),
         );
         let newHeadlines = await firebase.firestore.getDocs(q);
+
+        setLoading(false);
         if (newHeadlines.empty) return;
         newHeadlines = newHeadlines.docs.map(headline => firebase.prepareData(headline));
         addHeadlines(newHeadlines);
@@ -125,5 +128,5 @@ export default function useHeadlinesManager(country, initialHeadlines, active) {
     //     return headlines;
     // }
 
-    return headlines;
+    return { headlines, loading }
 }

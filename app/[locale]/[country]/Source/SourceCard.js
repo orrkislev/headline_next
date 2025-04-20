@@ -24,7 +24,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
     const [headline, setHeadline] = useState(initialHeadlines[0]);
     const [translations, setTranslations] = useState({});
     const websites = useActiveWebsites(state => state.activeWebsites)
-    const headlines = useHeadlinesManager(country, initialHeadlines, websites.includes(name));
+    const { headlines, loading } = useHeadlinesManager(country, initialHeadlines, websites.includes(name));
     const [isPresent, setIsPresent] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -120,14 +120,14 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             <CloseButton name={name} isRTL={isRTL} className="z-[2]" />
             <div className="flex flex-col h-full justify-normal sm:justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
-                    <SourceName 
-                        name={displayName} 
-                        typography={typography} 
-                        description={data.description} 
+                    <SourceName
+                        name={displayName}
+                        typography={typography}
+                        description={data.description}
                         date={date}
                         isLoading={isLoading}
                     />
-                    <Headline headline={displayHeadline} typography={typography} />
+                    <Headline headline={displayHeadline} typography={typography} loading={loading}/>
                 </div>
                 <div>
                     <Subtitle headlineData={displayHeadline} />
