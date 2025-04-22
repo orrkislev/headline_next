@@ -40,7 +40,7 @@ export default function DynamicLogo({ locale }) {
     }, []);
 
     return (
-        <InnerLink href={`/${locale}/global`} className=''>
+        <InnerLink locale={locale} href={`/${locale}/global`} className=''>
             <style jsx global>{`
                 @font-face {
                     font-family: 'CheltenhamCondensed';

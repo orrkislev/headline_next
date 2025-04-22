@@ -29,7 +29,7 @@ export default function YesterdaySummaryTitle({ locale, summary, day, dailySumma
     }
 
     return (
-        <div className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer ${locale === 'heb' ? 'text-lg' : 'text-base'} text-blue ${locale === 'en'
+        <h2 className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer ${locale === 'heb' ? 'text-lg' : 'text-base'} text-blue ${locale === 'en'
             ? 'font-["Geist"] pr-4 font-medium'
             : 'frank-re pl-4'
             }`}
@@ -39,6 +39,6 @@ export default function YesterdaySummaryTitle({ locale, summary, day, dailySumma
             <span>{dateString}</span>
             <span> {locale == 'heb' ? ' ⇠ ' : ' ⇢ '}</span>
             <span>{headline}</span>
-        </div>
+        </h2>
     );
 }

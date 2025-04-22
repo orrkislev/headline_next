@@ -55,7 +55,7 @@ export default function Summary({ summary, active, locale }) {
             }}
             onClick={() => setDate(summary.timestamp)}
         >
-            <div className={`${active ? 'text-blue' : ''} mb-2 text-lg font-medium`}
+            <h1 className={`${active ? 'text-blue' : ''} mb-2 text-lg font-medium`}
                 style={{
                     lineHeight: active ? '1.5' : '1.3',
                     marginTop: active ? '0px' : '12px',
@@ -65,7 +65,7 @@ export default function Summary({ summary, active, locale }) {
                 <span className="font-['GeistMono', 'Consolas', 'monospace'] text-lg">{timestamp}</span>
                 <span className="mx-1">{locale == 'heb' ? '⇠' : '⇢'}</span>
                 <span>{headline}</span>
-            </div>
+            </h1>
             {parts.map((part, i) => (
                 <span key={i} className={
                     active ? (part.startsWith('(') ?

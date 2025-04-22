@@ -84,7 +84,7 @@ const CountriesList = ({ typographyStyle }) => {
           </h2>
           <div className="flex flex-wrap gap-3">
             {Object.entries(countries).map(([id, country]) => (
-              <InnerLink 
+              <InnerLink
                 key={id} 
                 href={id.toLowerCase() === 'uk' ? '/en/uk' : `/en/${id}`}
                 className="no-underline text-inherit"

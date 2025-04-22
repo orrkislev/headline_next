@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { LinearProgress } from "@mui/material";
 
-export default function InnerLink({ href, children }) {
+export default function InnerLink({ href, locale, children }) {
     const [showProgress, setShowProgress] = useState(false);
 
     return (
         <>
-            <Link href={href} onClick={() => setShowProgress(true)}>
+            <Link href={href} hrefLang={locale} onClick={() => setShowProgress(true)}>
                 {children}
             </Link>
             {showProgress && (

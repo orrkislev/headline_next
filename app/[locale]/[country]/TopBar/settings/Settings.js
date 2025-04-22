@@ -19,12 +19,12 @@ import InnerLink from "@/components/InnerLink";
 export default function Settings({ locale, country, sources, hideLanguageToggle, hideTranslateToggle }) {
 
     // Force the hiding based on direct check as a fallback
-    const shouldHideLanguage = hideLanguageToggle || 
-        (locale === 'heb' && country === 'Israel') || 
+    const shouldHideLanguage = hideLanguageToggle ||
+        (locale === 'heb' && country === 'Israel') ||
         (locale === 'en' && (country === 'US' || country === 'UK'));
-    
-    const shouldHideTranslate = hideTranslateToggle || 
-        (locale === 'heb' && country === 'Israel') || 
+
+    const shouldHideTranslate = hideTranslateToggle ||
+        (locale === 'heb' && country === 'Israel') ||
         (locale === 'en' && (country === 'US' || country === 'UK'));
 
     return (
@@ -36,7 +36,7 @@ export default function Settings({ locale, country, sources, hideLanguageToggle,
                 <LabeledIcon
                     label="Global View"
                     icon={
-                        <InnerLink href="/global">
+                        <InnerLink locale={locale} href={`/${locale}/global`}>
                             <CustomTooltip title="to the global view" placement="bottom" arrow>
                                 <TopBarButton>
                                     <PublicOutlined />
@@ -64,7 +64,7 @@ export default function Settings({ locale, country, sources, hideLanguageToggle,
                 </div>
             )}
             <div className="flex items-center">
-                <LabeledIcon label="Display Font" icon={<FontToggle country={country}/>} />
+                <LabeledIcon label="Display Font" icon={<FontToggle country={country} />} />
                 {!shouldHideTranslate && (
                     <LabeledIcon label="Translate Headlines" icon={<TranslateToggle {...{ locale, country, sources }} />} />
                 )}

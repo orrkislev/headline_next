@@ -6,7 +6,7 @@ import InnerLink from "@/components/InnerLink";
 
 export default function Headline({ country, locale, summary, typography, index }) {
     const responsiveFontSizes = useResponsiveFontSizes();
-    
+
     let headline = summary.englishHeadline;
     if (locale === 'heb') {
         headline = summary.hebrewHeadline || summary.headline
@@ -16,10 +16,10 @@ export default function Headline({ country, locale, summary, typography, index }
 
     // Determine language for font size calculation
     const language = locale === 'heb' ? 'hebrew' : 'english';
-    
+
     // Calculate font size based on index and language
     const fontSize = calculateTitleFontSize(index, language, responsiveFontSizes);
-    
+
     // Update typography with calculated font size
     const updatedTypography = {
         ...typography,
@@ -27,15 +27,15 @@ export default function Headline({ country, locale, summary, typography, index }
     };
 
     return (
-        <InnerLink href={`/${locale}/${country}`}>
-            <div className={`animate-headline w-full text-lg font-semibold break-words px-1`}
-                style={{ 
-                    ...updatedTypography, 
+        <InnerLink locale={locale} href={`/${locale}/${country}`}>
+            <h2 className={`animate-headline w-full text-lg font-semibold break-words px-1`}
+                style={{
+                    ...updatedTypography,
                     width: '100%',
                     fontFamily: locale === 'heb' ? 'var(--font-frank-re)' : updatedTypography.fontFamily
                 }} key={summary.id}>
                 {headline}
-            </div>
+            </h2>
         </InnerLink>
     );
 }

@@ -31,11 +31,11 @@ export default function DailySummary({ locale }) {
                 className='flex items-center justify-between relative cursor-pointer p-4' 
                 onClick={() => setExpanded(!expanded)}
             >
-                <div className={`flex-1 ${locale === 'heb' ? 'frank-re text-right' : 'font-["Geist"] text-left'} text-black text-lg font-medium`}>
+                <h1 className={`flex-1 ${locale === 'heb' ? 'frank-re text-right' : 'font-["Geist"] text-left'} text-black text-lg font-medium`}>
                     <span className="font-['GeistMono'] text-lg">{formattedDate}</span>
                     <span className="mx-1">{locale == 'heb' ? ' ⇠ ' : ' ⇢ '}</span>
                     <span style={{ lineHeight: '1.5rem' }}>{headline}</span>
-                </div>
+                </h1>
                 <IconButton size="small" className="ml-2 self-center animate-pulse">
                     {expanded ? 
                         <KeyboardArrowUp sx={{ color: 'black' }} /> : 
