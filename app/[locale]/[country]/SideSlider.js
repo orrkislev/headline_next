@@ -9,12 +9,19 @@ import { useDaySummaries } from "@/utils/database/useSummariesManager";
 import { CustomSlider_Source } from "./Source/SourceSlider";
 import useMobile from "@/components/useMobile";
 
-export default function SideSlider({ locale }) {
+export default function SideSlider({ locale, country, date: pageDate }) {
     const summaries = useDaySummaries(state => state.daySummaries);
     const date = useTime(state => state.date);
     const setDate = useTime(state => state.setDate);
     const [day, setDay] = useState(date.toDateString());
     const isMobile = useMobile();
+
+    useEffect(() => {
+        if (pageDate) {
+            pageDate.setHours(23, 59)
+            setDate(pageDate);
+        }
+    }, [pageDate])
 
     useEffect(() => {
         if (date) setDay(date.toDateString());
@@ -73,7 +80,7 @@ export default function SideSlider({ locale }) {
 
     return (
         <div className={`flex flex-col items-center justify-center ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
-            <ResetTimerButton locale={locale} />
+            <ResetTimerButton locale={locale} country={country} />
             <IconButton size="small" onClick={() => nextSummary && setDate(nextSummary.timestamp)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
             </IconButton>

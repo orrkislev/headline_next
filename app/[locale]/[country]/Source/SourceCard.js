@@ -17,14 +17,14 @@ const SourceSlider = dynamic(() => import('./SourceSlider'));
 
 const randomFontIndex = Math.floor(Math.random() * 100)
 
-export default function SourceCard({ name, initialHeadlines, country, locale, data }) {
+export default function SourceCard({ name, initialHeadlines, country, locale, data, date: pageDate }) {
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
     const [headline, setHeadline] = useState(initialHeadlines[0]);
     const [translations, setTranslations] = useState({});
     const websites = useActiveWebsites(state => state.activeWebsites)
-    const { headlines, loading } = useHeadlinesManager(country, initialHeadlines, websites.includes(name));
+    const { headlines, loading } = useHeadlinesManager(country, initialHeadlines, pageDate === null && websites.includes(name));
     const [isPresent, setIsPresent] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -127,7 +127,7 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
                         date={date}
                         isLoading={isLoading}
                     />
-                    <Headline headline={displayHeadline} typography={typography} loading={loading}/>
+                    <Headline headline={displayHeadline} typography={typography} loading={loading} />
                 </div>
                 <div>
                     <Subtitle headlineData={displayHeadline} />

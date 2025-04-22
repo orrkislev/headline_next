@@ -10,7 +10,7 @@ export const useDailySummary = create((set) => ({
     setDailySummary: (dailySummary, day) => set({ dailySummary, day }),
 }));
 
-export default function useDailySummariesManager(country, initialDailySummaries) {
+export default function useDailySummariesManager(country, initialDailySummaries, active) {
     const [dailySummaries, setDailySummaries] = useState(initialDailySummaries);
     const date = useTime(state => state.date);
     const [day, setDay] = useState(date ? date.toDateString() : new Date().toDateString());
@@ -40,12 +40,13 @@ export default function useDailySummariesManager(country, initialDailySummaries)
     }, [initialDailySummaries]);
 
     useEffect(() => {
+        if (!active) return;
         if (!firebase.db || !dates.current || !day) return;
         const dayDate = new Date(day + 'UTC');
         getDayDailySummaries(dayDate);
         getDayDailySummaries(sub(dayDate, { days: 1 }));
         getDayDailySummaries(sub(dayDate, { days: 2 }));
-    }, [firebase.db, day]);
+    }, [firebase.db, day, active]);
 
     useEffect(()=>{
         const dayString = new Date(day + ' UTC').toISOString().split('T')[0]

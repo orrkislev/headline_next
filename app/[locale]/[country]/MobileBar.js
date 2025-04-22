@@ -24,7 +24,7 @@ export default function MobileBar({ locale, country }) {
             </div>
             <div className="flex flex-1 justify-between items-center">
                 <TimeDisplay locale={locale} />
-                <ResetTimerButton {...{ date, setDate, locale }} />
+                <ResetTimerButton {...{ date, setDate, locale, country }} />
             </div>
         </div>
     )

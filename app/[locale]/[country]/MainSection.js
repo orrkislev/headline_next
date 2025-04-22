@@ -8,7 +8,7 @@ import { getSourceData } from "@/utils/sources/getCountryData";
 import useWebsitesManager from "@/utils/useWebsites";
 
 
-export default function MainSection({ sources, country, locale }) {
+export default function MainSection({ sources, country, locale, date }) {
     const websitesManager = useWebsitesManager(country, sources)
 
     return (
@@ -33,6 +33,7 @@ export default function MainSection({ sources, country, locale }) {
                         country={country}
                         locale={locale}
                         data={getSourceData(country, source)}
+                        date={date}
                     />
                 </Suspense>
             ))}

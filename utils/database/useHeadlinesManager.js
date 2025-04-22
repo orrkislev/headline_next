@@ -10,7 +10,7 @@ export default function useHeadlinesManager(country, initialHeadlines, active) {
     const [day, setDay] = useState(date ? date.toDateString() : new Date().toDateString());
     const dates = useRef();
     const firebase = useFirebase();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const addHeadlines = (newHeadlines) => {
         setHeadlines(prev => {
@@ -34,8 +34,8 @@ export default function useHeadlinesManager(country, initialHeadlines, active) {
     }, [initialHeadlines]);
 
     useEffect(() => {
-        if (!firebase.ready) return
         if (!active) return
+        if (!firebase.ready) return
 
         getRecentHeadlines()
 

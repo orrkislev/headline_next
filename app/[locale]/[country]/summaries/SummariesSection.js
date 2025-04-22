@@ -18,8 +18,8 @@ const calculateDisplaySummaries = (day, summaries) => {
     return [...daySummaries, lastSummaryDayBefore]
 }
 
-export default function SummariesSection({ initialSummaries, locale, country, initialDailySummaries }) {
-    const dailySummaries = useDailySummariesManager(country, initialDailySummaries);
+export default function SummariesSection({ initialSummaries, locale, country, initialDailySummaries, date: pageDate }) {
+    const dailySummaries = useDailySummariesManager(country, initialDailySummaries, pageDate != null);
     const summaries = useSummariesManager(country, initialSummaries);
     const date = useTime(state => state.date);
     const [day, setDay] = useState(new Date().toDateString());
@@ -43,7 +43,7 @@ export default function SummariesSection({ initialSummaries, locale, country, in
             <DailySummary locale={locale} />
             <SummariesList summaries={displaySummaries} {...{ activeSummaryId, locale }} />
             <div className='py-2 bg-white border-t border-gray-200'>
-                <YesterdaySummaryTitle {...{ locale, day, dailySummaries }} summary={displaySummaries[displaySummaries.length - 1]} />
+                <YesterdaySummaryTitle {...{ locale, country, day, dailySummaries }} summary={displaySummaries[displaySummaries.length - 1]} />
                 <Disclaimer {...{ locale }} />
             </div>
         </>
