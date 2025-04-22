@@ -5,7 +5,7 @@ import SummariesList from "./SummariesList";
 import YesterdaySummaryTitle from "./YesterSummaryTitle";
 import { useTime } from "@/utils/store";
 import { useEffect, useState } from "react";
-import useDailySummariesManager from "@/utils/database/useDailySummariesManager";
+import useDailySummariesManager, { useDailySummary } from "@/utils/database/useDailySummariesManager";
 import useSummariesManager from "@/utils/database/useSummariesManager";
 import DailySummary from "./DailySummary";
 
@@ -19,12 +19,15 @@ const calculateDisplaySummaries = (day, summaries) => {
 }
 
 export default function SummariesSection({ initialSummaries, locale, country, initialDailySummaries, date: pageDate }) {
-    const dailySummaries = useDailySummariesManager(country, initialDailySummaries, pageDate != null);
-    const summaries = useSummariesManager(country, initialSummaries);
+    // const dailySummaries = useDailySummariesManager(country, initialDailySummaries, pageDate != null);
+    // const dailySummaries = initialDailySummaries
+    // const setDailySummary = useDailySummary(state => state.setDailySummary);
+    const summaries = useSummariesManager(country, initialSummaries, pageDate != null);
     const date = useTime(state => state.date);
     const [day, setDay] = useState(new Date().toDateString());
     const [displaySummaries, setDisplaySummaries] = useState(calculateDisplaySummaries(new Date().toDateString(), summaries));
     const [activeSummaryId, setActiveSummaryId] = useState(summaries.sort((a, b) => b.timestamp - a.timestamp)[0]?.id);
+
 
 
     useEffect(() => {
@@ -40,10 +43,10 @@ export default function SummariesSection({ initialSummaries, locale, country, in
 
     return (
         <>
-            <DailySummary locale={locale} />
+            <DailySummary {...{locale, initialDailySummaries}}/>
             <SummariesList summaries={displaySummaries} {...{ activeSummaryId, locale }} />
             <div className='py-2 bg-white border-t border-gray-200'>
-                <YesterdaySummaryTitle {...{ locale, country, day, dailySummaries }} summary={displaySummaries[displaySummaries.length - 1]} />
+                <YesterdaySummaryTitle {...{ locale, country, day, initialDailySummaries }} summary={displaySummaries[displaySummaries.length - 1]} />
                 <Disclaimer {...{ locale }} />
             </div>
         </>

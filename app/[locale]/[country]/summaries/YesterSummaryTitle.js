@@ -7,11 +7,11 @@ import { Skeleton } from "@mui/material";
 import { isToday, sub } from "date-fns";
 import { createDateString } from "../TopBar/settings/DateSelector";
 
-export default function YesterdaySummaryTitle({ locale, country, summary, day, dailySummaries }) {
+export default function YesterdaySummaryTitle({ locale, country, summary, day, initialDailySummaries }) {
     const setDate = useTime(state => state.setDate);
 
     const yesterday = sub(new Date(day + 'UTC'), { days: 1 }).toISOString().split('T')[0];
-    const yesterdaySummary = dailySummaries.find(summary => summary.date === yesterday);
+    const yesterdaySummary = initialDailySummaries.find(summary => summary.date === yesterday);
 
     let headline = <Skeleton variant="text" width={200} />;
     if (yesterdaySummary) headline = getHeadline(yesterdaySummary, locale);

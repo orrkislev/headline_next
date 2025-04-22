@@ -25,10 +25,8 @@ export default function Content({ country, summary, locale, pinned }) {
 
     const pin = () => {
         let pinnedCountries = localStorage.getItem('pinnedCountries');
-        console.log({ pinnedCountries })
         if (pinnedCountries) {
             pinnedCountries = JSON.parse(pinnedCountries);
-            console.log({ pinnedCountries, country })
             if (pinnedCountries.indexOf(country) >= 0) {
                 pinnedCountries.splice(pinnedCountries.indexOf(country), 1);
             } else {

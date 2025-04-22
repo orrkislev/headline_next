@@ -35,7 +35,6 @@ export default function useLandingHeadlines() {
 
       const country = sources[i][0]
       const source = sources[i][1]
-      console.log(country, source)
 
       const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
       const q = firebase.firestore.query(

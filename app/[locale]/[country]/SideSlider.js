@@ -20,6 +20,8 @@ export default function SideSlider({ locale, country, date: pageDate }) {
         if (pageDate) {
             pageDate.setHours(23, 59)
             setDate(pageDate);
+        } else {
+            setDate(new Date());
         }
     }, [pageDate])
 
