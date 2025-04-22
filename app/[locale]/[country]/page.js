@@ -89,35 +89,39 @@ export default async function Page({ params }) {
     const description = locale === 'heb'
         ? `קבלו את כותרות החדשות והסיכומים האחרונים מ${countryName}, מתעדכן יומית בעברית ובאנגלית.`
         : `Get the latest headlines and news summaries from ${countryName}, updated daily in English and Hebrew.`;
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'WebPage',
-        'name': 'The Hear - Latest News and Summaries',
-        'url': url,
-        'inLanguage': locale === 'heb' ? 'he' : 'en',
-        'description': description,
-        'datePublished': new Date().toISOString().split('T')[0],
-        'about': countryName,
-        'publisher': {
-            '@type': 'Organization',
-            'name': 'The Hear',
-            'logo': {
-                '@type': 'ImageObject',
-                'url': 'https://the-hear.com/logo192.png'
-            }
-        }
-    };
-
-    return <>
-        <head>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        </head>
-        <CountryPageContent 
-            {...{ sources, 
-                initialSummaries, 
-                initialDailySummaries, 
-                locale, 
-                country }}
-        />
-    </>
+    
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'WebPage',
+                        'name': 'The Hear - Latest News and Summaries',
+                        'url': url,
+                        'inLanguage': locale === 'heb' ? 'he' : 'en',
+                        'description': description,
+                        'datePublished': new Date().toISOString().split('T')[0],
+                        'about': countryName,
+                        'publisher': {
+                            '@type': 'Organization',
+                            'name': 'The Hear',
+                            'logo': {
+                                '@type': 'ImageObject',
+                                'url': 'https://the-hear.com/logo192.png'
+                            }
+                        }
+                    })
+                }}
+            />
+            <CountryPageContent 
+                {...{ sources, 
+                    initialSummaries, 
+                    initialDailySummaries, 
+                    locale, 
+                    country }}
+            />
+        </>
+    );
 }
