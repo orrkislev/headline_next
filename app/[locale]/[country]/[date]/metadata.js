@@ -1,3 +1,5 @@
+import { getHeadline } from "@/utils/daily summary utils";
+import { getCountryDailySummary } from "@/utils/database/countryData";
 import { countries } from "@/utils/sources/countries";
 
 export async function createMetadata(params) {
@@ -5,10 +7,12 @@ export async function createMetadata(params) {
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
 
+    const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
+    const dailySummary = await getCountryDailySummary(country, add(parsedDate, { days: 1 }))
+    const headline = getHeadline(dailySummary, locale);
+
     const siteName = 'The Hear';
-    const title = locale === 'heb'
-        ? `כותרות מה־${date} ב${countryName} | ${siteName}`
-        : `Headlines from ${countryName} on ${date} | ${siteName}`;
+    const title = `${countryName} ${date}: ${headline} | ${siteName}`;
 
     const description = locale === 'heb'
         ? `כותרות וסיכומי חדשות מ${countryName} מתאריך ${date}.`
@@ -47,18 +51,19 @@ export async function createMetadata(params) {
     };
 }
 
-export function LdJson({country,locale, date}) {
+export function LdJson({ country, locale, date, dailySummary}) {
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
+
+    const headline = dailySummary ? getHeadline(dailySummary, locale) : '';
+    const siteName = 'The Hear';
+    const title = `${countryName} ${date}: ${headline} | ${siteName}`;
+
     const url = `https://headlines.sh/${locale}/${country}/${date}`;
     const description = locale === 'heb'
         ? `כותרות וסיכומי חדשות מ${countryName} מתאריך ${date}.`
         : `News headlines and summaries from ${countryName} for ${date}.`;
-
-    const siteName = 'The Hear';
-    const title = locale === 'heb'
-        ? `כותרות מה־${date} ב${countryName} | ${siteName}`
-        : `Headlines from ${countryName} on ${date} | ${siteName}`;
+        
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'Article',

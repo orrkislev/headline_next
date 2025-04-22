@@ -44,7 +44,7 @@ export default async function Page({ params }) {
     });
 
     return <>
-        <LdJson {...{ country, locale }} date={parsedDate} />
+        <LdJson {...{ country, locale }} date={parsedDate} dailySummary={initialDailySummaries[1]}/>
         <CountryPageContent
             {...{
                 sources,
