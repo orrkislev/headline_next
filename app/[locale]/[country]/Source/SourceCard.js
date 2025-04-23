@@ -101,17 +101,16 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         return typo;
     }, [font, country, isRTL, shouldTranslate, locale]);
 
-    const index = websites.indexOf(name);
+    const index = websites.length > 0 ? websites.indexOf(name) : 1
     if (index == -1) return null;
 
     return (
         <div style={{ order: index }}
-            className={`source-card group
-            ${index === 0 ? 'col-span-2' : 'col-span-1'}
+            className={`source-card group col-span-1
+            ${index === 0 ? 'col-span-2' : ''}
             ${(index === 7 || index === 8) ? 'max-2xl:col-span-1 2xl:col-span-2 qhd:col-span-1' : ''}
             ${(index === 11 || index === 12 || index === 13) ? 'max-qhd:col-span-1 qhd:col-span-2' : ''}
             relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
-            ${index == 0 ? 'col-span-2' : ''}
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
             ${!isPresent ? `bg-off-white ${randomBgOpacity} outline outline-1 outline-neutral-300 outline-dotted` : ''}
             ${shouldTranslate ? 'bg-white shadow-lg border border-dotted' : ''}
