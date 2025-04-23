@@ -41,8 +41,8 @@ export async function createMetadata({ country, locale }) {
         },
     };
 }
-export function LdJson(params) {
-    const { country, locale } = params;
+
+export function LdJson({ country, locale }) {
     // JSON-LD structured data for SEO
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
