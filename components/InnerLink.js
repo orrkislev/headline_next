@@ -1,11 +1,24 @@
 'use client'
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LinearProgress } from "@mui/material";
 
 export default function InnerLink({ href, locale, children }) {
     const [showProgress, setShowProgress] = useState(false);
+
+    useEffect(()=>{
+        if (showProgress) {
+            // reset the progress bar after when the url changes
+            const handleRouteChange = () => {
+                setShowProgress(false);
+            }
+            window.addEventListener('popstate', handleRouteChange);
+            return () => {
+                window.removeEventListener('popstate', handleRouteChange);
+            }
+        }
+    },[showProgress])
 
     return (
         <>

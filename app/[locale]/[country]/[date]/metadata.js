@@ -1,6 +1,7 @@
 import { getHeadline } from "@/utils/daily summary utils";
 import { getCountryDailySummary } from "@/utils/database/countryData";
 import { countries } from "@/utils/sources/countries";
+import { add, parse } from "date-fns";
 
 export async function createMetadata(params) {
     const { country, locale, date } = await params;
@@ -51,7 +52,7 @@ export async function createMetadata(params) {
     };
 }
 
-export function LdJson({ country, locale, date, dailySummary}) {
+export function LdJson({ country, locale, date, dailySummary }) {
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
 
@@ -63,7 +64,7 @@ export function LdJson({ country, locale, date, dailySummary}) {
     const description = locale === 'heb'
         ? `כותרות וסיכומי חדשות מ${countryName} מתאריך ${date}.`
         : `News headlines and summaries from ${countryName} for ${date}.`;
-        
+
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'Article',
