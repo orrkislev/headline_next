@@ -7,17 +7,19 @@ export async function createMetadata(params) {
     const { country, locale, date } = await params;
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
-
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
+    const formattedDate = date.replace(/-/g, '.');
     const dailySummary = await getCountryDailySummary(country, add(parsedDate, { days: 1 }))
     const headline = getHeadline(dailySummary, locale);
 
     const siteName = 'The Hear';
-    const title = `${countryName} ${date}: ${headline} | ${siteName}`;
+    const title = locale === 'heb'
+        ? `${countryName} | ${formattedDate} | ${headline} | ארכיון הכותרות הראשיות מ${countryName}, כפי שהתפתחו בזמן אמת`
+        : `${countryName} | ${formattedDate} | ${headline} | An Archive of Main News Headlines from the ${countryName}, as they Unfolded`;
 
     const description = locale === 'heb'
-        ? `כותרות וסיכומי חדשות מ${countryName} מתאריך ${date}.`
-        : `News headlines and summaries from ${countryName} for ${date}.`;
+        ? `ארכיון כותרות מ-${countryName} ל-${date}, כפי שהתפתחו בזמן אמת.`
+        : `An archive of the Headlines from major news sources in ${countryName} for ${date}, as they unfolded in real time: relive the news.`;
 
     const url = `https://headlines.sh/${locale}/${country}/${date}`;
 
