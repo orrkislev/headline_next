@@ -43,8 +43,11 @@ export default async function Page({ params }) {
         return 'no summaries found';
     }
 
+    const countryName = locale === 'heb' ? countries[country].hebrew || country : countries[country].english || country;
+
     return <>
         <LdJson {...{ country, locale }} />
+        <h1 className="sr-only">A Living Newsstand of Main Headlines from {countryName}, functioning as both a control room and an archive</h1>
         <CountryPageContent 
             {...{ sources, 
                 initialSummaries, 

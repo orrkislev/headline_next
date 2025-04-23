@@ -5,11 +5,11 @@ export async function createMetadata({ country, locale }) {
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
     const siteName = 'Headlines';
     const title = locale === 'heb'
-        ? `חדשות וסיכומים מ${countryName} | ${siteName}`
-        : `Latest News and Summaries from ${countryName} | ${siteName}`;
+        ? `📰 כותרות עיתונים מ${countryName}, זו לצד זו | המאזין 👂`
+        : `📰 Live Headlines from ${countryName} | The Hear: A Newsstand with a Brain 🧠`;
     const description = locale === 'heb'
-        ? `קבלו את כותרות החדשות והסיכומים האחרונים מ${countryName}, מתעדכן יומית בעברית ובאנגלית.`
-        : `Get the latest headlines and news summaries from ${countryName}, updated daily in English and Hebrew.`;
+        ? `דוכן כותרות חי של חדשות ראשיות מ${countryName}, זו לצד זו, המשמש גם כחדר מצב וגם כארכיון.`
+        : `A Living Newsstand of Main Headlines from ${countryName} side by side, functioning as both a control room and an archive.`;
     const url = `https://headlines.sh/${locale}/${country}`;
     return {
         title,
@@ -41,7 +41,6 @@ export async function createMetadata({ country, locale }) {
         },
     };
 }
-
 export function LdJson(params) {
     const { country, locale } = params;
     // JSON-LD structured data for SEO

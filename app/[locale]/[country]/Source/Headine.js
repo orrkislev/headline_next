@@ -8,7 +8,7 @@ export default function Headline({ headline, typography, loading }) {
     return (
         <a href={headline.link} target="_blank" rel="noopener noreferrer">
             <div className="relative">
-                <div className={`animate-headline w-full text-lg font-semibold break-words line-clamp-6`}    
+                <h3 className={`animate-headline w-full text-lg font-semibold break-words line-clamp-6`}    
                     style={{ ...typography, width: '100%', direction: isRTL ? 'rtl' : 'ltr' }} key={headline.id}>
                     {loading && (
                         <span className="inline-flex items-center mx-3">
@@ -16,7 +16,7 @@ export default function Headline({ headline, typography, loading }) {
                         </span>
                     )}
                     {txt}
-                </div>
+                </h3>
             </div>
         </a>
     );

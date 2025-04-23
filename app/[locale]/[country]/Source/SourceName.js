@@ -32,12 +32,12 @@ export default function SourceName({ name, description, typography, date, isLoad
             onMouseLeave={handleMouseLeave}
         >
             <div className="flex items-center gap-2">
-                <span className={`text-sm cursor-help ${isPresent ? 'text-blue' : 'text-gray-500'}`} style={{ 
+                <h2 className={`text-sm cursor-help ${isPresent ? 'text-blue' : 'text-gray-500'}`} style={{ 
                     ...typography, 
                     fontSize: typography.fontFamily === 'var(--font-frank-re-tzar)' ? '2.1rem' : '1.5rem' 
                 }}>
                     {name}
-                </span>
+                </h2>
                 {isLoading && <CircularProgress size={16} />}
             </div>
             {tooltipVisible && (
