@@ -30,15 +30,21 @@ function FlagSelector({ country, open, close, locale }) {
     return (
         <>
             <PopUpCleaner open={open} close={close} />
-            <div className="absolute top-4 p-4 right-0 grid grid-cols-2 gap-4 bg-white rounded-md shadow-lg w-64 z-[1000]" dir="ltr">
-                {Object.keys(countries).map((c, i) => (
-                    <InnerLink key={i} locale={locale} href={`/${locale}/${c}`}>
-                        <div key={i} className={`flex justify-start items-center gap-2 text-sm hover:bg-gray-100 px-2 rounded-md cursor-pointer ${c === country ? 'bg-gray-100' : ''}`}>
-                            <FlagIcon country={c} />
-                            {countries[c].english}
-                        </div>
-                    </InnerLink>
-                ))}
+            <div className="absolute top-4 p-4 right-0 bg-white rounded-xs shadow-lg w-[18rem] z-[1000] font-['Geist'] text-sm" dir="ltr">
+                <div className="grid grid-cols-2 gap-[1px] bg-gray-200">
+                    {Object.keys(countries).map((c, i) => (
+                        <InnerLink key={i} locale={locale} href={`/${locale}/${c}`}>
+                            <div className={`flex justify-start items-center gap-2 p-2 hover:bg-gray-100 cursor-pointer ${c === country ? 'bg-gray-50' : 'bg-white'}`}>
+                                <FlagIcon country={c} />
+                                {countries[c].english}
+                            </div>
+                        </InnerLink>
+                    ))}
+                    {/* Add empty white cell if odd number of countries */}
+                    {Object.keys(countries).length % 2 !== 0 && (
+                        <div className="bg-white"></div>
+                    )}
+                </div>
             </div>
         </>
     );

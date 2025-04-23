@@ -23,7 +23,7 @@ export default function OrderMenu({ open, close, locale, order, setOrder }) {
             <PopUpCleaner open={open} close={close} />
             <div className={`absolute z-[1000] top-[-2em] ${locale == 'heb' ? 'left-0' : 'right-0'} mt-12 bg-white shadow-lg rounded-lg p-6 pt-4`} style={{ direction: 'ltr' }}>
                 <div className="w-64 bg-white rounded-lg text-sm">
-                    <div className="text-blue text-lg mb-2">Source Order</div>
+                    <div className="text-blue text-lg mb-2 font-['Geist']">Source Order</div>
 
                     <ToggleButtonGroup
                         orientation="vertical"
@@ -33,13 +33,18 @@ export default function OrderMenu({ open, close, locale, order, setOrder }) {
                         sx={{ width: '100%', mb: 2 }}
                     >
                         {Object.keys(orderOptionLabels).map(optionName => (
-                            <ToggleButton key={optionName} value={optionName} sx={toggleButtonStyle}>
-                                <div className="text-sm">{orderOptionLabels[optionName]}</div>
+                            <ToggleButton key={optionName} value={optionName} sx={{ 
+                                ...toggleButtonStyle,
+                                fontFamily: "'Geist', sans-serif"
+                            }}>
+                                <div className="text-sm" style={{ fontFamily: "'Geist', sans-serif" }}>
+                                    {orderOptionLabels[optionName]}
+                                </div>
                             </ToggleButton>
                         ))}
                     </ToggleButtonGroup>
 
-                    <div className="text-sm">
+                    <div className="text-sm font-['Geist']">
                         Sorting the sources can be done through:
                         (a) <span style={{ color: 'blue' }}>reputation</span> - the perceived credibility of the source,
                         (b) <span style={{ color: 'blue' }}>circulation</span> - the estimated number of readers,
@@ -47,7 +52,7 @@ export default function OrderMenu({ open, close, locale, order, setOrder }) {
                         (d) <span style={{ color: 'blue' }}>Right to Left</span> - placing "conservative" and right-wing sources at the top.
                         The (e) <span style={{ color: 'blue' }}>default</span> view gives a selection of prominent sources, creating contrasts when possible.
                         <br /><br />
-                        <div className="text-xs py-1" style={{ color: '#757575' }}>
+                        <div className="text-xs py-1 font-['Geist']" style={{ color: '#757575' }}>
                             * Notice that all these orders were determined mainly through AI assessments: they are not definitive lists or established rankings.
                         </div>
                     </div>
