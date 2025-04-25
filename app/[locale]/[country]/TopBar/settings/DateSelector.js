@@ -10,13 +10,14 @@ import { LabeledContent } from "@/components/LabeledIcon";
 import { useTime } from "@/utils/store";
 import { redirect } from "next/navigation";
 
-// this function creates a date string in the format dd-mm-yyyy
-export function createDateString(date){
+export function createDateString(date) {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
 }
+
+
 
 export function DateSelector({ locale, country }) {
     const { date, setDate } = useTime()
@@ -36,7 +37,7 @@ export function DateSelector({ locale, country }) {
     const tomorrow = isToday ? null : add(todayDate, { days: 1 });
 
     const setDay = (newDate) => {
-        redirect(`/${locale}/${country}/${createDateString(newDate)}`)
+        redirect(`/${locale}/${country}/${createDateString(newDate)}`);
         // if (newDate) {
         //     newDate.setHours(date.getHours(), date.getMinutes())
         //     setDate(newDate);

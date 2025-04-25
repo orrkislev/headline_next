@@ -7,7 +7,6 @@ import MainSection from "./MainSection";
 import HebrewFonts from "@/utils/typography/HebrewFonts";
 
 export default function CountryPageContent({ sources, initialSummaries, initialDailySummaries, locale, country, date }) {
-
     const typography = getTypographyOptions(country);
 
     return (

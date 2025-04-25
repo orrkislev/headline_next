@@ -1,9 +1,7 @@
 export const getHeadline = (dailySummary, locale) => {
     let selectedHeadline;
 
-    console.log('Daily Summary:', dailySummary);
     if (!dailySummary) {
-        console.error('No daily summary provided');
         return '';
     }
 

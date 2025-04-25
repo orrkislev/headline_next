@@ -1,6 +1,7 @@
 import { countries } from "@/utils/sources/countries";
 
-export async function createMetadata({ country, locale }) {
+export async function createMetadata(params) {
+    const { country, locale } = await params;
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
     const siteName = 'Headlines';

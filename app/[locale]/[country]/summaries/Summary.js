@@ -1,9 +1,12 @@
 'use client'
 
 import { useTime, useTranslate } from '@/utils/store';
+import { red } from '@mui/material/colors';
+import { redirect } from 'next/navigation';
 import { useRef, useEffect } from 'react';
+import { createDateString } from '../TopBar/settings/DateSelector';
 
-export default function Summary({ summary, active, locale }) {
+export default function Summary({ summary, country, active, locale, yesterday }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage)
     const setDate = useTime(state => state.setDate);
     const summaryRef = useRef(null);
@@ -41,6 +44,14 @@ export default function Summary({ summary, active, locale }) {
 
     const fontClass = locale === 'heb' ? 'frank-re' : 'font-["Geist"]';
 
+    const clickHandler = () => {
+        setDate(summary.timestamp);
+        if (yesterday) {
+            const yesterdayDate = new Date(summary.timestamp);
+            redirect(`/${locale}/${country}/${createDateString(yesterdayDate)}`);
+        }
+    }
+
     return (
         <div
             ref={summaryRef}
@@ -53,7 +64,7 @@ export default function Summary({ summary, active, locale }) {
                 fontWeight: 400,
                 lineHeight: active ? '1.4' : '1.3',
             }}
-            onClick={() => setDate(summary.timestamp)}
+            onClick={clickHandler}
         >
             <h3 className={`${active ? 'text-blue' : ''} mb-2 text-lg font-medium`}
                 style={{

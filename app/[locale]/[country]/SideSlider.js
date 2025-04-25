@@ -17,17 +17,18 @@ export default function SideSlider({ locale, country, date: pageDate }) {
     const isMobile = useMobile();
 
     useEffect(() => {
-        if (pageDate) {
-            pageDate.setHours(23, 59)
-            setDate(pageDate);
-        } else {
-            setDate(new Date());
-        }
-    }, [pageDate])
-
-    useEffect(() => {
         if (date) setDay(date.toDateString());
     }, [date])
+
+    useEffect(() => {
+        if (pageDate) {
+            const newDate = new Date(pageDate);
+            newDate.setHours(23, 59, 0, 0);
+            setDate(newDate);
+        } else {
+            setDate(new Date())
+        }
+    }, [pageDate]);
 
     const minutes = date.getHours() * 60 + date.getMinutes();
 
