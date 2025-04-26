@@ -8,7 +8,7 @@ import { useTime } from "@/utils/store";
 import { isToday } from "date-fns";
 import { redirect } from "next/navigation";
 
-export default function ResetTimerButton({ locale, country, className }) {
+export default function ResetTimerButton({ locale, country, className, pageDate }) {
     const date = useTime(state => state.date);
     const setDate = useTime(state => state.setDate);
     const isPresent = new Date() - date < 60 * 1000 * 5;
@@ -21,6 +21,7 @@ export default function ResetTimerButton({ locale, country, className }) {
     }, [isPresent, setDate]);
 
     useEffect(() => {
+        if (!pageDate) return;
         const handleVisibilityChange = () => {
             if (document.visibilityState === "visible") setDate(new Date());
         };
@@ -28,7 +29,7 @@ export default function ResetTimerButton({ locale, country, className }) {
         return () => {
             document.removeEventListener("visibilitychange", handleVisibilityChange);
         };
-    }, [])
+    }, [pageDate])
 
     const tooltip = locale === 'heb' ? 'בחזרה לעכשיו' : 'Reset To Now';
     const placement = locale === 'heb' ? 'left' : 'right';
