@@ -11,7 +11,7 @@ export default function sitemap() {
 
             const days = 14;
             for (let i = 0; i < days; i++) {
-                const date = new Da 
+                const date = new Date();
                 date.setDate(date.getDate() - i);
                 const dateString = createDateString(date);
 
