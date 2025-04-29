@@ -1,15 +1,15 @@
 'use client'
 
-import { Suspense } from "react";
 import AddSourceButton from "./Source/AddSourceButton";
 import SourceCard from "./Source/SourceCard";
 import { countries } from "@/utils/sources/countries";
-import { getSourceData } from "@/utils/sources/getCountryData";
 import useWebsitesManager from "@/utils/useWebsites";
+import useSourcesManager from "@/utils/database/useSourcesManager";
 
 
 export default function MainSection({ sources, country, locale, date }) {
-    const websitesManager = useWebsitesManager(country, sources)
+    useWebsitesManager(country, sources)
+    const { sources: managedSources, loading: isLoading } = useSourcesManager(country, sources, !Boolean(date));
 
     return (
         <div className={`custom-scrollbar 
@@ -22,26 +22,14 @@ export default function MainSection({ sources, country, locale, date }) {
                         qhd:grid-cols-6 
                         direction-${countries[country].languageDirection}
                         `}>
-            {Object.keys(sources).map((source) => (
-                <Suspense key={source} fallback={
-                    <div className="animate-pulse bg-neutral-100 dark:bg-neutral-500 h-[300px]" />
-                }>
-                    <SourceCard
+            {Object.keys(managedSources).map((source) => (
+                    <SourceCard 
                         key={source}
-                        name={source}
-                        initialHeadlines={sources[source].headlines}
-                        country={country}
-                        locale={locale}
-                        data={getSourceData(country, source)}
-                        date={date}
+                        headlines={managedSources[source].headlines}
+                        {...{ source, country, locale, date, isLoading }}
                     />
-                </Suspense>
             ))}
-            <Suspense fallback={
-                <div className="animate-pulse bg-neutral-100 dark:bg-neutral-500 h-[300px]" />
-            }>
-                <AddSourceButton {...{ locale, country, sources }} />
-            </Suspense>
+            <AddSourceButton {...{ locale, country, sources }} />
         </div>
     );
 }

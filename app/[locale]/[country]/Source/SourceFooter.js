@@ -4,7 +4,7 @@ import { Languages } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
-export function SourceFooter({ name, headline, url, headlines }) {
+export function SourceFooter({ source, headline, url, headlines }) {
     const { translate, toggleTranslate } = useTranslate();
     const params = useParams();
     const { locale, country } = params;
@@ -46,7 +46,7 @@ export function SourceFooter({ name, headline, url, headlines }) {
     }
 
     const clickTranslate = () => {
-        toggleTranslate(name)
+        toggleTranslate(source)
     }
 
     return (
@@ -64,7 +64,7 @@ export function SourceFooter({ name, headline, url, headlines }) {
                     <>
                         <div className="w-px h-4 bg-gray-200 mx-1"></div>
                         <IconButton onClick={clickTranslate}>
-                            <Languages size={16} color={translate.includes(name) || translate.includes('ALL') ? 'blue' : 'gray'} />
+                            <Languages size={16} color={translate.includes(source) || translate.includes('ALL') ? 'blue' : 'gray'} />
                         </IconButton>
                     </>
                 )}

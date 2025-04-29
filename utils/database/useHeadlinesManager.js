@@ -39,6 +39,8 @@ export default function useHeadlinesManager(country, initialHeadlines, active) {
 
         getRecentHeadlines()
 
+
+
         const website_id = initialHeadlines[0].website_id;
         const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
         const q = firebase.firestore.query(
@@ -64,11 +66,11 @@ export default function useHeadlinesManager(country, initialHeadlines, active) {
 
     }, [firebase.ready, active]);
 
-    useEffect(() => {
-        if (!firebase.db || !dates.current || !day) return;
-        getDayHeadlines(day);
-        getDayHeadlines(sub(new Date(day + ' UTC'), { days: 1 }).toDateString());
-    }, [firebase.db, day]);
+    // useEffect(() => {
+    //     if (!firebase.db || !dates.current || !day) return;
+    //     getDayHeadlines(day);
+    //     getDayHeadlines(sub(new Date(day + ' UTC'), { days: 1 }).toDateString());
+    // }, [firebase.db, day]);
 
 
 
@@ -92,28 +94,28 @@ export default function useHeadlinesManager(country, initialHeadlines, active) {
     }
 
     // functions
-    const getDayHeadlines = async (dayString) => {
-        if (dates.current.includes(dayString)) return;
+    // const getDayHeadlines = async (dayString) => {
+    //     if (dates.current.includes(dayString)) return;
 
-        const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
-        const website_id = initialHeadlines[0].website_id;
+    //     const headlinesCollection = firebase.getCountryCollectionRef(country, 'headlines');
+    //     const website_id = initialHeadlines[0].website_id;
 
-        const dayDate = new Date(dayString + ' UTC');
-        const theDay = endOfDay(dayDate);
-        const dayBefore = sub(theDay, { days: 1 });
-        const q = firebase.firestore.query(
-            headlinesCollection,
-            firebase.firestore.where('timestamp', '>=', dayBefore),
-            firebase.firestore.where('timestamp', '<=', theDay),
-            firebase.firestore.where('website_id', '==', website_id),
-            firebase.firestore.orderBy('timestamp', 'desc'),
-        );
-        let newHeadlines = await firebase.firestore.getDocs(q);
-        if (newHeadlines.empty) return [];
-        newHeadlines = newHeadlines.docs.map(headline => firebase.prepareData(headline));
-        addHeadlines(newHeadlines);
-        dates.current.push(dayString);
-    }
+    //     const dayDate = new Date(dayString + ' UTC');
+    //     const theDay = endOfDay(dayDate);
+    //     const dayBefore = sub(theDay, { days: 1 });
+    //     const q = firebase.firestore.query(
+    //         headlinesCollection,
+    //         firebase.firestore.where('timestamp', '>=', dayBefore),
+    //         firebase.firestore.where('timestamp', '<=', theDay),
+    //         firebase.firestore.where('website_id', '==', website_id),
+    //         firebase.firestore.orderBy('timestamp', 'desc'),
+    //     );
+    //     let newHeadlines = await firebase.firestore.getDocs(q);
+    //     if (newHeadlines.empty) return [];
+    //     newHeadlines = newHeadlines.docs.map(headline => firebase.prepareData(headline));
+    //     addHeadlines(newHeadlines);
+    //     dates.current.push(dayString);
+    // }
 
     // const getRecentHeadlines = async (countryName, fromTime) => {
     //     const headlinesCollection = getCountryCollectionRef(countryName, 'headlines');

@@ -10,25 +10,25 @@ import Subtitle from "./Subtitle";
 import dynamic from "next/dynamic";
 import { useFont, useTime, useTranslate, useActiveWebsites } from "@/utils/store";
 import { checkRTL, choose } from "@/utils/utils";
-import useHeadlinesManager from "@/utils/database/useHeadlinesManager";
 import TranslatedLabel from "./TranslatedLabel";
+import { getSourceData } from "@/utils/sources/getCountryData";
 
 const SourceSlider = dynamic(() => import('./SourceSlider'));
 
 const randomFontIndex = Math.floor(Math.random() * 100)
 
-export default function SourceCard({ name, initialHeadlines, country, locale, data, date: pageDate }) {
+export default function SourceCard({ source, headlines, country, locale, isLoading}) {
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
-    const [headline, setHeadline] = useState(initialHeadlines[0]);
+    const [headline, setHeadline] = useState(headlines[0]);
     const [translations, setTranslations] = useState({});
-    const websites = useActiveWebsites(state => state.activeWebsites)
-    const { headlines, loading } = useHeadlinesManager(country, initialHeadlines, pageDate === null && websites.includes(name));
+    const websites = useActiveWebsites(state => state.activeWebsites);
     const [isPresent, setIsPresent] = useState(true);
-    const [isLoading, setIsLoading] = useState(true);
 
-    const shouldTranslate = useMemo(() => translate.includes(name) || translate.includes('ALL'), [translate, name]);
+    const sourceData = useMemo(() => getSourceData(country, source), [country, source])
+
+    const shouldTranslate = useMemo(() => translate.includes(source) || translate.includes('ALL'), [translate, source]);
 
     const randomBgOpacity = useMemo(() => {
         const opacities = ['bg-opacity-20', 'bg-opacity-30', 'bg-opacity-40', 'bg-opacity-50', 'bg-opacity-60', 'bg-opacity-70', 'bg-opacity-80', 'bg-opacity-90'];
@@ -54,25 +54,18 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
                 setTranslations((prev) => ({ ...prev, [headline.id]: resData }))
             })();
         }
-    }, [shouldTranslate, headline, name, translations]);
+    }, [shouldTranslate, headline, source, translations]);
 
     useEffect(() => {
-        // Calculate isPresent on the client side only
         setIsPresent(new Date() - date < 60 * 1000 * 5);
     }, [date]);
 
-    useEffect(() => {
-        if (headlines && headlines.length > 0) {
-            setIsLoading(false);
-        }
-    }, [headlines]);
-
     let displayHeadline = { ...headline };
-    let displayName = data.name
+    let displayName = sourceData.name
     if (shouldTranslate && translations[headline.id]) {
         displayHeadline.headline = translations[headline.id].headline;
         displayHeadline.subtitle = translations[headline.id].subtitle;
-        displayName = checkRTL(translations[headline.id].headline) ? data.translations.he : data.translations.en
+        displayName = checkRTL(translations[headline.id].headline) ? sourceData.translations.he : sourceData.translations.en
     } else if (shouldTranslate && !translations[headline.id]) {
         displayHeadline = { headline: '', subtitle: '' }
     }
@@ -101,9 +94,11 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
         return typo;
     }, [font, country, isRTL, shouldTranslate, locale]);
 
-    const index = websites.length > 0 ? websites.indexOf(name) : 1
+    const index = websites.length > 0 ? websites.indexOf(source) : 1
     if (index == -1) return null;
 
+
+    
     return (
         <div style={{ order: index }}
             className={`source-card group col-span-1
@@ -116,22 +111,21 @@ export default function SourceCard({ name, initialHeadlines, country, locale, da
             ${shouldTranslate ? 'bg-white shadow-lg border border-dotted' : ''}
         `}>
             <TranslatedLabel locale={locale} active={shouldTranslate} className="group-hover:opacity-0" />
-            <CloseButton name={name} isRTL={isRTL} className="z-[2]" />
+            <CloseButton name={source} isRTL={isRTL} className="z-[2]" />
             <div className="flex flex-col h-full justify-normal sm:justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
                     <SourceName
                         name={displayName}
-                        typography={typography}
-                        description={data.description}
-                        date={date}
-                        isLoading={isLoading}
+                        description={sourceData.description}
+                        {...{typography, date, isLoading}}
                     />
-                    <Headline headline={displayHeadline} typography={typography} loading={loading} />
+                    <Headline headline={displayHeadline} 
+                        {...{typography, isLoading}} />
                 </div>
                 <div>
                     <Subtitle headlineData={displayHeadline} />
                     <SourceSlider headlines={headlines} />
-                    <SourceFooter url={headlines[0].link} {...{ headline, headlines, name }} />
+                    <SourceFooter url={headlines[0].link} {...{ headline, headlines, source }} />
                 </div>
             </div>
         </div>
