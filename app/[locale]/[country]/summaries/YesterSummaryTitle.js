@@ -5,7 +5,7 @@ import { getHeadline } from "@/utils/daily summary utils";
 import { useTime } from "@/utils/store";
 import { Skeleton } from "@mui/material";
 import { isToday, sub } from "date-fns";
-import { createDateString } from "../TopBar/settings/DateSelector";
+import { createDateString } from '@/utils/utils';
 
 export default function YesterdaySummaryTitle({ locale, country, summary, day, initialDailySummaries }) {
     const setDate = useTime(state => state.setDate);

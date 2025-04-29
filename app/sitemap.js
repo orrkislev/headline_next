@@ -1,5 +1,5 @@
 import { countries } from "@/utils/sources/countries"
-import { createDateString } from "./[locale]/[country]/TopBar/settings/DateSelector"
+import { createDateString } from "@/utils/utils"
 
 export default function sitemap() {
     const res = []

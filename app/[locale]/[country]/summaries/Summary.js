@@ -1,10 +1,9 @@
 'use client'
 
 import { useTime, useTranslate } from '@/utils/store';
-import { red } from '@mui/material/colors';
+import { createDateString } from '@/utils/utils';
 import { redirect } from 'next/navigation';
 import { useRef, useEffect } from 'react';
-import { createDateString } from '../TopBar/settings/DateSelector';
 
 export default function Summary({ summary, country, active, locale, yesterday }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage)
