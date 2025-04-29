@@ -9,7 +9,7 @@ import { useDaySummaries } from "@/utils/database/useSummariesManager";
 import { CustomSlider_Source } from "./Source/SourceSlider";
 import useMobile from "@/components/useMobile";
 
-export default function SideSlider({ locale, country, date: pageDate }) {
+export default function SideSlider({ locale, country, pageDate }) {
     const summaries = useDaySummaries(state => state.daySummaries);
     const date = useTime(state => state.date);
     const setDate = useTime(state => state.setDate);

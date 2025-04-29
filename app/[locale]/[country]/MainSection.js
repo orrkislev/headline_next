@@ -7,9 +7,9 @@ import useWebsitesManager from "@/utils/useWebsites";
 import useSourcesManager from "@/utils/database/useSourcesManager";
 
 
-export default function MainSection({ sources, country, locale, date }) {
+export default function MainSection({ sources, country, locale, pageDate }) {
     useWebsitesManager(country, sources)
-    const { sources: managedSources, loading: isLoading } = useSourcesManager(country, sources, !Boolean(date));
+    const { sources: managedSources, loading: isLoading } = useSourcesManager(country, sources, !Boolean(pageDate));
 
     return (
         <div className={`custom-scrollbar 
@@ -26,7 +26,7 @@ export default function MainSection({ sources, country, locale, date }) {
                     <SourceCard 
                         key={source}
                         headlines={managedSources[source].headlines}
-                        {...{ source, country, locale, date, isLoading }}
+                        {...{ source, country, locale, isLoading }}
                     />
             ))}
             <AddSourceButton {...{ locale, country, sources }} />

@@ -19,7 +19,7 @@ const calculateDisplaySummaries = (day, summaries) => {
     return [...daySummaries, lastSummaryDayBefore]
 }
 
-export default function SummariesSection({ initialSummaries, locale, country, initialDailySummaries, date: pageDate }) {
+export default function SummariesSection({ initialSummaries, locale, country, initialDailySummaries, pageDate }) {
     // const dailySummaries = useDailySummariesManager(country, initialDailySummaries, pageDate != null);
     // const dailySummaries = initialDailySummaries
     // const setDailySummary = useDailySummary(state => state.setDailySummary);

@@ -52,7 +52,7 @@ export default async function Page({ params }) {
                 initialDailySummaries,
                 locale,
                 country,
-                date: parsedDate
+                pageDate: parsedDate
             }}
         />
     </>

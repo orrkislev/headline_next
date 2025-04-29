@@ -1,16 +1,13 @@
 'use client'
 
-import { useTime } from "@/utils/store";
 import ResetTimerButton from "./Slider/ResetTimerButton";
 import Flag from "./TopBar/Flag";
 import TimeDisplay from "./TopBar/TimeDisplay";
 import { PublicOutlined } from "@mui/icons-material";
-import Link from "next/link";
 import useMobile from "@/components/useMobile";
 import InnerLink from "@/components/InnerLink";
 
-export default function MobileBar({ locale, country }) {
-    const { date, setDate } = useTime();
+export default function MobileBar({ locale, country, pageDate }) {
     const isMobile = useMobile();
     
     if (!isMobile) return null;
@@ -24,7 +21,7 @@ export default function MobileBar({ locale, country }) {
             </div>
             <div className="flex flex-1 justify-between items-center">
                 <TimeDisplay locale={locale} />
-                <ResetTimerButton {...{ date, setDate, locale, country }} />
+                <ResetTimerButton {...{ locale, country, pageDate }} />
             </div>
         </div>
     )

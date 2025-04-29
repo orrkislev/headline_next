@@ -21,7 +21,7 @@ export default function ResetTimerButton({ locale, country, className, pageDate 
     }, [isPresent, setDate]);
 
     useEffect(() => {
-        if (!pageDate) return;
+        if (pageDate) return;
         const handleVisibilityChange = () => {
             if (document.visibilityState === "visible") setDate(new Date());
         };
