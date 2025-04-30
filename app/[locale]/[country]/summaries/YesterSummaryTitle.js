@@ -2,13 +2,11 @@
 
 import InnerLink from "@/components/InnerLink";
 import { getHeadline } from "@/utils/daily summary utils";
-import { useTime } from "@/utils/store";
 import { Skeleton } from "@mui/material";
 import { isToday, sub } from "date-fns";
 import { createDateString } from '@/utils/utils';
 
-export default function YesterdaySummaryTitle({ locale, country, summary, day, initialDailySummaries }) {
-    const setDate = useTime(state => state.setDate);
+export default function YesterdaySummaryTitle({ locale, country, day, initialDailySummaries }) {
 
     const yesterday = sub(new Date(day + 'UTC'), { days: 1 }).toISOString().split('T')[0];
     const yesterdaySummary = initialDailySummaries.find(summary => summary.date === yesterday);

@@ -1,4 +1,5 @@
 export const getHeadline = (dailySummary, locale) => {
+    // console.log('getHeadline', dailySummary, locale);
     let selectedHeadline;
 
     if (!dailySummary) {
@@ -14,6 +15,8 @@ export const getHeadline = (dailySummary, locale) => {
     } else {
         selectedHeadline = dailySummary.headline?.split('\n')[0];
     }
+
+    // console.log('selectedHeadline', selectedHeadline);
 
     return selectedHeadline;
 };

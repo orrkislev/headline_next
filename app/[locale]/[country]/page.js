@@ -32,6 +32,8 @@ export default async function Page({ params }) {
         await getCountryDailySummary(country, sub(today, { days: 2 }))
     ].filter(summary => summary);
 
+    // console.log('initialDailySummaries', initialDailySummaries);
+
     const sources = {};
     headlines.forEach(headline => {
         const sourceName = getWebsiteName(country, headline.website_id);

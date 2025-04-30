@@ -1,7 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import useFirebase from "./useFirebase";
-import { useTime } from "../store";
-import { sub } from "date-fns";
 import { create } from "zustand";
 
 export const useDaySummaries = create(set => ({
@@ -9,13 +7,11 @@ export const useDaySummaries = create(set => ({
     setDaySummaries: (newSummaries) => set({ daySummaries: newSummaries })
 }))
 
-export default function useSummariesManager(country, initialSummaries,active) {
+export default function useSummariesManager(country, initialSummaries, enabled = true) {
+
     const [summaries, setSummaries] = useState(initialSummaries);
-    const date = useTime(state => state.date);
-    const [day, setDay] = useState(date ? date.toDateString() : new Date().toDateString());
-    const dates = useRef()
     const firebase = useFirebase()
-    const setDailySummaries = useDaySummaries(state => state.setDaySummaries)
+    const setDaySummaries = useDaySummaries(state => state.setDaySummaries)
 
     const addSummaries = (newSummaries) => {
         setSummaries(prev => {
@@ -25,46 +21,38 @@ export default function useSummariesManager(country, initialSummaries,active) {
     }
 
     useEffect(() => {
-        if (date) setDay(date.toDateString());
-    }, [date])
-
-    useEffect(() => {
         setSummaries(initialSummaries)
-        const initialDates = initialSummaries.reduce((acc, summary) => {
-            const date = summary.timestamp.toDateString()
-            if (!acc.includes(date)) acc.push(date)
-            return acc
-        }, [])
-        dates.current = initialDates
     }, [initialSummaries])
 
-    useEffect(() => {
-        if (!active) return
-        if (!firebase.db || !dates.current || !day) return
-        const dayDate = new Date(day)
-        getDaySummaries(dayDate)
-        getDaySummaries(sub(dayDate, { days: 1 }))
-    }, [firebase.db, day, active])
+    useEffect(()=>{
+        setDaySummaries(summaries)
+    }, [summaries])
 
     useEffect(() => {
-        if (!active) return
-        if (!firebase.db) return
+        if (!enabled) return
+        if (!firebase.ready) return
+
+        getRecentSummaries()
+
         const unsubscribe = firebase.subscribeToSummaries(country, (newSummary) => {
             addSummaries(newSummary)
         })
-        return unsubscribe
-    }, [firebase.db, active])
 
-    useEffect(() => {
-        const daySummaries = summaries.filter(summary => summary.timestamp.toDateString() === day);
-        setDailySummaries(daySummaries)
-    }, [summaries, day])
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "visible") getRecentSummaries()
+        }
+        document.addEventListener("visibilitychange", handleVisibilityChange)
+        return () => {
+            unsubscribe()
+            document.removeEventListener("visibilitychange", handleVisibilityChange)
+        }
+    }, [firebase.ready, country, enabled])
 
-    const getDaySummaries = async (dayDate) => {
-        if (!dates.current.includes(dayDate.toDateString())) {
-            const summaries = await firebase.getCountryDaySummaries(country, dayDate)
-            addSummaries(summaries)
-            dates.current.push(dayDate.toDateString())
+    const getRecentSummaries = async () => {
+        const latestSummariTime = summaries.length > 0 ? summaries[0].timestamp : new Date()
+        const newSummaries = await firebase.getRecentSummaries(country, latestSummariTime)
+        if (newSummaries.length > 0) {
+            addSummaries(newSummaries)
         }
     }
 

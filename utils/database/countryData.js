@@ -157,6 +157,7 @@ export const subscribeToSummaries = (countryName, callback) => {
 // ---------------------------------------------------
 
 export const getCountryDailySummary = cache(async (countryName, day) => {
+  // console.log('getting daily summary for', countryName, day);
   const date = new Date(day);
   const dateString = date.toISOString().split('T')[0];
 
