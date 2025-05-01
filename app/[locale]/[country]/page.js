@@ -27,12 +27,7 @@ export default async function Page({ params }) {
     const today = new Date()
     const headlines = await getCountryDayHeadlines(country, today, 2);
     const initialSummaries = await getCountryDaySummaries(country, today, 2);
-    const initialDailySummaries = [
-        await getCountryDailySummary(country, sub(today, { days: 1 })),
-        await getCountryDailySummary(country, sub(today, { days: 2 }))
-    ].filter(summary => summary);
-
-    // console.log('initialDailySummaries', initialDailySummaries);
+    const yesterdaySummary = await getCountryDailySummary(country, sub(today, { days: 1 }))
 
     const sources = {};
     headlines.forEach(headline => {
@@ -53,7 +48,7 @@ export default async function Page({ params }) {
         <CountryPageContent 
             {...{ sources, 
                 initialSummaries, 
-                initialDailySummaries, 
+                yesterdaySummary, 
                 locale, 
                 country }}
         />

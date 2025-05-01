@@ -54,11 +54,11 @@ export async function createMetadata(params) {
     };
 }
 
-export function LdJson({ country, locale, date, dailySummary }) {
+export function LdJson({ country, locale, date, daySummary }) {
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
 
-    const headline = dailySummary ? getHeadline(dailySummary, locale) : '';
+    const headline = daySummary ? getHeadline(daySummary, locale) : '';
     const siteName = 'The Hear';
     const title = `${countryName} ${date}: ${headline} | ${siteName}`;
 

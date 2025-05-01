@@ -28,13 +28,8 @@ export default async function Page({ params }) {
 
     const headlines = await getCountryDayHeadlines(country, parsedDate, 1);
     const initialSummaries = await getCountryDaySummaries(country, parsedDate, 1);
-    const initialDailySummaries = [
-        await getCountryDailySummary(country, parsedDate),
-        await getCountryDailySummary(country, add(parsedDate, { days: 1 })),
-    ].filter(s => s);
-
-    if (initialSummaries.length === 0 && initialDailySummaries.length === 0)
-        return 'No data found for this date.';
+    const daySummary = await getCountryDailySummary(country, parsedDate)
+    const yesterdaySummary = await getCountryDailySummary(country, add(parsedDate, { days: 1 }))
 
     const sources = {};
     headlines.forEach(headline => {
@@ -44,12 +39,13 @@ export default async function Page({ params }) {
     });
 
     return <>
-        <LdJson {...{ country, locale }} date={parsedDate} dailySummary={initialDailySummaries[initialDailySummaries.length-1]}/>
+        <LdJson {...{ country, locale, daySummary}} date={parsedDate}/>
         <CountryPageContent
             {...{
                 sources,
                 initialSummaries,
-                initialDailySummaries,
+                daySummary,
+                yesterdaySummary,
                 locale,
                 country,
                 pageDate: parsedDate

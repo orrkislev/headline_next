@@ -4,17 +4,13 @@ import { useEffect, useState } from 'react';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { Collapse, IconButton } from '@mui/material';
 import { getHeadline, getSummaryContent } from '@/utils/daily summary utils';
-import { useDailySummary } from '@/utils/database/useDailySummariesManager';
 import { useTime } from '@/utils/store';
 
-export default function DailySummary({ locale, initialDailySummaries }) {
+export default function DailySummary({ locale, daySummary }) {
     const [expanded, setExpanded] = useState(false);
-    // const dailySummary = useDailySummary(state => state.dailySummary);
-    // const dayString = useDailySummary(state => state.day);
 
     const dayString = useTime(state => state.date.toISOString().split('T')[0]);
-    const dailySummary = initialDailySummaries.find(summary => summary.date === dayString);
-    if (!dailySummary) return null;
+    if (!daySummary) return null;
 
     // Format date as dd.mm.yyyy
     const formattedDate = new Date(dayString)
@@ -25,8 +21,8 @@ export default function DailySummary({ locale, initialDailySummaries }) {
         })
         .replace(/\//g, '.');
 
-    const headline = getHeadline(dailySummary, locale);
-    const summaryContent = getSummaryContent(dailySummary, locale);
+    const headline = getHeadline(daySummary, locale);
+    const summaryContent = getSummaryContent(daySummary, locale);
 
     return (
         <div className="bg-neutral-100 w-full rounded-sm hover:shadow-xl">

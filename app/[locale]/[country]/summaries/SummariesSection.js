@@ -2,7 +2,7 @@
 
 import Disclaimer from "@/components/Disclaimer";
 import SummariesList from "./SummariesList";
-import YesterdaySummaryTitle from "./YesterSummaryTitle";
+import YesterdaySummary from "./YesterdaySummary";
 import { useTime } from "@/utils/store";
 import { useEffect, useState } from "react";
 import useSummariesManager from "@/utils/database/useSummariesManager";
@@ -17,8 +17,8 @@ const calculateDisplaySummaries = (day, summaries) => {
     return [...daySummaries, lastSummaryDayBefore]
 }
 
-export default function SummariesSection({ initialSummaries, locale, country, initialDailySummaries, pageDate }) {
-    const summaries = useSummariesManager(country,initialSummaries, !Boolean(pageDate));
+export default function SummariesSection({ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate }) {
+    const summaries = useSummariesManager(country, initialSummaries, !Boolean(pageDate));
     
     const date = useTime(state => state.date);
     const [day, setDay] = useState(new Date().toDateString());
@@ -40,10 +40,10 @@ export default function SummariesSection({ initialSummaries, locale, country, in
 
     return (
         <>
-            <DailySummary {...{locale, initialDailySummaries}}/>
+            {daySummary && <DailySummary {...{locale, daySummary}} />}
             <SummariesList summaries={displaySummaries} {...{ activeSummaryId, locale, country}} />
             <div className='py-2 bg-white border-t border-gray-200'>
-                <YesterdaySummaryTitle {...{ locale, country, day, initialDailySummaries }} summary={displaySummaries[displaySummaries.length - 1]} />
+                <YesterdaySummary {...{ locale, country, yesterdaySummary, pageDate}} />
                 <Disclaimer {...{ locale }} />
             </div>
         </>

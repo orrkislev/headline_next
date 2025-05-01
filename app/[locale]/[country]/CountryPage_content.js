@@ -6,7 +6,7 @@ import { getTypographyOptions } from "@/utils/typography/typography";
 import MainSection from "./MainSection";
 import HebrewFonts from "@/utils/typography/HebrewFonts";
 
-export default function CountryPageContent({ sources, initialSummaries, initialDailySummaries, locale, country, pageDate }) {
+export default function CountryPageContent({ sources, initialSummaries, yesterdaySummary, daySummary, locale, country, pageDate }) {
     const typography = getTypographyOptions(country);
 
     return (
@@ -16,7 +16,7 @@ export default function CountryPageContent({ sources, initialSummaries, initialD
             <typography.component />
             <SideSlider {...{ locale, country, pageDate }} />
             <div className={`flex-[1 sm:border-l sm:border-r border-gray-200 flex max-w-[400px] `}>
-                <RightPanel {...{ initialSummaries, locale, country, initialDailySummaries, pageDate }} />
+                <RightPanel {...{ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate }} />
             </div>
 
             <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">

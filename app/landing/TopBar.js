@@ -18,7 +18,11 @@ export default function TopBar() {
 
   const handleLinkClick = (href, region) => {
     setLoadingRegion(region);
-    router.push(href).then(() => setLoadingRegion(null));
+    // router.push(href).then(() => setLoadingRegion(null));
+    setTimeout(() => {
+      router.push(href);
+      setLoadingRegion(null);
+    }, 1000); // Simulate loading time
   };
 
   return (

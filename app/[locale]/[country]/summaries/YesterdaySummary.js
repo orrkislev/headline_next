@@ -3,25 +3,25 @@
 import InnerLink from "@/components/InnerLink";
 import { getHeadline } from "@/utils/daily summary utils";
 import { Skeleton } from "@mui/material";
-import { isToday, sub } from "date-fns";
+import { sub } from "date-fns";
 import { createDateString } from '@/utils/utils';
 
-export default function YesterdaySummaryTitle({ locale, country, day, initialDailySummaries }) {
-
-    const yesterday = sub(new Date(day + 'UTC'), { days: 1 }).toISOString().split('T')[0];
-    const yesterdaySummary = initialDailySummaries.find(summary => summary.date === yesterday);
-
+export default function YesterdaySummary({ locale, country, yesterdaySummary, pageDate}) {
+    
     let headline = <Skeleton variant="text" width={200} />;
     if (yesterdaySummary) headline = getHeadline(yesterdaySummary, locale);
-
-    const yesterdayString = locale == 'heb' ? 'אתמול' : 'Yesterday';
-    const dateString = isToday(new Date(day + 'UTC'))
-        ? yesterdayString
-        : <span className="font-['GeistMono']">{new Date(yesterday + 'UTC').toLocaleDateString('en-GB').replace(/\//g, '.')}</span>;
-
-    const yesterdayDate = new Date(yesterday + 'UTC');
+    
+    
+    const yesterdayDate = sub(pageDate ? new Date(pageDate) : new Date(), { days: 1 });
     yesterdayDate.setHours(23, 59);
 
+    let dateString
+    if (pageDate){
+        dateString = <span className="font-['GeistMono']">{yesterdayDate.toLocaleDateString('en-GB').replace(/\//g, '.')}</span>;
+    } else {
+        dateString = locale == 'heb' ? 'אתמול' : 'Yesterday';
+    }
+        
     return (
         <InnerLink href={`/${locale}/${country}/${createDateString(yesterdayDate)}`}>
             <h2 className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer ${locale === 'heb' ? 'text-lg' : 'text-base'} text-blue ${locale === 'en'
