@@ -9,8 +9,6 @@ import HebrewFonts from "@/utils/typography/HebrewFonts";
 export default function CountryPageContent({ sources, initialSummaries, yesterdaySummary, daySummary, locale, country, pageDate }) {
     const typography = getTypographyOptions(country);
 
-    console.log('CountryPageContent', { sources, initialSummaries, yesterdaySummary, daySummary, locale, country, pageDate });
-
     return (
         <div className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
             <EnglishFonts />

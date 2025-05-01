@@ -1,8 +1,6 @@
-// app/[locale]/[country]/[date]/page.js
 import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
-import { add, isToday, parse } from "date-fns";
-import { countries } from "@/utils/sources/countries";
-import CountryPageContent from "../CountryPage_content"; // adjust if needed
+import { isToday, parse, sub } from "date-fns";
+import CountryPageContent from "../CountryPage_content"; 
 import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { redirect } from "next/navigation";
 import { createMetadata, LdJson } from "./metadata";
@@ -29,7 +27,7 @@ export default async function Page({ params }) {
     const headlines = await getCountryDayHeadlines(country, parsedDate, 1);
     const initialSummaries = await getCountryDaySummaries(country, parsedDate, 1);
     const daySummary = await getCountryDailySummary(country, parsedDate)
-    const yesterdaySummary = await getCountryDailySummary(country, add(parsedDate, { days: 1 }))
+    const yesterdaySummary = await getCountryDailySummary(country, sub(parsedDate, { days: 1 }))
 
     const sources = {};
     headlines.forEach(headline => {
