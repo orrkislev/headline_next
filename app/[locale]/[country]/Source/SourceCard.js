@@ -38,7 +38,7 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
     useEffect(() => {
         if (!headlines) return;
         if (!date) return;
-        setHeadline(headlines.find(({ timestamp }) => timestamp < date));
+        setHeadline(headlines.find(({ timestamp }) => timestamp <= date));
     }, [headlines, date]);
 
     useEffect(() => {
@@ -124,7 +124,7 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
                 </div>
                 <div>
                     <Subtitle headlineData={displayHeadline} />
-                    <SourceSlider headlines={headlines} />
+                    <SourceSlider {...{locale,country,headlines}} />
                     <SourceFooter url={headlines[0].link} {...{ headline, headlines, source }} />
                 </div>
             </div>

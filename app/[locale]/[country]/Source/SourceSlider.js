@@ -4,8 +4,10 @@ import { useEffect, useState, useMemo } from "react";
 import { IconButton, Slider, styled } from "@mui/material";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { useTime } from "@/utils/store";
+import { createDateString } from "@/utils/utils";
+import { redirect } from "next/navigation";
 
-export default function SourceSlider({ headlines }) {
+export default function SourceSlider({ locale, country, headlines }) {
     const date = useTime((state) => state.date);
     const setDate = useTime((state) => state.setDate);
     const [day, setDay] = useState(date.toDateString());
@@ -31,9 +33,18 @@ export default function SourceSlider({ headlines }) {
     const nextHeadline = headlines.filter(({ timestamp }) => timestamp > sliderDate).pop();
     const prevHeadline = headlines.find(({ timestamp }) => timestamp < sliderDate);
 
+    const goToHeadline = (headline) => {
+        if (!headline) return;
+        if (sliderDate.toDateString() === headline.timestamp.toDateString()) {
+            setDate(headline.timestamp);
+        } else {
+            redirect(`/${locale}/${country}/${createDateString(headline.timestamp)}`);
+        }
+    }
+
     return (
         <div className="flex flex-row gap-4 justify-between items-center border-t border-b border-gray-200" dir="ltr">
-            <IconButton size="small" disabled={!prevHeadline} onClick={() => setDate(prevHeadline.timestamp)} >
+            <IconButton size="small" disabled={!prevHeadline} onClick={() => goToHeadline(prevHeadline)} >
                 <KeyboardArrowLeft color="gray" />
             </IconButton>
 
@@ -41,7 +52,7 @@ export default function SourceSlider({ headlines }) {
                 min={0} max={24 * 60} value={minutes}
                 marks={marks} />
 
-            <IconButton size="small" disabled={!nextHeadline} onClick={() => setDate(nextHeadline.timestamp)} >
+            <IconButton size="small" disabled={!nextHeadline} onClick={() => goToHeadline(nextHeadline)} >
                 <KeyboardArrowRight color="gray" />
             </IconButton>
         </div >
