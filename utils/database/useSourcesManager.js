@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import useFirebase from "./useFirebase";
 import { getWebsiteName } from "../sources/getCountryData";
+import { useTime } from "../store";
 
 export default function useSourcesManager(country, initialSources, enabled = true) {
 
     const [sources, setSources] = useState(initialSources);
     const firebase = useFirebase();
     const [loading, setLoading] = useState(false);
+    const setDate = useTime(state => state.setDate);
 
     const updateSources = (newHeadlines) => {
         setSources(prevSources => {
@@ -76,6 +78,7 @@ export default function useSourcesManager(country, initialSources, enabled = tru
         if (newHeadlines.empty) return;
         newHeadlines = newHeadlines.docs.map(headline => firebase.prepareData(headline));
         updateSources(newHeadlines);
+        setTimeout(() => setDate(new Date()), 500)
     }
 
     return { sources, loading }
