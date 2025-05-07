@@ -25,7 +25,8 @@ export function DateSelector({ locale, country }) {
     const dateString = todayDate.toLocaleDateString("en-GB")
         .slice(0, 8)
         .replace(/(\d{2})$/, todayDate.getFullYear().toString().slice(2))
-    const label = isToday ? "Today" : `${Math.floor((today - todayDate) / (1000 * 60 * 60 * 24))} days ago`;
+    // ... existing code ...
+        const label = isToday ? <span className="font-geist">Today</span> : `${Math.floor((today - todayDate) / (1000 * 60 * 60 * 24))} days ago`;
 
     const yesterday = sub(todayDate, { days: 1 });
     const tomorrow = isToday ? null : add(todayDate, { days: 1 });

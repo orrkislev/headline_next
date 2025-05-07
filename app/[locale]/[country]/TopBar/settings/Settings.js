@@ -32,7 +32,7 @@ export default function Settings({ locale, country, sources, hideLanguageToggle,
             <div className="">
                 <DateSelector {...{ locale, country }} />
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center font-['Geist']">
                 <LabeledIcon
                     label="Global View"
                     icon={
@@ -59,17 +59,17 @@ export default function Settings({ locale, country, sources, hideLanguageToggle,
                 />
             </div>
             {!shouldHideLanguage && (
-                <div className="flex items-center">
+                <div className="flex items-center font-['Geist']">
                     <LabeledIcon label="Overview Language" icon={<LanguageToggle />} />
                 </div>
             )}
-            <div className="flex items-center">
+            <div className="flex items-center font-['Geist']">
                 <LabeledIcon label="Display Font" icon={<FontToggle country={country} />} />
                 {!shouldHideTranslate && (
                     <LabeledIcon label="Translate Headlines" icon={<TranslateToggle {...{ locale, country, sources }} />} />
                 )}
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center font-['Geist']">
                 <LabeledIcon label="Source Order" icon={<OrderToggle locale={locale} />} />
                 <LabeledIcon label="Sources" icon={<SourcesToggle {...{ country, locale, sources }} />} />
             </div>
