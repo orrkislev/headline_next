@@ -2,13 +2,18 @@ import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
 import { ExpandLess, ExpandMore, PushPin, PushPinOutlined } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGlobalSort } from "@/utils/store";
 
 
 export default function Content({ country, summary, locale, pinned }) {
     const [open, setOpen] = useState(false);
-    const setPinnedCountries = useGlobalSort(state => state.setPinnedCountries)
+    const setPinnedCountries = useGlobalSort(state => state.setPinnedCountries);
+    const allExpanded = useGlobalSort(state => state.allExpanded);
+
+    useEffect(() => {
+        setOpen(allExpanded);
+    }, [allExpanded]);
 
     const minutes = summary.timestamp.getUTCMinutes();
     const hours = summary.timestamp.getUTCHours();
@@ -44,7 +49,7 @@ export default function Content({ country, summary, locale, pinned }) {
                     <p style={{
                         fontFamily: 'monospace',
                         fontWeight: 400,
-                        fontSize: '0.85rem',
+                        fontSize: '0.8rem',
                         padding: 6,
                     }}>{formattedTime}</p>
                     <div className="h-4 w-px bg-gray-300"></div>
@@ -61,12 +66,11 @@ export default function Content({ country, summary, locale, pinned }) {
             </div>
             <Collapse in={open}>
                 <div style={{
-                    fontFamily: 'Geist, sans-serif',
-                    // fontWeight: 400,
+                    fontFamily: locale === 'heb' ? '' : 'roboto, sans-serif',
                     padding: 6,
                     direction: locale === 'heb' ? 'rtl' : 'ltr',
                     textAlign: locale === 'heb' ? 'right' : 'left',
-                    fontSize: '0.93rem',
+                    fontSize: locale === 'heb' ? '0.85rem' : '0.93rem',
                     // lineHeight: 1.4
                 }}>
                     {text.split(/(\([^)]+\))/g).map((part, index) =>

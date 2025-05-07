@@ -168,8 +168,7 @@ export default function LandingPageContent() {
                   ...(mounted ? getResponsiveFontSize() : {})
                 }}
               >
-                <span className="text-blue">The Hear</span> is a newsstand with a brain,
-                meant to fight filter bubbles and foster media literacy.
+                <span className="text-blue">The Hear</span> is a newsstand with a brain.
               </h1>
               <p className="text-sm text-gray-700 font-normal text-center">
                 {/* Main headline description */}
