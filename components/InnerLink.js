@@ -27,7 +27,7 @@ export default function InnerLink({ href, locale, children }) {
             </Link>
             {showProgress && (
                 <div className="fixed top-0 left-0 w-full">
-                    <LinearProgress />
+                    <LinearProgress color="inherit" sx={{ opacity: 0.8 }} />
                 </div>
             )}
         </>
