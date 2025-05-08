@@ -1,11 +1,9 @@
 import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
 import { isToday, parse, sub } from "date-fns";
-import CountryPageContent from "../CountryPage_content";
+import CountryPageContent from "../CountryPage_content"; 
 import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { redirect } from "next/navigation";
 import { createMetadata, LdJson } from "./metadata";
-import { NextStep, NextStepProvider } from "nextstepjs";
-import { getCountryDatePageSteps, getCountryPageSteps } from "./onboarding";
 
 export const revalidate = false; // generate once, never revalidate
 export const dynamicParams = true; // allow on-demand generation
@@ -38,23 +36,18 @@ export default async function Page({ params }) {
         sources[sourceName].headlines.push(headline);
     });
 
-    return (
-        <NextStepProvider>
-            <NextStep steps={getCountryDatePageSteps(country, locale, parsedDate)} >
-                <LdJson {...{ country, locale, daySummary }} date={parsedDate} />
-                <CountryPageContent
-                    {...{
-                        sources,
-                        initialSummaries,
-                        daySummary,
-                        yesterdaySummary,
-                        locale,
-                        country,
-                        pageDate: parsedDate
-                    }}
-                />
-            </NextStep>
-        </NextStepProvider>
-
-    )
+    return <>
+        <LdJson {...{ country, locale, daySummary}} date={parsedDate}/>
+        <CountryPageContent
+            {...{
+                sources,
+                initialSummaries,
+                daySummary,
+                yesterdaySummary,
+                locale,
+                country,
+                pageDate: parsedDate
+            }}
+        />
+    </>
 }
