@@ -7,7 +7,7 @@ export default function useSourcesManager(country, initialSources, enabled = tru
 
     const [sources, setSources] = useState(initialSources);
     const firebase = useFirebase();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const setDate = useTime(state => state.setDate);
 
     const updateSources = (newHeadlines) => {
@@ -42,18 +42,18 @@ export default function useSourcesManager(country, initialSources, enabled = tru
             firebase.firestore.orderBy('timestamp', 'desc'),
             firebase.firestore.limit(1),
         );
-        const unsubscribe = firebase.firestore.onSnapshot(q, snapshot => {
-            if (snapshot.empty) return
-            const headlines = snapshot.docs.map(doc => firebase.prepareData(doc));
-            updateSources(headlines);
-        });
+        // const unsubscribe = firebase.firestore.onSnapshot(q, snapshot => {
+        //     if (snapshot.empty) return
+        //     const headlines = snapshot.docs.map(doc => firebase.prepareData(doc));
+        //     updateSources(headlines);
+        // });
 
         const handleVisibilityChange = () => {
             if (document.visibilityState === "visible") getRecentHeadlines()
         };
         document.addEventListener("visibilitychange", handleVisibilityChange);
         return () => {
-            unsubscribe()
+            // unsubscribe()
             document.removeEventListener("visibilitychange", handleVisibilityChange);
         };
 
@@ -78,7 +78,7 @@ export default function useSourcesManager(country, initialSources, enabled = tru
         if (newHeadlines.empty) return;
         newHeadlines = newHeadlines.docs.map(headline => firebase.prepareData(headline));
         updateSources(newHeadlines);
-        setTimeout(() => setDate(new Date()), 500)
+        setDate(new Date())
     }
 
     return { sources, loading }

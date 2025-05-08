@@ -4,6 +4,8 @@ import { countries } from "@/utils/sources/countries";
 import CountryPageContent from "./CountryPage_content";
 import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { createMetadata, LdJson } from "./metadata";
+import { NextStep, NextStepProvider } from "nextstepjs";
+import { getCountryPageSteps } from "./onboarding";
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
 
@@ -32,7 +34,7 @@ export default async function Page({ params }) {
     const sources = {};
     headlines.forEach(headline => {
         const sourceName = getWebsiteName(country, headline.website_id);
-        if (!sources[sourceName]) sources[sourceName] = {headlines: [], website_id: headline.website_id};
+        if (!sources[sourceName]) sources[sourceName] = { headlines: [], website_id: headline.website_id };
         sources[sourceName].headlines.push(headline);
     });
 
@@ -42,15 +44,21 @@ export default async function Page({ params }) {
 
     const countryName = locale === 'heb' ? countries[country].hebrew || country : countries[country].english || country;
 
-    return <>
-        <LdJson {...{ country, locale }} />
-        <h1 className="sr-only">A Living Newsstand of Main Headlines from {countryName}, functioning as both a control room and an archive</h1>
-        <CountryPageContent 
-            {...{ sources, 
-                initialSummaries, 
-                yesterdaySummary, 
-                locale, 
-                country }}
-        />
-    </>
+    return (
+        <NextStepProvider>
+            <NextStep steps={getCountryPageSteps(country, locale)} >
+                <LdJson {...{ country, locale }} />
+                <h1 className="sr-only">A Living Newsstand of Main Headlines from {countryName}, functioning as both a control room and an archive</h1>
+                <CountryPageContent
+                    {...{
+                        sources,
+                        initialSummaries,
+                        yesterdaySummary,
+                        locale,
+                        country
+                    }}
+                />
+            </NextStep>
+        </NextStepProvider >
+    )
 }

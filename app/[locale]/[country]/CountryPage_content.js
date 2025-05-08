@@ -10,7 +10,7 @@ export default function CountryPageContent({ sources, initialSummaries, yesterda
     const typography = getTypographyOptions(country);
 
     return (
-        <div className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
+        <div id='main' className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
             <EnglishFonts />
             {locale == 'heb' && <HebrewFonts />}
             <typography.component />
