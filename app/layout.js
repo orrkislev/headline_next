@@ -2,6 +2,8 @@
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { Analytics } from "@vercel/analytics/next"
+
 
 export const metadata = {
   title: "The Hear",
@@ -41,6 +43,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <Analytics />
         <GoogleAnalytics />
         <SpeedInsights />
         {/* <WebVitals /> */}
