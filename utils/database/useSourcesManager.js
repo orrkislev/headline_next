@@ -7,7 +7,7 @@ export default function useSourcesManager(country, initialSources, enabled = tru
 
     const [sources, setSources] = useState(initialSources);
     const firebase = useFirebase();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(enabled);
     const setDate = useTime(state => state.setDate);
 
     const updateSources = (newHeadlines) => {
