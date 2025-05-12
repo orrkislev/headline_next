@@ -10,12 +10,10 @@ import { redirect } from "next/navigation";
 export default function SourceSlider({ locale, country, headlines }) {
     const date = useTime((state) => state.date);
     const setDate = useTime((state) => state.setDate);
-    const [day, setDay] = useState(date.toDateString());
     const [sliderDate, setSliderDate] = useState(new Date());
 
     useEffect(() => {
         if (!date) return
-        setDay(date.toDateString());
         const timeout = setTimeout(() => {
             setSliderDate(date);
         }, 200);
@@ -23,10 +21,13 @@ export default function SourceSlider({ locale, country, headlines }) {
     }, [date]);
 
     const marks = useMemo(() => {
-        const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === day);
+        // const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === sliderDate.toDateString());
+        // const newMarks = dayHeadlines.map(({ timestamp }) => timestamp.getHours() * 60 + timestamp.getMinutes());
+        const latestHeadlineDay = headlines[headlines.length - 1].timestamp.toDateString();
+        const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === latestHeadlineDay);
         const newMarks = dayHeadlines.map(({ timestamp }) => timestamp.getHours() * 60 + timestamp.getMinutes());
         return newMarks.map(mark => ({ value: mark, label: null }));
-    }, [headlines, day]);
+    }, [headlines]);
 
     const minutes = sliderDate.getHours() * 60 + sliderDate.getMinutes();
 
