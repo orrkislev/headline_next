@@ -42,18 +42,18 @@ export default function useSourcesManager(country, initialSources, enabled = tru
             firebase.firestore.orderBy('timestamp', 'desc'),
             firebase.firestore.limit(1),
         );
-        // const unsubscribe = firebase.firestore.onSnapshot(q, snapshot => {
-        //     if (snapshot.empty) return
-        //     const headlines = snapshot.docs.map(doc => firebase.prepareData(doc));
-        //     updateSources(headlines);
-        // });
+        const unsubscribe = firebase.firestore.onSnapshot(q, snapshot => {
+            if (snapshot.empty) return
+            const headlines = snapshot.docs.map(doc => firebase.prepareData(doc));
+            updateSources(headlines);
+        });
 
         const handleVisibilityChange = () => {
             if (document.visibilityState === "visible") getRecentHeadlines()
         };
         document.addEventListener("visibilitychange", handleVisibilityChange);
         return () => {
-            // unsubscribe()
+            unsubscribe()
             document.removeEventListener("visibilitychange", handleVisibilityChange);
         };
 
