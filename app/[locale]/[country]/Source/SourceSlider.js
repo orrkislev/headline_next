@@ -23,7 +23,7 @@ export default function SourceSlider({ locale, country, headlines }) {
     const marks = useMemo(() => {
         // const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === sliderDate.toDateString());
         // const newMarks = dayHeadlines.map(({ timestamp }) => timestamp.getHours() * 60 + timestamp.getMinutes());
-        const latestHeadlineDay = headlines[headlines.length - 1].timestamp.toDateString();
+        const latestHeadlineDay = headlines[0].timestamp.toDateString();
         const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === latestHeadlineDay);
         const newMarks = dayHeadlines.map(({ timestamp }) => timestamp.getHours() * 60 + timestamp.getMinutes());
         return newMarks.map(mark => ({ value: mark, label: null }));
