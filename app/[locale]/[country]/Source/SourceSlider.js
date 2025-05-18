@@ -7,7 +7,7 @@ import { useTime } from "@/utils/store";
 import { createDateString } from "@/utils/utils";
 import { redirect } from "next/navigation";
 
-export default function SourceSlider({ locale, country, headlines }) {
+export default function SourceSlider({ locale, country, headlines, pageDate}) {
     const date = useTime((state) => state.date);
     const setDate = useTime((state) => state.setDate);
     const [sliderDate, setSliderDate] = useState(new Date());
@@ -21,10 +21,8 @@ export default function SourceSlider({ locale, country, headlines }) {
     }, [date]);
 
     const marks = useMemo(() => {
-        // const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === sliderDate.toDateString());
-        // const newMarks = dayHeadlines.map(({ timestamp }) => timestamp.getHours() * 60 + timestamp.getMinutes());
-        const latestHeadlineDay = headlines[0].timestamp.toDateString();
-        const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === latestHeadlineDay);
+        const dateString = pageDate ? pageDate.toDateString() : new Date().toDateString();
+        const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === dateString);
         const newMarks = dayHeadlines.map(({ timestamp }) => timestamp.getHours() * 60 + timestamp.getMinutes());
         return newMarks.map(mark => ({ value: mark, label: null }));
     }, [headlines]);

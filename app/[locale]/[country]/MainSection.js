@@ -26,7 +26,7 @@ export default function MainSection({ sources, country, locale, pageDate }) {
                     <SourceCard 
                         key={source}
                         headlines={managedSources[source].headlines}
-                        {...{ source, country, locale, isLoading }}
+                        {...{ source, country, locale, isLoading, pageDate }}
                     />
             ))}
             <AddSourceButton {...{ locale, country, sources }} />

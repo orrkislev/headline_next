@@ -17,7 +17,7 @@ const SourceSlider = dynamic(() => import('./SourceSlider'));
 
 const randomFontIndex = Math.floor(Math.random() * 100)
 
-export default function SourceCard({ source, headlines, country, locale, isLoading}) {
+export default function SourceCard({ source, headlines, country, locale, isLoading, pageDate }) {
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
@@ -98,7 +98,7 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
     if (index == -1) return null;
 
 
-    
+
     return (
         <div style={{ order: index }}
             className={`source-card group col-span-1
@@ -117,14 +117,14 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
                     <SourceName
                         name={displayName}
                         description={sourceData.description}
-                        {...{typography, date, isLoading}}
+                        {...{ typography, date, isLoading }}
                     />
-                    <Headline headline={displayHeadline} 
-                        {...{typography, isLoading}} />
+                    <Headline headline={displayHeadline}
+                        {...{ typography, isLoading }} />
                 </div>
                 <div>
                     <Subtitle headlineData={displayHeadline} />
-                    <SourceSlider {...{locale,country,headlines}} />
+                    <SourceSlider {...{ locale, country, headlines, pageDate }} />
                     <SourceFooter url={headlines[0].link} {...{ headline, headlines, source }} />
                 </div>
             </div>
