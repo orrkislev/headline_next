@@ -8,6 +8,8 @@ import { useTime } from "@/utils/store";
 import { useDaySummaries } from "@/utils/database/useSummariesManager";
 import { CustomSlider_Source } from "./Source/SourceSlider";
 import useMobile from "@/components/useMobile";
+import { redirect } from "next/navigation";
+import { createDateString } from "@/utils/utils";
 
 export default function SideSlider({ locale, country, pageDate }) {
     const summaries = useDaySummaries(state => state.daySummaries);
@@ -18,6 +20,7 @@ export default function SideSlider({ locale, country, pageDate }) {
 
     useEffect(() => {
         if (date) setDay(date.toDateString());
+
     }, [date])
 
     useEffect(() => {
@@ -56,26 +59,35 @@ export default function SideSlider({ locale, country, pageDate }) {
     }, [summaries, day]);
 
     // Filter out future summaries if today
-    const nextSummary = summaries.find(summary =>
+    const nextSummary = summaries.findLast(summary =>
         summary.timestamp > date &&
         (!isToday || summary.timestamp <= now)
     );
-    const prevSummary = summaries.reverse().find(summary => summary.timestamp < date);
+    const prevSummary = summaries.find(summary => summary.timestamp < date);
 
+    const goToSummary = (summary => {
+        if (!summary) return;
+        setDate(summary.timestamp);
+        if (date.toDateString() === summary.timestamp.toDateString()) {
+            setDate(summary.timestamp);
+        } else {
+            redirect(`/${locale}/${country}/${createDateString(summary.timestamp)}`);
+        }
+    })
 
     if (isMobile) return (
         <div className={`fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-gray-200
             flex items-center justify-between py-2 px-1 gap-2`}>
-            <IconButton size="small" onClick={() => nextSummary && setDate(nextSummary.timestamp)} disabled={!nextSummary}>
+            <IconButton size="small" onClick={() => nextSummary && goToSummary(nextSummary)} disabled={!nextSummary}>
                 <KeyboardArrowRight />
             </IconButton>
             <CustomSlider_Source orientation="horizontal" size="small"
-                min={0} max={24 * 60} step={1}
+                min={0} max={24 * 60-1} step={1}
                 onChange={(_, value) => updateDate(value)}
                 value={minutes} marks={marks}
                 sx={{ height: 4 }}
             />
-            <IconButton size="small" onClick={() => prevSummary && setDate(prevSummary.timestamp)} disabled={!prevSummary}>
+            <IconButton size="small" onClick={() => prevSummary && goToSummary(prevSummary)} disabled={!prevSummary}>
                 <KeyboardArrowLeft />
             </IconButton>
         </div>
@@ -83,17 +95,17 @@ export default function SideSlider({ locale, country, pageDate }) {
 
     return (
         <div className={`flex flex-col items-center justify-center ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
-            <ResetTimerButton locale={locale} country={country} pageDate={pageDate}/>
-            <IconButton size="small" onClick={() => nextSummary && setDate(nextSummary.timestamp)} disabled={!nextSummary}>
+            <ResetTimerButton locale={locale} country={country} pageDate={pageDate} />
+            <IconButton size="small" onClick={() => nextSummary && goToSummary(nextSummary)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
             </IconButton>
             <CustomSlider_Side orientation="vertical" size="small"
-                min={0} max={24 * 60} step={1}
+                min={0} max={24 * 60-1} step={1}
                 onChange={(_, value) => updateDate(value)}
                 value={minutes} marks={marks}
                 sx={{ width: 4 }}
             />
-            <IconButton size="small" onClick={() => prevSummary && setDate(prevSummary.timestamp)} disabled={!prevSummary}>
+            <IconButton size="small" onClick={() => prevSummary && goToSummary(prevSummary)} disabled={!prevSummary}>
                 <KeyboardArrowDown />
             </IconButton>
         </div>
