@@ -24,6 +24,7 @@ export default function SourceSlider({ locale, country, headlines, pageDate}) {
         const dateString = pageDate ? pageDate.toDateString() : new Date().toDateString();
         const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === dateString);
         const newMarks = dayHeadlines.map(({ timestamp }) => timestamp.getHours() * 60 + timestamp.getMinutes());
+        console.log(`generated ${newMarks.length} marks for ${dateString}`);
         return newMarks.map(mark => ({ value: mark, label: null }));
     }, [headlines]);
 

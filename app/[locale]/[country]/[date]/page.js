@@ -1,9 +1,11 @@
 import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
-import { isToday, parse, sub } from "date-fns";
-import CountryPageContent from "../CountryPage_content"; 
+import { isSameDay, isToday, parse, sub } from "date-fns";
+import CountryPageContent from "../CountryPage_content";
 import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { redirect } from "next/navigation";
 import { createMetadata, LdJson } from "./metadata";
+import { countries } from "@/utils/sources/countries";
+
 
 export const revalidate = false; // generate once, never revalidate
 export const dynamicParams = true; // allow on-demand generation
@@ -21,7 +23,9 @@ export default async function Page({ params }) {
     const { country, locale, date } = await params;
 
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
-    if (isToday(parsedDate) || parsedDate > new Date() || isNaN(parsedDate.getTime()))
+    const timezone = countries[country]?.timezone || 'UTC';
+    const todayInTimezone = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
+    if (isSameDay(parsedDate, todayInTimezone) || parsedDate > new Date() || isNaN(parsedDate.getTime()))
         redirect(`/${locale}/${country}`);
 
     const headlines = await getCountryDayHeadlines(country, parsedDate, 1);
@@ -37,7 +41,7 @@ export default async function Page({ params }) {
     });
 
     return <>
-        <LdJson {...{ country, locale, daySummary}} date={parsedDate}/>
+        <LdJson {...{ country, locale, daySummary }} date={parsedDate} />
         <CountryPageContent
             {...{
                 sources,
