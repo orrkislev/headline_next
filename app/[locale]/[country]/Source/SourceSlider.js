@@ -7,7 +7,7 @@ import { useTime } from "@/utils/store";
 import { createDateString } from "@/utils/utils";
 import { redirect } from "next/navigation";
 
-export default function SourceSlider({ locale, country, headlines, pageDate}) {
+export default function SourceSlider({ locale, country, headlines, pageDate }) {
     const date = useTime((state) => state.date);
     const setDate = useTime((state) => state.setDate);
     const [sliderDate, setSliderDate] = useState(new Date());
@@ -24,7 +24,6 @@ export default function SourceSlider({ locale, country, headlines, pageDate}) {
         const dateString = pageDate ? pageDate.toDateString() : new Date().toDateString();
         const dayHeadlines = headlines.filter(({ timestamp }) => timestamp.toDateString() === dateString);
         const newMarks = dayHeadlines.map(({ timestamp }) => timestamp.getHours() * 60 + timestamp.getMinutes());
-        console.log(`generated ${newMarks.length} marks for ${dateString}`);
         return newMarks.map(mark => ({ value: mark, label: null }));
     }, [headlines]);
 
@@ -48,7 +47,9 @@ export default function SourceSlider({ locale, country, headlines, pageDate}) {
                 <KeyboardArrowLeft color="gray" />
             </IconButton>
 
-            <CustomSlider_Source size="small" readOnly
+            <CustomSlider_Source
+                key={marks.map(mark => mark.value).join('-')} // force re-mount when marks change
+                size="small" readOnly
                 min={0} max={24 * 60} value={minutes}
                 marks={marks} />
 

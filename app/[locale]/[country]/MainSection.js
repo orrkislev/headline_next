@@ -24,7 +24,7 @@ export default function MainSection({ sources, country, locale, pageDate }) {
                         `}>
             {Object.keys(managedSources).map((source) => (
                     <SourceCard 
-                        key={source}
+                        key={source+managedSources[source].headlines.length}
                         headlines={managedSources[source].headlines}
                         {...{ source, country, locale, isLoading, pageDate }}
                     />

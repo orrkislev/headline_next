@@ -12,17 +12,18 @@ export default function useSourcesManager(country, initialSources, enabled = tru
 
     const updateSources = (newHeadlines) => {
         setSources(prevSources => {
+            const newSources = { ...prevSources };
             newHeadlines.forEach(headline => {
                 const sourceName = getWebsiteName(country, headline.website_id);
-                if (!prevSources[sourceName]) prevSources[sourceName] = { headlines: [], website_id: headline.website_id };
-                if (!prevSources[sourceName].headlines.find(h => h.id === headline.id)) {
-                    prevSources[sourceName].headlines.push(headline);
+                if (!newSources[sourceName]) newSources[sourceName] = { headlines: [], website_id: headline.website_id };
+                if (!newSources[sourceName].headlines.find(h => h.id === headline.id)) {
+                    newSources[sourceName].headlines.push(headline);
                 }
             });
-            Object.values(prevSources).forEach(source => {
+            Object.values(newSources).forEach(source => {
                 source.headlines.sort((a, b) => b.timestamp - a.timestamp);
             });
-            return prevSources;
+            return newSources;
         });
     }
 
