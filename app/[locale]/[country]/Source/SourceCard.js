@@ -123,7 +123,7 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
                         {...{ typography, isLoading }} />
                 </div>
                 <div>
-                    <Subtitle headlineData={displayHeadline} />
+                    <Subtitle headlineData={displayHeadline} {...{ isLoading }} />
                     <SourceSlider {...{ locale, country, headlines, pageDate }} />
                     <SourceFooter url={headlines[0].link} {...{ headline, headlines, source }} />
                 </div>

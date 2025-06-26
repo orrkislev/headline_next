@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from "react"
-import { CircularProgress } from "@mui/material"
+import { CircularProgress, Skeleton } from "@mui/material"
 
 export default function SourceName({ name, description, typography, date, isLoading }) {
     const isPresent = date ? new Date() - date < 60 * 1000 * 5 : true
@@ -23,6 +23,18 @@ export default function SourceName({ name, description, typography, date, isLoad
     const handleMouseLeave = () => {
         clearTimeout(timerRef.current)
         setTooltipVisible(false)
+    }
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center gap-2">
+                <Skeleton 
+                    variant="text" 
+                    width={`${Math.floor(Math.random() * (80 - 40 + 1)) + 40}%`} 
+                    height={typography?.fontFamily === 'var(--font-frank-re-tzar)' ? '2.1rem' : '1.5rem'}
+                />
+            </div>
+        );
     }
 
     return (
