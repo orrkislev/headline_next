@@ -6,7 +6,7 @@ export default function Headline({ headline, typography, isLoading }) {
         return (
             <div className="space-y-2">
                 <Skeleton variant="text" width="95%" height="1.5rem" />
-                <Skeleton variant="text" width="80%" height="1.5rem" />
+                <Skeleton variant="text" width="80%" height="3rem" />
                 <Skeleton variant="text" width="60%" height="1.5rem" />
             </div>
         );
