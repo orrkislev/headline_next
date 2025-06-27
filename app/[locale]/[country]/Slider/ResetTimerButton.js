@@ -3,15 +3,26 @@
 import CustomTooltip from "@/components/CustomTooltip";
 import { Restore } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTime } from "@/utils/store";
 import { isToday } from "date-fns";
-import { redirect } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { LinearProgress } from "@mui/material";
 
 export default function ResetTimerButton({ locale, country, className, pageDate }) {
     const date = useTime(state => state.date);
     const setDate = useTime(state => state.setDate);
+    const [isNavigating, setIsNavigating] = useState(false);
+    const router = useRouter();
+    const pathname = usePathname();
     const isPresent = new Date() - date < 60 * 1000 * 5;
+
+    // Reset loading state when pathname changes
+    useEffect(() => {
+        if (isNavigating) {
+            setIsNavigating(false);
+        }
+    }, [pathname]);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -38,22 +49,31 @@ export default function ResetTimerButton({ locale, country, className, pageDate 
         if (isToday(date)) {
             setDate(new Date());
         } else {
-            redirect(`/${locale}/${country}`);
+            setIsNavigating(true);
+            router.push(`/${locale}/${country}`);
         }
     }
 
     return (
-        <CustomTooltip title={tooltip} arrow open={!isPresent} placement={placement}>
-            <IconButton
-                className={`transition-colors duration-300 ${isPresent ? '' : 'animate-slow-fade'} ` + className}
-                onClick={handleClick}
-                size="small"
-                sx={{
-                    color: isPresent ? 'lightgray' : 'blue'
-                }}
-            >
-                <Restore fontSize="small" />
-            </IconButton>
-        </CustomTooltip>
+        <>
+            {isNavigating && (
+                <div className="fixed top-0 left-0 w-full z-50">
+                    <LinearProgress color="inherit" sx={{ opacity: 0.8 }} />
+                </div>
+            )}
+            <CustomTooltip title={tooltip} arrow open={!isPresent} placement={placement}>
+                <IconButton
+                    className={`transition-colors duration-300 ${isPresent ? '' : 'animate-slow-fade'} ` + className}
+                    onClick={handleClick}
+                    disabled={isNavigating}
+                    size="small"
+                    sx={{
+                        color: isPresent ? 'lightgray' : 'blue'
+                    }}
+                >
+                    <Restore fontSize="small" />
+                </IconButton>
+            </CustomTooltip>
+        </>
     )
 }

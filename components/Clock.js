@@ -23,6 +23,14 @@ export default function Clock({locale, date}) {
     const hours = displayDate.getHours();
     const minutes = displayDate.getMinutes();
 
+    // Format date as dd.mm.yyyy when not present
+    const dateString = !isPresent ? 
+        displayDate.toLocaleDateString("en-GB", {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        }) : '';
+
     const paddingClass = locale === 'heb' ? 'pr-3' : 'pl-0';
     const blinkClass = isPresent ? 'timer-blink' : '';
     const notPresentClass = !isPresent ? 'text-gray-600 underline underline-offset-4 font-medium' : '';
@@ -32,6 +40,7 @@ export default function Clock({locale, date}) {
             <span>{hours.toString().padStart(2, '0')}</span>
             <span className={blinkClass}>:</span>
             <span>{minutes.toString().padStart(2, '0')}</span>
+            {!isPresent && <span className="ml-2">{dateString}</span>}
         </div>
     )
 }
