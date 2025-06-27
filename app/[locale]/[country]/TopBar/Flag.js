@@ -1,9 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import Link from "next/link";
 import { TopBarButton } from "@/components/IconButtons";
-import { useParams } from "next/navigation";
 import PopUpCleaner from "@/components/PopUp";
 import FlagIcon from "@/components/FlagIcon";
 import { countries } from "@/utils/sources/countries";
@@ -30,7 +28,7 @@ function FlagSelector({ country, open, close, locale }) {
     return (
         <>
             <PopUpCleaner open={open} close={close} />
-            <div className="absolute top-4 p-4 right-0 bg-white rounded-xs shadow-lg w-[18rem] z-[1000] font-['Geist'] text-sm" dir="ltr">
+            <div className={`absolute top-10 p-4 ${locale === 'heb' ? 'right-0' : 'left-0'} bg-white rounded-xs shadow-lg w-[18rem] z-[1000] font-['Geist'] text-sm`} dir="ltr">
                 <div className="grid grid-cols-2 gap-[1px] bg-gray-200">
                     {Object.keys(countries).map((c, i) => (
                         <InnerLink key={i} locale={locale} href={`/${locale}/${c}`}>

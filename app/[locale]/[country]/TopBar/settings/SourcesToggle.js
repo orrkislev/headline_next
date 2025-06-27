@@ -39,12 +39,14 @@ function SourcesGrid({ open, country, locale, sources }) {
 
     const orderedSources = sourceOrder.map(id => {
         const sourceData = getSourceData(country, id);
+        const hasData = Boolean(sources[id] && sources[id].headlines.length > 0);
         return {
             id,
             description: sourceData.description,
             active: activeWebsites.includes(id),
             name: sourceData.name,
             website: sources[id] ? sources[id].headlines[0].link : '',
+            hasData,
         }
     });
 
@@ -55,17 +57,17 @@ function SourcesGrid({ open, country, locale, sources }) {
         setActiveWebsites(newWebsites);
     };
 
-    const allSourceIds = sourceOrder;
-    const allSelected = allSourceIds.every(id => activeWebsites.includes(id));
-    const someSelected = allSourceIds.some(id => activeWebsites.includes(id));
+    const availableSourceIds = orderedSources.filter(source => source.hasData).map(source => source.id);
+    const allSelected = availableSourceIds.length > 0 && availableSourceIds.every(id => activeWebsites.includes(id));
+    const someSelected = availableSourceIds.some(id => activeWebsites.includes(id));
 
     const toggleSelectAll = () => {
         if (allSelected) {
-            // Deselect all
-            setActiveWebsites(activeWebsites.filter(id => !allSourceIds.includes(id)));
+            // Deselect all available sources
+            setActiveWebsites(activeWebsites.filter(id => !availableSourceIds.includes(id)));
         } else {
-            // Select all
-            const newWebsites = [...new Set([...activeWebsites, ...allSourceIds])];
+            // Select all available sources
+            const newWebsites = [...new Set([...activeWebsites, ...availableSourceIds])];
             setActiveWebsites(newWebsites);
         }
     };
@@ -96,27 +98,53 @@ function SourcesGrid({ open, country, locale, sources }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {orderedSources.map((source, i) => (
-                            <tr key={source.id} className="border-b border-dashed border-gray-300">
-                                <td className='mt-8 p-4'>
-                                    <input
-                                        type="checkbox"
-                                        checked={source.active}
-                                        onChange={() => toggleSource(source.id)}
-                                    />
-                                </td>
-                                <td className="mt-8 p-2 ">
-                                    <div className="flex items-center gap-2">
-                                        <Image src={`https://www.google.com/s2/favicons?sz=64&domain=${source.website}`}
-                                            width={16} height={16} alt=""
-                                            style={{ verticalAlign: 'middle' }}
+                        {orderedSources.map((source, i) => {
+                            const SourceRow = (
+                                <tr 
+                                    key={source.id} 
+                                    className={`border-b border-dashed border-gray-300 ${!source.hasData ? 'opacity-50 bg-gray-50' : 'hover:bg-gray-50 cursor-pointer'}`}
+                                    onClick={() => source.hasData && toggleSource(source.id)}
+                                >
+                                    <td className='mt-8 p-4'>
+                                        <input
+                                            type="checkbox"
+                                            checked={source.active}
+                                            disabled={!source.hasData}
+                                            onChange={() => {}} // Handled by row click
+                                            title={!source.hasData ? 'No current data available' : ''}
+                                            className="cursor-pointer"
                                         />
-                                        {source.name}
-                                    </div>
-                                </td>
-                                <td className="mt-8 p-2 py-4">{source.description}</td>
-                            </tr>
-                        ))}
+                                    </td>
+                                    <td className={`mt-8 p-2 ${!source.hasData ? 'text-gray-500' : ''}`}>
+                                        <div className="flex items-center gap-2">
+                                            <Image src={`https://www.google.com/s2/favicons?sz=64&domain=${source.website || 'example.com'}`}
+                                                width={16} height={16} alt=""
+                                                style={{ verticalAlign: 'middle', opacity: source.hasData ? 1 : 0.5 }}
+                                            />
+                                            {source.name}
+                                        </div>
+                                    </td>
+                                    <td className={`mt-8 p-2 py-4 ${!source.hasData ? 'text-gray-500' : ''}`}>
+                                        {source.description}
+                                    </td>
+                                </tr>
+                            );
+
+                            // Wrap inactive sources with tooltip
+                            if (!source.hasData) {
+                                return (
+                                    <CustomTooltip 
+                                        key={source.id}
+                                        title={`The headlines from this source aren't updating. We need to look into it.`}
+                                        placement="top"
+                                    >
+                                        {SourceRow}
+                                    </CustomTooltip>
+                                );
+                            }
+
+                            return SourceRow;
+                        })}
                     </tbody>
                 </table>
             </div>
