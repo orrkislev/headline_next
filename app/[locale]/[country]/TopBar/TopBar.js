@@ -26,14 +26,19 @@ export default function TopBar({ locale, country, sources, currentSummary, isRig
         <div className="hidden sm:flex border-b border-gray-200 px-2 py-1">
             <div className="flex justify-between w-full">
                 <div className="flex items-center">
+                    {locale !== 'heb' && (
+                        <>
+                            <h1 className="text-sm font-medium cursor-default hover:text-blue transition-colors font-['Geist'] pl-4">The Hear</h1>
+                            <div className="border-l border-dotted border-gray-300 h-[50%] mx-5"></div>
+                        </>
+                    )}
                     <TimeDisplay locale={locale} />
-                    <div className="border-l border-gray-300 h-full mx-5"></div>
+                    <div className="border-l border-dotted border-gray-300 h-[50%] mx-5"></div>
                     <Flag {...{ country, locale}} />
-                    
                     {/* Show current summary title when right panel is collapsed */}
                     {isRightPanelCollapsed && currentHeadline && (
                         <>
-                            <div className="border-l border-gray-300 h-full mx-5"></div>
+                            <div className="border-l border-gray-300 border-dotted h-[50%] mx-5"></div>
                             <div 
                                 className={`text-gray-800 max-w-md truncate ${locale === 'heb' ? 'frank-re text-base' : 'font-["Geist"] text-sm'}`}
                                 title={currentHeadline}

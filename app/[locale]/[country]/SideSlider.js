@@ -100,7 +100,7 @@ export default function SideSlider({ locale, country, pageDate }) {
             <IconButton size="small" onClick={() => nextSummary && goToSummary(nextSummary)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
             </IconButton>
-            <CustomTooltip title={locale === 'heb' ? 'חזרה בזמן' : 'Back in time'} placement="top">
+            <CustomTooltip title={locale === 'heb' ? 'חזרה בזמן' : 'Back in time'} followCursor placement={locale === 'heb' ? 'left' : 'right'}>
                 <CustomSlider_Side orientation="vertical" size="small"
                     min={0} max={24 * 60-1} step={1}
                     onChange={(_, value) => updateDate(value)}

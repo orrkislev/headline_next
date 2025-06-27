@@ -32,7 +32,7 @@ export default function ResetTimerButton({ locale, country, className, pageDate 
     }, [pageDate])
 
     const tooltip = locale === 'heb' ? 'בחזרה לעכשיו' : 'Reset To Now';
-    const placement = locale === 'heb' ? 'left' : 'right';
+    const placement = locale === 'heb' ? 'bottom' : 'right';
 
     const handleClick = () => {
         if (isToday(date)) {
