@@ -55,6 +55,21 @@ function SourcesGrid({ open, country, locale, sources }) {
         setActiveWebsites(newWebsites);
     };
 
+    const allSourceIds = sourceOrder;
+    const allSelected = allSourceIds.every(id => activeWebsites.includes(id));
+    const someSelected = allSourceIds.some(id => activeWebsites.includes(id));
+
+    const toggleSelectAll = () => {
+        if (allSelected) {
+            // Deselect all
+            setActiveWebsites(activeWebsites.filter(id => !allSourceIds.includes(id)));
+        } else {
+            // Select all
+            const newWebsites = [...new Set([...activeWebsites, ...allSourceIds])];
+            setActiveWebsites(newWebsites);
+        }
+    };
+
     if (!open) return null;
     return (
         <div className={`absolute top-8 ${locale === 'heb' ? 'left-0' : 'right-0'} bg-white rounded-lg shadow-lg p-4 h-[65vh] w-[55vw] z-[1000]`}>
@@ -62,7 +77,20 @@ function SourcesGrid({ open, country, locale, sources }) {
                 <table className="border border-white text-sm">
                     <thead className="border-b border-dashed border-gray-300">
                         <tr className="text-left">
-                            <th className="p-2">Active</th>
+                            <th className="p-2">
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={allSelected}
+                                        ref={(el) => {
+                                            if (el) el.indeterminate = someSelected && !allSelected;
+                                        }}
+                                        onChange={toggleSelectAll}
+                                        title="Select all sources"
+                                    />
+                                    <span>Active</span>
+                                </div>
+                            </th>
                             <th className="p-2">Source</th>
                             <th className="p-2">Description</th>
                         </tr>
