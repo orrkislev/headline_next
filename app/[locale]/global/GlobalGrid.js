@@ -2,11 +2,14 @@
 
 import { countries } from "@/utils/sources/countries";
 import GlobalCard from "./Card/GlobalCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGlobalCountryCohesion, useGlobalSort } from "@/utils/store";
 import { getGridColumnClasses } from "./responsiveGrid";
+import { getAICountrySort } from "@/utils/database/globalData";
 
-export default function GlobalGrid({ locale, AICountrySort }) {
+export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort }) {
+    const [AICountrySort, setAICountrySort] = useState(initialAICountrySort || []);
+    const [isLoading, setIsLoading] = useState(!initialAICountrySort);
     const globalSort = useGlobalSort(state => state.globalSort)
     const pinnedCountries = useGlobalSort(state => state.pinnedCountries)
     const setPinnedCountries = useGlobalSort(state => state.setPinnedCountries)
@@ -18,6 +21,28 @@ export default function GlobalGrid({ locale, AICountrySort }) {
             setPinnedCountries(JSON.parse(pinnedCountries));
         }
     }, [])
+
+    // Fetch AI country sort if not provided
+    useEffect(() => {
+        if (!initialAICountrySort) {
+            getAICountrySort().then(data => {
+                setAICountrySort(data);
+                setIsLoading(false);
+            }).catch(() => {
+                // Fallback to default country order
+                setAICountrySort(Object.keys(countries));
+                setIsLoading(false);
+            });
+        }
+    }, [initialAICountrySort]);
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <div className="text-gray-500">Loading...</div>
+            </div>
+        );
+    }
 
     let countryOrder = [...AICountrySort]
     if (globalSort == 'cohesion') countryOrder = Object.entries(globalCountryCohesion).sort((a, b) => b[1] - a[1]).map(c => c[0])

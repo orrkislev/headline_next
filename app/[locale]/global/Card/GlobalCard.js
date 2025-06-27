@@ -33,7 +33,7 @@ export default function GlobalCard({ country, locale, pinned, index }) {
 
     return (
         <div style={{ order: index }}
-            className={`global-card source-card relative ${pinned >= 0 ? 'bg-gray-100' : 'white'} hover:bg-white border border-dotted border-neutral-200 hover:shadow-xl
+            className={`global-card source-card relative ${pinned >= 0 ? 'bg-white border border-gray-100' : 'bg-gray-100'} hover:bg-white hover:shadow-xl
                         ${getCardSpanClasses(index)}
                         ${locale == 'heb' ? 'direction-rtl text-right' : 'direction-ltr'}
                         flex flex-col h-full justify-between`}>
