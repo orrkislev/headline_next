@@ -77,21 +77,23 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
     return (
         <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden px-4 pb-2 relative`}>
             {/* Collapse button positioned at top, aligned with TopBar */}
-            <CustomTooltip title={locale === 'heb' ? 'הסתר סקירות' : 'hide overviews'} placement="top">
-                <IconButton 
-                    size="small" 
-                    onClick={toggleCollapse}
-                    className={`absolute top-3 ${locale === 'heb' ? 'left-1' : 'right-1'} z-10`}
-                    title=""
-                    style={{ 
-                        padding: '4px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        backdropFilter: 'blur(4px)'
-                    }}
-                >
-                    {locale === 'heb' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                </IconButton>
-            </CustomTooltip>
+            {/* Use fixed positioning from the top of the panel */}
+            <div className={`absolute top-3 ${locale === 'heb' ? 'left-1' : 'right-1'} z-50`}>
+                <CustomTooltip title={locale === 'heb' ? 'הסתר סקירות' : 'hide overviews'} placement="top">
+                    <IconButton 
+                        size="small" 
+                        onClick={toggleCollapse}
+                        title=""
+                        style={{ 
+                            padding: '4px',
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            backdropFilter: 'blur(4px)'
+                        }}
+                    >
+                        {locale === 'heb' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+                    </IconButton>
+                </CustomTooltip>
+            </div>
             
             <DynamicLogo {...{ locale }} />
             <MobileBar {...{ locale, country, pageDate }} />

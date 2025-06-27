@@ -19,6 +19,15 @@
   --foreground: #171717;
 }
 
+/* CheltenhamCondensed font face */
+@font-face {
+  font-family: 'CheltenhamCondensed';
+  src: url('/fonts/cheltenham-cond-normal-700.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
@@ -47,6 +56,25 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+}
+
+/* Logo hover styles - moved from CSS-in-JS for production stability */
+.logo-hover-container:hover .logo-text-left,
+.summary-section:hover .logo-text-left,
+.fake-hover .logo-text-left {
+  opacity: 1 !important;
+}
+
+.logo-hover-container:hover .logo-text-right,
+.summary-section:hover .logo-text-right,
+.fake-hover .logo-text-right {
+  opacity: 1 !important;
+}
+
+.logo-hover-container:hover .logo-background,
+.summary-section:hover .logo-background,
+.fake-hover .logo-background {
+  opacity: 1 !important;
 }
 
 /* New animation for headline color change */

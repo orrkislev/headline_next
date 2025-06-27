@@ -17,7 +17,7 @@ export function SettingsButton({ locale, country, sources }) {
 
     return (
         <>
-            <div className={`transition-all duration-300 ease-in-out ${open ? 'w-auto opacity-100 ml-4' : 'w-0 opacity-0 ml-0'}`}>
+            <div className={` ${open ? 'w-auto opacity-100 ml-4' : 'w-0 opacity-0 ml-0'}`}>
                 <Settings 
                     locale={locale} 
                     country={country} 
@@ -29,7 +29,7 @@ export function SettingsButton({ locale, country, sources }) {
             <div className="flex items-center">
                 <CustomTooltip title="Settings" arrow>
                     <TopBarButton size="small" onClick={() => setOpen(prev => !prev)}>
-                        <SettingsRounded sx={{ color: open ? "blue" : "inherit" }} />
+                        <SettingsRounded sx={{ color: open ? "black" : "inherit" }} />
                     </TopBarButton>
                 </CustomTooltip>
             </div>

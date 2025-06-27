@@ -41,16 +41,6 @@ export default function DynamicLogo({ locale }) {
 
     return (
         <InnerLink locale={locale} href={`/${locale}/global`} className=''>
-            <style jsx global>{`
-                @font-face {
-                    font-family: 'CheltenhamCondensed';
-                    src: url('/fonts/cheltenham-cond-normal-700.ttf') format('truetype');
-                    font-weight: normal;
-                    font-style: normal;
-                    font-display: swap;
-                }
-            `}</style>
-
             <div className={`logo-hover-container flex items-center justify-center relative p-4 ${isFakeHover ? 'fake-hover' : ''}`}>
                 <div className="logo-background absolute top-[37%] left-1/2 w-[285px] h-[25%] bg-[#EBEBEB] opacity-0 transform translate-y-[-50%] translate-x-[-50%] ml-[3px]"
                     style={{
@@ -83,25 +73,7 @@ export default function DynamicLogo({ locale }) {
                     }}>
                     HEAR
                 </div>
-
             </div>
-            <style>{`
-                .logo-hover-container:hover .logo-text-left,
-                .summary-section:hover .logo-text-left,
-                .fake-hover .logo-text-left {
-                    opacity: 1 !important;
-                }
-                .logo-hover-container:hover .logo-text-right,
-                .summary-section:hover .logo-text-right,
-                .fake-hover .logo-text-right {
-                    opacity: 1 !important;
-                }
-                .logo-hover-container:hover .logo-background,
-                .summary-section:hover .logo-background,
-                .fake-hover .logo-background {
-                    opacity: 1 !important;
-                }
-            `}</style>
         </InnerLink>
     );
 };

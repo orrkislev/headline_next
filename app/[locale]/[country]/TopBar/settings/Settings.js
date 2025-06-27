@@ -1,17 +1,13 @@
 'use client'
 
-import { useEffect } from 'react';
 import LabeledIcon from "@/components/LabeledIcon";
 import FontToggle from "./FontToggle";
-import ViewToggle from "./ViewToggle";
 import LanguageToggle from "./LanguageToggle";
 import TranslateToggle from "./TranslateToggle";
 import OrderToggle from "./OrderToggle";
 import SourcesToggle from "./SourcesToggle";
 import { DateSelector } from "./DateSelector";
-import PopUpCleaner from "@/components/PopUp";
 import { PublicOutlined, InfoOutlined } from "@mui/icons-material";
-import Link from "next/link";
 import { TopBarButton } from "@/components/IconButtons";
 import CustomTooltip from "@/components/CustomTooltip";
 import InnerLink from "@/components/InnerLink";
@@ -46,7 +42,7 @@ export default function Settings({ locale, country, sources, hideLanguageToggle,
                     }
                 />
                 <LabeledIcon
-                    label="About the Hear"
+                    label="About"
                     icon={
                         <InnerLink href="/landing">
                             <CustomTooltip title="About the Hear" placement="bottom" arrow>
@@ -64,7 +60,7 @@ export default function Settings({ locale, country, sources, hideLanguageToggle,
                 </div>
             )}
             <div className="flex items-center font-['Geist']">
-                <LabeledIcon label="Display Font" icon={<FontToggle country={country} />} />
+                <LabeledIcon label="Fonts" icon={<FontToggle country={country} />} />
                 {!shouldHideTranslate && (
                     <LabeledIcon label="Translate Headlines" icon={<TranslateToggle {...{ locale, country, sources }} />} />
                 )}
