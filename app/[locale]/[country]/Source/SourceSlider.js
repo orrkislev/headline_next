@@ -6,6 +6,7 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { useTime } from "@/utils/store";
 import { createDateString } from "@/utils/utils";
 import { redirect } from "next/navigation";
+import CustomTooltip from "@/components/CustomTooltip";
 
 export default function SourceSlider({ locale, country, headlines, pageDate }) {
     const date = useTime((state) => state.date);
@@ -43,9 +44,11 @@ export default function SourceSlider({ locale, country, headlines, pageDate }) {
 
     return (
         <div className="flex flex-row gap-4 justify-between items-center border-t border-b border-gray-200" dir="ltr">
-            <IconButton size="small" disabled={!prevHeadline} onClick={() => goToHeadline(prevHeadline)} >
-                <KeyboardArrowLeft color="gray" />
-            </IconButton>
+            <CustomTooltip title={locale === 'heb' ? 'כותרת קודמת' : 'previous headline'} placement="left">
+                <IconButton size="small" disabled={!prevHeadline} onClick={() => goToHeadline(prevHeadline)} >
+                    <KeyboardArrowLeft color="gray" />
+                </IconButton>
+            </CustomTooltip>
 
             <CustomSlider_Source
                 key={marks.map(mark => mark.value).join('-')} // force re-mount when marks change
@@ -53,9 +56,11 @@ export default function SourceSlider({ locale, country, headlines, pageDate }) {
                 min={0} max={24 * 60} value={minutes}
                 marks={marks} />
 
-            <IconButton size="small" disabled={!nextHeadline} onClick={() => goToHeadline(nextHeadline)} >
-                <KeyboardArrowRight color="gray" />
-            </IconButton>
+            <CustomTooltip title={locale === 'heb' ? 'כותרת הבאה' : 'next headline'} placement="bottom">
+                <IconButton size="small" disabled={!nextHeadline} onClick={() => goToHeadline(nextHeadline)} >
+                    <KeyboardArrowRight color="gray" />
+                </IconButton>
+            </CustomTooltip>
         </div >
     );
 }

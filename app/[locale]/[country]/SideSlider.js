@@ -10,6 +10,7 @@ import { CustomSlider_Source } from "./Source/SourceSlider";
 import useMobile from "@/components/useMobile";
 import { redirect } from "next/navigation";
 import { createDateString } from "@/utils/utils";
+import CustomTooltip from "@/components/CustomTooltip";
 
 export default function SideSlider({ locale, country, pageDate }) {
     const summaries = useDaySummaries(state => state.daySummaries);
@@ -99,12 +100,14 @@ export default function SideSlider({ locale, country, pageDate }) {
             <IconButton size="small" onClick={() => nextSummary && goToSummary(nextSummary)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
             </IconButton>
-            <CustomSlider_Side orientation="vertical" size="small"
-                min={0} max={24 * 60-1} step={1}
-                onChange={(_, value) => updateDate(value)}
-                value={minutes} marks={marks}
-                sx={{ width: 4 }}
-            />
+            <CustomTooltip title={locale === 'heb' ? 'חזרה בזמן' : 'Back in time'} placement="top">
+                <CustomSlider_Side orientation="vertical" size="small"
+                    min={0} max={24 * 60-1} step={1}
+                    onChange={(_, value) => updateDate(value)}
+                    value={minutes} marks={marks}
+                    sx={{ width: 4 }}
+                />
+            </CustomTooltip>
             <IconButton size="small" onClick={() => prevSummary && goToSummary(prevSummary)} disabled={!prevSummary}>
                 <KeyboardArrowDown />
             </IconButton>
