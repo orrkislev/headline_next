@@ -25,6 +25,7 @@ export default function CountryPageContent({ sources, initialSummaries, yesterda
                 <RightPanel 
                     {...{ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate }} 
                     onCollapsedChange={setIsRightPanelCollapsed}
+                    collapsed={isRightPanelCollapsed}
                 />
             </div>
 
@@ -33,6 +34,7 @@ export default function CountryPageContent({ sources, initialSummaries, yesterda
                     {...{ locale, country, sources }} 
                     currentSummary={currentSummary}
                     isRightPanelCollapsed={isRightPanelCollapsed}
+                    onExpandPanel={() => setIsRightPanelCollapsed(false)}
                 />
                 <MainSection {...{ country, sources, locale, pageDate }} />
             </div>

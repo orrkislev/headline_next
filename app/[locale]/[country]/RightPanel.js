@@ -8,7 +8,7 @@ import SummariesSection from "./summaries/SummariesSection";
 import MobileBar from "./MobileBar";
 import CustomTooltip from "@/components/CustomTooltip";
 
-export default function RightPanel({ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate, onCollapsedChange }) {
+export default function RightPanel({ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate, onCollapsedChange, collapsed }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
 
@@ -19,6 +19,13 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
             onCollapsedChange(newCollapsedState);
         }
     };
+
+    // Respond to external collapsed prop changes
+    useEffect(() => {
+        if (collapsed !== undefined && collapsed !== isCollapsed) {
+            setIsCollapsed(collapsed);
+        }
+    }, [collapsed, isCollapsed]);
 
     // Set initial state based on screen size after component mounts
     useEffect(() => {

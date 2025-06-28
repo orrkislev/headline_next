@@ -3,7 +3,7 @@ import Flag from "./Flag.js";
 import { SettingsButton } from "./SettingsButton.js";
 import { useTranslate } from "@/utils/store";
 
-export default function TopBar({ locale, country, sources, currentSummary, isRightPanelCollapsed }) {
+export default function TopBar({ locale, country, sources, currentSummary, isRightPanelCollapsed, onExpandPanel }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage);
 
     // Get the appropriate headline based on locale and language settings
@@ -40,8 +40,8 @@ export default function TopBar({ locale, country, sources, currentSummary, isRig
                         <>
                             <div className="border-l border-gray-300 border-dotted h-[50%] mx-5"></div>
                             <div 
-                                className={`text-gray-800 max-w-md truncate ${locale === 'heb' ? 'frank-re text-base' : 'font-["Geist"] text-sm'}`}
-                                title={currentHeadline}
+                                className={`text-gray-800 max-w-md truncate cursor-pointer hover:underline hover:underline-offset-2 ${locale === 'heb' ? 'frank-re text-base' : 'font-["Geist"] text-sm'}`}
+                                onClick={onExpandPanel}
                             >
                                 {currentHeadline}
                             </div>
