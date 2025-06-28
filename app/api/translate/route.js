@@ -3,7 +3,7 @@ import { generateObject, generateText } from 'ai';
 import { z } from 'zod';
 
 export const maxDuration = 30;
-const model = google("gemini-2.0-flash");
+const model = google("gemini-2.5-flash-lite-preview-06-17");
 
 
 export async function POST(req) {
