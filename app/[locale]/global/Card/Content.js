@@ -15,8 +15,8 @@ export default function Content({ country, summary, locale, pinned }) {
         setOpen(allExpanded);
     }, [allExpanded]);
 
-    const minutes = summary.timestamp.getUTCMinutes();
-    const hours = summary.timestamp.getUTCHours();
+    const minutes = summary.timestamp.getMinutes();
+    const hours = summary.timestamp.getHours();
 
     // Format time to ensure two digits for minutes
     const formattedTime = `${hours}:${minutes.toString().padStart(2, '0')}`;
