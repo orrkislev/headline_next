@@ -5,6 +5,25 @@ import { createDateString } from '@/utils/utils';
 import { redirect } from 'next/navigation';
 import { useRef, useEffect } from 'react';
 
+// Helper function to clean summary text by removing everything after language markers
+const cleanSummaryText = (text) => {
+    if (!text) return '';
+    
+    // Find the index of language markers and truncate at the first one found
+    const markers = ['HEBREWSUMMARY:', 'LOCALSUMMARY:', 'SUMMARY:'];
+    let cleanText = text;
+    
+    for (const marker of markers) {
+        const markerIndex = text.indexOf(marker);
+        if (markerIndex !== -1) {
+            cleanText = text.substring(0, markerIndex).trim();
+            break; // Stop at the first marker found
+        }
+    }
+    
+    return cleanText;
+};
+
 export default function Summary({ summary, country, active, locale, yesterday }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage)
     const setDate = useTime(state => state.setDate);
@@ -25,15 +44,15 @@ export default function Summary({ summary, country, active, locale, yesterday })
 
     if (!summary) return null;
 
-    let text = summary.summary;
-    let headline = summary.englishHeadline;
+    let text = cleanSummaryText(summary.summary);
+    let headline = cleanSummaryText(summary.englishHeadline);
     if (locale === 'heb') {
-        text = summary.hebrewSummary;
-        headline = summary.hebrewHeadline || summary.headline
+        text = cleanSummaryText(summary.hebrewSummary);
+        headline = cleanSummaryText(summary.hebrewHeadline || summary.headline);
     } 
     if (useLocalLanguage) {
-        text = summary ? summary.translatedSummary : '';
-        headline = summary ? (summary.translatedHeadline || summary.headline) : '';
+        text = summary ? cleanSummaryText(summary.translatedSummary) : '';
+        headline = summary ? cleanSummaryText(summary.translatedHeadline || summary.headline) : '';
     }
     const timestamp = 
         (summary.timestamp.getHours() < 10 ? '0' : '') + summary.timestamp.getHours() + ':' + 

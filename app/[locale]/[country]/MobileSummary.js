@@ -5,6 +5,25 @@ import DynamicLogo from "@/components/Logo";
 import { useTranslate, useTime } from "@/utils/store";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 
+// Helper function to clean summary text by removing everything after language markers
+const cleanSummaryText = (text) => {
+    if (!text) return '';
+    
+    // Find the index of language markers and truncate at the first one found
+    const markers = ['HEBREWSUMMARY:', 'LOCALSUMMARY:', 'SUMMARY:'];
+    let cleanText = text;
+    
+    for (const marker of markers) {
+        const markerIndex = text.indexOf(marker);
+        if (markerIndex !== -1) {
+            cleanText = text.substring(0, markerIndex).trim();
+            break; // Stop at the first marker found
+        }
+    }
+    
+    return cleanText;
+};
+
 export default function MobileSummary({ locale, country, pageDate, initialSummaries, yesterdaySummary, daySummary }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage);
     const currentTime = useTime(state => state.date);
@@ -35,17 +54,17 @@ export default function MobileSummary({ locale, country, pageDate, initialSummar
     const currentSummary = getCurrentSummary();
 
     // Get the appropriate summary text and headline based on locale and language settings
-    let summaryText = currentSummary.summary;
-    let headline = currentSummary.englishHeadline;
+    let summaryText = cleanSummaryText(currentSummary.summary);
+    let headline = cleanSummaryText(currentSummary.englishHeadline);
     
     if (locale === 'heb') {
-        summaryText = currentSummary.hebrewSummary || currentSummary.summary;
-        headline = currentSummary.hebrewHeadline || currentSummary.headline;
+        summaryText = cleanSummaryText(currentSummary.hebrewSummary) || cleanSummaryText(currentSummary.summary);
+        headline = cleanSummaryText(currentSummary.hebrewHeadline) || cleanSummaryText(currentSummary.headline);
     }
     
     if (useLocalLanguage) {
-        summaryText = currentSummary.translatedSummary || currentSummary.summary;
-        headline = currentSummary.translatedHeadline || currentSummary.headline;
+        summaryText = cleanSummaryText(currentSummary.translatedSummary) || cleanSummaryText(currentSummary.summary);
+        headline = cleanSummaryText(currentSummary.translatedHeadline) || cleanSummaryText(currentSummary.headline);
     }
 
     const timestamp = currentSummary.timestamp.getHours().toString().padStart(2, '0') + ':' + 

@@ -5,6 +5,24 @@ import { Collapse } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useGlobalSort } from "@/utils/store";
 
+// Helper function to clean summary text by removing everything after language markers
+const cleanSummaryText = (text) => {
+    if (!text) return '';
+    
+    // Find the index of language markers and truncate at the first one found
+    const markers = ['HEBREWSUMMARY:', 'LOCALSUMMARY:', 'SUMMARY:'];
+    let cleanText = text;
+    
+    for (const marker of markers) {
+        const markerIndex = text.indexOf(marker);
+        if (markerIndex !== -1) {
+            cleanText = text.substring(0, markerIndex).trim();
+            break; // Stop at the first marker found
+        }
+    }
+    
+    return cleanText;
+};
 
 export default function Content({ country, summary, locale, pinned }) {
     const [open, setOpen] = useState(false);
@@ -21,11 +39,11 @@ export default function Content({ country, summary, locale, pinned }) {
     // Format time to ensure two digits for minutes
     const formattedTime = `${hours}:${minutes.toString().padStart(2, '0')}`;
 
-    let text = summary.summary;
+    let text = cleanSummaryText(summary.summary);
     if (locale === 'heb') {
-        text = summary.hebrewSummary;
+        text = cleanSummaryText(summary.hebrewSummary);
     } else if (locale === 'translated') {
-        text = summary ? summary.translatedSummary : '';
+        text = summary ? cleanSummaryText(summary.translatedSummary) : '';
     }
 
     const pin = () => {

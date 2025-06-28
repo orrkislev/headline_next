@@ -4,6 +4,25 @@ import { SettingsButton } from "./SettingsButton.js";
 import { useTranslate } from "@/utils/store";
 import useMobile from "@/components/useMobile";
 
+// Helper function to clean summary text by removing everything after language markers
+const cleanSummaryText = (text) => {
+    if (!text) return '';
+    
+    // Find the index of language markers and truncate at the first one found
+    const markers = ['HEBREWSUMMARY:', 'LOCALSUMMARY:', 'SUMMARY:'];
+    let cleanText = text;
+    
+    for (const marker of markers) {
+        const markerIndex = text.indexOf(marker);
+        if (markerIndex !== -1) {
+            cleanText = text.substring(0, markerIndex).trim();
+            break; // Stop at the first marker found
+        }
+    }
+    
+    return cleanText;
+};
+
 export default function TopBar({ locale, country, sources, currentSummary, isRightPanelCollapsed, onExpandPanel }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage);
     const { isMobile } = useMobile();
@@ -22,7 +41,7 @@ export default function TopBar({ locale, country, sources, currentSummary, isRig
         if (useLocalLanguage) {
             headline = currentSummary.translatedHeadline || currentSummary.headline;
         }
-        return headline;
+        return cleanSummaryText(headline);
     };
 
     const currentHeadline = getCurrentHeadline();

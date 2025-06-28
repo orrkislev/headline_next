@@ -1,3 +1,22 @@
+// Helper function to clean summary text by removing everything after language markers
+const cleanSummaryText = (text) => {
+    if (!text) return '';
+    
+    // Find the index of language markers and truncate at the first one found
+    const markers = ['HEBREWSUMMARY:', 'LOCALSUMMARY:', 'SUMMARY:'];
+    let cleanText = text;
+    
+    for (const marker of markers) {
+        const markerIndex = text.indexOf(marker);
+        if (markerIndex !== -1) {
+            cleanText = text.substring(0, markerIndex).trim();
+            break; // Stop at the first marker found
+        }
+    }
+    
+    return cleanText;
+};
+
 export const getHeadline = (dailySummary, locale) => {
     // console.log('getHeadline', dailySummary, locale);
     let selectedHeadline;
@@ -18,17 +37,23 @@ export const getHeadline = (dailySummary, locale) => {
 
     // console.log('selectedHeadline', selectedHeadline);
 
-    return selectedHeadline;
+    // Clean the headline to remove language markers and everything after them
+    return cleanSummaryText(selectedHeadline);
 };
 
 export const getSummaryContent = (dailySummary, locale) => {
+    let rawContent;
+    
     if (locale === 'heb') {
-        return dailySummary.summaryHebrew ||
+        rawContent = dailySummary.summaryHebrew ||
             dailySummary.summary ||
             dailySummary.summaryEnglish;  // Final fallback
     } else if (locale === 'translated') {
-        return dailySummary.summary;
+        rawContent = dailySummary.summary;
     } else {
-        return dailySummary.summaryEnglish;
+        rawContent = dailySummary.summaryEnglish;
     }
+    
+    // Clean the content to remove language markers and everything after them
+    return cleanSummaryText(rawContent);
 };
