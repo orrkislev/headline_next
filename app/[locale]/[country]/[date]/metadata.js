@@ -2,6 +2,7 @@ import { getHeadline } from "@/utils/daily summary utils";
 import { getCountryDailySummary } from "@/utils/database/countryData";
 import { countries } from "@/utils/sources/countries";
 import { add, parse } from "date-fns";
+import Script from 'next/script';
 
 export async function createMetadata(params) {
     const { country, locale, date } = await params;
@@ -14,8 +15,8 @@ export async function createMetadata(params) {
 
     const siteName = 'The Hear';
     const title = locale === 'heb'
-        ? `${countryName} | ${formattedDate} | ${headline} | ארכיון הכותרות הראשיות מ${countryName}, כפי שהתפתחו בזמן אמת`
-        : `${countryName} | ${formattedDate} | ${headline} | An Archive of Main News Headlines from the ${countryName}, as they Unfolded`;
+        ? `${countryName} | ${formattedDate} | ${headline} | כותרות החדשות כפי שהתפתחו בזמן אמת`
+        : `${countryName} | ${formattedDate} | ${headline} | Headlines as they Unfolded`;
 
     const description = locale === 'heb'
         ? `ארכיון כותרות מ-${countryName} ל-${date}, כפי שהתפתחו בזמן אמת.`
@@ -86,9 +87,11 @@ export function LdJson({ country, locale, date, daySummary }) {
         }
     };
 
-    return <>
-        <head>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        </head>
-    </>
+    return (
+        <Script 
+            id={`jsonld-country-${country}-${locale}-${date.toISOString().split('T')[0]}`}
+            type="application/ld+json" 
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} 
+        />
+    )
 }

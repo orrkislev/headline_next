@@ -1,4 +1,5 @@
 import { countries } from "@/utils/sources/countries";
+import Script from 'next/script';
 
 export async function createMetadata(params) {
     const { country, locale } = await params;
@@ -6,11 +7,11 @@ export async function createMetadata(params) {
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
     const siteName = 'Headlines';
     const title = locale === 'heb'
-        ? `📰 כותרות עיתונים מ${countryName}, זו לצד זו | המאזין 👂`
-        : `📰 Live Headlines from ${countryName} | The Hear: A Newsstand with a Brain 🧠`;
+        ? `📰 כותרות העיתונים מ${countryName}, זו לצד זו`
+        : `📰 Live Headlines from ${countryName} | The Hear`;
     const description = locale === 'heb'
-        ? `דוכן כותרות חי של חדשות ראשיות מ${countryName}, זו לצד זו, המשמש גם כחדר מצב וגם כארכיון.`
-        : `A Living Newsstand of Main Headlines from ${countryName} side by side, functioning as both a control room and an archive.`;
+        ? `דוכן כותרות חי של עיתונים מ${countryName}, זו לצד זו, המשמש גם כחדר מצב וגם כארכיון.`
+        : `A Living Newsstand of Main Headlines from ${countryName}, displayed side by side.`;
     const url = `https://headlines.sh/${locale}/${country}`;
     return {
         title,
@@ -71,11 +72,10 @@ export function LdJson({ country, locale }) {
     };
 
     return (
-        <>
-            <head>
-                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-            </head>
-        </>
+        <Script 
+            id={`jsonld-country-${country}-${locale}`}
+            type="application/ld+json" 
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} 
+        />
     )
-
 }
