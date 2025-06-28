@@ -103,7 +103,7 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
         <div style={{ order: index }}
             className={`source-card group col-span-1
             ${index === 0 ? 'col-span-2' : ''}
-            ${(index === 7 || index === 8) ? 'max-2xl:col-span-1 2xl:col-span-2 qhd:col-span-1' : ''}
+            ${(index === 7 || index === 8) ? 'max-xl:col-span-1 qhd:col-span-1' : ''}
             ${(index === 11 || index === 12 || index === 13) ? 'max-qhd:col-span-1 qhd:col-span-2' : ''}
             relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
