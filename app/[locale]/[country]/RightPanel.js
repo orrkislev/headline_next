@@ -6,10 +6,14 @@ import { IconButton } from "@mui/material";
 import DynamicLogo from "@/components/Logo";
 import SummariesSection from "./summaries/SummariesSection";
 import CustomTooltip from "@/components/CustomTooltip";
+import useSummariesManager from "@/utils/database/useSummariesManager";
 
 export default function RightPanel({ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate, onCollapsedChange, collapsed }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+
+    // Manage summaries at the RightPanel level so it works when collapsed
+    const summaries = useSummariesManager(country, initialSummaries, !Boolean(pageDate));
 
     const toggleCollapse = () => {
         const newCollapsedState = !isCollapsed;
@@ -102,7 +106,7 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
             </div>
             
             <DynamicLogo {...{ locale }} />
-            <SummariesSection {...{ locale, initialSummaries, country, yesterdaySummary, daySummary, pageDate }} />
+            <SummariesSection {...{ locale, summaries, country, yesterdaySummary, daySummary, pageDate }} />
         </div>
     );
 }

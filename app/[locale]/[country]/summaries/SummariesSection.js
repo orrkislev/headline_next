@@ -5,7 +5,6 @@ import SummariesList from "./SummariesList";
 import YesterdaySummary from "./YesterdaySummary";
 import { useTime } from "@/utils/store";
 import { useEffect, useState } from "react";
-import useSummariesManager from "@/utils/database/useSummariesManager";
 import DailySummary from "./DailySummary";
 
 const calculateDisplaySummaries = (day, summaries) => {
@@ -17,15 +16,12 @@ const calculateDisplaySummaries = (day, summaries) => {
     return [...daySummaries, lastSummaryDayBefore]
 }
 
-export default function SummariesSection({ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate }) {
-    const summaries = useSummariesManager(country, initialSummaries, !Boolean(pageDate));
+export default function SummariesSection({ summaries, locale, country, yesterdaySummary, daySummary, pageDate }) {
     
     const date = useTime(state => state.date);
     const [day, setDay] = useState(new Date().toDateString());
     const [displaySummaries, setDisplaySummaries] = useState(calculateDisplaySummaries(new Date().toDateString(), summaries));
     const [activeSummaryId, setActiveSummaryId] = useState(summaries.sort((a, b) => b.timestamp - a.timestamp)[0]?.id);
-
-
 
     useEffect(() => {
         if (!date) return
