@@ -10,6 +10,13 @@ export const useFont = create(set => ({
     setFont: (font) => set({ font }),
 }));
 
+export const useRightPanel = create(set => ({
+    isCollapsed: false,
+    backupFont: null,
+    setCollapsed: (collapsed) => set({ isCollapsed: collapsed }),
+    setBackupFont: (font) => set({ backupFont: font }),
+}));
+
 export const useOrder = create(set => ({
     order: 'default',
     setOrder: (order) => set({ order }),

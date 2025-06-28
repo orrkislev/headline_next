@@ -12,7 +12,7 @@ import { TopBarButton } from "@/components/IconButtons";
 import CustomTooltip from "@/components/CustomTooltip";
 import InnerLink from "@/components/InnerLink";
 
-export default function Settings({ locale, country, sources, hideLanguageToggle, hideTranslateToggle }) {
+export default function Settings({ locale, country, sources, isRightPanelCollapsed, hideLanguageToggle, hideTranslateToggle }) {
 
     // Force the hiding based on direct check as a fallback
     const shouldHideLanguage = hideLanguageToggle ||
@@ -60,7 +60,7 @@ export default function Settings({ locale, country, sources, hideLanguageToggle,
                 </div>
             )}
             <div className="flex items-center font-['Geist']">
-                <LabeledIcon label="Fonts" icon={<FontToggle country={country} />} />
+                <LabeledIcon label="Fonts" icon={<FontToggle country={country} isRightPanelCollapsed={isRightPanelCollapsed} />} />
                 {!shouldHideTranslate && (
                     <LabeledIcon label="Translate Headlines" icon={<TranslateToggle {...{ locale, country, sources }} />} />
                 )}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RightPanel from "./RightPanel";
 import SideSlider from "./SideSlider";
 import TopBar from "./TopBar/TopBar";
@@ -9,11 +9,18 @@ import { getTypographyOptions } from "@/utils/typography/typography";
 import MainSection from "./MainSection";
 import HebrewFonts from "@/utils/typography/HebrewFonts";
 import useCurrentSummary from "@/utils/database/useCurrentSummary";
+import { useRightPanel } from "@/utils/store";
 
 export default function CountryPageContent({ sources, initialSummaries, yesterdaySummary, daySummary, locale, country, pageDate }) {
     const typography = getTypographyOptions(country);
     const currentSummary = useCurrentSummary();
     const [isRightPanelCollapsed, setIsRightPanelCollapsed] = useState(false);
+    const { setCollapsed } = useRightPanel();
+
+    // Sync local state with global store
+    useEffect(() => {
+        setCollapsed(isRightPanelCollapsed);
+    }, [isRightPanelCollapsed, setCollapsed]);
 
     return (
         <div id='main' className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>

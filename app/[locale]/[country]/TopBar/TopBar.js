@@ -49,7 +49,7 @@ export default function TopBar({ locale, country, sources, currentSummary, isRig
                     )}
                 </div>
                 <div className="flex items-center hidden md:flex px-2">
-                    <SettingsButton {...{ locale, country, sources}} />
+                    <SettingsButton {...{ locale, country, sources, isRightPanelCollapsed }} />
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 
 const Settings = dynamic(() => import("./settings/Settings"));
 
-export function SettingsButton({ locale, country, sources }) {
+export function SettingsButton({ locale, country, sources, isRightPanelCollapsed }) {
     const [open, setOpen] = useState(false);
     
     // Calculate conditions here where we have access to props
@@ -22,6 +22,7 @@ export function SettingsButton({ locale, country, sources }) {
                     locale={locale} 
                     country={country} 
                     sources={sources}
+                    isRightPanelCollapsed={isRightPanelCollapsed}
                     hideLanguageToggle={isSpecialCase}
                     hideTranslateToggle={isSpecialCase}
                 />
