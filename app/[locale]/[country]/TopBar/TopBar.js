@@ -2,16 +2,21 @@ import TimeDisplay from "./TimeDisplay.js";
 import Flag from "./Flag.js";
 import { SettingsButton } from "./SettingsButton.js";
 import { useTranslate } from "@/utils/store";
+import useMobile from "@/components/useMobile";
 
 export default function TopBar({ locale, country, sources, currentSummary, isRightPanelCollapsed, onExpandPanel }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage);
+    const { isMobile } = useMobile();
+    
+    // Force English behavior on mobile
+    const effectiveLocale = isMobile ? 'en' : locale;
 
     // Get the appropriate headline based on locale and language settings
     const getCurrentHeadline = () => {
         if (!currentSummary) return null;
         
         let headline = currentSummary.englishHeadline;
-        if (locale === 'heb') {
+        if (effectiveLocale === 'heb') {
             headline = currentSummary.hebrewHeadline || currentSummary.headline;
         } 
         if (useLocalLanguage) {
@@ -23,24 +28,24 @@ export default function TopBar({ locale, country, sources, currentSummary, isRig
     const currentHeadline = getCurrentHeadline();
 
     return (
-        <div className="hidden sm:flex border-b border-gray-200 px-2 py-1">
+        <div className="sticky top-0 z-40 flex border-b border-gray-200 px-2 py-2 bg-white">
             <div className="flex justify-between w-full">
-                <div className="flex items-center">
-                    {locale !== 'heb' && (
+                <div className="flex items-center min-w-0 flex-1">
+                    {effectiveLocale !== 'heb' && (
                         <>
-                            <h1 className="text-sm font-medium cursor-default hover:text-blue transition-colors font-['Geist'] pl-4">The Hear</h1>
-                            <div className="border-l border-dotted border-gray-300 h-[50%] mx-5"></div>
+                            <h1 className="text-sm font-medium cursor-default hover:text-blue transition-colors font-['Geist'] pl-2 sm:pl-4 whitespace-nowrap">The Hear</h1>
+                            <div className="border-l border-dotted border-gray-300 h-[50%] mx-2 sm:mx-5 flex-shrink-0"></div>
                         </>
                     )}
-                    <TimeDisplay locale={locale} />
-                    <div className="border-l border-dotted border-gray-300 h-[50%] mx-5"></div>
-                    <Flag {...{ country, locale}} />
+                    <TimeDisplay locale={effectiveLocale} />
+                    <div className="border-l border-dotted border-gray-300 h-[50%] mx-2 sm:mx-5 flex-shrink-0"></div>
+                    <Flag {...{ country, locale: effectiveLocale, originalLocale: locale}} />
                     {/* Show current summary title when right panel is collapsed */}
                     {isRightPanelCollapsed && currentHeadline && (
                         <>
-                            <div className="border-l border-gray-300 border-dotted h-[50%] mx-5"></div>
+                            <div className="border-l border-gray-300 border-dotted h-[50%] mx-2 sm:mx-5 flex-shrink-0"></div>
                             <div 
-                                className={`text-gray-800 max-w-md truncate cursor-pointer hover:underline hover:underline-offset-2 ${locale === 'heb' ? 'frank-re text-base' : 'font-["Geist"] text-sm'}`}
+                                className={`text-gray-800 truncate cursor-pointer hover:underline hover:underline-offset-2 min-w-0 flex-1 max-w-xs sm:max-w-md ${effectiveLocale === 'heb' ? 'frank-re text-base' : 'font-["Geist"] text-sm'}`}
                                 onClick={onExpandPanel}
                             >
                                 {currentHeadline}
@@ -49,7 +54,7 @@ export default function TopBar({ locale, country, sources, currentSummary, isRig
                     )}
                 </div>
                 <div className="flex items-center hidden md:flex px-2">
-                    <SettingsButton {...{ locale, country, sources, isRightPanelCollapsed }} />
+                    <SettingsButton {...{ locale: effectiveLocale, country, sources, isRightPanelCollapsed }} />
                 </div>
             </div>
         </div>

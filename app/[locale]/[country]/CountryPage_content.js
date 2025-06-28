@@ -10,25 +10,38 @@ import MainSection from "./MainSection";
 import HebrewFonts from "@/utils/typography/HebrewFonts";
 import useCurrentSummary from "@/utils/database/useCurrentSummary";
 import { useRightPanel } from "@/utils/store";
+import useMobile from "@/components/useMobile";
+import Loader from "@/components/loader";
 
 export default function CountryPageContent({ sources, initialSummaries, yesterdaySummary, daySummary, locale, country, pageDate }) {
     const typography = getTypographyOptions(country);
     const currentSummary = useCurrentSummary();
     const [isRightPanelCollapsed, setIsRightPanelCollapsed] = useState(false);
     const { setCollapsed } = useRightPanel();
+    const { isMobile, isLoading } = useMobile();
+
+    // Force English behavior on mobile
+    const effectiveLocale = isMobile ? 'en' : locale;
 
     // Sync local state with global store
     useEffect(() => {
         setCollapsed(isRightPanelCollapsed);
     }, [isRightPanelCollapsed, setCollapsed]);
 
+    // Show loading until mobile detection is complete
+    if (isLoading) {
+        return <Loader />;
+    }
+
     return (
-        <div id='main' className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${locale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
+        <div id='main' className={`absolute flex flex-col sm:flex-row w-full h-full overflow-auto sm:overflow-hidden ${effectiveLocale === 'heb' ? 'direction-rtl' : 'direction-ltr'}`}>
             <EnglishFonts />
             {locale == 'heb' && <HebrewFonts />}
             <typography.component />
             <SideSlider {...{ locale, country, pageDate }} />
-            <div className={`flex-[1 sm:border-l sm:border-r border-gray-200 flex max-w-[400px] `}>
+            
+            {/* Right Panel - only show on desktop */}
+            <div className={`hidden sm:flex flex-[1 sm:border-l sm:border-r border-gray-200 max-w-[400px] `}>
                 <RightPanel 
                     {...{ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate }} 
                     onCollapsedChange={setIsRightPanelCollapsed}
@@ -43,7 +56,7 @@ export default function CountryPageContent({ sources, initialSummaries, yesterda
                     isRightPanelCollapsed={isRightPanelCollapsed}
                     onExpandPanel={() => setIsRightPanelCollapsed(false)}
                 />
-                <MainSection {...{ country, sources, locale, pageDate }} />
+                <MainSection {...{ country, sources, locale, pageDate, initialSummaries, yesterdaySummary, daySummary }} />
             </div>
         </div>
     );

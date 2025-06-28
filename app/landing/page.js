@@ -1,12 +1,22 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import LandingPageContent from './LandingPage_content';
 import TopBar from './TopBar';
 import Footer from './footer';
+import useMobile from "@/components/useMobile";
 
-export const revalidate = 900 // 15 minutes
+export default function Page() {
+    const router = useRouter();
+    const { isMobile, isLoading } = useMobile();
 
-export default async function Page() {
-    // Fetch any necessary data here if needed
-    // For now, we'll just render the content component
+    // Redirect mobile users to mobile page
+    useEffect(() => {
+        if (!isLoading && isMobile) {
+            router.replace('/mobile');
+        }
+    }, [isMobile, isLoading, router]);
 
     return (
         <div className="min-h-screen flex flex-col">

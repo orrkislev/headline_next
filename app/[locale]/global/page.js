@@ -1,15 +1,27 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import HebrewFonts from "@/utils/typography/HebrewFonts";
 import GlobalGrid from "./GlobalGrid";
 import GlobalSummarySection from "./GlobalSummarySection";
 import GlobalTopBar from "./GlobalTopBar";
 import EnglishFonts from "@/utils/typography/EnglishFonts";
+import useMobile from "@/components/useMobile";
+import Loader from "@/components/loader";
 
 export default function GlobalPage({ params }) {
+    const router = useRouter();
+    const { isMobile, isLoading } = useMobile();
     const [locale, setLocale] = useState(null);
     const [isGlobalSummaryCollapsed, setIsGlobalSummaryCollapsed] = useState(false);
+
+    // Redirect mobile users to mobile page
+    useEffect(() => {
+        if (!isLoading && isMobile) {
+            router.replace('/mobile');
+        }
+    }, [isMobile, isLoading, router]);
 
     // Extract locale from params
     useEffect(() => {
@@ -21,7 +33,7 @@ export default function GlobalPage({ params }) {
     }, [params]);
 
     if (!locale) {
-        return null; // Loading state while extracting locale
+        return <Loader />; // Loading state while extracting locale
     }
 
     return (

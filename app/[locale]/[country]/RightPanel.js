@@ -5,7 +5,6 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import DynamicLogo from "@/components/Logo";
 import SummariesSection from "./summaries/SummariesSection";
-import MobileBar from "./MobileBar";
 import CustomTooltip from "@/components/CustomTooltip";
 
 export default function RightPanel({ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate, onCollapsedChange, collapsed }) {
@@ -103,7 +102,6 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
             </div>
             
             <DynamicLogo {...{ locale }} />
-            <MobileBar {...{ locale, country, pageDate }} />
             <SummariesSection {...{ locale, initialSummaries, country, yesterdaySummary, daySummary, pageDate }} />
         </div>
     );

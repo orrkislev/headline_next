@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useGlobalCountryCohesion, useGlobalSort } from "@/utils/store";
 import { getGridColumnClasses } from "./responsiveGrid";
 import { getAICountrySort } from "@/utils/database/globalData";
+import Loader from "@/components/loader";
 
 export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort }) {
     const [AICountrySort, setAICountrySort] = useState(initialAICountrySort || []);
@@ -37,11 +38,7 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
     }, [initialAICountrySort]);
 
     if (isLoading) {
-        return (
-            <div className="flex items-center justify-center h-full">
-                <div className="text-gray-500">Loading...</div>
-            </div>
-        );
+        return <Loader />;
     }
 
     let countryOrder = [...AICountrySort]

@@ -7,7 +7,7 @@ import logoC from './logo/logo-head-4.png';
 import Image from 'next/image';
 import InnerLink from './InnerLink';
 
-export default function DynamicLogo({ locale }) {
+export default function DynamicLogo({ locale, padding = 'p-4' }) {
     const [currentLogo, setCurrentLogo] = useState(logoA);
     const [isFakeHover, setIsFakeHover] = useState(false);
 

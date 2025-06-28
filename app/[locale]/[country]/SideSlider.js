@@ -17,7 +17,10 @@ export default function SideSlider({ locale, country, pageDate }) {
     const date = useTime(state => state.date);
     const setDate = useTime(state => state.setDate);
     const [day, setDay] = useState(date.toDateString());
-    const isMobile = useMobile();
+    const { isMobile } = useMobile();
+    
+    // Force English behavior on mobile
+    const effectiveLocale = isMobile ? 'en' : locale;
 
     useEffect(() => {
         if (date) setDay(date.toDateString());
@@ -79,8 +82,8 @@ export default function SideSlider({ locale, country, pageDate }) {
     if (isMobile) return (
         <div className={`fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-gray-200
             flex items-center justify-between py-2 px-1 gap-2`}>
-            <IconButton size="small" onClick={() => nextSummary && goToSummary(nextSummary)} disabled={!nextSummary}>
-                <KeyboardArrowRight />
+            <IconButton size="small" onClick={() => prevSummary && goToSummary(prevSummary)} disabled={!prevSummary}>
+                <KeyboardArrowLeft />
             </IconButton>
             <CustomSlider_Source orientation="horizontal" size="small"
                 min={0} max={24 * 60-1} step={1}
@@ -88,19 +91,20 @@ export default function SideSlider({ locale, country, pageDate }) {
                 value={minutes} marks={marks}
                 sx={{ height: 4 }}
             />
-            <IconButton size="small" onClick={() => prevSummary && goToSummary(prevSummary)} disabled={!prevSummary}>
-                <KeyboardArrowLeft />
+            <IconButton size="small" onClick={() => nextSummary && goToSummary(nextSummary)} disabled={!nextSummary}>
+                <KeyboardArrowRight />
             </IconButton>
+            <ResetTimerButton locale={effectiveLocale} country={country} pageDate={pageDate} />
         </div>
     )
 
     return (
-        <div className={`flex flex-col items-center justify-center ${locale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
-            <ResetTimerButton locale={locale} country={country} pageDate={pageDate} />
+        <div className={`flex flex-col items-center justify-center ${effectiveLocale === 'heb' ? 'border-r' : 'border-l'} border-gray-200 py-2 px-1 gap-2`}>
+            <ResetTimerButton locale={effectiveLocale} country={country} pageDate={pageDate} />
             <IconButton size="small" onClick={() => nextSummary && goToSummary(nextSummary)} disabled={!nextSummary}>
                 <KeyboardArrowUp />
             </IconButton>
-            <CustomTooltip title={locale === 'heb' ? 'חזרה בזמן' : 'Back in time'} followCursor placement={locale === 'heb' ? 'left' : 'right'}>
+            <CustomTooltip title={effectiveLocale === 'heb' ? 'חזרה בזמן' : 'Back in time'} followCursor placement={effectiveLocale === 'heb' ? 'left' : 'right'}>
                 <CustomSlider_Side orientation="vertical" size="small"
                     min={0} max={24 * 60-1} step={1}
                     onChange={(_, value) => updateDate(value)}
