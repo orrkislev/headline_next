@@ -55,3 +55,8 @@ export const useGlobalCountryCohesion = create(set => ({
     globalCountryCohesion: {},
     setGlobalCountryCohesion: (country, cohesion) => set(state => ({ globalCountryCohesion: { ...state.globalCountryCohesion, [country]: cohesion } })),
 }));
+
+export const useGlobalCountryTimestamps = create(set => ({
+    globalCountryTimestamps: {},
+    setGlobalCountryTimestamp: (country, timestamp) => set(state => ({ globalCountryTimestamps: { ...state.globalCountryTimestamps, [country]: timestamp } })),
+}));

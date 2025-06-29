@@ -2,11 +2,12 @@
 
 import { countries } from "@/utils/sources/countries";
 import GlobalCard from "./Card/GlobalCard";
-import { useEffect, useState } from "react";
-import { useGlobalCountryCohesion, useGlobalSort } from "@/utils/store";
+import { useEffect, useState, useMemo } from "react";
+import { useGlobalCountryCohesion, useGlobalSort, useGlobalCountryTimestamps, useFont } from "@/utils/store";
 import { getGridColumnClasses } from "./responsiveGrid";
 import { getAICountrySort } from "@/utils/database/globalData";
-import Loader from "@/components/loader";
+import { getTypographyOptions } from "@/utils/typography/typography";
+import { choose } from "@/utils/utils";
 
 export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort }) {
     const [AICountrySort, setAICountrySort] = useState(initialAICountrySort || []);
@@ -15,6 +16,19 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
     const pinnedCountries = useGlobalSort(state => state.pinnedCountries)
     const setPinnedCountries = useGlobalSort(state => state.setPinnedCountries)
     const globalCountryCohesion = useGlobalCountryCohesion(state => state.globalCountryCohesion)
+    const globalCountryTimestamps = useGlobalCountryTimestamps(state => state.globalCountryTimestamps)
+    const font = useFont((state) => state.font);
+
+    // Select typography consistently for all cards, following SourceCard pattern
+    const typography = useMemo(() => {
+        let typo = font
+        const options = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options
+        if (typeof font === 'number') typo = options[font % options.length]
+        else if (font == 'random') typo = choose(options)
+        
+        // Create a deep copy to avoid mutations
+        return JSON.parse(JSON.stringify(typo))
+    }, [font, locale]);
 
     useEffect(() => {
         const pinnedCountries = localStorage.getItem('pinnedCountries');
@@ -38,7 +52,7 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
     }, [initialAICountrySort]);
 
     if (isLoading) {
-        return <Loader />;
+        return null;
     }
 
     let countryOrder = [...AICountrySort]
@@ -46,6 +60,7 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
     if (globalSort == 'population') countryOrder = Object.entries(countries).sort((a, b) => b[1].population - a[1].population).map(c => c[0])
     if (globalSort == 'softPower') countryOrder = Object.entries(countries).sort((a, b) => a[1].softPower - b[1].softPower).map(c => c[0])
     if (globalSort == 'pressFreedom') countryOrder = Object.entries(countries).sort((a, b) => a[1].pressFreedom - b[1].pressFreedom).map(c => c[0])
+    if (globalSort == 'recency') countryOrder = Object.entries(globalCountryTimestamps).sort((a, b) => new Date(b[1]) - new Date(a[1])).map(c => c[0])
 
     countryOrder.sort((a, b) => {
         const pinnedA = pinnedCountries.indexOf(a)
@@ -59,7 +74,7 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
     return (
         <div className={`custom-scrollbar overflow-y-auto grid ${getGridColumnClasses()} gap-4 p-4`}>
             {countryOrder.map((country, index) => (
-                <GlobalCard key={index} {...{ country, locale, index }} pinned={pinnedCountries.indexOf(country)} />
+                <GlobalCard key={index} {...{ country, locale, index, typography }} pinned={pinnedCountries.indexOf(country)} />
             ))}
         </div>
     );

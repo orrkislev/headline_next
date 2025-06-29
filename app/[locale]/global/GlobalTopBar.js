@@ -16,6 +16,7 @@ export default function GlobalTopBar({ locale }) {
     const sortOptions = [
         { label: "AI", value: "ai", title: "An AI reads and sorts the headlines, acting as a live editor" },
         { label: "Cohesion", value: "cohesion", title: "Sorts headlines by the degree the different sources agree on what the main story is" },
+        { label: "Recency", value: "recency", title: "Sorts countries by most recent headline activity" },
         { label: "Population", value: "population", title: "Sorts countries by population size" },
         { label: "Soft Power", value: "softPower", title: "Sorts countries according to Brand Finance's 'Soft Power Index'" },
         { label: "Press Freedom", value: "pressFreedom", title: "Sorts countries according to the World Press Freedom Index by RSF" },

@@ -1,12 +1,8 @@
 'use client'
 
-import Link from "next/link";
-import { useResponsiveFontSizes, calculateTitleFontSize } from "@/utils/typography/responsiveFontSizes";
 import InnerLink from "@/components/InnerLink";
 
 export default function Headline({ country, locale, summary, typography, index }) {
-    const responsiveFontSizes = useResponsiveFontSizes();
-
     let headline = summary.englishHeadline;
     if (locale === 'heb') {
         headline = summary.hebrewHeadline || summary.headline
@@ -14,17 +10,11 @@ export default function Headline({ country, locale, summary, typography, index }
         headline = summary ? (summary.translatedHeadline || summary.headline) : '';
     }
 
-    // Determine language for font size calculation
-    const language = locale === 'heb' ? 'hebrew' : 'english';
-
-    // Calculate font size based on index and language
-    const fontSize = calculateTitleFontSize(index, language, responsiveFontSizes);
-
-    // Update typography with calculated font size
-    const updatedTypography = {
+    // Apply 1.5x font size multiplier for the first card (index 0)
+    const updatedTypography = index === 0 ? {
         ...typography,
-        fontSize
-    };
+        fontSize: `calc(${typography.fontSize} * 1.5)`
+    } : typography;
 
     return (
         <InnerLink locale={locale} href={`/${locale}/${country}`}>
@@ -32,7 +22,8 @@ export default function Headline({ country, locale, summary, typography, index }
                 style={{
                     ...updatedTypography,
                     width: '100%',
-                    fontFamily: locale === 'heb' ? 'var(--font-frank-re)' : updatedTypography.fontFamily
+                    // Preserve the typography fontSize to maintain font-specific multipliers
+                    fontFamily: updatedTypography.fontFamily
                 }} key={summary.id}>
                 {headline}
             </h2>

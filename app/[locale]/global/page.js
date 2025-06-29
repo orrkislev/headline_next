@@ -9,12 +9,19 @@ import GlobalTopBar from "./GlobalTopBar";
 import EnglishFonts from "@/utils/typography/EnglishFonts";
 import useMobile from "@/components/useMobile";
 import Loader from "@/components/loader";
+import { useFont } from "@/utils/store";
 
 export default function GlobalPage({ params }) {
     const router = useRouter();
     const { isMobile, isLoading } = useMobile();
     const [locale, setLocale] = useState(null);
     const [isGlobalSummaryCollapsed, setIsGlobalSummaryCollapsed] = useState(false);
+    const { setFont } = useFont();
+
+    // Set font to random for global page random font experience
+    useEffect(() => {
+        setFont("random");
+    }, [setFont]);
 
     // Redirect mobile users to mobile page
     useEffect(() => {

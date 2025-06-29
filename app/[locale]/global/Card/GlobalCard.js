@@ -5,15 +5,13 @@ import CountryName from "./CountryName";
 import Headline from "./Headline";
 import Content from "./Content";
 import useFirebase from "@/utils/database/useFirebase";
-import { getTypographyOptions } from "@/utils/typography/typography";
-import { useGlobalSort, useGlobalCountryCohesion } from "@/utils/store";
+import { useGlobalSort, useGlobalCountryCohesion, useGlobalCountryTimestamps } from "@/utils/store";
 import { getCardSpanClasses } from "../responsiveGrid";
 
-const randomFontIndex = Math.floor(Math.random() * 100)
-
-export default function GlobalCard({ country, locale, pinned, index }) {
+export default function GlobalCard({ country, locale, pinned, index, typography }) {
     const [summary, setSummary] = useState(null)
     const setGlobalCountryCohesion = useGlobalCountryCohesion(state => state.setGlobalCountryCohesion)
+    const setGlobalCountryTimestamp = useGlobalCountryTimestamps(state => state.setGlobalCountryTimestamp)
     const firebase = useFirebase()
 
     useEffect(() => {
@@ -21,15 +19,12 @@ export default function GlobalCard({ country, locale, pinned, index }) {
         const unsubscribe = firebase.subscribeToSummaries(country, (newSummaries) => {
             setSummary(newSummaries[0])
             setGlobalCountryCohesion(country, newSummaries[0].relativeCohesion)
+            setGlobalCountryTimestamp(country, newSummaries[0].timestamp)
         })
         return () => unsubscribe();
     }, [country, firebase.db])
 
     if (!summary) return null;
-
-    const typographyOptions = getTypographyOptions(locale == 'heb' ? 'israel' : 'us').options
-    let typography = typographyOptions[randomFontIndex % typographyOptions.length]
-    typography = JSON.parse(JSON.stringify(typography))
 
     return (
         <div style={{ order: index }}

@@ -28,7 +28,8 @@ export default function Settings({ locale }) {
 
     const sortOptions = [
         { label: "AI", value: "ai", title: "An AI reads and sorts the headlines, acting as a live editor" },
-        { label: "COHESION", value: "cohesion", title: "Sorts headlines by the degree the different sources agree on what the main story is" },
+        { label: "COHESION", value: "cohesion", title: "Sorts countries by the degree the different sources agree on what the main story is" },
+        { label: "RECENCY", value: "recency", title: "Recent overviews at the top" },
         { label: "POPULATION", value: "population", title: "Sorts countries by population size" },
         { label: "SOFT POWER", value: "softPower", title: "Sorts countries according to Brand Finance's 'Soft Power Index'" },
         { label: "PRESS FREEDOM", value: "pressFreedom", title: "Sorts countries according to the World Press Freedom Index by RSF" },
@@ -40,7 +41,7 @@ export default function Settings({ locale }) {
     ]
 
     const visibleSortOptions = isSortExpanded ? sortOptions : sortOptions.filter(option => 
-        ['ai', 'cohesion'].includes(option.value)
+        ['ai', 'cohesion', 'recency'].includes(option.value)
     )
 
     return (
