@@ -11,7 +11,7 @@ export const revalidate = false; // generate once, never revalidate
 export const dynamicParams = true; // allow on-demand generation
 
 export async function generateStaticParams() {
-    return []; // don’t prebuild any paths
+    return []; // don't prebuild any paths
 }
 
 // Generate SEO metadata for a specific day
@@ -28,8 +28,8 @@ export default async function Page({ params }) {
     if (isSameDay(parsedDate, todayInTimezone) || parsedDate > new Date() || isNaN(parsedDate.getTime()))
         redirect(`/${locale}/${country}`);
 
-    const headlines = await getCountryDayHeadlines(country, parsedDate, 1);
-    const initialSummaries = await getCountryDaySummaries(country, parsedDate, 1);
+    const headlines = await getCountryDayHeadlines(country, parsedDate, 2);
+    const initialSummaries = await getCountryDaySummaries(country, parsedDate, 2);
     const daySummary = await getCountryDailySummary(country, parsedDate)
     const yesterdaySummary = await getCountryDailySummary(country, sub(parsedDate, { days: 1 }))
 
