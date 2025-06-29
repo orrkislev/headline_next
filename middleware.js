@@ -2,6 +2,62 @@ import { countryToAlpha2 } from 'country-to-iso';
 import { NextResponse } from 'next/server';
 import { countries } from './utils/sources/countries';
 
+// Mapping from ISO country codes to your available countries
+const countryCodeToSlug = {
+  'IL': 'israel',
+  'CN': 'china', 
+  'FI': 'finland',
+  'FR': 'france',
+  'DE': 'germany',
+  'IN': 'india',
+  'IR': 'iran',
+  'IT': 'italy',
+  'JP': 'japan',
+  'LB': 'lebanon',
+  'NL': 'netherlands',
+  'PS': 'palestine',
+  'PL': 'poland',
+  'RU': 'russia',
+  'ES': 'spain',
+  'TR': 'turkey',
+  'GB': 'uk',
+  'US': 'us',
+  'UA': 'ukraine',
+  'AE': 'uae'
+};
+
+function getUserCountry(request) {
+  // Try various headers that might contain country information
+  const headers = request.headers;
+  
+  // In development, check if this is localhost
+  const isLocalhost = request.nextUrl.hostname === 'localhost' || request.nextUrl.hostname === '127.0.0.1';
+  
+  // Vercel provides country in this header
+  let countryCode = headers.get('x-vercel-ip-country');
+  
+  // Cloudflare provides country in this header
+  if (!countryCode) {
+    countryCode = headers.get('cf-ipcountry');
+  }
+  
+  // Development mode: simulate Israel for testing
+  if (!countryCode && isLocalhost) {
+    // You can change this to test different countries in development
+    countryCode = 'IL'; // Simulate Israel for local development
+  }
+  
+  // Fallback: default to US if we can't detect
+  if (!countryCode) {
+    countryCode = 'US';
+  }
+  
+  // Map to your available countries
+  const availableCountry = countryCodeToSlug[countryCode];
+  
+  // If the user's country isn't in your list, default to 'us'
+  return availableCountry || 'us';
+}
 
 async function getCountry(code) {
   if (code == 'global') return 'global';
@@ -26,9 +82,12 @@ export async function middleware(request) {
 
   const segments = pathname.split('/').filter(Boolean);
 
-  // Handle root path
+  // Handle root path - redirect based on user location
   if (segments.length === 0) {
-    return NextResponse.redirect(new URL('/landing', request.url));
+    const userCountry = getUserCountry(request);
+    // Special case: Israel should redirect to Hebrew version
+    const locale = userCountry === 'israel' ? 'heb' : 'en';
+    return NextResponse.redirect(new URL(`/${locale}/${userCountry}`, request.url));
   }
 
   // Path with locale: /locale/country
