@@ -42,6 +42,20 @@ export const useActiveWebsites = create(set => ({
     setActiveWebsites: (websites) => set({ activeWebsites: websites }),
 }));
 
+// Helper function to get initial filtered countries from localStorage (browser only)
+const getInitialFilteredCountries = () => {
+    if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('filteredCountries');
+        if (saved) {
+            try {
+                return JSON.parse(saved);
+            } catch (e) {
+                return [];
+            }
+        }
+    }
+    return [];
+};
 
 export const useGlobalSort = create(set => ({
     globalSort: 'ai',
@@ -50,7 +64,15 @@ export const useGlobalSort = create(set => ({
     setPinnedCountries: (countries) => set({ pinnedCountries: countries }),
     allExpanded: false,
     setAllExpanded: (expanded) => set({ allExpanded: expanded }),
+    filteredCountries: getInitialFilteredCountries(),
+    setFilteredCountries: (countries) => set({ filteredCountries: countries }),
+    toggleCountryFilter: (country) => set(state => ({
+        filteredCountries: state.filteredCountries.includes(country) 
+            ? state.filteredCountries.filter(c => c !== country)
+            : [...state.filteredCountries, country]
+    })),
 }));
+
 export const useGlobalCountryCohesion = create(set => ({
     globalCountryCohesion: {},
     setGlobalCountryCohesion: (country, cohesion) => set(state => ({ globalCountryCohesion: { ...state.globalCountryCohesion, [country]: cohesion } })),

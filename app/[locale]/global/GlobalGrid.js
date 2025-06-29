@@ -15,6 +15,8 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
     const globalSort = useGlobalSort(state => state.globalSort)
     const pinnedCountries = useGlobalSort(state => state.pinnedCountries)
     const setPinnedCountries = useGlobalSort(state => state.setPinnedCountries)
+    const filteredCountries = useGlobalSort(state => state.filteredCountries)
+    const setFilteredCountries = useGlobalSort(state => state.setFilteredCountries)
     const globalCountryCohesion = useGlobalCountryCohesion(state => state.globalCountryCohesion)
     const globalCountryTimestamps = useGlobalCountryTimestamps(state => state.globalCountryTimestamps)
     const font = useFont((state) => state.font);
@@ -71,9 +73,12 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
         return 0
     })
 
+    // Filter out countries that are in the filteredCountries array
+    const visibleCountries = countryOrder.filter(country => !filteredCountries.includes(country));
+
     return (
         <div className={`custom-scrollbar overflow-y-auto grid ${getGridColumnClasses()} gap-4 p-4`}>
-            {countryOrder.map((country, index) => (
+            {visibleCountries.map((country, index) => (
                 <GlobalCard key={index} {...{ country, locale, index, typography }} pinned={pinnedCountries.indexOf(country)} />
             ))}
         </div>
