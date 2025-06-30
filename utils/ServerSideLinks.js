@@ -4,10 +4,24 @@ import { countries } from "@/utils/sources/countries";
 export function ServerHeadlineLinks({ headlines, locale, country, date }) {
     if (!headlines || headlines.length === 0) return null;
     
+    // Filter out internal links to prevent 404s
+    const validExternalHeadlines = headlines.filter(headline => {
+        if (!headline.link) return false;
+        
+        // Check if link points to our own domain
+        const isInternalLink = headline.link.includes('the-hear.com') || 
+                              headline.link.includes('www.the-hear.com') ||
+                              headline.link.startsWith('/');
+        
+        return !isInternalLink;
+    });
+    
+    if (validExternalHeadlines.length === 0) return null;
+    
     return (
         <div style={{ display: 'none' }}>
-            {/* Hidden server-rendered links for crawlers */}
-            {headlines.map((headline) => (
+            {/* Hidden server-rendered links for crawlers - external only */}
+            {validExternalHeadlines.map((headline) => (
                 <a 
                     key={headline.id}
                     href={headline.link}
