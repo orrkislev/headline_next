@@ -64,12 +64,20 @@ function FlagSelector({ country, open, close, locale, originalLocale }) {
             } p-4 bg-white rounded-xs shadow-lg w-[18rem] z-[1000] font-['Geist'] text-sm`} dir="ltr">
                 <div className="grid grid-cols-2 gap-[1px] bg-gray-200">
                     {Object.keys(countries).map((c, i) => (
-                        <InnerLink key={i} locale={navigationLocale} href={`/${navigationLocale}/${c}`}>
-                            <div className={`flex justify-start items-center gap-2 p-2 hover:bg-gray-100 cursor-pointer ${c === country ? 'bg-gray-50' : 'bg-white'}`}>
+                        c === 'uae' ? (
+                            // UAE is temporarily disabled due to Firestore collection naming issue
+                            <div key={i} className={`flex justify-start items-center gap-2 p-2 cursor-not-allowed opacity-50 ${c === country ? 'bg-gray-50' : 'bg-white'}`}>
                                 <FlagIcon country={c} />
                                 {countries[c].english}
                             </div>
-                        </InnerLink>
+                        ) : (
+                            <InnerLink key={i} locale={navigationLocale} href={`/${navigationLocale}/${c}`}>
+                                <div className={`flex justify-start items-center gap-2 p-2 hover:bg-gray-100 cursor-pointer ${c === country ? 'bg-gray-50' : 'bg-white'}`}>
+                                    <FlagIcon country={c} />
+                                    {countries[c].english}
+                                </div>
+                            </InnerLink>
+                        )
                     ))}
                     {/* Add empty white cell if odd number of countries */}
                     {Object.keys(countries).length % 2 !== 0 && (

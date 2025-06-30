@@ -42,6 +42,12 @@ export function ServerCountryNavigation({ locale, currentCountry }) {
             {/* Hidden server-rendered country navigation for crawlers */}
             {Object.keys(countries)
                 .filter(country => country !== currentCountry) // Exclude current country
+                .filter(country => {
+                    // Temporarily exclude UAE as destination to prevent errors
+                    // (UAE will only appear if someone is currently ON UAE and needs to navigate away, 
+                    // but that's already filtered out by the first filter)
+                    return country !== 'uae';
+                })
                 .map(country => (
                     <a 
                         key={country}
@@ -51,12 +57,15 @@ export function ServerCountryNavigation({ locale, currentCountry }) {
                         {countries[country].english} News
                     </a>
                 ))}
-            <a 
-                href={`https://www.the-hear.com/${locale}/global`}
-                aria-hidden="true"
-            >
-                Global News
-            </a>
+            {/* Always include global link unless we're already on global */}
+            {currentCountry !== 'global' && (
+                <a 
+                    href={`https://www.the-hear.com/${locale}/global`}
+                    aria-hidden="true"
+                >
+                    Global News
+                </a>
+            )}
         </div>
     );
 }
