@@ -4,6 +4,7 @@ import { useState } from "react";
 import DynamicLogo from "@/components/Logo";
 import { useTranslate, useTime } from "@/utils/store";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import useSummariesManager from "@/utils/database/useSummariesManager";
 
 // Helper function to clean summary text by removing everything after language markers
 const cleanSummaryText = (text) => {
@@ -29,14 +30,17 @@ export default function MobileSummary({ locale, country, pageDate, initialSummar
     const currentTime = useTime(state => state.date);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isLogoHovered, setIsLogoHovered] = useState(false);
+    
+    // Use the same summaries manager as desktop for live updates
+    const summaries = useSummariesManager(country, initialSummaries, !Boolean(pageDate));
 
     // Find the current summary based on the selected time
     const getCurrentSummary = () => {
-        if (!initialSummaries || initialSummaries.length === 0) return null;
+        if (!summaries || summaries.length === 0) return null;
         
         // Find the summary that matches the current selected time
         // This logic matches how the desktop version works
-        const currentSummary = initialSummaries.find(summary => {
+        const currentSummary = summaries.find(summary => {
             const timeDiff = Math.abs(summary.timestamp.getTime() - currentTime.getTime());
             return timeDiff < 30 * 60 * 1000; // Within 30 minutes
         });
@@ -44,11 +48,11 @@ export default function MobileSummary({ locale, country, pageDate, initialSummar
         if (currentSummary) return currentSummary;
 
         // If no exact match, find the most recent summary before the current time
-        const pastSummaries = initialSummaries
+        const pastSummaries = summaries
             .filter(summary => summary.timestamp <= currentTime)
             .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
-        return pastSummaries[0] || initialSummaries[0];
+        return pastSummaries[0] || summaries[0];
     };
 
     const currentSummary = getCurrentSummary();
