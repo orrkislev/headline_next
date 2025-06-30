@@ -4,6 +4,27 @@ import { countries } from "@/utils/sources/countries";
 import CountryPageContent from "./CountryPage_content";
 import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { createMetadata, LdJson } from "./metadata";
+
+// Server-side headline links for SEO
+function ServerHeadlineLinks({ headlines, locale, country }) {
+    if (!headlines || headlines.length === 0) return null;
+    
+    return (
+        <div style={{ display: 'none' }}>
+            {/* Hidden server-rendered links for crawlers */}
+            {headlines.map((headline) => (
+                <a 
+                    key={headline.id}
+                    href={headline.link}
+                    rel="noopener noreferrer"
+                    aria-hidden="true"
+                >
+                    {headline.headline}
+                </a>
+            ))}
+        </div>
+    );
+}
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
 
@@ -45,6 +66,10 @@ export default async function Page({ params }) {
     return <>
         <LdJson {...{ country, locale }} />
         <h1 className="sr-only">A Living Newsstand of Main Headlines from {countryName}, functioning as both a control room and an archive</h1>
+        
+        {/* Server-rendered headline links for SEO crawlers */}
+        <ServerHeadlineLinks headlines={headlines} locale={locale} country={country} />
+        
         <CountryPageContent 
             {...{ sources, 
                 initialSummaries, 
