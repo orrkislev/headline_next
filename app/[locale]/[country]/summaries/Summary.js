@@ -74,24 +74,24 @@ export default function Summary({ summary, country, active, locale, yesterday })
         <div
             ref={summaryRef}
             className={`py-2 ${fontClass} leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'} border-b border-dashed border-gray-200 pb-5 ${
-                active ? (locale === 'heb' ? 'text-[17px]' : 'text-base') : 'text-sm'
+                active ? (locale === 'heb' ? 'text-[16px]' : 'text-[14px]') : 'text-sm'
             }`}
             style={{
                 color: active ? 'black' : '#e8e8e8',
                 cursor: active ? 'text' : 'pointer',
                 fontWeight: 400,
-                lineHeight: active ? '1.4' : '1.3',
+                lineHeight: active ? '1.5' : '1.5',
             }}
             onClick={clickHandler}
         >
-            <h3 className={`${active ? 'text-blue' : ''} mb-2 text-lg font-medium`}
+            <h3 className={`${active ? 'text-blue' : ''} mb-2 ${locale === 'heb' ? 'text-[17px]' : 'text-base'} font-medium`}
                 style={{
-                    lineHeight: active ? '1.5' : '1.3',
+                    lineHeight: active ? '1.5' : '1.4',
                     marginTop: active ? '0px' : '12px',
                     marginBottom: '10px',
                 }}
             >
-                <span className="font-['GeistMono', 'Consolas', 'monospace'] text-lg">{timestamp}</span>
+                <span className={`font-['GeistMono', 'Consolas', 'monospace'] ${locale === 'heb' ? 'text-[17px]' : 'text-sm'}`}>{timestamp}</span>
                 <span className="mx-1">{locale == 'heb' ? '⇠' : '⇢'}</span>
                 <span>{headline}</span>
             </h3>

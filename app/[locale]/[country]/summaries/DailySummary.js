@@ -30,8 +30,8 @@ export default function DailySummary({ locale, daySummary }) {
                 className='flex items-center justify-between relative cursor-pointer p-4' 
                 onClick={() => setExpanded(!expanded)}
             >
-                <h2 className={`flex-1 ${locale === 'heb' ? 'frank-re text-right' : 'font-["Geist"] text-left'} text-black text-lg font-medium`}>
-                    <span className="font-['GeistMono'] text-lg">{formattedDate}</span>
+                <h2 className={`flex-1 ${locale === 'heb' ? 'frank-re text-right text-[17px]' : 'font-["Geist"] text-left text-base'} text-black font-medium`}>
+                    <span className="font-['GeistMono'] text-base">{formattedDate}</span>
                     <span className="mx-1">{locale == 'heb' ? ' ⇠ ' : ' ⇢ '}</span>
                     <span style={{ lineHeight: '1.5rem' }}>{headline}</span>
                 </h2>
@@ -45,7 +45,7 @@ export default function DailySummary({ locale, daySummary }) {
             
             <Collapse in={expanded}>
                 <div 
-                    className={`px-4 custom-scrollbar font-normal pb-6 ${locale === 'heb' ? 'frank-re text-right' : 'font-["Geist"] text-left'} text-base`} 
+                    className={`px-4 custom-scrollbar font-normal pb-6 ${locale === 'heb' ? 'frank-re text-right text-base' : 'font-["Geist"] text-left text-sm'}`} 
                     style={{ 
                         lineHeight: '1.5',
                         maxHeight: '45vh',
