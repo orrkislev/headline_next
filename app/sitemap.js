@@ -31,8 +31,8 @@ const countryLaunchDates = {
 export default function sitemap() {
     const res = []
     const locales = ['en', 'heb']
-    // Canonical domain - using the-hear.com (without www) to match robots.txt
-    const baseUrl = 'https://the-hear.com'
+    // Canonical domain - using www.the-hear.com to match hosting redirect setup
+    const baseUrl = 'https://www.the-hear.com'
     const today = new Date()
 
     // HIGHEST PRIORITY ROUTES (1.0)

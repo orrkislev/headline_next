@@ -21,17 +21,17 @@ export const metadata = {
   openGraph: {
     title: "The Hear",
     description: "A newsstand with a brain",
-    url: "https://the-hear.com/",
+    url: "https://www.the-hear.com/",
     siteName: "The Hear",
     images: [
       {
-        url: "https://the-hear.com/logo192.png",
+        url: "https://www.the-hear.com/logo192.png",
         width: 192,
         height: 192,
         alt: "The Hear logo",
       },
       {
-        url: "https://the-hear.com/logo512.png",
+        url: "https://www.the-hear.com/logo512.png",
         width: 512,
         height: 512,
         alt: "The Hear logo large",
@@ -44,7 +44,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "The Hear",
     description: "A newsstand with a brain",
-    images: ["https://the-hear.com/logo512.png"],
+    images: ["https://www.the-hear.com/logo512.png"],
     site: "@thehearnews"
   },
   icons: {

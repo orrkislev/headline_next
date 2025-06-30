@@ -12,7 +12,7 @@ export async function createMetadata(params) {
     const description = locale === 'heb'
         ? `דוכן כותרות חי של עיתונים מ${countryName}, זו לצד זו, המשמש גם כחדר מצב וגם כארכיון.`
         : `A Living Newsstand of Main Headlines from ${countryName}, displayed side by side.`;
-    const url = `https://the-hear.com/${locale}/${country}`;
+    const url = `https://www.the-hear.com/${locale}/${country}`;
     return {
         title,
         description,
@@ -25,7 +25,7 @@ export async function createMetadata(params) {
             type: 'website',
             images: [
                 {
-                    url: 'https://the-hear.com/logo192.png',
+                    url: 'https://www.the-hear.com/logo192.png',
                     width: 192,
                     height: 192,
                     alt: `${siteName} logo`,
@@ -36,7 +36,7 @@ export async function createMetadata(params) {
             card: 'summary_large_image',
             title,
             description,
-            images: ['https://the-hear.com/logo512.png'],
+            images: ['https://www.the-hear.com/logo512.png'],
         },
         alternates: {
             canonical: url,
@@ -48,7 +48,7 @@ export function LdJson({ country, locale }) {
     // JSON-LD structured data for SEO
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
-    const url = `https://the-hear.com/${locale}/${country}`;
+    const url = `https://www.the-hear.com/${locale}/${country}`;
     const description = locale === 'heb'
         ? `קבלו את כותרות החדשות והסיכומים האחרונים מ${countryName}, מתעדכן יומית בעברית ובאנגלית.`
         : `Get the latest headlines and news summaries from ${countryName}, updated daily in English and Hebrew.`;
@@ -66,7 +66,7 @@ export function LdJson({ country, locale }) {
             'name': 'The Hear',
             'logo': {
                 '@type': 'ImageObject',
-                'url': 'https://the-hear.com/logo192.png'
+                'url': 'https://www.the-hear.com/logo192.png'
             }
         }
     };

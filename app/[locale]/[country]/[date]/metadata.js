@@ -22,7 +22,7 @@ export async function createMetadata(params) {
         ? `ארכיון כותרות מ-${countryName} ל-${date}, כפי שהתפתחו בזמן אמת.`
         : `An archive of the Headlines from major news sources in ${countryName} for ${date}, as they unfolded in real time: relive the news.`;
 
-    const url = `https://the-hear.com/${locale}/${country}/${date}`;
+    const url = `https://www.the-hear.com/${locale}/${country}/${date}`;
 
     return {
         title,
@@ -36,7 +36,7 @@ export async function createMetadata(params) {
             type: 'article',
             images: [
                 {
-                    url: 'https://the-hear.com/logo192.png',
+                    url: 'https://www.the-hear.com/logo192.png',
                     width: 192,
                     height: 192,
                     alt: `${siteName} logo`,
@@ -47,7 +47,7 @@ export async function createMetadata(params) {
             card: 'summary_large_image',
             title,
             description,
-            images: ['https://the-hear.com/logo512.png'],
+            images: ['https://www.the-hear.com/logo512.png'],
         },
         alternates: {
             canonical: url,
@@ -63,7 +63,7 @@ export function LdJson({ country, locale, date, daySummary }) {
     const siteName = 'The Hear';
     const title = `${countryName} ${date}: ${headline} | ${siteName}`;
 
-    const url = `https://the-hear.com/${locale}/${country}/${date}`;
+    const url = `https://www.the-hear.com/${locale}/${country}/${date}`;
     const description = locale === 'heb'
         ? `כותרות וסיכומי חדשות מ${countryName} מתאריך ${date}.`
         : `News headlines and summaries from ${countryName} for ${date}.`;
@@ -82,7 +82,7 @@ export function LdJson({ country, locale, date, daySummary }) {
             'name': 'The Hear',
             'logo': {
                 '@type': 'ImageObject',
-                'url': 'https://the-hear.com/logo192.png'
+                'url': 'https://www.the-hear.com/logo192.png'
             }
         }
     };
