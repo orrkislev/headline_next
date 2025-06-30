@@ -12,7 +12,7 @@ export async function createMetadata(params) {
     const description = locale === 'heb'
         ? `דוכן כותרות חי של עיתונים מ${countryName}, זו לצד זו, המשמש גם כחדר מצב וגם כארכיון.`
         : `A Living Newsstand of Main Headlines from ${countryName}, displayed side by side.`;
-    const url = `https://headlines.sh/${locale}/${country}`;
+    const url = `https://the-hear.com/${locale}/${country}`;
     return {
         title,
         description,
@@ -48,7 +48,7 @@ export function LdJson({ country, locale }) {
     // JSON-LD structured data for SEO
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
-    const url = `https://headlines.sh/${locale}/${country}`;
+    const url = `https://the-hear.com/${locale}/${country}`;
     const description = locale === 'heb'
         ? `קבלו את כותרות החדשות והסיכומים האחרונים מ${countryName}, מתעדכן יומית בעברית ובאנגלית.`
         : `Get the latest headlines and news summaries from ${countryName}, updated daily in English and Hebrew.`;

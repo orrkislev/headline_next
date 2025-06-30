@@ -22,7 +22,7 @@ export async function createMetadata(params) {
         ? `ארכיון כותרות מ-${countryName} ל-${date}, כפי שהתפתחו בזמן אמת.`
         : `An archive of the Headlines from major news sources in ${countryName} for ${date}, as they unfolded in real time: relive the news.`;
 
-    const url = `https://headlines.sh/${locale}/${country}/${date}`;
+    const url = `https://the-hear.com/${locale}/${country}/${date}`;
 
     return {
         title,
@@ -63,7 +63,7 @@ export function LdJson({ country, locale, date, daySummary }) {
     const siteName = 'The Hear';
     const title = `${countryName} ${date}: ${headline} | ${siteName}`;
 
-    const url = `https://headlines.sh/${locale}/${country}/${date}`;
+    const url = `https://the-hear.com/${locale}/${country}/${date}`;
     const description = locale === 'heb'
         ? `כותרות וסיכומי חדשות מ${countryName} מתאריך ${date}.`
         : `News headlines and summaries from ${countryName} for ${date}.`;
