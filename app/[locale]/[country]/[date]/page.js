@@ -44,7 +44,7 @@ export default async function Page({ params }) {
         <LdJson {...{ country, locale, daySummary }} date={parsedDate} />
         
         {/* Server-rendered SEO content for crawlers */}
-        <ServerCountrySEOContent locale={locale} country={country} />
+        <ServerCountrySEOContent locale={locale} country={country} date={parsedDate} />
         <ServerHeadlineLinks headlines={headlines} locale={locale} country={country} date={parsedDate} />
         <ServerDateNavigation locale={locale} country={country} date={parsedDate} />
         <ServerCountryNavigation locale={locale} currentCountry={country} />

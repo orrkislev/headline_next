@@ -146,7 +146,6 @@ export function ServerAboutContent() {
         <div style={{ display: 'none' }}>
             {/* Hidden server-rendered about content for crawlers */}
             <div aria-hidden="true">
-                <h1>The Hear - Headline Dashboard and Archive</h1>
                 <p>The Hear is headline dashboard and archive. It displays the main headlines of many newspapers, side by side, in real time and without curation.</p>
                 
                 <h2>The Operations Room</h2>
@@ -182,7 +181,7 @@ export function ServerAboutContent() {
 }
 
 // Server-side country-specific SEO content (H1/H2 structure)
-export function ServerCountrySEOContent({ locale, country }) {
+export function ServerCountrySEOContent({ locale, country, date }) {
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
     
@@ -196,6 +195,22 @@ export function ServerCountrySEOContent({ locale, country }) {
                     <h2>International news from major newspapers worldwide, updated throughout the day</h2>
                     <h3>World news headlines from multiple countries, updated in real time</h3>
                     <p>Breaking news and headlines from around the globe. The Hear aggregates main headlines from newspapers and news sources worldwide, providing a comprehensive view of global current events and developing stories.</p>
+                </div>
+            </div>
+        );
+    }
+    
+    // Handle historical date pages differently
+    if (date) {
+        const formattedDate = date.toLocaleDateString('en-GB').replace(/\//g, '.');
+        return (
+            <div style={{ display: 'none' }}>
+                {/* Hidden server-rendered historical SEO content for crawlers */}
+                <div aria-hidden="true">
+                    <h1>Archive of {countryName} Headlines for {formattedDate} | Digital Newspaper Archive</h1>
+                    <h2>Historic headlines from {countryName} newspapers on {formattedDate}, as they unfolded</h2>
+                    <h3>Digital newspaper archive: {countryName} news from {formattedDate}</h3>
+                    <p>Replay the news from {countryName} on {formattedDate}. A digital newspaper archive that preserves the main headlines as they appeared and developed throughout the day, offering a unique historical record of how events unfolded in real time.</p>
                 </div>
             </div>
         );
