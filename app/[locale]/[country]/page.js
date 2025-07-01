@@ -4,7 +4,7 @@ import { countries } from "@/utils/sources/countries";
 import CountryPageContent from "./CountryPage_content";
 import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { createMetadata, LdJson } from "./metadata";
-import { ServerHeadlineLinks, ServerCountryNavigation, ServerYesterdayNavigation } from "@/utils/ServerSideLinks";
+import { ServerHeadlineLinks, ServerCountryNavigation, ServerYesterdayNavigation, ServerAboutContent, ServerCountrySEOContent } from "@/utils/ServerSideLinks";
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
 
@@ -45,12 +45,13 @@ export default async function Page({ params }) {
 
     return <>
         <LdJson {...{ country, locale }} />
-        <h1 className="sr-only">A Living Newsstand of Main Headlines from {countryName}, functioning as both a control room and an archive</h1>
         
-        {/* Server-rendered SEO links for crawlers */}
+        {/* Server-rendered SEO content for crawlers */}
+        <ServerCountrySEOContent locale={locale} country={country} />
         <ServerHeadlineLinks headlines={headlines} locale={locale} country={country} />
         <ServerCountryNavigation locale={locale} currentCountry={country} />
         <ServerYesterdayNavigation locale={locale} country={country} />
+        <ServerAboutContent />
         
         <CountryPageContent 
             {...{ sources, 

@@ -5,7 +5,7 @@ import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { redirect } from "next/navigation";
 import { createMetadata, LdJson } from "./metadata";
 import { countries } from "@/utils/sources/countries";
-import { ServerHeadlineLinks, ServerCountryNavigation, ServerDateNavigation } from "@/utils/ServerSideLinks";
+import { ServerHeadlineLinks, ServerCountryNavigation, ServerDateNavigation, ServerAboutContent, ServerCountrySEOContent } from "@/utils/ServerSideLinks";
 
 export const revalidate = false; // generate once, never revalidate
 export const dynamicParams = true; // allow on-demand generation
@@ -43,10 +43,12 @@ export default async function Page({ params }) {
     return <>
         <LdJson {...{ country, locale, daySummary }} date={parsedDate} />
         
-        {/* Server-rendered SEO links for crawlers */}
+        {/* Server-rendered SEO content for crawlers */}
+        <ServerCountrySEOContent locale={locale} country={country} />
         <ServerHeadlineLinks headlines={headlines} locale={locale} country={country} date={parsedDate} />
         <ServerDateNavigation locale={locale} country={country} date={parsedDate} />
         <ServerCountryNavigation locale={locale} currentCountry={country} />
+        <ServerAboutContent />
         
         <CountryPageContent
             {...{

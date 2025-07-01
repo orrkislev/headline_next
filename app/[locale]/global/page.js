@@ -10,7 +10,7 @@ import EnglishFonts from "@/utils/typography/EnglishFonts";
 import useMobile from "@/components/useMobile";
 import Loader from "@/components/loader";
 import { useFont } from "@/utils/store";
-import { ServerCountryNavigation } from "@/utils/ServerSideLinks";
+import { ServerCountryNavigation, ServerAboutContent, ServerCountrySEOContent } from "@/utils/ServerSideLinks";
 
 export default function GlobalPage({ params }) {
     const router = useRouter();
@@ -60,8 +60,10 @@ export default function GlobalPage({ params }) {
                 </div>
                 <GlobalGrid {...{locale}} />
             </div>
-            {/* Server-side links for SEO - links to all country main pages */}
+            {/* Server-side SEO content for crawlers */}
+            <ServerCountrySEOContent locale={locale} country="global" />
             <ServerCountryNavigation locale={locale} currentCountry="global" />
+            <ServerAboutContent />
         </div>
     );
 }
