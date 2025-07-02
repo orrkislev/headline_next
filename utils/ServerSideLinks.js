@@ -141,11 +141,57 @@ export function ServerDateNavigation({ locale, country, date }) {
 }
 
 // Server-side about content for SEO (About menu content)
-export function ServerAboutContent() {
+export function ServerAboutContent({ locale }) {
+    if (locale === 'heb') {
+        return (
+            <div style={{ display: 'none' }}>
+                {/* Hidden server-rendered about content for crawlers - Hebrew */}
+                <div aria-hidden="true" lang="he" dir="rtl">
+                <p>המאזין הוא לוח כותרות וארכיון. הוא מציג את הכותרות הראשיות של עיתונים רבים, זה לצד זה, בזמן אמת וללא עריכה.</p>
+        
+        <h2>חדר המבצעים</h2>
+        <p>המאזין הוא חדר מבצעים לחדשות. כמו דוכן עיתונים המשתנה ללא הרף, המאזין מאפשר לכם לראות את החדשות כשהן מתפתחות, על פני מקורות ומדינות.</p>
+        
+        <h2>הנוף כולו</h2>
+        <p>המאזין לא נערך ולא מותאם אישית. במקום לנסות לבחור חלקים ופיסות שעשויות לעניין אתכם, הוא מנסה לתת תמונה של הנוף כולו. במקום לקבל החלטות עריכה משלו, הוא מקשיב להחלטות של עורכים אנושיים לגבי מה שמהווה "הסיפור הראשי" הראוי לתשומת לבכם. בזה, המאזין הוא צובר חדשות אובייקטיבי.</p>
+        
+        <h2>ארכיון כותרות</h2>
+        <p>המאזין הוא <strong>ארכיון כותרות</strong> מקיף של כותרות ראשיות. הוא מאפשר למשתמשים לנווט אחורה בזמן כדי להציג מחדש את החדשות כשהן התפתחו. הוא מתעד היסטוריה כשהיא קורה. כמו ארכיון עיתונים היסטורי, המאזין הוא ספריה ואוסף של <strong>כותרות חדשות</strong> מעיתונים דיגיטליים.</p>
+        
+        <h2>חדשות בינלאומיות בזמן אמת</h2>
+        <p>המאזין מציג <strong>חדשות בינלאומיות</strong> מ-20 מדينות, ומאפשר מעקב אחר התפתחויות גלובליות כשהן קורות. הפלטפורמה מתעדכנת ברציפות ומביאה את החדשות העולמיות המשמעותיות ביותר.</p>
+        
+        <h2>דוכן עיתונים חושב</h2>
+        <p>המאזין לא רק מציג את הכותרות, אלא גם קורא אותן: הוא משובץ בבינה מלאכותית לכל אורכו. עם סקירות, סיכומים ודוחות הממוקמים אסטרטגית ומתעדכנים ברציפות, המאזין עוזר לקורא לעכל את הכותרות הרבות כשהן מתגלות. עם סקירות יומיות, הוא גם כותב היסטוריה כשהיא מתפתחת. המאזין הוא דוכן עיתונים מצויד במוח.</p>
+        
+        <h2>מגדל בבל</h2>
+        <p>המאזין מתרגם כותרות בזמן אמת ומביא <strong>חדשות מהעולם</strong> ישירות אליכם. הוא הופך את נוף החדשות במדינות רבות לנגיש מיידית בעברית ובאנגלית, ללא בחירה או פרשנות. הוא מסיר מחסומי שפה ונותן מבט לא מסונן על מה שנדון כרגע ברחבי כדור הארץ.</p>
+        
+        <h2>גישה לחדשות מהעולם</h2>
+        <p>עם המאזין תוכלו לעקוב אחר <strong>חדשות מהעולם</strong> ללא מחסומי שפה, עם תרגום אוטומטי של <strong>כותרות חדשות</strong> ממקורות בינלאומיים. הפלטפורמה מאפשרת הבנה מיידית של מגמות חדשותיות גלובליות.</p>
+        
+        <h2>הדבר האחד</h2>
+        <p>המאזין מציג <strong>כותרות חדשות</strong> ראשיות מכל העולם. בבלגן וההמולה של העולם, הכותרת הראשית היא בחירת העורך של הסיפור החשוב ביותר שקורה עכשיו: הכותרת הראשית היא הדבר האחד. המאזין הוא מטא-עיתון שעשוי אך ורק מדברים אחדים כאלה, מאורגנים ומוקשרים.</p>
+        
+        <h2>מכונת הקשר</h2>
+        <p>המאזין מעמיד את הכותרות בהקשר. הוא עושה זאת על ידי הצבת הכותרות ביחס זו לזו, לקודמותיהן, ולעמיתותיהן הגלובליות. במאזין, כל עץ נראה על רקע היער.</p>
+        
+        <h2>חדשות סביבתיות</h2>
+        <p>המאזין נועד להתקיים בשקט, ברקע, במסך השני שלכם. הוא מאפשר למשתמשים לעקוב אחר החדשות מרחוק, עם תחושה בריאה של ריחוק, וללא גלילה.</p>
+        
+        <p>המאזין זמין עבור 20 מדינות.</p>
+        
+        <span>חדשות בינלאומיות, חדשות מהעולם, ארכיון כותרות, כותרות חדשות, צובר חדשות, ארכיון כותרות, דוכן עיתונים, לוח חדשות, כותרות ראשיות, עיתונים, חדשות בזמן אמת, חדר מבצעים חדשותי, צובר חדשות אובייקטיבי, ארכיון עיתונים היסטורי, חדשות AI, סיכומי חדשות, תרגום כותרות, מטא-עיתון, הקשר חדשותי, חדשות סביבתיות</span>
+   
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div style={{ display: 'none' }}>
-            {/* Hidden server-rendered about content for crawlers */}
-            <div aria-hidden="true">
+            {/* Hidden server-rendered about content for crawlers - English */}
+            <div aria-hidden="true" lang="en">
                 <p>The Hear is headline dashboard and archive. It displays the main headlines of many newspapers, side by side, in real time and without curation.</p>
                 
                 <h2>The Operations Room</h2>
@@ -187,10 +233,23 @@ export function ServerCountrySEOContent({ locale, country, date }) {
     
     // Handle global page differently
     if (country === 'global') {
+        if (locale === 'heb') {
+            return (
+                <div style={{ display: 'none' }}>
+                    {/* Hidden server-rendered global SEO content for crawlers - Hebrew */}
+                    <div aria-hidden="true" lang="he" dir="rtl">
+                        <h1>כותרות עולמיות | לוח חדשות חי</h1>
+                        <h2>כותרות עיתוני חדשות מרחבי העולם, מתעדכנות לאורך היום</h2>
+                        <h3>כותרות חדשות ממדינות רבות, מתעדכנות בזמן אמת</h3>
+                        <p>חדשות מתהוות וכותרות מכל רחבי העולם. ה-Hear אוסף כותרות ראשיות מעיתונים ומקורות חדשות ברחבי העולם, ומספק תמונה מקיפה של אירועים עולמיים מתפתחים.</p>
+                    </div>
+                </div>
+            );
+        }
         return (
             <div style={{ display: 'none' }}>
-                {/* Hidden server-rendered global SEO content for crawlers */}
-                <div aria-hidden="true">
+                {/* Hidden server-rendered global SEO content for crawlers - English */}
+                <div aria-hidden="true" lang="en">
                     <h1>Global Headlines | Live news dashboard </h1>
                     <h2>International news from major newspapers worldwide, updated throughout the day</h2>
                     <h3>World news headlines from multiple countries, updated in real time</h3>
@@ -202,11 +261,25 @@ export function ServerCountrySEOContent({ locale, country, date }) {
     
     // Handle historical date pages differently
     if (date) {
-        const formattedDate = date.toLocaleDateString('en-GB').replace(/\//g, '.');
+        const formattedDate = date.toLocaleDateString(locale === 'heb' ? 'he-IL' : 'en-GB').replace(/\//g, '.');
+        
+        if (locale === 'heb') {
+            return (
+                <div style={{ display: 'none' }}>
+                    {/* Hidden server-rendered historical SEO content for crawlers - Hebrew */}
+                    <div aria-hidden="true" lang="he" dir="rtl">
+                        <h1>ארכיון כותרות {countryName} ל-{formattedDate} | ארכיון עיתונים דיגיטלי</h1>
+                        <h2>כותרות היסטוריות מעיתוני {countryName} מ-{formattedDate}, כפי שהתפתחו</h2>
+                        <h3>ארכיון עיתונים דיגיטלי: חדשות {countryName} מ-{formattedDate}</h3>
+                        <p>צפו מחדש בחדשות מ{countryName} מ-{formattedDate}. ארכיון עיתונים דיגיטלי השומר על הכותרות הראשיות כפי שהופיעו והתפתחו לאורך היום, ומציע תיעוד היסטורי ייחודי של איך התרחשו האירועים בזמן אמת.</p>
+                    </div>
+                </div>
+            );
+        }
         return (
             <div style={{ display: 'none' }}>
-                {/* Hidden server-rendered historical SEO content for crawlers */}
-                <div aria-hidden="true">
+                {/* Hidden server-rendered historical SEO content for crawlers - English */}
+                <div aria-hidden="true" lang="en">
                     <h1>Archive of {countryName} Headlines for {formattedDate} | Digital Newspaper Archive</h1>
                     <h2>Historic headlines from {countryName} newspapers on {formattedDate}, as they unfolded</h2>
                     <h3>Digital newspaper archive: {countryName} news from {formattedDate}</h3>
@@ -216,10 +289,25 @@ export function ServerCountrySEOContent({ locale, country, date }) {
         );
     }
     
+    // Current country pages
+    if (locale === 'heb') {
+        return (
+            <div style={{ display: 'none' }}>
+                {/* Hidden server-rendered country SEO content for crawlers - Hebrew */}
+                <div aria-hidden="true" lang="he" dir="rtl">
+                    <h1>כותרות חיות מ{countryName} | לוח חדשות וארכיון</h1>
+                    <h2>חדשות עדכניות מעיתוני {countryName}, מתעדכנות לאורך היום</h2>
+                    <h3>כותרות חדשות {countryName} בזמן אמת</h3>
+                    <p>חדשות מתעדכנות וכותרות מ{countryName}. המאזין אוסף כותרות ראשיות מעיתונים ומקורות חדשות ברחבי {countryName}, ומספק תמונה מקיפה של אירועים עדכניים וסיפורים מתפתחים.</p>
+                </div>
+            </div>
+        );
+    }
+    
     return (
         <div style={{ display: 'none' }}>
-            {/* Hidden server-rendered country SEO content for crawlers */}
-            <div aria-hidden="true">
+            {/* Hidden server-rendered country SEO content for crawlers - English */}
+            <div aria-hidden="true" lang="en">
                 <h1>Live Headlines from {countryName} | a news dashboard and archive</h1>
                 <h2>Current news from {countryName} newspapers, updated throughout the day</h2>
                 <h3>{countryName} news headlines in real time</h3>

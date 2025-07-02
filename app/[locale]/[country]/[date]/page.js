@@ -48,7 +48,7 @@ export default async function Page({ params }) {
         <ServerHeadlineLinks headlines={headlines} locale={locale} country={country} date={parsedDate} />
         <ServerDateNavigation locale={locale} country={country} date={parsedDate} />
         <ServerCountryNavigation locale={locale} currentCountry={country} />
-        <ServerAboutContent />
+        <ServerAboutContent locale={locale} />
         
         <CountryPageContent
             {...{

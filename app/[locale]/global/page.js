@@ -63,7 +63,7 @@ export default function GlobalPage({ params }) {
             {/* Server-side SEO content for crawlers */}
             <ServerCountrySEOContent locale={locale} country="global" />
             <ServerCountryNavigation locale={locale} currentCountry="global" />
-            <ServerAboutContent />
+            <ServerAboutContent locale={locale} />
         </div>
     );
 }
