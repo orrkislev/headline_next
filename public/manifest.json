@@ -1,5 +1,5 @@
 {
-  "name": "The Hear: A Headlines Archive",
+  "name": "The Hear: A Headlines Dashboard and Archive",
   "short_name": "The Hear",
   "description": "A newsstand with a brain",
   "start_url": "/",
@@ -22,7 +22,7 @@
       "purpose": "any"
     }
   ],
-  "categories": ["news", "magazines"],
+  "categories": ["news", "archive", "history", "real-time", "newsstand", "aggregator", "ai"],
   "lang": "en",
   "dir": "ltr"
 } 

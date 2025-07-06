@@ -40,40 +40,43 @@ export default function DynamicLogo({ locale, padding = 'p-4' }) {
     }, []);
 
     return (
-        <InnerLink locale={locale} href={`/${locale}/global`} className=''>
-            <div className={`logo-hover-container flex items-center justify-center relative p-4 ${isFakeHover ? 'fake-hover' : ''}`}>
-                <div className="logo-background absolute top-[37%] left-1/2 w-[285px] h-[25%] bg-[#EBEBEB] opacity-0 transform translate-y-[-50%] translate-x-[-50%] ml-[3px]"
-                    style={{
-                        transition: 'opacity 0.2s ease',
-                        transitionDelay: '.8s',
-                        marginLeft: locale === 'heb' ? '11px' : '3px',
-                    }}
-                />
+        <>
+            <InnerLink locale={locale} href={`/${locale}/global`} className=''>
+                <div className={`logo-hover-container flex items-center justify-center relative pt-6 ${isFakeHover ? 'fake-hover' : ''}`}>
+                    <div className="logo-background absolute top-[37%] left-1/2 w-[285px] h-[25%] bg-[#EBEBEB] opacity-0 transform translate-y-[-50%] translate-x-[-50%]"
+                        style={{
+                            transition: 'opacity 0.2s ease',
+                            transitionDelay: '.8s',
+                            marginLeft: locale === 'heb' ? '11px' : '3px',
+                        }}
+                    />
 
-                <div className="logo-text-right absolute left-1/2 top-[38%] transform translate-y-[-50%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-50 pointer-events-none"
-                    style={{
-                        fontFamily: 'CheltenhamCondensed, serif',
-                        fontSize: '2rem',
-                        transform: `translateX(${locale === 'heb' ? '-120px' : '-130px'}) translateY(-50%)`,
-                    }}>
-                    THE
+                    <div className="logo-text-right absolute left-1/2 top-[38%] transform translate-y-[-50%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-50 pointer-events-none"
+                        style={{
+                            fontFamily: 'CheltenhamCondensed, serif',
+                            fontSize: '2rem',
+                            transform: `translateX(${locale === 'heb' ? '-120px' : '-130px'}) translateY(-50%)`,
+                        }}>
+                        THE
+                    </div>
+
+                    <Image className={`relative z-20 h-[165px] ${locale === 'heb' ? 'scale-x-[-1]' : ''} object-contain pb-2`}
+                        width="auto"
+                        src={currentLogo} alt="The Hear Logo" />
+
+                    <div className="logo-text-right absolute left-1/2 top-[38%] transform translate-y-[-50%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-500 pointer-events-none"
+                        style={{
+                            fontFamily: 'CheltenhamCondensed, serif',
+                            fontSize: '2rem',
+                            transition: 'opacity 0.1s ease',
+                            transitionDelay: '0.5s',
+                            transform: `translateX(${locale === 'heb' ? '87px' : '80px'}) translateY(-50%)`,
+                        }}>
+                        HEAR
+                    </div>
                 </div>
-
-                <Image className={`relative z-20 h-[165px] ${locale === 'heb' ? 'scale-x-[-1]' : ''} object-contain pb-2`}
-                    width="auto"
-                    src={currentLogo} alt="The Hear Logo" />
-
-                <div className="logo-text-right absolute left-1/2 top-[38%] transform translate-y-[-50%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-500 pointer-events-none"
-                    style={{
-                        fontFamily: 'CheltenhamCondensed, serif',
-                        fontSize: '2rem',
-                        transition: 'opacity 0.1s ease',
-                        transitionDelay: '0.5s',
-                        transform: `translateX(${locale === 'heb' ? '87px' : '80px'}) translateY(-50%)`,
-                    }}>
-                    HEAR
-                </div>
-            </div>
-        </InnerLink>
+            </InnerLink>
+            <div className="w-full border-b border-gray-300" style={{height: '1px'}} />
+        </>
     );
 };

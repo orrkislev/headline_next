@@ -13,6 +13,15 @@ export default function YesterdaySummary({ locale, country, yesterdaySummary, pa
     const [lastCheckedDate, setLastCheckedDate] = useState(new Date().toDateString());
     const firebase = useFirebase();
     
+    // Blinking state for the arrow
+    const [blink, setBlink] = useState(true);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setBlink(prev => !prev);
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
+    
     let headline = <Skeleton variant="text" width={200} />;
     if (dynamicYesterdaySummary) headline = getHeadline(dynamicYesterdaySummary, locale);
     
@@ -69,14 +78,14 @@ export default function YesterdaySummary({ locale, country, yesterdaySummary, pa
         
     return (
         <InnerLink href={`/${locale}/${country}/${createDateString(yesterdayDate)}`}>
-            <h2 className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer ${locale === 'heb' ? 'text-lg' : 'text-base'} text-blue ${locale === 'en'
+            <h2 className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer ${locale === 'heb' ? 'text-lg' : 'text-base'} text-black hover:text-blue ${locale === 'en'
                 ? 'font-["Geist"] pr-4 font-medium'
                 : 'frank-re pl-4'
                 }`}
                 style={{ lineHeight: '1.4em', borderBottom: '1px solid #e5e7eb' }}>
 
                 <span>{dateString}</span>
-                <span> {locale == 'heb' ? ' ⇠ ' : ' ⇢ '}</span>
+                <span style={{ visibility: blink ? 'visible' : 'hidden' }}> {locale == 'heb' ? ' ⇠ ' : ' ⇢ '}</span>
                 <span>{headline}</span>
             </h2>
         </InnerLink>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
+import DynamicLogoSmall from "@/components/Logo-small";
 import DynamicLogo from "@/components/Logo";
 import SummariesSection from "./summaries/SummariesSection";
 import CustomTooltip from "@/components/CustomTooltip";
@@ -11,6 +12,7 @@ import useSummariesManager from "@/utils/database/useSummariesManager";
 export default function RightPanel({ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate, onCollapsedChange, collapsed }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
 
     // Manage summaries at the RightPanel level so it works when collapsed
     const summaries = useSummariesManager(country, initialSummaries, !Boolean(pageDate));
@@ -35,7 +37,7 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
         const shouldBeCollapsed = window.innerWidth < 1920;
         setIsCollapsed(shouldBeCollapsed);
         setIsMounted(true);
-        
+        setIsSmallScreen(window.innerWidth < 1920);
         // Notify parent of initial collapsed state
         if (onCollapsedChange) {
             onCollapsedChange(shouldBeCollapsed);
@@ -43,6 +45,7 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
 
         const handleResize = () => {
             const shouldBeCollapsed = window.innerWidth < 1920;
+            setIsSmallScreen(window.innerWidth < 1920);
             // Only auto-collapse, don't auto-expand (let user control expansion)
             if (shouldBeCollapsed && !isCollapsed) {
                 setIsCollapsed(true);
@@ -104,8 +107,7 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
                     </IconButton>
                 </CustomTooltip>
             </div>
-            
-            <DynamicLogo {...{ locale }} />
+            {isSmallScreen ? <DynamicLogoSmall {...{ locale }} /> : <DynamicLogo {...{ locale }} />}
             <SummariesSection {...{ locale, summaries, country, yesterdaySummary, daySummary, pageDate }} />
         </div>
     );
