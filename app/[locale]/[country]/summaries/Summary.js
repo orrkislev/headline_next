@@ -2,7 +2,7 @@
 
 import { useTime, useTranslate } from '@/utils/store';
 import { createDateString } from '@/utils/utils';
-import { redirect } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 import { useRef, useEffect } from 'react';
 
 // Helper function to clean summary text by removing everything after language markers
@@ -28,6 +28,10 @@ export default function Summary({ summary, country, active, locale, yesterday })
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage)
     const setDate = useTime(state => state.setDate);
     const summaryRef = useRef(null);
+    const pathname = usePathname();
+
+    // Detect if the current path matches /[locale]/[country]/[date] (date in dd-MM-yyyy)
+    const isDatePage = /\/[^/]+\/[^/]+\/\d{2}-\d{2}-\d{4}$/.test(pathname);
 
     useEffect(() => {
         if (active && summaryRef.current) {
@@ -84,7 +88,7 @@ export default function Summary({ summary, country, active, locale, yesterday })
             }}
             onClick={clickHandler}
         >
-            <h3 className={`${active ? 'text-blue' : ''} mb-2 ${locale === 'heb' ? 'text-[17px]' : 'text-base'} font-medium`}
+            <h3 className={`${active && !isDatePage ? 'text-blue' : ''} ${active && isDatePage ? 'underline underline-offset-4 decoration-gray-400 decoration-1' : ''} mb-2 ${locale === 'heb' ? 'text-[17px]' : 'text-base'} font-medium`}
                 style={{
                     lineHeight: active ? '1.5' : '1.4',
                     marginTop: active ? '0px' : '12px',
