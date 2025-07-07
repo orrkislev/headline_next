@@ -25,11 +25,12 @@ export default function ResetTimerButton({ locale, country, className, pageDate 
     }, [pathname]);
 
     useEffect(() => {
+        if (pageDate) return;
         const timer = setInterval(() => {
             if (!isPresent) setDate(new Date());
         }, 60 * 1000);
         return () => clearInterval(timer);
-    }, [isPresent, setDate]);
+    }, [isPresent, setDate, pageDate]);
 
     useEffect(() => {
         if (pageDate) return;

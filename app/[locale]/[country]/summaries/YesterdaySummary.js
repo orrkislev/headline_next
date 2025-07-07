@@ -71,14 +71,14 @@ export default function YesterdaySummary({ locale, country, yesterdaySummary, pa
 
     let dateString
     if (pageDate){
-        dateString = <span className="font-['GeistMono']">{yesterdayDate.toLocaleDateString('en-GB').replace(/\//g, '.')}</span>;
+        dateString = <span className="font-['GeistMono'] font-medium">{yesterdayDate.toLocaleDateString('en-GB').replace(/\//g, '.')}</span>;
     } else {
         dateString = locale == 'heb' ? 'אתמול' : 'Yesterday';
     }
         
     return (
         <InnerLink href={`/${locale}/${country}/${createDateString(yesterdayDate)}`}>
-            <h2 className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer ${locale === 'heb' ? 'text-lg' : 'text-base'} text-black hover:text-blue ${locale === 'en'
+            <h2 className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer ${locale === 'heb' ? 'text-[17px]' : 'text-base'} text-black hover:text-blue ${locale === 'en'
                 ? 'font-["Geist"] pr-4 font-medium'
                 : 'frank-re pl-4'
                 }`}
