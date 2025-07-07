@@ -34,7 +34,7 @@ export default function GlobalOverview({ locale }) {
             if (titleMatch) {
                 return (
                     <>
-                        <div className={`text-blue inline ${locale === 'heb' ? 'frank-re text-[17px] underline underline-offset-4 decoration-blue decoration-2 decoration-dotted' : 'font-["Geist"] text-base'} font-medium`}>
+                        <div className={`text-blue inline ${locale === 'heb' ? 'frank-re text-[16px] underline underline-offset-4 decoration-blue decoration-2 decoration-dotted' : 'font-["Geist"] text-sm'} font-medium`}>
                             {locale === 'heb' ? '⇠' : '⇢'} {titleMatch[1]}:
                         </div>
                         {" " + titleMatch[2]}
@@ -51,14 +51,14 @@ export default function GlobalOverview({ locale }) {
                 if (nextPart) {
                     parts[index + 1] = nextPart.replace(/^\s+/, '');
                 }
-                return <div key={`break-${index}`} className="mb-4" />;
+                return <div key={`break-${index}`} className="mb-2" />;
             }
 
             if (part.startsWith('(') && part.endsWith(')')) {
                 return (
                     <div
                         key={`parenthesis-${index}`}
-                        className="text-gray-400 text-sm inline"
+                        className="text-gray-400 text-xs inline"
                     >
                         {part}
                     </div>
@@ -77,18 +77,18 @@ export default function GlobalOverview({ locale }) {
     };
 
     return (
-        <div className="mb-3 custom-scrollbar overflow-auto">
-            <div className={`text-blue mb-2 font-medium ${locale === 'heb' ? 'frank-re' : 'font-["Geist"]'} text-lg`} 
+        <div className="mb-2 custom-scrollbar overflow-auto">
+            <div className={`text-blue mb-2 font-medium ${locale === 'heb' ? 'frank-re' : 'font-["Geist"]'} text-base`} 
                  style={locale === 'heb' ? { lineHeight: '1.4' } : {}}>
                 {formattedTime} {locale === 'heb' ? '⇠' : '⇢'} {overview.headline}
             </div>
 
             {/* Gentle divider */}
-            <div className="mb-3 border border-gray-200 border-dashed border-[0.5px]" />
+            <div className="w-full mb-3 border-b border-gray-300" style={{height: '1px'}} />
 
             {/* Overview Text */}
-            <div className={`${locale == 'heb' ? 'frank-re text-[17px]' : 'font-["Geist"] text-base'} font-normal text-black whitespace-pre-wrap`} 
-                 style={locale === 'heb' ? { lineHeight: '1.4' } : {}}>
+            <div className={`${locale == 'heb' ? 'frank-re text-[16px]' : 'font-["Geist"] text-sm'} font-normal text-black whitespace-pre-wrap`} 
+                 style={locale === 'heb' ? { lineHeight: '1.4' } : {lineHeight: '1.5'}}>
                 {formatText(overview.overview)}
             </div>
         </div>

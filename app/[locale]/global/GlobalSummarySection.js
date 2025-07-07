@@ -5,12 +5,14 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import Disclaimer from "@/components/Disclaimer";
 import DynamicLogo from "@/components/Logo";
+import DynamicLogoSmall from "@/components/Logo-small";
 import GlobalOverview from "./GlobalOverview";
 import CustomTooltip from "@/components/CustomTooltip";
 
 export default function GlobalSummarySection({ locale, onCollapsedChange }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
 
     const toggleCollapse = () => {
         const newCollapsedState = !isCollapsed;
@@ -25,6 +27,7 @@ export default function GlobalSummarySection({ locale, onCollapsedChange }) {
         const shouldBeCollapsed = window.innerWidth < 1920;
         setIsCollapsed(shouldBeCollapsed);
         setIsMounted(true);
+        setIsSmallScreen(window.innerWidth < 1920);
         
         // Notify parent of initial collapsed state
         if (onCollapsedChange) {
@@ -33,6 +36,7 @@ export default function GlobalSummarySection({ locale, onCollapsedChange }) {
 
         const handleResize = () => {
             const shouldBeCollapsed = window.innerWidth < 1920;
+            setIsSmallScreen(window.innerWidth < 1920);
             // Only auto-collapse, don't auto-expand (let user control expansion)
             if (shouldBeCollapsed && !isCollapsed) {
                 setIsCollapsed(true);
@@ -94,7 +98,7 @@ export default function GlobalSummarySection({ locale, onCollapsedChange }) {
                 </CustomTooltip>
             </div>
 
-            <DynamicLogo locale={locale} />
+            {isSmallScreen ? <DynamicLogoSmall locale={locale} /> : <DynamicLogo locale={locale} />}
             
             <div className="h-full custom-scrollbar">
                 <div className="px-4">

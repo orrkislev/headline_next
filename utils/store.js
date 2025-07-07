@@ -62,7 +62,7 @@ export const useGlobalSort = create(set => ({
     setGlobalSort: (sort) => set({ globalSort: sort }),
     pinnedCountries: [],
     setPinnedCountries: (countries) => set({ pinnedCountries: countries }),
-    allExpanded: false,
+    allExpanded: true,
     setAllExpanded: (expanded) => set({ allExpanded: expanded }),
     filteredCountries: getInitialFilteredCountries(),
     setFilteredCountries: (countries) => set({ filteredCountries: countries }),
