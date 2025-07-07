@@ -10,7 +10,7 @@ export async function createMetadata(params) {
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
     const formattedDate = date.replace(/-/g, '.');
-    const dailySummary = await getCountryDailySummary(country, add(parsedDate, { days: 1 }))
+    const dailySummary = await getCountryDailySummary(country, parsedDate)
     const headline = getHeadline(dailySummary, locale);
 
     const siteName = 'The Hear';
@@ -51,6 +51,11 @@ export async function createMetadata(params) {
         },
         alternates: {
             canonical: url,
+            languages: {
+                'en': `https://www.the-hear.com/en/${country}/${date}`,
+                'he': `https://www.the-hear.com/heb/${country}/${date}`,
+                'x-default': `https://www.the-hear.com/en/${country}/${date}`
+            }
         },
     };
 }
@@ -58,38 +63,38 @@ export async function createMetadata(params) {
 export function LdJson({ country, locale, date, daySummary }) {
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
-
     const headline = daySummary ? getHeadline(daySummary, locale) : '';
     const siteName = 'The Hear';
     const title = `${countryName} ${date}: ${headline} | ${siteName}`;
-
     const url = `https://www.the-hear.com/${locale}/${country}/${date}`;
     const description = locale === 'heb'
         ? `כותרות וסיכומי חדשות מ${countryName} מתאריך ${date}.`
         : `News headlines and summaries from ${countryName} for ${date}.`;
-
+    const image = 'https://www.the-hear.com/logo192.png';
     const jsonLd = {
         '@context': 'https://schema.org',
-        '@type': 'Article',
+        '@type': 'NewsArticle',
+        'headline': headline || title,
         'name': title,
         'url': url,
+        'mainEntityOfPage': url,
         'inLanguage': locale === 'heb' ? 'he' : 'en',
         'description': description,
-        'datePublished': date.toISOString().split('T')[0],
-        'about': countryName,
+        'datePublished': date instanceof Date ? date.toISOString() : new Date(date).toISOString(),
+        'dateModified': date instanceof Date ? date.toISOString() : new Date(date).toISOString(),
+        'image': image,
         'publisher': {
             '@type': 'Organization',
             'name': 'The Hear',
             'logo': {
                 '@type': 'ImageObject',
-                'url': 'https://www.the-hear.com/logo192.png'
+                'url': image
             }
         }
     };
-
     return (
         <Script 
-            id={`jsonld-country-${country}-${locale}-${date.toISOString().split('T')[0]}`}
+            id={`jsonld-country-${country}-${locale}-${date instanceof Date ? date.toISOString().split('T')[0] : date}`}
             type="application/ld+json" 
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} 
         />

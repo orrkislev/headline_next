@@ -63,6 +63,17 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <PWAMeta />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "url": "https://www.the-hear.com",
+              "logo": "https://www.the-hear.com/RoundLogo-S.png"
+            })
+          }}
+        />
       </head>
       <body>
         <Analytics />

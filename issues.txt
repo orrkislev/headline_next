@@ -1,9 +1,0 @@
-* try giving navigating back in time an different card bg color
-* Country-specific typography settings
-* clear loading indicator when moving between countries
-
-==== Mobile ====
-* Mobile: make the top bar narrower, and sticky
-* mobile - country selection menu too large
-* mobile - strange placement to the clock
-* mobile - language button should translate, not navigate to the global page

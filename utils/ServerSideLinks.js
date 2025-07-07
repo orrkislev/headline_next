@@ -159,7 +159,7 @@ export function ServerAboutContent({ locale }) {
         <p>המאזין הוא <strong>ארכיון כותרות</strong> מקיף של כותרות ראשיות. הוא מאפשר למשתמשים לנווט אחורה בזמן כדי להציג מחדש את החדשות כשהן התפתחו. הוא מתעד היסטוריה כשהיא קורה. כמו ארכיון עיתונים היסטורי, המאזין הוא ספריה ואוסף של <strong>כותרות חדשות</strong> מעיתונים דיגיטליים.</p>
         
         <h2>חדשות בינלאומיות בזמן אמת</h2>
-        <p>המאזין מציג <strong>חדשות בינלאומיות</strong> מ-20 מדينות, ומאפשר מעקב אחר התפתחויות גלובליות כשהן קורות. הפלטפורמה מתעדכנת ברציפות ומביאה את החדשות העולמיות המשמעותיות ביותר.</p>
+        <p>המאזין מציג <strong>חדשות בינלאומיות</strong> מ-20 מדיות, ומאפשר מעקב אחר התפתחויות גלובליות כשהן קורות. הפלטפורמה מתעדכנת ברציפות ומביאה את החדשות העולמיות המשמעותיות ביותר.</p>
         
         <h2>דוכן עיתונים חושב</h2>
         <p>המאזין לא רק מציג את הכותרות, אלא גם קורא אותן: הוא משובץ בבינה מלאכותית לכל אורכו. עם סקירות, סיכומים ודוחות הממוקמים אסטרטגית ומתעדכנים ברציפות, המאזין עוזר לקורא לעכל את הכותרות הרבות כשהן מתגלות. עם סקירות יומיות, הוא גם כותב היסטוריה כשהיא מתפתחת. המאזין הוא דוכן עיתונים מצויד במוח.</p>
@@ -261,17 +261,20 @@ export function ServerCountrySEOContent({ locale, country, date }) {
     
     // Handle historical date pages differently
     if (date) {
-        const formattedDate = date.toLocaleDateString(locale === 'heb' ? 'he-IL' : 'en-GB').replace(/\//g, '.');
+        const formattedDate =
+            locale === 'heb'
+                ? date.toLocaleDateString('he-IL').replace(/\//g, '.')
+                : date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         
         if (locale === 'heb') {
             return (
                 <div style={{ display: 'none' }}>
                     {/* Hidden server-rendered historical SEO content for crawlers - Hebrew */}
                     <div aria-hidden="true" lang="he" dir="rtl">
-                        <h1>ארכיון כותרות {countryName} ל-{formattedDate} | ארכיון עיתונים דיגיטלי</h1>
-                        <h2>כותרות היסטוריות מעיתוני {countryName} מ-{formattedDate}, כפי שהתפתחו</h2>
-                        <h3>ארכיון עיתונים דיגיטלי: חדשות {countryName} מ-{formattedDate}</h3>
-                        <p>צפו מחדש בחדשות מ{countryName} מ-{formattedDate}. ארכיון עיתונים דיגיטלי השומר על הכותרות הראשיות כפי שהופיעו והתפתחו לאורך היום, ומציע תיעוד היסטורי ייחודי של איך התרחשו האירועים בזמן אמת.</p>
+                        <h1>{`ארכיון כותרות ${countryName} ל-${formattedDate} | ארכיון עיתונים דיגיטלי`}</h1>
+                        <h2>{`כותרות היסטוריות מעיתוני ${countryName} מ-${formattedDate}, כפי שהתפתחו`}</h2>
+                        <h3>{`ארכיון עיתונים דיגיטלי: חדשות ${countryName} מ-${formattedDate}`}</h3>
+                        <p>צפו מחדש בחדשות מ{countryName} מ-{formattedDate}. ארכיון עיתונים דיגיטלי השומר על הכותרות הראשיות כפי שהופיעו והתפתחו לאורך היום, ומאפשר תיעוד היסטורי של איך התרחשו האירועים בזמן אמת.</p>
                     </div>
                 </div>
             );
@@ -280,10 +283,10 @@ export function ServerCountrySEOContent({ locale, country, date }) {
             <div style={{ display: 'none' }}>
                 {/* Hidden server-rendered historical SEO content for crawlers - English */}
                 <div aria-hidden="true" lang="en">
-                    <h1>Archive of {countryName} Headlines for {formattedDate} | Digital Newspaper Archive</h1>
-                    <h2>Historic headlines from {countryName} newspapers on {formattedDate}, as they unfolded</h2>
-                    <h3>Digital newspaper archive: {countryName} news from {formattedDate}</h3>
-                    <p>Replay the news from {countryName} on {formattedDate}. A digital newspaper archive that preserves the main headlines as they appeared and developed throughout the day, offering a unique historical record of how events unfolded in real time.</p>
+                    <h1>{`Archive of ${countryName} Headlines for ${formattedDate} | Digital Newspaper Archive`}</h1>
+                    <h2>{`Historic headlines from ${countryName} newspapers on ${formattedDate}, as they unfolded`}</h2>
+                    <h3>{`Digital newspaper archive: ${countryName} news from ${formattedDate}`}</h3>
+                    <p>Replay the news from {countryName} on {formattedDate}. A digital newspaper archive that preserves the main headlines as they appeared and developed throughout the day, offering a historical record of how events unfolded in real time.</p>
                 </div>
             </div>
         );
@@ -295,9 +298,9 @@ export function ServerCountrySEOContent({ locale, country, date }) {
             <div style={{ display: 'none' }}>
                 {/* Hidden server-rendered country SEO content for crawlers - Hebrew */}
                 <div aria-hidden="true" lang="he" dir="rtl">
-                    <h1>כותרות חיות מ{countryName} | לוח חדשות וארכיון</h1>
-                    <h2>חדשות עדכניות מעיתוני {countryName}, מתעדכנות לאורך היום</h2>
-                    <h3>כותרות חדשות {countryName} בזמן אמת</h3>
+                    <h1>{`כותרות חיות מ${countryName} | לוח חדשות וארכיון`}</h1>
+                    <h2>{`חדשות עדכניות מעיתוני ${countryName}, מתעדכנות לאורך היום`}</h2>
+                    <h3>{`כותרות חדשות ${countryName} בזמן אמת`}</h3>
                     <p>חדשות מתעדכנות וכותרות מ{countryName}. המאזין אוסף כותרות ראשיות מעיתונים ומקורות חדשות ברחבי {countryName}, ומספק תמונה מקיפה של אירועים עדכניים וסיפורים מתפתחים.</p>
                 </div>
             </div>
@@ -308,10 +311,10 @@ export function ServerCountrySEOContent({ locale, country, date }) {
         <div style={{ display: 'none' }}>
             {/* Hidden server-rendered country SEO content for crawlers - English */}
             <div aria-hidden="true" lang="en">
-                <h1>Live Headlines from {countryName} | a news dashboard and archive</h1>
-                <h2>Current news from {countryName} newspapers, updated throughout the day</h2>
-                <h3>{countryName} news headlines in real time</h3>
-                <p>breaking news and headlines from {countryName}. The Hear aggregates main headlines from newspapers and news sources across {countryName}, providing a comprehensive view of current events and developing stories.</p>
+                <h1>{`Live Headlines from ${countryName} | a news dashboard and archive`}</h1>
+                <h2>{`Current news from ${countryName} newspapers, updated throughout the day`}</h2>
+                <h3>{`${countryName} news headlines in real time`}</h3>
+                <p>breaking news and headlines from {countryName}. The Hear is a news aggregator that displays main headlines from newspapers in {countryName}, providing a birds eye view of breaking news, current events and developing stories; the top stories in the news from {countryName} today.</p>
             </div>
         </div>
     );
