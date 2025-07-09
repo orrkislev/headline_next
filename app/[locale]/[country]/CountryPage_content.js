@@ -14,6 +14,7 @@ import useMobile from "@/components/useMobile";
 import Loader from "@/components/loader";
 import FirstVisitModal from './FirstVisitModal';
 import AboutMenu from './TopBar/AboutMenu';
+import DateNavigator from '@/components/DateNavigator';
 
 export default function CountryPageContent({ sources, initialSummaries, yesterdaySummary, daySummary, locale, country, pageDate }) {
     const typography = getTypographyOptions(country);
@@ -63,6 +64,9 @@ export default function CountryPageContent({ sources, initialSummaries, yesterda
                         onExpandPanel={() => setIsRightPanelCollapsed(false)}
                     />
                     <MainSection {...{ country, sources, locale, pageDate, initialSummaries, yesterdaySummary, daySummary }} />
+                    {pageDate && locale === 'en' && (
+                        <DateNavigator {...{ locale, country, pageDate }} />
+                    )}
                 </div>
             </div>
         </>

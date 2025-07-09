@@ -4,6 +4,7 @@ import { useTime, useTranslate } from '@/utils/store';
 import { createDateString } from '@/utils/utils';
 import { redirect, usePathname } from 'next/navigation';
 import { useRef, useEffect } from 'react';
+import CustomTooltip from '@/components/CustomTooltip';
 
 // Helper function to clean summary text by removing everything after language markers
 const cleanSummaryText = (text) => {
@@ -74,40 +75,43 @@ export default function Summary({ summary, country, active, locale, yesterday })
         }
     }
 
+    const disclaimer = locale === 'heb' ? 'סקירות אלה נכתבו בידי בינה' : 'These overviews were written by an AI';
     return (
-        <div
-            ref={summaryRef}
-            className={`py-2 ${fontClass} leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'} border-b border-dashed border-gray-200 pb-5 ${
-                active ? (locale === 'heb' ? 'text-[16px]' : 'text-[14px]') : 'text-sm'
-            }`}
-            style={{
-                color: active ? 'black' : '#e8e8e8',
-                cursor: active ? 'text' : 'pointer',
-                fontWeight: 400,
-                lineHeight: active ? '1.5' : '1.5',
-            }}
-            onClick={clickHandler}
-        >
-            <h3 className={`${active && !isDatePage ? 'text-blue' : ''} ${active && isDatePage ? 'underline underline-offset-4 decoration-gray-400 decoration-1' : ''} mb-2 ${locale === 'heb' ? 'text-[17px]' : 'text-base'} font-medium`}
+        <CustomTooltip title={disclaimer} placement={locale === 'heb' ? 'top' : 'top'} enterDelay={1000}>
+            <div
+                ref={summaryRef}
+                className={`py-2 ${fontClass} leading-none font-normal cursor-pointer ${active ? '' : 'text-gray-200 hover:text-gray-500 transition-colors'} border-b border-dashed border-gray-200 pb-5 ${
+                    active ? (locale === 'heb' ? 'text-[16px]' : 'text-[14px]') : 'text-sm'
+                }`}
                 style={{
-                    lineHeight: active ? '1.5' : '1.4',
-                    marginTop: active ? '0px' : '12px',
-                    marginBottom: '10px',
+                    color: active ? 'black' : '#e8e8e8',
+                    cursor: active ? 'text' : 'pointer',
+                    fontWeight: 400,
+                    lineHeight: active ? '1.5' : '1.5',
                 }}
+                onClick={clickHandler}
             >
-                <span className={`font-['GeistMono', 'Consolas', 'monospace'] ${locale === 'heb' ? 'text-[17px]' : 'text-sm'}`}>{timestamp}</span>
-                <span className="mx-1">{locale == 'heb' ? '⇠' : '⇢'}</span>
-                <span>{headline}</span>
-            </h3>
-            {parts.map((part, i) => (
-                <span key={i} className={
-                    active ? (part.startsWith('(') ?
-                        `text-gray-400 ${locale === 'heb' ? 'text-sm' : 'text-sm'}` :
-                        '') : ''
-                }>
-                    {part}
-                </span>
-            ))}
-        </div>
+                <h3 className={`${active && !isDatePage ? 'text-blue' : ''} ${active && isDatePage ? 'underline underline-offset-4 decoration-gray-400 decoration-1' : ''} mb-2 ${locale === 'heb' ? 'text-[17px]' : 'text-base'} font-medium`}
+                    style={{
+                        lineHeight: active ? '1.5' : '1.4',
+                        marginTop: active ? '0px' : '12px',
+                        marginBottom: '10px',
+                    }}
+                >
+                    <span className={`font-['GeistMono', 'Consolas', 'monospace'] ${locale === 'heb' ? 'text-[17px]' : 'text-sm'}`}>{timestamp}</span>
+                    <span className="mx-1">{locale == 'heb' ? '⇠' : '⇢'}</span>
+                    <span>{headline}</span>
+                </h3>
+                {parts.map((part, i) => (
+                    <span key={i} className={
+                        active ? (part.startsWith('(') ?
+                            `text-gray-400 ${locale === 'heb' ? 'text-sm' : 'text-sm'}` :
+                            '') : ''
+                    }>
+                        {part}
+                    </span>
+                ))}
+            </div>
+        </CustomTooltip>
     );
 }

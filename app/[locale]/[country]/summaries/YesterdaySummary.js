@@ -71,21 +71,21 @@ export default function YesterdaySummary({ locale, country, yesterdaySummary, pa
 
     let dateString
     if (pageDate){
-        dateString = <span className="font-['GeistMono'] font-medium">{yesterdayDate.toLocaleDateString('en-GB').replace(/\//g, '.')}</span>;
+        dateString = <span className={`font-['GeistMono'] font-medium ${locale === 'heb' ? 'text-[16px]' : ''}`}>{yesterdayDate.toLocaleDateString('en-GB').replace(/\//g, '.')}</span>;
     } else {
         dateString = locale == 'heb' ? 'אתמול' : 'Yesterday';
     }
         
     return (
         <InnerLink href={`/${locale}/${country}/${createDateString(yesterdayDate)}`}>
-            <h2 className={`hidden sm:block py-2 px-2 pb-4 cursor-pointer ${locale === 'heb' ? 'text-[17px]' : 'text-base'} text-black hover:text-blue ${locale === 'en'
+            <h2 className={`hidden sm:block py-2 px-2 cursor-pointer ${locale === 'heb' ? 'text-[17px]' : 'text-base'} text-black hover:text-blue hover:underline hover:underline-offset-4 ${locale === 'en'
                 ? 'font-["Geist"] pr-4 font-medium'
                 : 'frank-re pl-4'
                 }`}
-                style={{ lineHeight: '1.4em', borderBottom: '1px solid #e5e7eb' }}>
+                style={{ lineHeight: '1.4em'}}>
 
                 <span>{dateString}</span>
-                <span style={{ visibility: blink ? 'visible' : 'hidden' }}> {locale == 'heb' ? ' ⇠ ' : ' ⇢ '}</span>
+                <span style={{ visibility: blink ? 'visible' : 'hidden' }}> {locale == 'heb' ? ' ⇢ ' : ' ⇠ '}</span>
                 <span>{headline}</span>
             </h2>
         </InnerLink>

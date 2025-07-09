@@ -23,6 +23,8 @@ export default async function Page({ params }) {
     const { country, locale, date } = await params;
 
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
+    // Shift to noon to avoid timezone rollover issues when later converted to ISO strings
+    parsedDate.setHours(12, 0, 0, 0);
     const timezone = countries[country]?.timezone || 'UTC';
     const todayInTimezone = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
     if (isSameDay(parsedDate, todayInTimezone) || parsedDate > new Date() || isNaN(parsedDate.getTime()))
