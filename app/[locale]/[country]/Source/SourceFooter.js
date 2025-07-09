@@ -37,7 +37,11 @@ export function SourceFooter({ source, headline, url, headlines }) {
 
     let domain = '';
     try {
-        if (url && typeof url === 'string') {
+        if (
+            url &&
+            typeof url === 'string' &&
+            (url.startsWith('http://') || url.startsWith('https://'))
+        ) {
             domain = new URL(url).hostname.replace('www.', '');
         }
     } catch (error) {
