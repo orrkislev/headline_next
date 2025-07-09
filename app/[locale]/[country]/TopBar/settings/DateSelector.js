@@ -11,7 +11,7 @@ import { useTime } from "@/utils/store";
 import { useRouter, usePathname } from "next/navigation";
 import { createDateString } from '@/utils/utils';
 import { LinearProgress } from "@mui/material";
-
+import InnerLink from "@/components/InnerLink";
 
 
 export function DateSelector({ locale, country }) {
@@ -36,7 +36,6 @@ export function DateSelector({ locale, country }) {
     const dateString = todayDate.toLocaleDateString("en-GB")
         .slice(0, 8)
         .replace(/(\d{2})$/, todayDate.getFullYear().toString().slice(2))
-    // ... existing code ...
         const label = isToday ? <span className="font-geist">Today</span> : `${Math.floor((today - todayDate) / (1000 * 60 * 60 * 24))} days ago`;
 
     const yesterday = sub(todayDate, { days: 1 });
@@ -54,9 +53,16 @@ export function DateSelector({ locale, country }) {
     return (
         <>
             {isNavigating && (
-                <div className="fixed top-0 left-0 w-full z-50">
-                    <LinearProgress color="inherit" sx={{ opacity: 0.8 }} />
-                </div>
+                // Use only the loader overlay from InnerLink, not navigation logic
+                typeof window !== 'undefined' &&
+                require('react-dom').createPortal(
+                    <div className="fixed inset-0 w-full h-full z-[9999] pointer-events-auto flex items-center justify-center">
+                        <div className="absolute inset-0 bg-black bg-opacity-20" />
+                        {/* Import Loader directly to avoid circular dependency */}
+                        {(() => { const Loader = require('@/components/loader').default; return <Loader /> })()}
+                    </div>,
+                    document.body
+                )
             )}
             <LabeledContent label={<span dir="ltr">{label}</span>}>
                 <div className={`flex items-center gap-1 relative ${locale === 'heb' ? 'flex-row-reverse' : 'flex-row'}`}>

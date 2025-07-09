@@ -8,21 +8,13 @@ import { useTime } from "@/utils/store";
 import { isToday } from "date-fns";
 import { useRouter, usePathname } from "next/navigation";
 import { LinearProgress } from "@mui/material";
+import InnerLink from "@/components/InnerLink";
 
 export default function ResetTimerButton({ locale, country, className, pageDate }) {
     const date = useTime(state => state.date);
     const setDate = useTime(state => state.setDate);
-    const [isNavigating, setIsNavigating] = useState(false);
-    const router = useRouter();
-    const pathname = usePathname();
+    // Remove isNavigating and router
     const isPresent = new Date() - date < 60 * 1000 * 5;
-
-    // Reset loading state when pathname changes
-    useEffect(() => {
-        if (isNavigating) {
-            setIsNavigating(false);
-        }
-    }, [pathname]);
 
     useEffect(() => {
         if (pageDate) return;
@@ -49,32 +41,33 @@ export default function ResetTimerButton({ locale, country, className, pageDate 
     const handleClick = () => {
         if (isToday(date)) {
             setDate(new Date());
-        } else {
-            setIsNavigating(true);
-            router.push(`/${locale}/${country}`);
         }
+        // else: navigation handled by InnerLink
     }
 
-    return (
-        <>
-            {isNavigating && (
-                <div className="fixed top-0 left-0 w-full z-50">
-                    <LinearProgress color="inherit" sx={{ opacity: 0.8 }} />
-                </div>
-            )}
-            <CustomTooltip title={tooltip} arrow open={!isPresent} placement={placement}>
-                <IconButton
-                    className={`transition-colors duration-300 ${isPresent ? '' : 'animate-slow-fade'} ` + className}
-                    onClick={handleClick}
-                    disabled={isNavigating}
-                    size="small"
-                    sx={{
-                        color: isPresent ? 'lightgray' : 'blue'
-                    }}
-                >
-                    <Restore fontSize="small" />
-                </IconButton>
-            </CustomTooltip>
-        </>
-    )
+    // If not today, wrap button in InnerLink for navigation
+    const button = (
+        <CustomTooltip title={tooltip} arrow open={!isPresent} placement={placement}>
+            <IconButton
+                className={`transition-colors duration-300 ${isPresent ? '' : 'animate-slow-fade'} ` + className}
+                onClick={handleClick}
+                // Remove disabled={isNavigating}
+                size="small"
+                sx={{
+                    color: isPresent ? 'lightgray' : 'blue'
+                }}
+            >
+                <Restore fontSize="small" />
+            </IconButton>
+        </CustomTooltip>
+    );
+
+    if (!isToday(date)) {
+        return (
+            <InnerLink locale={locale} href={`/${locale}/${country}`}>
+                {button}
+            </InnerLink>
+        );
+    }
+    return button;
 }
