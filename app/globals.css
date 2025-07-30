@@ -85,7 +85,7 @@ body {
   100% { color: black; }
 }
 .animate-headline {
-  animation: headlineFade 1.5s forwards;
+  animation: headlineFade forwards;
 }
 
 @keyframes slowFade {

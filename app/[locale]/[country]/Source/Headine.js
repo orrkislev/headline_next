@@ -1,7 +1,17 @@
 import { checkRTL } from "@/utils/utils";
 import { Skeleton } from "@mui/material";
+import { useEffect, useState } from "react";
 
-export default function Headline({ headline, typography, isLoading }) {
+export default function Headline({ headline, typography, isLoading, isPresent }) {
+    const [animationDuration, setAnimationDuration] = useState(null);
+
+    // Generate random animation duration when component mounts or headline changes
+    useEffect(() => {
+        // Always use shorter duration (0.7-3.2 seconds)
+        const randomDuration = Math.random() * 2.5 + 0.7; // Random between 0.7-3.2 seconds
+        setAnimationDuration(randomDuration);
+    }, [headline.id]); // Re-generate when headline ID changes
+
     if (isLoading) {
         return (
             <div className="space-y-2">
@@ -26,7 +36,13 @@ export default function Headline({ headline, typography, isLoading }) {
     const headlineContent = (
         <div className="relative">
             <h3 className={`animate-headline w-full text-lg font-semibold break-words line-clamp-6`}    
-                style={{ ...typography, width: '100%', direction: isRTL ? 'rtl' : 'ltr' }} key={headline.id}>
+                style={{ 
+                    ...typography, 
+                    width: '100%', 
+                    direction: isRTL ? 'rtl' : 'ltr',
+                    animationDuration: animationDuration ? `${animationDuration}s` : '1.5s'
+                }} 
+                key={headline.id}>
                 {txt}
             </h3>
         </div>
