@@ -1,9 +1,6 @@
 import { countries } from "@/utils/sources/countries"
 import { createDateString } from "@/utils/utils"
 
-// Revalidate the sitemap every 24 hours for better performance
-export const revalidate = 86400 // 24 hours in seconds
-
 // Per-country launch dates - actual dates when data became available
 const countryLaunchDates = {
     'israel': new Date('2024-07-04'),
@@ -28,61 +25,19 @@ const countryLaunchDates = {
     'finland': new Date('2025-02-20')
 };
 
-export default function sitemap() {
+// TEMPORARY RECRAWL SITEMAP
+// This sitemap is ONLY for forcing Google to recrawl archive pages
+// Use this temporarily, then delete it after Google has recrawled everything
+export default function recrawlSitemap() {
     const res = []
     const locales = ['en', 'heb']
-    // Canonical domain - using www.the-hear.com to match hosting redirect setup
     const baseUrl = 'https://www.the-hear.com'
     const today = new Date()
-
-    // HIGHEST PRIORITY ROUTES (1.0)
     
-    // Main country pages - HIGHEST priority (core functionality)
-    Object.keys(countries).forEach(country => {
-        locales.forEach(locale => {
-            res.push({
-                url: `${baseUrl}/${locale}/${country}`,
-                lastModified: new Date(),
-                changeFrequency: 'hourly',
-                priority: 1.0
-            });
-        });
-    });
+    // CRITICAL: Set this to the deployment date when you want Google to recrawl
+    const RECRAWL_DATE = new Date().toISOString()
 
-    // HIGH PRIORITY ROUTES (0.95)
-    
-    // Global pages - very high priority
-    locales.forEach(locale => {
-        res.push({
-            url: `${baseUrl}/${locale}/global`,
-            lastModified: new Date(),
-            changeFrequency: 'hourly',
-            priority: 0.95
-        });
-    });
-
-    // Mobile page - medium-high priority
-    res.push({
-        url: `${baseUrl}/mobile`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.8
-    });
-
-    // MEDIUM PRIORITY ROUTES (0.6)
-    
-    // Landing page - medium priority
-    res.push({
-        url: `${baseUrl}/landing`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.6
-    });
-
-    // LOWER PRIORITY ROUTES (0.1-0.6)
-    
-    // Date-specific pages - based on actual per-country launch dates
-    // NOTE: Start from yesterday (i=1) since today's date-specific URLs aren't generated until day is over
+    // Only include archive pages (date-specific URLs)
     Object.keys(countries).forEach(country => {
         const countryLaunchDate = countryLaunchDates[country];
         if (!countryLaunchDate) {
@@ -109,19 +64,15 @@ export default function sitemap() {
                 
                 const dateString = createDateString(date);
 
-                // Priority decreases with age: yesterday = 0.6, oldest = 0.1
-                // Adjust priority calculation since we start from i=1
-                const priority = 0.6 - ((i - 1) / maxDaysForCountry) * 0.5;
-
                 res.push({
                     url: `${baseUrl}/${locale}/${country}/${dateString}`,
-                    lastModified: date, // Use the actual historical date
-                    changeFrequency: 'never', // Historical data doesn't change
-                    priority: Math.max(0.1, priority) // Ensure minimum priority of 0.1
+                    lastModified: RECRAWL_DATE, // This signals Google to recrawl
+                    changeFrequency: 'never',
+                    priority: 0.5 // Medium priority for recrawling
                 });
             }
         });
     });
 
     return res;
-}
+} 
