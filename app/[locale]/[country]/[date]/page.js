@@ -43,7 +43,7 @@ export default async function Page({ params }) {
     });
 
     return <>
-        <LdJson {...{ country, locale, daySummary }} date={parsedDate} />
+        <LdJson {...{ country, locale, daySummary, headlines, initialSummaries, sources }} date={parsedDate} />
         
         {/* Server-rendered SEO content for crawlers */}
         <ServerCountrySEOContent locale={locale} country={country} date={parsedDate} />

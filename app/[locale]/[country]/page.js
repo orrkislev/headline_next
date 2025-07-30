@@ -44,7 +44,7 @@ export default async function Page({ params }) {
     const countryName = locale === 'heb' ? countries[country].hebrew || country : countries[country].english || country;
 
     return <>
-        <LdJson {...{ country, locale }} />
+        <LdJson {...{ country, locale, headlines, initialSummaries, sources, yesterdaySummary }} />
         
         {/* Server-rendered SEO content for crawlers */}
         <ServerCountrySEOContent locale={locale} country={country} />

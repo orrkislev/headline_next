@@ -1,4 +1,5 @@
 import { countries } from "@/utils/sources/countries";
+import { getSourceData } from "@/utils/sources/getCountryData";
 import Script from 'next/script';
 
 function getFlagEmoji(countryKey) {
@@ -62,33 +63,123 @@ export async function createMetadata(params) {
     };
 }
 
-export function LdJson({ country, locale }) {
+export function LdJson({ country, locale, headlines, initialSummaries, sources, yesterdaySummary }) {
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
     const flagEmoji = locale === 'heb' ? '' : ` ${getFlagEmoji(country)}`;
     const url = `https://www.the-hear.com/${locale}/${country}`;
+    
+    // Create concise description for CollectionPage
     const description = locale === 'heb'
         ? `דוכן כותרות חי של עיתונים מ-${countryName}; ארכיון חדשות המעדכן בזמן אמת.`
         : `A Living Newsstand of Main Headlines from ${countryName}${flagEmoji}, displayed side by side.`;
+    
     const image = 'https://www.the-hear.com/logo192.png';
+    const title = locale === 'heb'
+        ? `📰 כותרות העיתונים מ${countryName}`
+        : `📰 Live Headlines from ${countryName}${flagEmoji} | The Hear`;
+    
+    // Prepare hourly summaries as abstracts (analytical summaries)
+    const abstracts = [];
+    if (initialSummaries && Array.isArray(initialSummaries) && initialSummaries.length > 0) {
+        initialSummaries.forEach((summary, index) => {
+            // Use direct field access for live summaries
+            let summaryContent = '';
+            
+            if (locale === 'heb') {
+                summaryContent = summary.hebrewSummary || summary.summary || summary.translatedSummary;
+            } else {
+                summaryContent = summary.summary || summary.translatedSummary || summary.hebrewSummary;
+            }
+            
+            if (summaryContent && summaryContent.trim() && summaryContent.length > 20) {
+                abstracts.push({
+                    '@type': 'CreativeWork',
+                    'abstract': summaryContent.trim(),
+                    'dateCreated': summary.timestamp ? new Date(summary.timestamp).toISOString() : new Date().toISOString(),
+                    'creator': {
+                        '@type': 'NewsMediaOrganization',
+                        'name': 'The Hear AI Analysis'
+                    },
+                    'about': `Live news analysis for ${countryName}`
+                });
+            }
+        });
+    }
+    
+    // Create ItemList elements for all headlines
+    const itemListElements = [];
+    if (headlines && headlines.length > 0) {
+        // Sort headlines by timestamp (newest first)
+        const sortedHeadlines = [...headlines].sort((a, b) => 
+            new Date(b.timestamp) - new Date(a.timestamp)
+        );
+        
+        sortedHeadlines.forEach((h, index) => {
+            const sourceData = getSourceData(country, h.website_id);
+            const sourceName = sourceData?.name || h.website_id;
+            
+            const newsArticle = {
+                '@type': 'NewsArticle',
+                'headline': h.headline || '',
+                'url': h.link || '',
+                'datePublished': h.timestamp ? new Date(h.timestamp).toISOString() : '',
+                'publisher': {
+                    '@type': 'Organization',
+                    'name': sourceName
+                }
+            };
+            
+            // Only add description if subtitle exists and is not empty
+            if (h.subtitle && h.subtitle.trim()) {
+                newsArticle.description = h.subtitle;
+            }
+            
+            itemListElements.push({
+                '@type': 'ListItem',
+                'position': index + 1,
+                'item': newsArticle
+            });
+        });
+    }
+
     const jsonLd = {
         '@context': 'https://schema.org',
-        '@type': 'WebPage',
-        'name': `The Hear - News and Overviews from many newspapers in ${countryName}`,
-        'url': url,
-        'inLanguage': locale === 'heb' ? 'he' : 'en',
-        'description': description,
-        'datePublished': new Date().toISOString().split('T')[0],
-        'about': countryName,
-        'publisher': {
-            '@type': 'Organization',
-            'name': 'The Hear',
-            'logo': {
-                '@type': 'ImageObject',
-                'url': image
+        '@graph': [
+            {
+                '@type': 'CollectionPage',
+                '@id': url,
+                'name': title,
+                'description': description,
+                'url': url,
+                'inLanguage': locale === 'heb' ? 'he' : 'en',
+                'datePublished': new Date().toISOString(),
+                'dateModified': new Date().toISOString(),
+                'mainEntity': {
+                    '@id': `${url}#headlines`
+                },
+                ...(abstracts.length > 0 && {
+                    'hasPart': abstracts
+                }),
+                'publisher': {
+                    '@type': 'NewsMediaOrganization',
+                    'name': 'The Hear',
+                    'logo': {
+                        '@type': 'ImageObject',
+                        'url': image
+                    }
+                }
+            },
+            {
+                '@type': 'ItemList',
+                '@id': `${url}#headlines`,
+                'name': `Live Headlines for ${countryName}`,
+                'numberOfItems': itemListElements.length,
+                'itemListElement': itemListElements
             }
-        }
+        ]
     };
+    
     return (
         <Script 
             id={`jsonld-country-${country}-${locale}`}
