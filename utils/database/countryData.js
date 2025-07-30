@@ -12,7 +12,7 @@ const db = getFirestore(app);
 
 export function getCountryCollectionRef(countryName, collectionName) {
   const countriesCollection = collection(db, '- Countries -');
-  
+
   const countryID = countries[countryName].english;
   const countryDoc = doc(countriesCollection, countryID);
   return collection(countryDoc, collectionName);
@@ -158,7 +158,7 @@ export const subscribeToSummaries = (countryName, callback) => {
 
 export const getCountryDailySummary = cache(async (countryName, day) => {
   // console.log('getting daily summary for', countryName, day);
-  const date = new Date(day);
+  const date = day instanceof Date ? day : new Date(day);
   const dateString = date.toISOString().split('T')[0];
 
   const dailyCollection = getCountryCollectionRef(countryName, 'dailysummaries');

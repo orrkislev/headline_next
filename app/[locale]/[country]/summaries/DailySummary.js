@@ -1,20 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { Collapse, IconButton } from '@mui/material';
 import { getHeadline, getSummaryContent } from '@/utils/daily summary utils';
-import { useTime } from '@/utils/store';
 import CustomTooltip from '@/components/CustomTooltip';
 
 export default function DailySummary({ locale, daySummary }) {
     const [expanded, setExpanded] = useState(false);
-
-    const dayString = useTime(state => state.date.toISOString().split('T')[0]);
     if (!daySummary) return null;
 
     // Format date as dd.mm.yyyy
-    const formattedDate = new Date(dayString)
+    const formattedDate = new Date(daySummary.date)
         .toLocaleDateString('en-GB', {
             day: '2-digit',
             month: '2-digit',
