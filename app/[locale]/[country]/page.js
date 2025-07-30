@@ -4,7 +4,8 @@ import { countries } from "@/utils/sources/countries";
 import CountryPageContent from "./CountryPage_content";
 import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { createMetadata, LdJson } from "./metadata";
-import { ServerHeadlineLinks, ServerCountryNavigation, ServerYesterdayNavigation, ServerAboutContent, ServerCountrySEOContent } from "@/utils/ServerSideLinks";
+import { ServerCountryNavigation, ServerYesterdayNavigation } from "@/utils/ServerSideLinks";
+
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
 
@@ -43,22 +44,23 @@ export default async function Page({ params }) {
 
     const countryName = locale === 'heb' ? countries[country].hebrew || country : countries[country].english || country;
 
-    return <>
-        <LdJson {...{ country, locale, headlines, initialSummaries, sources, yesterdaySummary }} />
-        
-        {/* Server-rendered SEO content for crawlers */}
-        <ServerCountrySEOContent locale={locale} country={country} />
-        <ServerHeadlineLinks headlines={headlines} locale={locale} country={country} />
-        <ServerCountryNavigation locale={locale} currentCountry={country} />
-        <ServerYesterdayNavigation locale={locale} country={country} />
-        <ServerAboutContent locale={locale} />
-        
-        <CountryPageContent 
-            {...{ sources, 
-                initialSummaries, 
-                yesterdaySummary, 
-                locale, 
-                country }}
-        />
-    </>
+    return (
+        <>
+            {/* This correctly handles all your SEO needs for the entire collection */}
+            <LdJson {...{ country, locale, headlines, initialSummaries, sources, yesterdaySummary }} />
+            
+            {/* Navigation links for crawlers */}
+            <ServerCountryNavigation locale={locale} currentCountry={country} />
+            <ServerYesterdayNavigation locale={locale} country={country} />
+            
+            {/* This is the interactive UI for your users */}
+            <CountryPageContent 
+                {...{ sources, 
+                    initialSummaries, 
+                    yesterdaySummary, 
+                    locale, 
+                    country }}
+            />
+        </>
+    );
 }

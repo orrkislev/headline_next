@@ -5,7 +5,7 @@ import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { redirect } from "next/navigation";
 import { createMetadata, LdJson } from "./metadata";
 import { countries } from "@/utils/sources/countries";
-import { ServerHeadlineLinks, ServerCountryNavigation, ServerDateNavigation, ServerAboutContent, ServerCountrySEOContent } from "@/utils/ServerSideLinks";
+import { ServerCountryNavigation, ServerDateNavigation } from "@/utils/ServerSideLinks";
 
 export const revalidate = false; // generate once, never revalidate
 export const dynamicParams = true; // allow on-demand generation
@@ -42,26 +42,27 @@ export default async function Page({ params }) {
         sources[sourceName].headlines.push(headline);
     });
 
-    return <>
-        <LdJson {...{ country, locale, daySummary, headlines, initialSummaries, sources }} date={parsedDate} />
-        
-        {/* Server-rendered SEO content for crawlers */}
-        <ServerCountrySEOContent locale={locale} country={country} date={parsedDate} />
-        <ServerHeadlineLinks headlines={headlines} locale={locale} country={country} date={parsedDate} />
-        <ServerDateNavigation locale={locale} country={country} date={parsedDate} />
-        <ServerCountryNavigation locale={locale} currentCountry={country} />
-        <ServerAboutContent locale={locale} />
-        
-        <CountryPageContent
-            {...{
-                sources,
-                initialSummaries,
-                daySummary,
-                yesterdaySummary,
-                locale,
-                country,
-                pageDate: parsedDate
-            }}
-        />
-    </>
+    return (
+        <>
+            {/* This correctly handles all your SEO needs for the entire collection */}
+            <LdJson {...{ country, locale, daySummary, headlines, initialSummaries, sources }} date={parsedDate} />
+            
+            {/* Navigation links for crawlers */}
+            <ServerCountryNavigation locale={locale} currentCountry={country} />
+            <ServerDateNavigation locale={locale} country={country} date={parsedDate} />
+            
+            {/* This is the interactive UI for your users */}
+            <CountryPageContent
+                {...{
+                    sources,
+                    initialSummaries,
+                    daySummary,
+                    yesterdaySummary,
+                    locale,
+                    country,
+                    pageDate: parsedDate
+                }}
+            />
+        </>
+    );
 }
