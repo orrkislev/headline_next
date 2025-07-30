@@ -25,10 +25,7 @@ const countryLaunchDates = {
     'finland': new Date('2025-02-20')
 };
 
-// TEMPORARY RECRAWL SITEMAP
-// This sitemap is ONLY for forcing Google to recrawl archive pages
-// Use this temporarily, then delete it after Google has recrawled everything
-export default function recrawlSitemap() {
+export async function GET() {
     const res = []
     const locales = ['en', 'heb']
     const baseUrl = 'https://www.the-hear.com'
@@ -74,5 +71,22 @@ export default function recrawlSitemap() {
         });
     });
 
-    return res;
+    // Convert to XML format
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${res.map(entry => `
+  <url>
+    <loc>${entry.url}</loc>
+    <lastmod>${entry.lastModified}</lastmod>
+    <changefreq>${entry.changeFrequency}</changefreq>
+    <priority>${entry.priority}</priority>
+  </url>
+`).join('')}
+</urlset>`
+
+    return new Response(xml, {
+        headers: {
+            'Content-Type': 'application/xml',
+        },
+    })
 } 
