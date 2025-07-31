@@ -11,17 +11,17 @@ const englishSpeakingCountries = ['us', 'canada', 'australia', 'uk', 'ireland', 
 const hebrewSpeakingCountries = ['israel'];
 const allCountries = [...englishSpeakingCountries, ...hebrewSpeakingCountries];
 
-export default function TranslateToggle({ locale, country, sources }) {
+export default function TranslateToggle({ locale, country, sources, userCountry }) {
     const translate = useTranslate(state => state.translate);
     const setTranslate = useTranslate(state => state.setTranslate);
     const [on, setOn] = useState(false);
 
-    // Initialize translation state based on country
+    // Initialize translation state based on country and user location
     useEffect(() => {
-        if (!allCountries.includes(country)) {
+        if (!allCountries.includes(country) && userCountry !== country) {
             setTranslate(Object.keys(sources));
         }
-    }, [locale, country, sources, setTranslate]);
+    }, [locale, country, sources, setTranslate, userCountry]);
 
     // Sync the toggle state with the actual translation state
     useEffect(() => {

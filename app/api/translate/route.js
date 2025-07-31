@@ -3,7 +3,7 @@ import { generateObject, generateText } from 'ai';
 import { z } from 'zod';
 
 export const maxDuration = 30;
-const model = google("gemini-2.5-flash-lite-preview-06-17");
+const model = google("gemini-2.5-flash-lite");
 
 
 export async function POST(req) {
@@ -13,6 +13,7 @@ export async function POST(req) {
 
     const prompt = `Translate the following news headline and subtitle into natural-sounding ${targetLang}. 
     Prioritize fluency over word-for-word accuracy, and ensure proper grammar. 
+    Don't change names, places or any other specific information. 
     Only return the direct translation without any additional text or explanations. "${headline}" - "${subtitle}"`;
     const { object } = await generateObject({
         model,

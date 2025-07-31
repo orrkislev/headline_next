@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 const Settings = dynamic(() => import("./settings/Settings"));
 const AboutMenu = dynamic(() => import("./AboutMenu"));
 
-export function SettingsButton({ locale, country, sources, isRightPanelCollapsed }) {
+export function SettingsButton({ locale, country, sources, isRightPanelCollapsed, userCountry }) {
     const [open, setOpen] = useState(false);
     const [aboutMenuOpen, setAboutMenuOpen] = useState(false);
     
@@ -27,6 +27,7 @@ export function SettingsButton({ locale, country, sources, isRightPanelCollapsed
                     isRightPanelCollapsed={isRightPanelCollapsed}
                     hideLanguageToggle={isSpecialCase}
                     hideTranslateToggle={isSpecialCase}
+                    userCountry={userCountry}
                 />
             </div>
             <div className="flex items-center">

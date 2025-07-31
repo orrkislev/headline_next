@@ -99,7 +99,11 @@ export async function middleware(request) {
       if (valid !== countryCandidate) {
         return NextResponse.redirect(new URL(`/${locale}/${valid}`, request.url));
       } else {
-        return NextResponse.next();
+        // Add user's detected country to response headers
+        const userCountry = getUserCountry(request);
+        const response = NextResponse.next();
+        response.headers.set('x-user-country', userCountry);
+        return response;
       }
     }
     return NextResponse.redirect(new URL('/', request.url));

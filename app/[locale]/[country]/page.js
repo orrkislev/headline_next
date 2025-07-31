@@ -5,6 +5,7 @@ import CountryPageContent from "./CountryPage_content";
 import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { createMetadata, LdJson } from "./metadata";
 import { ServerCountryNavigation, ServerYesterdayNavigation } from "@/utils/ServerSideLinks";
+import { headers } from "next/headers";
 
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
     const { country, locale } = await params;
+    const userCountry = headers().get('x-user-country') || 'us';
 
     const today = new Date()
     const headlines = await getCountryDayHeadlines(country, today, 2);
@@ -59,7 +61,8 @@ export default async function Page({ params }) {
                     initialSummaries, 
                     yesterdaySummary, 
                     locale, 
-                    country }}
+                    country,
+                    userCountry }}
             />
         </>
     );

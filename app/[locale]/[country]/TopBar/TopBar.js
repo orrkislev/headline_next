@@ -23,7 +23,7 @@ const cleanSummaryText = (text) => {
     return cleanText;
 };
 
-export default function TopBar({ locale, country, sources, currentSummary, isRightPanelCollapsed, onExpandPanel }) {
+export default function TopBar({ locale, country, sources, currentSummary, isRightPanelCollapsed, onExpandPanel, userCountry }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage);
     const { isMobile } = useMobile();
     
@@ -73,7 +73,7 @@ export default function TopBar({ locale, country, sources, currentSummary, isRig
                     )}
                 </div>
                 <div className="flex items-center hidden md:flex px-2">
-                    <SettingsButton {...{ locale: effectiveLocale, country, sources, isRightPanelCollapsed }} />
+                    <SettingsButton {...{ locale: effectiveLocale, country, sources, isRightPanelCollapsed, userCountry }} />
                 </div>
             </div>
         </div>
