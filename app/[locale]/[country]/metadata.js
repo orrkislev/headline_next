@@ -1,6 +1,5 @@
 import { countries } from "@/utils/sources/countries";
 import { getSourceData } from "@/utils/sources/getCountryData";
-import Script from 'next/script';
 
 function getFlagEmoji(countryKey) {
     // Map countryKey to ISO alpha-2 code
@@ -181,7 +180,7 @@ export function LdJson({ country, locale, headlines, initialSummaries, sources, 
     };
     
     return (
-        <Script 
+        <script 
             id={`jsonld-country-${country}-${locale}`}
             type="application/ld+json" 
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} 

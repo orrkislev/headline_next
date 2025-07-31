@@ -3,7 +3,6 @@ import { getCountryDailySummary } from "@/utils/database/countryData";
 import { countries } from "@/utils/sources/countries";
 import { getWebsiteName, getSourceData } from "@/utils/sources/getCountryData";
 import { add, parse } from "date-fns";
-import Script from 'next/script';
 
 export async function createMetadata(params) {
     const { country, locale, date } = await params;
@@ -193,7 +192,7 @@ export function LdJson({ country, locale, date, daySummary, headlines, initialSu
     };
     
     return (
-        <Script 
+        <script 
             id={`jsonld-country-${country}-${locale}-${formattedDate}`}
             type="application/ld+json" 
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} 
