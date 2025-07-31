@@ -25,11 +25,11 @@ export default function Settings({ locale, country, sources, isRightPanelCollaps
 
     return (
         <>
-            <div className={`flex items-center divide-x divide-gray-200 ${locale == 'heb' ? 'divide-x-reverse' : ''}`}>
-                <div className="">
+            <div className={`flex items-center gap-1 ${locale == 'heb' ? 'flex-row-reverse' : ''}`}>
+                <div className="bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
                     <DateSelector {...{ locale, country }} />
                 </div>
-                <div className="flex items-center font-['Geist']">
+                <div className="flex items-center font-['Geist'] bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
                     <LabeledIcon
                         label="Global View"
                         icon={
@@ -44,17 +44,17 @@ export default function Settings({ locale, country, sources, isRightPanelCollaps
                     />
                 </div>
                 {!shouldHideLanguage && (
-                    <div className="flex items-center font-['Geist']">
+                    <div className="flex items-center font-['Geist'] bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
                         <LabeledIcon label="Overview Language" icon={<LanguageToggle />} />
                     </div>
                 )}
-                <div className="flex items-center font-['Geist']">
+                <div className="flex items-center font-['Geist'] bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
                     <LabeledIcon label="Fonts" icon={<FontToggle country={country} isRightPanelCollapsed={isRightPanelCollapsed} />} />
                     {!shouldHideTranslate && (
                         <LabeledIcon label="Translate Headlines" icon={<TranslateToggle {...{ locale, country, sources }} />} />
                     )}
                 </div>
-                <div className="flex items-center font-['Geist']">
+                <div className="flex items-center font-['Geist'] bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
                     <LabeledIcon label="Source Order" icon={<OrderToggle locale={locale} />} />
                     <LabeledIcon label="Sources" icon={<SourcesToggle {...{ country, locale, sources }} />} />
                 </div>

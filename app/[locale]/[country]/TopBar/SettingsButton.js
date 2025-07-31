@@ -19,7 +19,7 @@ export function SettingsButton({ locale, country, sources, isRightPanelCollapsed
 
     return (
         <>
-            <div className={` ${open ? 'w-auto opacity-100 ml-4' : 'w-0 opacity-0 ml-0'}`}>
+            <div className={` ${open ? `w-auto opacity-100 ml-4 ${locale !== 'heb' ? 'mr-4' : ''}` : 'w-0 opacity-0 ml-0'}`}>
                 <Settings 
                     locale={locale} 
                     country={country} 
