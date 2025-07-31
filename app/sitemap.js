@@ -71,9 +71,9 @@ export default function sitemap() {
 
     // MEDIUM PRIORITY ROUTES (0.6)
     
-    // Landing page - medium priority
+    // About page - medium priority
     res.push({
-        url: `${baseUrl}/landing`,
+        url: `${baseUrl}/about`,
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 0.6

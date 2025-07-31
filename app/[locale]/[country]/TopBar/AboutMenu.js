@@ -7,7 +7,7 @@ import PopUpCleaner from '@/components/PopUp';
 export default function AboutMenu({ open, onClose }){
     const { locale } = useParams()
     const [expanded, setExpanded] = useState(false);
-    const shortText = `<strong class="font-medium">The Hear</strong> is headline dashboard and archive. </br>It displays the main headlines of many newspapers, side by side, in real time and without curation.
+    const shortText = `<strong class="font-medium">The Hear</strong> is a news observatory and archive. </br>It displays the main headlines of many newspapers, side by side, unfiltered and in real time.
   </br>`;
 
     if (!open) return null;
@@ -15,6 +15,10 @@ export default function AboutMenu({ open, onClose }){
     const handleClose = () => {
         setExpanded(false);
         if (onClose) onClose();
+    };
+
+    const handleModalClick = () => {
+        window.open('/about', '_blank');
     };
 
     return (
@@ -25,12 +29,12 @@ export default function AboutMenu({ open, onClose }){
                 onClick={handleClose}
             >
                 <div 
-                    className="w-[400px] bg-white p-6 max-h-[80vh] overflow-auto shadow-xl border border-gray-100 rounded-xs"
+                    className="w-[400px] bg-white p-6 max-h-[80vh] overflow-auto shadow-xl border border-gray-100 rounded-xs cursor-pointer"
                     style={{
                         scrollbarWidth: 'thin',
                         scrollbarColor: '#d1d5db transparent'
                     }}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={handleModalClick}
                 >
                     <div className="font-['Geist'] text-sm leading-6 mb-4" dangerouslySetInnerHTML={{ __html: shortText }} />
                     <video 

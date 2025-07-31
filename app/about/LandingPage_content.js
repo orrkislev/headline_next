@@ -13,9 +13,9 @@ import InnerLink from '@/components/InnerLink';
 
 const styleTheHear = (text) => {
   return text.replace(/\bthe hear\b/gi, (match) => 
-    `<span style='font-weight: 600;'>${match}</span>`
+    `<span style='font-weight: 500;'>${match}</span>`
   ).replace(/<b>(.*?)<\/b>/g, (match, content) => 
-    `<b style='color:blue;'>${content}</b>`
+    `<b style='color:black; background-color: yellow; font-weight: 500;'>${content}</b>`
   );
 };
 
@@ -23,32 +23,32 @@ const imageCards = [
   {
     // image: "/landing/newsroom-s.png",
     // imageAlt: "Operations Room",
-    title: "The Operations Room",
-    subtitle: styleTheHear("the Hear is a <b>news operation room</b>: it displays the main headlines of many newspapers, side by side and in real time. Like a <b>constantly-changing news-stand</b>, the Hear lets you see the news as they evolve, across sources and across countries.")
+    title: "The Operation Room",
+    subtitle: styleTheHear("the Hear is a <b>news operation room</b>: it displays the main headlines of many newspapers, side by side and in real time. Like a <b>constantly changing newsstand</b>, it lets you monitor the news as they evolve, across countries and sources.")
   },
   {
     image: "/landing/landscape-s.png",
     imageAlt: "Media Landscape",
     title: "The Landscape as a Whole",
-    subtitle: styleTheHear("The Hear is <b>not curated</b> and not personalized. It does not create a filter bubble - it does the opposite. Instead of trying to select the bits and pieces that might interest <i>you</i>, it attempts to give an overview of the landscape as a whole. Instead of making its own editorial decisions, it listens to the <b>decisions made by human editors</b> as to what constitutes 'the main story' worthy of your attention. In this, the Hear is an objective news aggregator.")
+    subtitle: styleTheHear("The Hear is <b>not curated</b> and not personalized. Instead of trying to select the bits and pieces that might interest <i>you</i>, it attempts to give an overview of the landscape as a whole. Instead of making its own editorial decisions, it listens to the <b>decisions made by human editors</b> as to what constitutes 'the main story' worthy of your attention. <br><br> In this, the Hear is an objective news aggregator.")
   },
   {
     // image: "/landing/archive-s.png",
     // imageAlt: "Headline Archive",
     title: "A Headline Archive",
-    subtitle: styleTheHear("The Hear is an archive of main headlines. It lets users navigate back in time to replay the news as they unfolded. It records <b>history as it happened</b>. Like a historic newspaper archive, the Hear is a library and collection of the main headlines of digital newspapers.")
+    subtitle: styleTheHear("The Hear is an archive of main headlines. <br><br>With a <b>time-machine interface</b>, it lets users navigate back in time to replay the news as they unfolded. It records <b>history as it happened</b>. Like a historic newspaper archive, the Hear is a library and collection of the main headlines of digital newspapers.")
   },
   {
     // image: "/landing/newsstand.png",
     // imageAlt: "Headline Archive",
-    title: "A thinking Newsstand",
-    subtitle: styleTheHear("The Hear doesn't just display the headlines, but also reads them: it is <b>embedded with AI</b> throughout. With strategically placed and continuously updating overviews, summaries and reports, the Hear helps the reader digest the many headlines as they unravel. With daily overviews, it also chronicles history as it unfolds. The Hear is a news-stand equipped with a brain.")
+    title: "A Newsstand with a Brain",
+    subtitle: styleTheHear("The Hear doesn't just display the headlines, but also reads them: it is <b>embedded with AI</b> throughout. With continuously updating overviews, summaries and reports, the Hear helps the reader digest the many headlines as they unravel. With daily overviews, it also <b>chronicles history</b> as it unfolds. The Hear is a newsstand equipped with a brain.")
   },
   {
     image: "/landing/babel.png",
     imageAlt: "The Tower of Babel",
-    title: "The Tower of Babel",
-    subtitle: styleTheHear("The Hear <b>translates headlines in real-time</b>. It makes the news landscape in many countries immediately accessible in English, without selection or commentary. It lifts language barriers and gives an unfiltered view of what is currently being discussed around planet earth.")
+    title: "The Global Media",
+    subtitle: styleTheHear("The Hear <b>translates headlines in real-time</b>. It makes the news landscape in many countries immediately accessible in English, without selection, manipulation or commentary. It gives an unfiltered view of what is currently being discussed by legacy media, around planet earth.")
   },
   {
     image: "/landing/oneThing.png",
@@ -60,7 +60,7 @@ const imageCards = [
     image: "/landing/contextMachine.png",
     imageAlt: "A Context Machine",
     title: "A Context Machine",
-    subtitle: styleTheHear("The Hear contextualizes the headlines. <br> It does this by <b>placing the headlines in relation to each other</b>, to their predecessors, and to their global peers. <br> In the Hear, each tree is seen against the background of the forest.")
+    subtitle: styleTheHear("The Hear contextualizes the headlines. <br> It does this by <b>placing the headlines in relation to each other</b>, to their predecessors, and to their global peers.")
   },
   {
     // image: "/landing/ambient.png",
@@ -153,7 +153,7 @@ export default function LandingPageContent() {
           <div className="col-span-1 md:col-span-12 flex justify-center">
             <div className="h-full bg-white">
               <div className="no-underline">
-                <DynamicLogo locale="en" />
+                <DynamicLogo locale="en" showDivider={false} />
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@ export default function LandingPageContent() {
                   ...(mounted ? getResponsiveFontSize() : {})
                 }}
               >
-                <span className="text-blue">The Hear</span> is a newsstand with a brain.
+                <span className="text-blue">The Hear</span> is a news observatory.
               </h1>
               <p className="text-sm text-gray-700 font-normal text-center">
                 {/* Main headline description */}

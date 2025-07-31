@@ -123,7 +123,7 @@ export default function ReadMore({ expanded, onToggle }) {
                     )}
                 </div>
                 <InnerLink 
-                    href="/landing" 
+                    href="/about" 
                     onClick={(e) => e.stopPropagation()}
                     className="opacity-60 hover:opacity-100 transition-opacity"
                 >

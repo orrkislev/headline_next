@@ -7,15 +7,12 @@ import TranslateToggle from "./TranslateToggle";
 import OrderToggle from "./OrderToggle";
 import SourcesToggle from "./SourcesToggle";
 import { DateSelector } from "./DateSelector";
-import { PublicOutlined, InfoOutlined } from "@mui/icons-material";
+import { PublicOutlined } from "@mui/icons-material";
 import { TopBarButton } from "@/components/IconButtons";
 import CustomTooltip from "@/components/CustomTooltip";
 import InnerLink from "@/components/InnerLink";
-import AboutMenu from "../AboutMenu";
-import { useState } from "react";
 
 export default function Settings({ locale, country, sources, isRightPanelCollapsed, hideLanguageToggle, hideTranslateToggle }) {
-    const [aboutMenuOpen, setAboutMenuOpen] = useState(false);
 
     // Force the hiding based on direct check as a fallback
     const shouldHideLanguage = hideLanguageToggle ||
@@ -45,16 +42,6 @@ export default function Settings({ locale, country, sources, isRightPanelCollaps
                             </InnerLink>
                         }
                     />
-                    <LabeledIcon
-                        label="About"
-                        icon={
-                            <CustomTooltip title="About the Hear" placement="bottom" arrow>
-                                <TopBarButton onClick={() => setAboutMenuOpen(true)}>
-                                    <InfoOutlined />
-                                </TopBarButton>
-                            </CustomTooltip>
-                        }
-                    />
                 </div>
                 {!shouldHideLanguage && (
                     <div className="flex items-center font-['Geist']">
@@ -72,7 +59,6 @@ export default function Settings({ locale, country, sources, isRightPanelCollaps
                     <LabeledIcon label="Sources" icon={<SourcesToggle {...{ country, locale, sources }} />} />
                 </div>
             </div>
-            <AboutMenu open={aboutMenuOpen} onClose={() => setAboutMenuOpen(false)} />
         </>
     );
 }

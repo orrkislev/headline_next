@@ -7,7 +7,7 @@ import logoC from './logo/logo-head-4.png';
 import Image from 'next/image';
 import InnerLink from './InnerLink';
 
-export default function DynamicLogo({ locale, padding = 'p-4' }) {
+export default function DynamicLogo({ locale, padding = 'p-4', showDivider = true }) {
     const [currentLogo, setCurrentLogo] = useState(logoA);
     const [isFakeHover, setIsFakeHover] = useState(false);
 
@@ -76,7 +76,9 @@ export default function DynamicLogo({ locale, padding = 'p-4' }) {
                     </div>
                 </div>
             </InnerLink>
-            <div className="w-full border-b border-gray-300" style={{height: '1px'}} />
+            {showDivider && (
+                <div className="w-full border-b border-gray-300" style={{height: '1px'}} />
+            )}
         </>
     );
 };
