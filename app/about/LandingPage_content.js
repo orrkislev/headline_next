@@ -57,10 +57,10 @@ const imageCards = [
     subtitle: styleTheHear("the Hear displays main headlines. In the fuss and hubbub of the world, the main headline is the editor's choice of the <b>single most important story</b> happening now: the main headline is the one-thing. The Hear is a meta-newspaper made solely of such one-things, organized and contextualized.")
   },
   {
-    image: "/landing/contextMachine.png",
+    image: "/landing/bubble.png",
     imageAlt: "A Context Machine",
-    title: "A Context Machine",
-    subtitle: styleTheHear("The Hear contextualizes the headlines. <br> It does this by <b>placing the headlines in relation to each other</b>, to their predecessors, and to their global peers.")
+    title: "A Negative Filter Bubble",
+    subtitle: styleTheHear("The Hear is a collection of perspectives. It positions “far-right” and “radical left” headlines side by side, without judgement, creating a negative filter bubble. The Hear contextualizes the headlines through contrast.")
   },
   {
     // image: "/landing/ambient.png",
