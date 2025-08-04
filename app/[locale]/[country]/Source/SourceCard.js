@@ -21,7 +21,7 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
-    const [headline, setHeadline] = useState(headlines[0]);
+    const [headline, setHeadline] = useState(headlines && headlines.length > 0 ? headlines[0] : null);
     const [translations, setTranslations] = useState({});
     const websites = useActiveWebsites(state => state.activeWebsites);
     const [isPresent, setIsPresent] = useState(true);
@@ -36,13 +36,14 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
     }, []);
 
     useEffect(() => {
-        if (!headlines) return;
+        if (!headlines || headlines.length === 0) return;
         if (!date) return;
-        setHeadline(headlines.find(({ timestamp }) => timestamp <= date));
+        const foundHeadline = headlines.find(({ timestamp }) => timestamp <= date);
+        setHeadline(foundHeadline || headlines[0]);
     }, [headlines, date]);
 
     useEffect(() => {
-        if (shouldTranslate && headline && headline.headline) {
+        if (shouldTranslate && headline && headline.headline && headline.id) {
             if (translations[headline.id]) return;
             (async () => {
                 const res = await fetch('/api/translate', {
@@ -54,19 +55,24 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
                 setTranslations((prev) => ({ ...prev, [headline.id]: resData }))
             })();
         }
-    }, [shouldTranslate, headline, source, translations]);
+    }, [shouldTranslate, headline, source, translations, locale]);
 
     useEffect(() => {
         setIsPresent(new Date() - date < 60 * 1000 * 5);
     }, [date]);
 
+    // Early return if no headline is available
+    if (!headline) {
+        return null;
+    }
+
     let displayHeadline = { ...headline };
     let displayName = sourceData.name
-    if (shouldTranslate && translations[headline.id]) {
+    if (shouldTranslate && headline.id && translations[headline.id]) {
         displayHeadline.headline = translations[headline.id].headline;
         displayHeadline.subtitle = translations[headline.id].subtitle;
         displayName = checkRTL(translations[headline.id].headline) ? sourceData.translations.he : sourceData.translations.en
-    } else if (shouldTranslate && !translations[headline.id]) {
+    } else if (shouldTranslate && (!headline.id || !translations[headline.id])) {
         displayHeadline = { headline: '', subtitle: '' }
     }
 
@@ -97,8 +103,6 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
     const index = websites.length > 0 ? websites.indexOf(source) : 1
     if (index == -1) return null;
 
-
-
     return (
         <div style={{ order: index }}
             className={`source-card group col-span-1
@@ -125,7 +129,7 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
                 <div>
                     <Subtitle headlineData={displayHeadline} {...{ isLoading }} />
                     <SourceSlider {...{ locale, country, headlines, pageDate }} />
-                    <SourceFooter url={headlines[0].link} {...{ headline, headlines, source }} />
+                    <SourceFooter url={headlines && headlines.length > 0 ? headlines[0].link : ''} {...{ headline, headlines, source }} />
                 </div>
             </div>
         </div>
