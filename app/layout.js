@@ -9,7 +9,7 @@ import PWAMeta from "@/components/PWAMeta";
 
 export const metadata = {
   title: "The Hear",
-  description: "A newsstand with a brain",
+  description: "A non-profit news observatory and archive",
   manifest: "/manifest.json",
   themeColor: "#000000",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
@@ -20,7 +20,7 @@ export const metadata = {
   },
   openGraph: {
     title: "The Hear",
-    description: "A newsstand with a brain",
+    description: "A non-profit news observatory and archive",
     url: "https://www.the-hear.com/",
     siteName: "The Hear",
     images: [
@@ -43,7 +43,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "The Hear",
-    description: "A newsstand with a brain",
+    description: "A non-profit news observatory and archive",
     images: ["https://www.the-hear.com/logo512.png"],
     site: "@thehearnews"
   },

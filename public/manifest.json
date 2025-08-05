@@ -1,7 +1,7 @@
 {
-  "name": "The Hear: A Headlines Dashboard and Archive",
+  "name": "The Hear: A news observatory",
   "short_name": "The Hear",
-  "description": "A newsstand with a brain",
+  "description": "A non-profit news observatory and archive",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -22,7 +22,7 @@
       "purpose": "any"
     }
   ],
-  "categories": ["news", "archive", "history", "real-time", "newsstand", "aggregator", "ai"],
+  "categories": ["news", "archive", "history", "real-time", "newsstand", "aggregator", "ai", "observatory", "non-profit", "news aggregator"],
   "lang": "en",
   "dir": "ltr"
 } 
