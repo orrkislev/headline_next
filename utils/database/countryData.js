@@ -1,4 +1,4 @@
-import { endOfDay, sub } from "date-fns";
+import { endOfDay, sub, endOfMonth, startOfMonth } from "date-fns";
 import { initializeApp } from 'firebase/app';
 import { collection, doc, getDocs, limit, onSnapshot, orderBy, query, where, getFirestore } from "firebase/firestore";
 import { cache } from "react";
@@ -169,4 +169,39 @@ export const getCountryDailySummary = cache(async (countryName, day) => {
   const snapshot = await getDocs(q);
   if (snapshot.empty) return null;
   return prepareData(snapshot.docs[0]);
+})
+
+export const getCountryDailySummariesForMonth = cache(async (countryName, year, month) => {
+  // Create dates for the target month (month is 1-indexed)
+  const startDate = new Date(year, month - 1, 1); // First day of month
+  const endDate = new Date(year, month, 0); // Last day of month
+  
+  // Format as YYYY-MM-DD strings
+  const startDateString = startDate.toISOString().split('T')[0];
+  const endDateString = endDate.toISOString().split('T')[0];
+
+  console.log(`Fetching summaries for ${countryName}, ${year}-${month}: ${startDateString} to ${endDateString}`);
+
+  const dailyCollection = getCountryCollectionRef(countryName, 'dailysummaries');
+  const q = query(
+    dailyCollection,
+    where('date', '>=', startDateString),
+    where('date', '<=', endDateString),
+    orderBy('date', 'desc')
+  );
+  
+  const snapshot = await getDocs(q);
+  if (snapshot.empty) return [];
+  
+  const results = snapshot.docs.map(doc => prepareData(doc));
+  
+  // Additional filtering to ensure we only get the target month
+  const filteredResults = results.filter(summary => {
+    const summaryDate = new Date(summary.date);
+    return summaryDate.getFullYear() === year && summaryDate.getMonth() === month - 1;
+  });
+  
+  console.log(`Found ${results.length} summaries, filtered to ${filteredResults.length} for target month`);
+  
+  return filteredResults;
 })

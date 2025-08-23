@@ -81,6 +81,33 @@ export default function sitemap() {
 
     // LOWER PRIORITY ROUTES (0.1-0.6)
     
+    // Monthly archive pages - medium priority
+    Object.keys(countries).forEach(country => {
+        const countryLaunchDate = countryLaunchDates[country];
+        if (!countryLaunchDate) return;
+
+        locales.forEach(locale => {
+            // Generate all month/year combinations from launch date to current month
+            let date = new Date(countryLaunchDate.getFullYear(), countryLaunchDate.getMonth(), 1);
+            const currentMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+
+            while (date <= currentMonthStart) {
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                
+                res.push({
+                    url: `${baseUrl}/${locale}/${country}/history/${year}/${month}`,
+                    lastModified: new Date(),
+                    changeFrequency: date.getTime() === currentMonthStart.getTime() ? 'daily' : 'never',
+                    priority: 0.4 // Medium priority for archive pages
+                });
+                
+                // Move to next month
+                date.setMonth(date.getMonth() + 1);
+            }
+        });
+    });
+    
     // Date-specific pages - based on actual per-country launch dates
     // NOTE: Start from yesterday (i=1) since today's date-specific URLs aren't generated until day is over
     Object.keys(countries).forEach(country => {
