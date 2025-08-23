@@ -103,7 +103,7 @@ export default function sitemap() {
                     url: `${baseUrl}/${locale}/${country}/history/${year}/${month}`,
                     lastModified: isCurrentMonth ? new Date() : new Date(year, parseInt(month) - 1, 1),
                     changeFrequency: isCurrentMonth ? 'daily' : 'never',
-                    priority: 0.4 // Medium priority for archive pages
+                    priority: 0.65 // Medium priority for archive pages
                 });
                 
                 // Move to next month
