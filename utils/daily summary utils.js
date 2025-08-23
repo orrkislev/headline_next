@@ -17,8 +17,26 @@ const cleanSummaryText = (text) => {
     return cleanText;
 };
 
+// Helper function to check if Hebrew content is available and valid
+export const isHebrewContentAvailable = (dailySummary) => {
+    if (!dailySummary) return false;
+    
+    const headlineHebrew = dailySummary.headlineHebrew;
+    const summaryHebrew = dailySummary.summaryHebrew;
+    
+    // Check if Hebrew content exists and is not "Not applicable"
+    const hasValidHeadline = headlineHebrew && 
+        headlineHebrew.trim() !== '' && 
+        !headlineHebrew.toLowerCase().includes('not applicable');
+    
+    const hasValidSummary = summaryHebrew && 
+        summaryHebrew.trim() !== '' && 
+        !summaryHebrew.toLowerCase().includes('not applicable');
+    
+    return hasValidHeadline || hasValidSummary;
+};
+
 export const getHeadline = (dailySummary, locale) => {
-    // console.log('getHeadline', dailySummary, locale);
     let selectedHeadline;
 
     if (!dailySummary) {
@@ -28,14 +46,13 @@ export const getHeadline = (dailySummary, locale) => {
     if (locale === 'heb') {
         selectedHeadline = dailySummary.headlineHebrew?.split('\n')[0] ||
             dailySummary.headline_option_1?.split('\n')[0] ||
-            dailySummary.headline?.split('\n')[0];  // Final fallback
+            dailySummary.headline?.split('\n')[0] ||  // Final fallback
+            dailySummary.hebrewHeadline?.split('\n')[0]; // Additional fallback
     } else if (locale === 'translated') {
         selectedHeadline = dailySummary.headlineLocal;
     } else {
         selectedHeadline = dailySummary.headline?.split('\n')[0];
     }
-
-    // console.log('selectedHeadline', selectedHeadline);
 
     // Clean the headline to remove language markers and everything after them
     return cleanSummaryText(selectedHeadline);
@@ -47,7 +64,8 @@ export const getSummaryContent = (dailySummary, locale) => {
     if (locale === 'heb') {
         rawContent = dailySummary.summaryHebrew ||
             dailySummary.summary ||
-            dailySummary.summaryEnglish;  // Final fallback
+            dailySummary.summaryEnglish ||  // Final fallback
+            dailySummary.hebrewSummary; // Additional fallback
     } else if (locale === 'translated') {
         rawContent = dailySummary.summary;
     } else {

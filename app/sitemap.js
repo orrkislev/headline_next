@@ -83,6 +83,9 @@ export default function sitemap() {
     
     // Monthly archive pages - medium priority
     Object.keys(countries).forEach(country => {
+        // Exclude Finland - no archive data available
+        if (country === 'finland') return;
+        
         const countryLaunchDate = countryLaunchDates[country];
         if (!countryLaunchDate) return;
 
@@ -94,11 +97,12 @@ export default function sitemap() {
             while (date <= currentMonthStart) {
                 const year = date.getFullYear();
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const isCurrentMonth = date.getTime() === currentMonthStart.getTime();
                 
                 res.push({
                     url: `${baseUrl}/${locale}/${country}/history/${year}/${month}`,
-                    lastModified: new Date(),
-                    changeFrequency: date.getTime() === currentMonthStart.getTime() ? 'daily' : 'never',
+                    lastModified: isCurrentMonth ? new Date() : new Date(year, parseInt(month) - 1, 1),
+                    changeFrequency: isCurrentMonth ? 'daily' : 'never',
                     priority: 0.4 // Medium priority for archive pages
                 });
                 

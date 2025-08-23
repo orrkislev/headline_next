@@ -180,8 +180,6 @@ export const getCountryDailySummariesForMonth = cache(async (countryName, year, 
   const startDateString = startDate.toISOString().split('T')[0];
   const endDateString = endDate.toISOString().split('T')[0];
 
-  console.log(`Fetching summaries for ${countryName}, ${year}-${month}: ${startDateString} to ${endDateString}`);
-
   const dailyCollection = getCountryCollectionRef(countryName, 'dailysummaries');
   const q = query(
     dailyCollection,
@@ -200,8 +198,6 @@ export const getCountryDailySummariesForMonth = cache(async (countryName, year, 
     const summaryDate = new Date(summary.date);
     return summaryDate.getFullYear() === year && summaryDate.getMonth() === month - 1;
   });
-  
-  console.log(`Found ${results.length} summaries, filtered to ${filteredResults.length} for target month`);
   
   return filteredResults;
 })

@@ -15,8 +15,14 @@ export default function LiveCard({ country, locale }) {
     
     // Get country name in appropriate language
     const countryName = locale === 'heb' ? countries[country].hebrew : countries[country].english;
-    const liveText = locale === 'heb' ? ' - כותרות חיות' : '\nLive Headlines';
-    const displayText = countryName + liveText;
+    
+    // Add "the" before US, UK, and UAE (only for English locale)
+    const needsThe = ['us', 'uk', 'uae'].includes(country.toLowerCase());
+    const thePrefix = needsThe && locale !== 'heb' ? 'the ' : '';
+    
+    const displayText = locale === 'heb' 
+        ? `כותרות חיות\nמ${thePrefix}${countryName}`
+        : `Live Headlines From\n${thePrefix}${countryName}`;
 
     // Dynamic typography logic from ArchiveCard
     const shouldTranslate = useMemo(() => translate.includes('ALL'), [translate]);
@@ -25,7 +31,9 @@ export default function LiveCard({ country, locale }) {
     
     const typography = useMemo(() => {
         let typo = storeFont;
-        const options = getTypographyOptions(country).options;
+        // Use locale to determine typography options instead of country
+        const localeCountry = locale === 'heb' ? 'israel' : 'us';
+        const options = getTypographyOptions(localeCountry).options;
         if (typeof storeFont === 'number') typo = options[storeFont % options.length];
         else if (storeFont == 'random') typo = choose(options);
 
@@ -40,7 +48,7 @@ export default function LiveCard({ country, locale }) {
         }
 
         return typo;
-    }, [storeFont, country, isRTL, shouldTranslate, locale]);
+    }, [storeFont, locale, isRTL, shouldTranslate]);
 
     return (
         <InnerLink 
@@ -48,7 +56,7 @@ export default function LiveCard({ country, locale }) {
             className="block"
         >
             <div className={`
-                col-span-1 relative bg-[#223052] hover:bg-[#2a3a65] transition-colors duration-200 h-full
+                col-span-1 relative bg-[#223052] hover:bg-gray-900 transition-colors duration-50 h-full
                 ${isRTL ? 'direction-rtl' : 'direction-ltr'}
             `}>
                 <div className="flex flex-col h-full justify-center items-center p-4">

@@ -6,6 +6,8 @@ import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { createMetadata, LdJson } from "./metadata";
 import { ServerCountryNavigation, ServerYesterdayNavigation } from "@/utils/ServerSideLinks";
 import { headers } from "next/headers";
+import { isHebrewContentAvailable } from "@/utils/daily summary utils";
+import { redirect } from "next/navigation";
 
 export const revalidate = 900 // 15 minutes
 export const dynamicParams = false
@@ -32,6 +34,17 @@ export default async function Page({ params }) {
     const headlines = await getCountryDayHeadlines(country, today, 2);
     const initialSummaries = await getCountryDaySummaries(country, today, 2);
     const yesterdaySummary = await getCountryDailySummary(country, sub(today, { days: 1 }))
+
+    // Check if Hebrew content is available for Hebrew locale
+    if (locale === 'heb') {
+        const hasHebrewContent = initialSummaries.some(summary => isHebrewContentAvailable(summary)) ||
+                                (yesterdaySummary && isHebrewContentAvailable(yesterdaySummary));
+        
+        // If no Hebrew content is available, redirect to English
+        if (!hasHebrewContent) {
+            redirect(`/en/${country}`);
+        }
+    }
 
     const sources = {};
     headlines.forEach(headline => {

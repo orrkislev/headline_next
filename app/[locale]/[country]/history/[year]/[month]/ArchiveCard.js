@@ -8,6 +8,7 @@ import { createDateString } from '@/utils/utils';
 import InnerLink from '@/components/InnerLink';
 import { useFont, useTranslate } from '@/utils/store';
 import CustomTooltip from '@/components/CustomTooltip';
+import FlagIcon from '@/components/FlagIcon';
 
 const randomFontIndex = Math.floor(Math.random() * 100);
 
@@ -16,31 +17,18 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
     const translate = useTranslate((state) => state.translate);
     const storeFont = useFont((state) => state.font);
     
-    if (!dailySummary) return null;
-
-    const date = new Date(dailySummary.date);
-    const formattedDate = date.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    }).replace(/\//g, '.');
-
-    const headline = getHeadline(dailySummary, locale);
-    const summaryContent = getSummaryContent(dailySummary, locale);
-    const dateString = createDateString(date);
-    
-    const dayName = date.toLocaleDateString(locale === 'heb' ? 'he' : 'en', { 
-        weekday: 'long' 
-    });
-
-    // Dynamic typography logic from SourceCard
+    // Dynamic typography logic from SourceCard - moved before early return
+    const headline = dailySummary ? getHeadline(dailySummary, locale) : '';
     const shouldTranslate = useMemo(() => translate.includes('ALL'), [translate]);
-    
     const isRTL = useMemo(() => checkRTL(headline), [headline]);
     
     const typography = useMemo(() => {
+        if (!dailySummary) return {};
+        
         let typo = storeFont;
-        const options = getTypographyOptions(country).options;
+        // Use locale to determine typography options instead of country
+        const localeCountry = locale === 'heb' ? 'israel' : 'us';
+        const options = getTypographyOptions(localeCountry).options;
         if (typeof storeFont === 'number') typo = options[storeFont % options.length];
         else if (storeFont == 'random') typo = choose(options);
 
@@ -55,11 +43,27 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
         }
 
         return typo;
-    }, [storeFont, country, isRTL, shouldTranslate, locale]);
+    }, [storeFont, locale, isRTL, shouldTranslate, dailySummary]);
+    
+    if (!dailySummary) return null;
+
+    const date = new Date(dailySummary.date);
+    const formattedDate = date.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    }).replace(/\//g, '.');
+
+    const summaryContent = getSummaryContent(dailySummary, locale);
+    const dateString = createDateString(date);
+    
+    const dayName = date.toLocaleDateString(locale === 'heb' ? 'he' : 'en', { 
+        weekday: 'long' 
+    });
 
     return (
         <div className={`
-            col-span-1 relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
+            col-span-1 relative bg-neutral-100 hover:bg-white
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
         `}>
             <div className="flex flex-col h-full justify-normal sm:justify-between">
@@ -80,11 +84,15 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
                             <div 
                                 className="text-xs font-normal text-gray-500"
                                 style={{ 
-                                    fontFamily: 'Geist, sans-serif',
+                                    fontFamily: locale === 'heb' ? 'Roboto, sans-serif' : 'Geist, sans-serif',
                                     fontWeight: 400
                                 }}
                             >
                                 {dayName}
+                            </div>
+                            <span className="text-gray-500">•</span>
+                            <div className="scale-75">
+                                <FlagIcon country={country} />
                             </div>
                             <span className="text-gray-500">•</span>
                             <div className="flex items-center flex-1">
@@ -97,21 +105,27 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
                     </div>
 
                     {/* Headline with dynamic typography from SourceCard */}
-                    <InnerLink 
-                        href={`/${locale}/${country}/${dateString}`}
-                        className="hover:text-blue"
-                    >
-                        <h3 
-                            className={`${isRTL ? 'text-right' : 'text-left'} w-full text-lg font-semibold break-words line-clamp-6`}
-                            style={{ 
-                                ...typography, 
-                                width: '100%', 
-                                direction: isRTL ? 'rtl' : 'ltr'
-                            }}
-                        >
-                            {headline}
-                        </h3>
-                    </InnerLink>
+                    <div className="group">
+                        <CustomTooltip title={locale === 'heb' ? 'לארכיון הכותרות' : 'to the headline archive'} placement="top-end" enterDelay={800}>
+                            <div>
+                                <InnerLink 
+                                    href={`/${locale}/${country}/${dateString}`}
+                                    className="hover:text-blue"
+                                >
+                                    <h3 
+                                        className={`${isRTL ? 'text-right' : 'text-left'} w-full text-lg font-semibold break-words line-clamp-6 group-hover:underline group-hover:underline-offset-2`}
+                                        style={{ 
+                                            ...typography, 
+                                            width: '100%', 
+                                            direction: isRTL ? 'rtl' : 'ltr'
+                                        }}
+                                    >
+                                        {headline}
+                                    </h3>
+                                </InnerLink>
+                            </div>
+                        </CustomTooltip>
+                    </div>
                 </div>
 
                 <div>
@@ -122,6 +136,7 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
                                 <span className="cursor-help text-sm text-gray-400 mt-1.5" tabIndex={0}>⌨</span>
                             </CustomTooltip>
                             <div 
+                                id={`summary-content-${dailySummary.id || 'default'}`}
                                 style={{
                                     fontFamily: locale === 'heb' ? '' : 'Geist, sans-serif',
                                     padding: 6,
@@ -134,9 +149,10 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
                                     display: expanded ? 'block' : '-webkit-box',
                                     WebkitLineClamp: expanded ? 'none' : 3,
                                     WebkitBoxOrient: 'vertical',
-                                    maxHeight: expanded ? '200px' : 'none',
+                                    maxHeight: expanded ? '200px' : 'calc(1.5em * 3)',
                                     marginBottom: expanded ? '8px' : '0',
-                                    flex: 1
+                                    flex: 1,
+                                    textOverflow: expanded ? 'clip' : 'ellipsis'
                                 }}
                             >
                                 <span dangerouslySetInnerHTML={{ __html: summaryContent }} />
@@ -145,6 +161,18 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
                         
                         <button
                             onClick={() => setExpanded(!expanded)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    setExpanded(!expanded);
+                                }
+                            }}
+                            aria-expanded={expanded}
+                            aria-controls={`summary-content-${dailySummary.id || 'default'}`}
+                            aria-label={expanded 
+                                ? (locale === 'heb' ? 'הסתר תוכן נוסף' : 'Show less content')
+                                : (locale === 'heb' ? 'הצג תוכן נוסף' : 'Show more content')
+                            }
                             className={`
                                 text-gray-600 hover:text-gray-800 mt-2 transition-colors mx-auto block
                             `}
@@ -158,6 +186,7 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
                                 fill="none" 
                                 stroke="currentColor" 
                                 viewBox="0 0 24 24"
+                                aria-hidden="true"
                             >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                             </svg>
