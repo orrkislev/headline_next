@@ -74,7 +74,7 @@ function SourcesGrid({ open, country, locale, sources }) {
 
     if (!open) return null;
     return (
-        <div className={`absolute top-8 ${locale === 'heb' ? 'left-0' : 'right-0'} bg-white rounded-lg shadow-lg p-4 h-[65vh] w-[55vw] z-[1000]`}>
+        <div className={`absolute top-8 ${locale === 'heb' ? 'left-0' : 'right-0'} bg-white rounded-lg shadow-lg p-4 h-[65vh] w-[55vw] z-[9999]`}>
             <div className="h-full overflow-y-auto custom-scrollbar direction-ltr pr-4">
                 <table className="border border-white text-sm">
                     <thead className="border-b border-dashed border-gray-300">

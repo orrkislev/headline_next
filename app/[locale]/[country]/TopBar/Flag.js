@@ -61,7 +61,7 @@ function FlagSelector({ country, open, close, locale, originalLocale }) {
                 isMobile 
                     ? 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' 
                     : `absolute top-10 ${locale === 'heb' ? 'right-0' : 'left-0'}`
-            } p-4 bg-white rounded-xs shadow-lg w-[18rem] z-[1000] font-['Geist'] text-sm`} dir="ltr">
+            } p-4 bg-white rounded-xs shadow-lg w-[18rem] z-[9999] font-['Geist'] text-sm`} dir="ltr">
                 <div className="grid grid-cols-2 gap-[1px] bg-gray-200">
                     {Object.keys(countries).map((c, i) => (
                         c === 'uae' ? (

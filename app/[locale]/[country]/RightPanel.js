@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import DynamicLogoSmall from "@/components/Logo-small";
@@ -13,6 +13,7 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
+    const isCollapsedRef = useRef(isCollapsed);
 
     // Manage summaries at the RightPanel level so it works when collapsed
     const summaries = useSummariesManager(country, initialSummaries, !Boolean(pageDate));
@@ -24,6 +25,11 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
             onCollapsedChange(newCollapsedState);
         }
     };
+
+    // Update ref when isCollapsed changes
+    useEffect(() => {
+        isCollapsedRef.current = isCollapsed;
+    }, [isCollapsed]);
 
     // Respond to external collapsed prop changes
     useEffect(() => {
@@ -47,7 +53,7 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
             const shouldBeCollapsed = window.innerWidth < 1920;
             setIsSmallScreen(window.innerWidth < 1920);
             // Only auto-collapse, don't auto-expand (let user control expansion)
-            if (shouldBeCollapsed && !isCollapsed) {
+            if (shouldBeCollapsed && !isCollapsedRef.current) {
                 setIsCollapsed(true);
                 if (onCollapsedChange) {
                     onCollapsedChange(true);
@@ -57,7 +63,7 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [onCollapsedChange, isCollapsed]);
+    }, [onCollapsedChange]);
 
     // Don't render until we know the screen size to prevent flash
     if (!isMounted) {

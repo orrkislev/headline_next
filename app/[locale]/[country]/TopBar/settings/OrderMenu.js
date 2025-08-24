@@ -14,7 +14,7 @@ export default function OrderMenu({ open, close, locale, order, setOrder }) {
     return (
         <>
             <PopUpCleaner open={open} close={close} />
-            <div className={`absolute z-[1000] ${locale == 'heb' ? 'left-0' : 'right-0'} bg-white shadow-xl rounded-lg p-6 pt-4 border border-gray-200`} style={{ direction: 'ltr' }}>
+            <div className={`absolute z-[9999] ${locale == 'heb' ? 'left-0' : 'right-0'} bg-white shadow-xl rounded-lg p-6 pt-4 border border-gray-200`} style={{ direction: 'ltr' }}>
                 <div className="w-64 bg-white rounded-sm text-sm">
                     <div className="text-sm underline underline-offset-4 font-bold mb-2 font-['Geist'] flex justify-start items-start">Source Order</div>
 

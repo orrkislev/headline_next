@@ -4,7 +4,9 @@ import { countries } from "@/utils/sources/countries";
 import CountryPageContent from "./CountryPage_content";
 import { getWebsiteName } from "@/utils/sources/getCountryData";
 import { createMetadata, LdJson } from "./metadata";
-import { ServerCountryNavigation, ServerYesterdayNavigation } from "@/utils/ServerSideLinks";
+import ArchiveLinksData from "./TopBar/settings/ArchiveLinksData";
+import CountryLinksData from "./TopBar/CountryLinksData";
+import DateLinksData from "./TopBar/DateLinksData";
 import { headers } from "next/headers";
 import { isHebrewContentAvailable } from "@/utils/daily summary utils";
 import { redirect } from "next/navigation";
@@ -65,8 +67,9 @@ export default async function Page({ params }) {
             <LdJson {...{ country, locale, headlines, initialSummaries, sources, yesterdaySummary }} />
             
             {/* Navigation links for crawlers */}
-            <ServerCountryNavigation locale={locale} currentCountry={country} />
-            <ServerYesterdayNavigation locale={locale} country={country} />
+            <ArchiveLinksData locale={locale} country={country} />
+            <CountryLinksData locale={locale} currentCountry={country} />
+            <DateLinksData locale={locale} country={country} />
             
             {/* This is the interactive UI for your users */}
             <CountryPageContent 
