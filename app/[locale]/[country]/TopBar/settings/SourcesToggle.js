@@ -89,6 +89,7 @@ function SourcesGrid({ open, country, locale, sources }) {
                                         }}
                                         onChange={toggleSelectAll}
                                         title="Select all sources"
+                                        className="accent-black"
                                     />
                                     <span>Active</span>
                                 </div>
@@ -112,7 +113,7 @@ function SourcesGrid({ open, country, locale, sources }) {
                                             disabled={!source.hasData}
                                             onChange={() => {}} // Handled by row click
                                             title={!source.hasData ? 'No current data available' : ''}
-                                            className="cursor-pointer"
+                                            className="cursor-pointer accent-black"
                                         />
                                     </td>
                                     <td className={`mt-8 p-2 ${!source.hasData ? 'text-gray-500' : ''}`}>

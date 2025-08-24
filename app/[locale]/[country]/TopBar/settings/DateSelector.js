@@ -5,13 +5,37 @@ import { IconButton } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { add, sub } from "date-fns";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { LabeledContent } from "@/components/LabeledIcon";
 import { useTime } from "@/utils/store";
 import { useRouter, usePathname } from "next/navigation";
 import { createDateString } from '@/utils/utils';
 import { LinearProgress } from "@mui/material";
 import InnerLink from "@/components/InnerLink";
+
+// Per-country launch dates - actual dates when data became available
+const countryLaunchDates = {
+    'israel': new Date('2024-07-04'),
+    'germany': new Date('2024-07-28'),
+    'us': new Date('2024-07-31'),
+    'italy': new Date('2024-08-28'),
+    'russia': new Date('2024-08-29'),
+    'iran': new Date('2024-08-29'),
+    'france': new Date('2024-08-29'),
+    'lebanon': new Date('2024-08-29'),
+    'poland': new Date('2024-08-30'),
+    'uk': new Date('2024-09-05'),
+    'india': new Date('2024-09-05'),
+    'ukraine': new Date('2024-09-05'),
+    'spain': new Date('2024-09-05'),
+    'netherlands': new Date('2024-09-05'),
+    'china': new Date('2024-09-06'),
+    'japan': new Date('2024-09-07'),
+    'turkey': new Date('2024-09-07'),
+    'uae': new Date('2024-09-08'),
+    'palestine': new Date('2024-09-10'),
+    'finland': new Date('2025-02-20')
+};
 
 
 export function DateSelector({ locale, country }) {
@@ -20,13 +44,31 @@ export function DateSelector({ locale, country }) {
     const [isNavigating, setIsNavigating] = useState(false)
     const router = useRouter()
     const pathname = usePathname()
+    const calendarRef = useRef(null)
+
+    // Handle clicking outside to close calendar
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+
+        if (open) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [open]);
 
     // Reset loading state when pathname changes
     useEffect(() => {
         if (isNavigating) {
             setIsNavigating(false);
         }
-    }, [pathname]);
+    }, [pathname, isNavigating]);
 
     const day = date.toDateString();
     const today = new Date()
@@ -40,6 +82,9 @@ export function DateSelector({ locale, country }) {
 
     const yesterday = sub(todayDate, { days: 1 });
     const tomorrow = isToday ? null : add(todayDate, { days: 1 });
+
+    // Get the minimum date for this country (when data became available)
+    const minDate = countryLaunchDates[country] || new Date('2024-07-04'); // fallback to earliest date
 
     const setDay = (newDate) => {
         setIsNavigating(true);
@@ -90,13 +135,51 @@ export function DateSelector({ locale, country }) {
                     </>
 
                     {open && (
-                        <div className="absolute top-full left-0 mt-2 z-10 bg-white shadow-lg direction-ltr">
+                        <div ref={calendarRef} className="absolute top-full left-0 mt-2 z-10 bg-white shadow-lg direction-ltr">
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DateCalendar maxDate={today} onChange={(date) => {
-                                    setDay(date);
-                                    setOpen(false);
-                                }}
-                                    date={date}
+                                <DateCalendar 
+                                    maxDate={today} 
+                                    minDate={minDate}
+                                    onChange={(date) => {
+                                        setDay(date);
+                                        setOpen(false);
+                                    }}
+                                    value={date}
+                                    sx={{
+                                        '& .MuiPickersCalendarHeader-root': {
+                                            fontFamily: "'monospace'"
+                                        },
+                                        '& .MuiPickersDay-root': {
+                                            fontFamily: "'monospace'"
+                                        },
+                                        '& .MuiPickersCalendarHeader-label': {
+                                            fontFamily: "'monospace'"
+                                        },
+                                        '& .MuiPickersCalendarHeader-switchViewButton': {
+                                            fontFamily: "'monospace'"
+                                        },
+                                        '& .MuiDayCalendar-weekDayLabel': {
+                                            fontFamily: "'monospace'"
+                                        },
+                                        '& .MuiPickersYear-yearButton': {
+                                            fontFamily: "'monospace'",
+                                            fontSize: '0.8rem'
+                                        },
+                                        '& .MuiPickersYear-yearButton.Mui-selected': {
+                                            backgroundColor: 'black',
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: 'black'
+                                            }
+                                        },
+                                        '& .MuiPickersDay-root.Mui-selected': {
+                                            backgroundColor: 'black',
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: 'black'
+                                            }
+                                        }
+                                    }}
                                 />
                             </LocalizationProvider>
                         </div>

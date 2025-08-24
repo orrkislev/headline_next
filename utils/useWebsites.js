@@ -35,13 +35,15 @@ export default function useWebsitesManager(country, sources) {
     }, [sources, country, windowWidth]);
 
     useEffect(() => {
-        if (activeWebsites.length == 0) return
+        if (activeWebsites.length == 0 || !sources) return
         const sourceOrder = getSourceOrder(country, order)
         if (sourceOrder.includes(activeWebsites[0])) {
-            const sortedWebsites = activeWebsites.sort((a, b) => sourceOrder.indexOf(a) - sourceOrder.indexOf(b))
-            setActiveWebsites(sortedWebsites)
+            // Select first X sources from the new order, skipping sources without data
+            const currentLimit = activeWebsites.length
+            const availableSources = sourceOrder.filter(source => sources[source])
+            setActiveWebsites(availableSources.slice(0, currentLimit))
         }
-    }, [activeWebsites, order])
+    }, [order, sources])
 
     return null
 }
