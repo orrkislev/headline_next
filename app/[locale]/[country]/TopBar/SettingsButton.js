@@ -3,18 +3,15 @@
 import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
 import { SettingsRounded, InfoOutlined } from "@mui/icons-material";
-import { Archive } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 
 const Settings = dynamic(() => import("./settings/Settings"));
 const AboutMenu = dynamic(() => import("./AboutMenu"));
-const HistoryMenu = dynamic(() => import("./settings/ArchiveMenu"));
 
 export function SettingsButton({ locale, country, sources, isRightPanelCollapsed, userCountry }) {
     const [open, setOpen] = useState(false);
     const [aboutMenuOpen, setAboutMenuOpen] = useState(false);
-    const [historyMenuOpen, setHistoryMenuOpen] = useState(false);
     
     // Calculate conditions here where we have access to props
     const isSpecialCase = (locale === 'heb' && country === 'israel') || 
@@ -34,12 +31,6 @@ export function SettingsButton({ locale, country, sources, isRightPanelCollapsed
                 />
             </div>
             <div className="flex items-center">
-                <CustomTooltip title="The Archives" arrow>
-                    <TopBarButton size="small" onClick={() => setHistoryMenuOpen(true)}>
-                        <Archive size={18} />
-                    </TopBarButton>
-                </CustomTooltip>
-                <div className="w-2"></div>
                 <CustomTooltip title="About the Hear" arrow>
                     <TopBarButton size="small" onClick={() => setAboutMenuOpen(true)}>
                         <InfoOutlined />
@@ -53,7 +44,6 @@ export function SettingsButton({ locale, country, sources, isRightPanelCollapsed
                 </CustomTooltip>
             </div>
             <AboutMenu open={aboutMenuOpen} onClose={() => setAboutMenuOpen(false)} />
-            <HistoryMenu open={historyMenuOpen} close={() => setHistoryMenuOpen(false)} locale={locale} country={country} />
         </>
     );
 }

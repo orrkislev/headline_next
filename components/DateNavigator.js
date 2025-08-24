@@ -14,7 +14,7 @@ function DateLink({ direction, country, targetDate, summary }) {
 
     const arrow = direction === 'previous' ? ' ⟵ ' : ' ⟶ ';
 
-    const dateString = <span className="font-['GeistMono'] font-medium">{targetDate.toLocaleDateString('en-GB').replace(/\//g, '.')}</span>;
+    const dateString = <span className="font-['GeistMono',monospace] font-medium">{targetDate.toLocaleDateString('en-GB').replace(/\//g, '.')}</span>;
 
     // Layout: both previous and next = [date][arrow][headline], but for next, arrow points right
     const flexDirection = 'flex-row';

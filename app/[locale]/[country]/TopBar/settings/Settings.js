@@ -7,6 +7,7 @@ import TranslateToggle from "./TranslateToggle";
 import OrderToggle from "./OrderToggle";
 import SourcesToggle from "./SourcesToggle";
 import { DateSelector } from "./DateSelector";
+import ArchiveToggle from "./ArchiveToggle";
 import { PublicOutlined } from "@mui/icons-material";
 import { TopBarButton } from "@/components/IconButtons";
 import CustomTooltip from "@/components/CustomTooltip";
@@ -26,8 +27,9 @@ export default function Settings({ locale, country, sources, isRightPanelCollaps
     return (
         <>
             <div className={`flex items-center gap-1 ${locale == 'heb' ? 'flex-row-reverse' : ''}`}>
-                <div className="bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
+                <div className="flex items-center font-['Geist'] bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
                     <DateSelector {...{ locale, country }} />
+                    <LabeledIcon label="Archives" icon={<ArchiveToggle locale={locale} country={country} />} />
                 </div>
                 <div className="flex items-center font-['Geist'] bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
                     <LabeledIcon
