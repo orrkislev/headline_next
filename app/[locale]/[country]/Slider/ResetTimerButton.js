@@ -33,7 +33,7 @@ export default function ResetTimerButton({ locale, country, className, pageDate 
         return () => {
             document.removeEventListener("visibilitychange", handleVisibilityChange);
         };
-    }, [pageDate])
+    }, [pageDate, setDate])
 
     const tooltip = locale === 'heb' ? 'בחזרה לעכשיו' : 'Reset To Now';
     const placement = locale === 'heb' ? 'left' : 'right';

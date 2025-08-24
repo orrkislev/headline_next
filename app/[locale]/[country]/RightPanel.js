@@ -57,7 +57,7 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [onCollapsedChange]);
+    }, [onCollapsedChange, isCollapsed]);
 
     // Don't render until we know the screen size to prevent flash
     if (!isMounted) {
@@ -91,7 +91,7 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
         <div className={`summary-section flex flex-col gap-4 h-full overflow-hidden px-4 pb-2 relative`} style={pageDate && locale !== 'heb' ? { paddingBottom: '60px' } : {}}>
             {/* Collapse button positioned at top, aligned with TopBar */}
             {/* Use fixed positioning from the top of the panel */}
-            <div className={`absolute top-3 ${locale === 'heb' ? 'left-1' : 'right-1'} z-50`}>
+            <div className={`absolute top-3 ${locale === 'heb' ? 'left-1' : 'right-1'} z-10`}>
                 <CustomTooltip title={locale === 'heb' ? 'הסתר סקירות' : 'hide overviews'} placement="top">
                     <IconButton 
                         size="small" 

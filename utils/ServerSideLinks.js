@@ -153,7 +153,7 @@ export function ServerAboutContent({ locale }) {
         <p>המאזין הוא חדר מבצעים לחדשות. כמו דוכן עיתונים המשתנה ללא הרף, המאזין מאפשר לכם לראות את החדשות כשהן מתפתחות, על פני מקורות ומדינות.</p>
         
         <h2>הנוף כולו</h2>
-        <p>המאזין לא נערך ולא מותאם אישית. במקום לנסות לבחור חלקים ופיסות שעשויות לעניין אתכם, הוא מנסה לתת תמונה של הנוף כולו. במקום לקבל החלטות עריכה משלו, הוא מקשיב להחלטות של עורכים אנושיים לגבי מה שמהווה "הסיפור הראשי" הראוי לתשומת לבכם. בזה, המאזין הוא צובר חדשות אובייקטיבי.</p>
+        <p>המאזין לא נערך ולא מותאם אישית. במקום לנסות לבחור חלקים ופיסות שעשויות לעניין אתכם, הוא מנסה לתת תמונה של הנוף כולו. במקום לקבל החלטות עריכה משלו, הוא מקשיב להחלטות של עורכים אנושיים לגבי מה שמהווה &ldquo;הסיפור הראשי&rdquo; הראוי לתשומת לבכם. בזה, המאזין הוא צובר חדשות אובייקטיבי.</p>
         
         <h2>ארכיון כותרות</h2>
         <p>המאזין הוא <strong>ארכיון כותרות</strong> מקיף של כותרות ראשיות. הוא מאפשר למשתמשים לנווט אחורה בזמן כדי להציג מחדש את החדשות כשהן התפתחו. הוא מתעד היסטוריה כשהיא קורה. כמו ארכיון עיתונים היסטורי, המאזין הוא ספריה ואוסף של <strong>כותרות חדשות</strong> מעיתונים דיגיטליים.</p>
@@ -198,19 +198,19 @@ export function ServerAboutContent({ locale }) {
                 <p>The Hear is a news operation room. Like a constantly-changing news-stand, the Hear lets you see the news as they evolve, across sources and across countries.</p>
                 
                 <h2>The Landscape as a Whole</h2>
-                <p>The Hear is not curated and not personalized. Instead of trying to select the bits and pieces that might interest you, it attempts to give a view of the landscape as a whole. Instead of making its own editorial decisions, it listens to the decisions made by human editors as to what constitutes "the main story" worthy of your attention. In this, the Hear is an objective news aggregator.</p>
+                <p>The Hear is not curated and not personalized. Instead of trying to select the bits and pieces that might interest you, it attempts to give a view of the landscape as a whole. Instead of making its own editorial decisions, it listens to the decisions made by human editors as to what constitutes &ldquo;the main story&rdquo; worthy of your attention. In this, the Hear is an objective news aggregator.</p>
                 
                 <h2>A Headline Archive</h2>
                 <p>The Hear is an archive of main headlines. It lets users navigate back in time to replay the news as they unfolded. It records history as it happened. Like a historic newspaper archive, the Hear is a library and collection of the main headlines of digital newspapers.</p>
                 
                 <h2>A thinking Newsstand</h2>
-                <p>The Hear doesn't just display the headlines, but also reads them: it is embedded with AI throughout. With strategically placed and continuously updating overviews, summaries and reports, the Hear helps the reader digest the many headlines as they unravel. With daily overviews, it also writes history as it unfolds. The Hear is a news-stand equipped with a brain.</p>
+                <p>The Hear doesn&apos;t just display the headlines, but also reads them: it is embedded with AI throughout. With strategically placed and continuously updating overviews, summaries and reports, the Hear helps the reader digest the many headlines as they unravel. With daily overviews, it also writes history as it unfolds. The Hear is a news-stand equipped with a brain.</p>
                 
                 <h2>The Tower of Babel</h2>
                 <p>The Hear translates headlines in real-time. It makes the news landscape in many countries immediately accessible in English, without selection or commentary. It lifts language barriers and gives an unfiltered view of what is currently being discussed around planet earth.</p>
                 
                 <h2>The One-Thing</h2>
-                <p>the Hear displays main headlines. In the fuss and hubbub of the world, the main headline is the editor's choice of the single most important story happening now: the main headline is the one-thing. The Hear is a meta-newspaper made solely of such one-things, organized and contextualized.</p>
+                <p>the Hear displays main headlines. In the fuss and hubbub of the world, the main headline is the editor&apos;s choice of the single most important story happening now: the main headline is the one-thing. The Hear is a meta-newspaper made solely of such one-things, organized and contextualized.</p>
                 
                 <h2>A Context Machine</h2>
                 <p>The Hear contextualizes the headlines. It does this by placing the headlines in relation to each other, to their predecessors, and to their global peers. In the Hear, each tree is seen against the background of the forest.</p>

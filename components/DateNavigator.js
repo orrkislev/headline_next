@@ -44,15 +44,12 @@ function DateLink({ direction, country, targetDate, summary }) {
 }
 
 export default function DateNavigator({ locale, country, pageDate }) {
-    if (!pageDate) return null; // Should only render on date pages
-
     const firebase = useFirebase();
-
     const [prevSummary, setPrevSummary] = useState(null);
     const [nextSummary, setNextSummary] = useState(null);
 
     useEffect(() => {
-        if (!firebase.ready) return;
+        if (!pageDate || !firebase.ready) return;
         const prevDate = sub(new Date(pageDate), { days: 1 });
         const nextDate = add(new Date(pageDate), { days: 1 });
 
@@ -73,7 +70,9 @@ export default function DateNavigator({ locale, country, pageDate }) {
             }
         };
         fetchData();
-    }, [firebase.ready, country, pageDate]);
+    }, [firebase, country, pageDate]);
+
+    if (!pageDate) return null; // Should only render on date pages
 
     const prevDate = sub(new Date(pageDate), { days: 1 });
     const nextDate = add(new Date(pageDate), { days: 1 });
@@ -86,7 +85,7 @@ export default function DateNavigator({ locale, country, pageDate }) {
     const isYesterdayPage = new Date(pageDate).toDateString() === yesterday.toDateString();
 
     return (
-        <div className="flex justify-between border-t border-gray-200 px-2 py-3 w-auto bg-white bg-opacity-80 fixed left-0 sm:left-[45px] right-0 bottom-0 z-[100] backdrop-blur-sm shadow">
+        <div className="flex justify-between border-t border-gray-200 px-2 py-3 w-auto bg-white bg-opacity-80 fixed left-0 sm:left-[45px] right-0 bottom-0 z-5 backdrop-blur-sm shadow">
             <DateLink
                 direction="previous"
                 {...{ country, targetDate: prevDate, summary: prevSummary }}
