@@ -201,3 +201,36 @@ export const getCountryDailySummariesForMonth = cache(async (countryName, year, 
   
   return filteredResults;
 })
+
+export const getGlobalDailySummariesForDate = cache(async (year, month, date) => {
+  const dateString = `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+  
+  const globalSummaries = [];
+  
+  // Iterate through all countries and fetch their daily summary for this date
+  const countryKeys = Object.keys(countries).filter(c => c !== 'uae' && c !== 'finland');
+  
+  for (const countryName of countryKeys) {
+    try {
+      const dailyCollection = getCountryCollectionRef(countryName, 'dailysummaries');
+      const q = query(
+        dailyCollection,
+        where('date', '==', dateString),
+      );
+      
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        const countryData = prepareData(snapshot.docs[0]);
+        globalSummaries.push({
+          ...countryData,
+          country: countryName
+        });
+      }
+    } catch (error) {
+      console.warn(`Failed to fetch daily summary for ${countryName} on ${dateString}:`, error);
+      // Continue with other countries even if one fails
+    }
+  }
+  
+  return globalSummaries;
+})

@@ -9,10 +9,11 @@ import InnerLink from '@/components/InnerLink';
 import { useFont, useTranslate } from '@/utils/store';
 import CustomTooltip from '@/components/CustomTooltip';
 import FlagIcon from '@/components/FlagIcon';
+import { countries } from '@/utils/sources/countries';
 
 const randomFontIndex = Math.floor(Math.random() * 100);
 
-export default function ArchiveCard({ dailySummary, country, locale, font = 'random' }) {
+export default function GlobalArchiveCard({ dailySummary, locale, currentDate }) {
     const [expanded, setExpanded] = useState(false);
     const translate = useTranslate((state) => state.translate);
     const storeFont = useFont((state) => state.font);
@@ -47,19 +48,32 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
     
     if (!dailySummary) return null;
 
-    const date = new Date(dailySummary.date);
-    const formattedDate = date.toLocaleDateString('en-GB', {
+    const country = dailySummary.country;
+    const countryName = locale === 'heb' ? countries[country]?.hebrew : countries[country]?.english;
+    const dateString = createDateString(currentDate);
+
+    const summaryContent = getSummaryContent(dailySummary, locale);
+    
+    const dayName = currentDate.toLocaleDateString(locale === 'heb' ? 'he' : 'en', { 
+        weekday: 'long' 
+    });
+
+    const formattedDate = currentDate.toLocaleDateString('en-GB', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric'
     }).replace(/\//g, '.');
 
-    const summaryContent = getSummaryContent(dailySummary, locale);
-    const dateString = createDateString(date);
-    
-    const dayName = date.toLocaleDateString(locale === 'heb' ? 'he' : 'en', { 
-        weekday: 'long' 
-    });
+    // Calculate days ago
+    const today = new Date();
+    const daysDiff = Math.floor((today - currentDate) / (1000 * 60 * 60 * 24));
+    const daysAgoText = daysDiff === 0 
+        ? (locale === 'heb' ? 'היום' : 'Today')
+        : daysDiff === 1 
+            ? (locale === 'heb' ? 'אתמול' : 'Yesterday')
+            : locale === 'heb'
+                ? `לפני ${daysDiff} ימים`
+                : `${daysDiff} days ago`;
 
     return (
         <div className={`
@@ -68,40 +82,55 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
         `}>
             <div className="flex flex-col h-full justify-normal sm:justify-between">
                 <div className="flex flex-col gap-2 mb-2 p-4">
-                    {/* Date header */}
+                    {/* Country header */}
                     <div className={`${locale === 'heb' ? 'text-right' : 'text-left'}`}>
                         <div className="flex items-center gap-2">
-                            <InnerLink 
-                                href={`/${locale}/global/history/${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`}
+                            <div className="scale-75">
+                                <FlagIcon country={country} />
+                            </div>
+                            <div 
+                                className="text-xs text-blue"
+                                style={{ 
+                                    fontFamily: locale === 'heb' ? 'Roboto, sans-serif' : 'monospace',
+                                    fontWeight: 500
+                                }}
                             >
-                                <div 
-                                    className="text-xs font-medium text-blue hover:underline hover:underline-offset-2"
-                                    style={{ 
-                                        fontFamily: 'monospace',
-                                        fontWeight: 500
-                                    }}
-                                >
-                                    {formattedDate}
-                                </div>
-                            </InnerLink>
+                                {countryName}
+                            </div>
+                            <span className="text-gray-500">•</span>
+                            <div 
+                                className="text-xs text-gray-500"
+                                style={{ 
+                                    fontFamily: 'monospace',
+                                    fontWeight: 500
+                                }}
+                            >
+                                {formattedDate}
+                            </div>
                             <span className="text-gray-500">•</span>
                             <div 
                                 className="text-xs font-normal text-gray-500"
                                 style={{ 
-                                    fontFamily: locale === 'heb' ? 'Roboto, sans-serif' : 'Geist, sans-serif',
+                                    fontFamily: 'monospace',
                                     fontWeight: 400
                                 }}
                             >
                                 {dayName}
                             </div>
                             <span className="text-gray-500">•</span>
-                            <div className="scale-75">
-                                <FlagIcon country={country} />
+                            <div 
+                                className="text-xs font-geist text-gray-500"
+                                style={{ 
+                                    fontFamily: 'monospace',
+                                    fontWeight: 400
+                                }}
+                            >
+                                {daysAgoText}
                             </div>
                             <span className="text-gray-500">•</span>
                             <div className="flex items-center flex-1">
                                 <div className="flex-1 h-px bg-gray-300"></div>
-                                <svg className="w-3 h-3 text-gray-400 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className={`w-3 h-3 text-gray-400 ${locale === 'heb' ? 'mr-1' : 'ml-1'} ${locale === 'heb' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                 </svg>
                             </div>
