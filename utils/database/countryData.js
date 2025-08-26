@@ -158,7 +158,28 @@ export const subscribeToSummaries = (countryName, callback) => {
 
 export const getCountryDailySummary = cache(async (countryName, day) => {
   // console.log('getting daily summary for', countryName, day);
-  const date = day instanceof Date ? day : new Date(day);
+  let date;
+  
+  if (day instanceof Date) {
+    date = day;
+  } else if (typeof day === 'string') {
+    // Handle DD-MM-YYYY format
+    if (day.includes('-') && day.split('-').length === 3) {
+      const [dayPart, monthPart, yearPart] = day.split('-');
+      date = new Date(parseInt(yearPart), parseInt(monthPart) - 1, parseInt(dayPart));
+    } else {
+      date = new Date(day);
+    }
+  } else {
+    date = new Date(day);
+  }
+  
+  // Validate the date
+  if (isNaN(date.getTime())) {
+    console.warn(`Invalid date provided to getCountryDailySummary: ${day}`);
+    return null;
+  }
+  
   const dateString = date.toISOString().split('T')[0];
 
   const dailyCollection = getCountryCollectionRef(countryName, 'dailysummaries');

@@ -8,6 +8,7 @@ import { countries } from "@/utils/sources/countries";
 import ArchiveLinksData from "../TopBar/settings/ArchiveLinksData";
 import CountryLinksData from "../TopBar/CountryLinksData";
 import DateLinksData from "../TopBar/DateLinksData";
+import { isHebrewContentAvailable } from "@/utils/daily summary utils";
 
 export const revalidate = false; // generate once, never revalidate
 export const dynamicParams = true; // allow on-demand generation
@@ -18,7 +19,8 @@ export async function generateStaticParams() {
 
 // Generate SEO metadata for a specific day
 export async function generateMetadata({ params }) {
-    return createMetadata(params);
+    const { country, locale, date } = await params;
+    return createMetadata({ country, locale, date });
 }
 
 export default async function Page({ params }) {
@@ -36,6 +38,18 @@ export default async function Page({ params }) {
     const initialSummaries = await getCountryDaySummaries(country, parsedDate, 2);
     const daySummary = await getCountryDailySummary(country, parsedDate)
     const yesterdaySummary = await getCountryDailySummary(country, sub(parsedDate, { days: 1 }))
+
+    // Check if Hebrew content is available for Hebrew locale
+    if (locale === 'heb') {
+        const hasHebrewContent = initialSummaries.some(summary => isHebrewContentAvailable(summary)) ||
+                                (daySummary && isHebrewContentAvailable(daySummary)) ||
+                                (yesterdaySummary && isHebrewContentAvailable(yesterdaySummary));
+        
+        // If no Hebrew content is available, redirect to English
+        if (!hasHebrewContent) {
+            redirect(`/en/${country}/${date}`);
+        }
+    }
 
     const sources = {};
     headlines.forEach(headline => {

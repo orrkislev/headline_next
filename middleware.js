@@ -96,6 +96,22 @@ export async function middleware(request) {
     const countryCandidate = segments[1];
     const valid = await getCountry(countryCandidate);
     if (valid) {
+      // Special case: redirect Hebrew search routes to English
+      if (locale === 'heb' && segments[2] === 'search') {
+        const searchParams = request.nextUrl.search; // Preserve query parameters
+        return NextResponse.redirect(new URL(`/en/${valid}/search${searchParams}`, request.url));
+      }
+
+      // Special case: redirect mobile users from search routes to root page
+      if (segments[2] === 'search') {
+        const userAgent = request.headers.get('user-agent') || '';
+        const isMobile = /Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+        
+        if (isMobile) {
+          return NextResponse.redirect(new URL(`/${locale}/${valid}`, request.url));
+        }
+      }
+      
       if (valid !== countryCandidate) {
         return NextResponse.redirect(new URL(`/${locale}/${valid}`, request.url));
       } else {

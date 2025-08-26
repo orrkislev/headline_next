@@ -6,6 +6,7 @@ import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { add, sub } from "date-fns";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { LabeledContent } from "@/components/LabeledIcon";
 import { useTime } from "@/utils/store";
 import { useRouter, usePathname } from "next/navigation";
@@ -63,12 +64,18 @@ export function DateSelector({ locale, country }) {
         };
     }, [open]);
 
-    // Reset loading state when pathname changes
+    // Reset loading state when route change is complete
     useEffect(() => {
         if (isNavigating) {
-            setIsNavigating(false);
+            const handleRouteChange = () => {
+                setIsNavigating(false);
+            }
+            window.addEventListener('popstate', handleRouteChange);
+            return () => {
+                window.removeEventListener('popstate', handleRouteChange);
+            }
         }
-    }, [pathname, isNavigating]);
+    }, [isNavigating]);
 
     const day = date.toDateString();
     const today = new Date()
@@ -97,17 +104,14 @@ export function DateSelector({ locale, country }) {
 
     return (
         <>
-            {isNavigating && (
-                // Use only the loader overlay from InnerLink, not navigation logic
-                typeof window !== 'undefined' &&
-                require('react-dom').createPortal(
-                    <div className="fixed inset-0 w-full h-full z-[9999] pointer-events-auto flex items-center justify-center">
-                        <div className="absolute inset-0 bg-black bg-opacity-20" />
-                        {/* Import Loader directly to avoid circular dependency */}
-                        {(() => { const Loader = require('@/components/loader').default; return <Loader /> })()}
-                    </div>,
-                    document.body
-                )
+            {isNavigating && typeof window !== 'undefined' && createPortal(
+                <div className="fixed inset-0 w-full h-full z-[9999] pointer-events-auto">
+                    <div className="absolute inset-0 bg-white bg-opacity-40 animate-pulse transition-all duration-200" />
+                    <div className="fixed top-0 left-0 w-full">
+                        <LinearProgress color="inherit" sx={{ opacity: 0.8, backgroundColor: 'white', height: '2px' }} />
+                    </div>
+                </div>,
+                document.body
             )}
             <LabeledContent label={<span dir="ltr">{label}</span>}>
                 <div className={`flex items-center gap-1 relative ${locale === 'heb' ? 'flex-row-reverse' : 'flex-row'}`}>
@@ -146,6 +150,10 @@ export function DateSelector({ locale, country }) {
                                     }}
                                     value={date}
                                     sx={{
+                                        fontFamily: "'monospace'",
+                                        '& *': {
+                                            fontFamily: "'monospace' !important"
+                                        },
                                         '& .MuiPickersCalendarHeader-root': {
                                             fontFamily: "'monospace'"
                                         },

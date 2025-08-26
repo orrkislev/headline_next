@@ -11,6 +11,7 @@ import useFirebase from "@/utils/database/useFirebase";
 export default function YesterdaySummary({ locale, country, yesterdaySummary, pageDate}) {
     const [dynamicYesterdaySummary, setDynamicYesterdaySummary] = useState(yesterdaySummary);
     const [lastCheckedDate, setLastCheckedDate] = useState(new Date().toDateString());
+    const [isLoading, setIsLoading] = useState(false);
     const firebase = useFirebase();
     
     // Blinking state for the arrow
@@ -22,8 +23,10 @@ export default function YesterdaySummary({ locale, country, yesterdaySummary, pa
         return () => clearInterval(interval);
     }, []);
     
+    // Use the most current data available
+    const currentSummary = dynamicYesterdaySummary || yesterdaySummary;
     let headline = <Skeleton variant="text" width={200} />;
-    if (dynamicYesterdaySummary) headline = getHeadline(dynamicYesterdaySummary, locale);
+    if (currentSummary) headline = getHeadline(currentSummary, locale);
     
     const yesterdayDate = sub(pageDate ? new Date(pageDate) : new Date(), { days: 1 });
     yesterdayDate.setHours(23, 59);
@@ -31,17 +34,20 @@ export default function YesterdaySummary({ locale, country, yesterdaySummary, pa
     // Check if we need to fetch fresh yesterday summary when page becomes visible
     useEffect(() => {
         const fetchYesterdayData = async () => {
-            if (!firebase.ready) return;
+            if (!firebase.ready || pageDate) return; // Don't fetch for archive pages
             
             const currentDate = new Date().toDateString();
-            if (currentDate !== lastCheckedDate && !pageDate) {
+            if (currentDate !== lastCheckedDate) {
                 try {
+                    setIsLoading(true);
                     const freshYesterdayDate = sub(new Date(), { days: 1 });
                     const freshYesterdaySummary = await firebase.getCountryDailySummary(country, freshYesterdayDate);
                     setDynamicYesterdaySummary(freshYesterdaySummary);
                     setLastCheckedDate(currentDate);
                 } catch (error) {
                     console.error('Failed to fetch fresh yesterday summary:', error);
+                } finally {
+                    setIsLoading(false);
                 }
             }
         };
@@ -67,6 +73,7 @@ export default function YesterdaySummary({ locale, country, yesterdaySummary, pa
     useEffect(() => {
         setDynamicYesterdaySummary(yesterdaySummary);
         setLastCheckedDate(new Date().toDateString());
+        setIsLoading(false);
     }, [yesterdaySummary, country, pageDate]);
 
     let dateString

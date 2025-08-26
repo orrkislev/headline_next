@@ -101,7 +101,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-    return createMetadata(params);
+    return createMetadata({ params });
 }
 
 export default async function GlobalDailyArchivePage({ params }) {

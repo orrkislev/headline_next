@@ -84,14 +84,14 @@ export default function ArchiveTopBar({ country, locale, year, month, monthName 
     return (
         <nav className="sticky top-0 w-full bg-white z-50 py-1 direction-ltr border-b border-gray-200">
             <div className="px-4">
-                <div className="flex items-center h-10 relative">
+                <div className="flex items-center justify-between min-h-[40px]">
                     {/* Left: The Hear */}
                     <div className="flex items-center">
                         <div className="text-sm font-medium cursor-default hover:text-blue transition-colors font-['Geist']">The Hear</div>
                     </div>
 
                     {/* Center: Flag • Month/Year • Headlines Archive with Navigation on sides */}
-                    <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-1 justify-center">
                         <MonthNavigation {...{ country, locale, year, month, monthName }} position="left" />
                         <ArchiveCountryNavigator country={country} locale={locale} year={year} month={month} />
                         <h1 className={`${locale === 'heb' ? 'frank-re text-right text-[16px]' : 'font-[\"Geist\"] text-left text-sm'} flex items-center gap-2`}>
@@ -102,6 +102,11 @@ export default function ArchiveTopBar({ country, locale, year, month, monthName 
                             <span>{locale === 'heb' ? 'ארכיון כותרות' : 'Headlines Archive'}</span>
                         </h1>
                         <MonthNavigation {...{ country, locale, year, month, monthName }} position="right" />
+                    </div>
+
+                    {/* Right: Empty space for balance */}
+                    <div className="flex items-center">
+                        <div className="text-sm font-medium cursor-default hover:text-blue transition-colors font-['Geist'] opacity-0">The Hear</div>
                     </div>
                 </div>
             </div>

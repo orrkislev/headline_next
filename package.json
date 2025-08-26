@@ -8,7 +8,9 @@
     "build": "next build",
     "analyze": "ANALYZE=true npm run build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-search": "node scripts/generate-search-index.js",
+    "export-search-data": "node scripts/export-search-data.mjs"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.1.20",
@@ -26,6 +28,7 @@
     "country-to-iso": "^1.6.0",
     "date-fns": "^2.29.3",
     "firebase": "^11.3.1",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.475.0",
     "motion": "^12.10.4",
     "negotiator": "^1.0.0",

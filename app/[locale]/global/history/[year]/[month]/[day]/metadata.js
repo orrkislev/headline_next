@@ -2,7 +2,9 @@ import { countries } from "@/utils/sources/countries";
 import { getSourceData } from "@/utils/sources/getCountryData";
 import { getSummaryContent } from "@/utils/daily summary utils";
 
-export function createMetadata({ locale, year, month, day }) {
+export async function createMetadata({ params }) {
+    const { locale, year, month, day } = await params;
+    
     const currentDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     const dateString = currentDate.toLocaleDateString(
         locale === 'heb' ? 'he' : 'en', 

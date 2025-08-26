@@ -11,8 +11,6 @@ export const metadata = {
   title: "The Hear",
   description: "A non-profit news observatory and archive",
   manifest: "/manifest.json",
-  themeColor: "#000000",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -56,6 +54,14 @@ export const metadata = {
       { url: "/logo192.png", sizes: "192x192", type: "image/png" }
     ]
   }
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#000000"
 };
 
 export default function RootLayout({ children }) {

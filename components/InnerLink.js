@@ -1,29 +1,58 @@
 'use client'
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { LinearProgress } from "@mui/material";
 import { createPortal } from "react-dom";
+import { usePathname } from "next/navigation";
 
 export default function InnerLink({ href, locale, children }) {
     const [showProgress, setShowProgress] = useState(false);
+    const pathname = usePathname();
+    const timeoutRef = useRef(null);
+    const initialPathnameRef = useRef(pathname);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (showProgress) {
-            // reset the progress bar after when the url changes
-            const handleRouteChange = () => {
+            // Clear any existing timeout
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+
+            // Set a timeout to hide the progress bar after 5 seconds
+            // This prevents it from getting stuck indefinitely
+            timeoutRef.current = setTimeout(() => {
                 setShowProgress(false);
-            }
-            window.addEventListener('popstate', handleRouteChange);
+            }, 5000);
+
             return () => {
-                window.removeEventListener('popstate', handleRouteChange);
-            }
+                if (timeoutRef.current) {
+                    clearTimeout(timeoutRef.current);
+                }
+            };
         }
-    },[showProgress])
+    }, [showProgress]);
+
+    // Hide progress bar when pathname changes (navigation completed)
+    useEffect(() => {
+        if (showProgress && pathname !== initialPathnameRef.current) {
+            // Add a small delay to ensure the navigation is complete
+            const hideTimeout = setTimeout(() => {
+                setShowProgress(false);
+            }, 100);
+            
+            return () => clearTimeout(hideTimeout);
+        }
+    }, [pathname, showProgress]);
+
+    const handleClick = () => {
+        initialPathnameRef.current = pathname;
+        setShowProgress(true);
+    };
 
     return (
         <>
-            <Link href={href} hrefLang={locale} onClick={() => setShowProgress(true)}>
+            <Link href={href} hrefLang={locale} onClick={handleClick}>
                 {children}
             </Link>
             {showProgress && typeof window !== 'undefined' && createPortal(

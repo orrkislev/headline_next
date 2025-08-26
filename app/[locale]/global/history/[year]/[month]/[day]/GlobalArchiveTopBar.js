@@ -248,14 +248,14 @@ export default function GlobalArchiveTopBar({ locale, year, month, day, dateStri
     return (
         <nav className="sticky top-0 w-full bg-white z-50 py-1 direction-ltr border-b border-gray-200">
             <div className="px-4">
-                <div className="flex items-center h-10 relative">
+                <div className="flex items-center justify-between min-h-[40px]">
                     {/* Left: The Hear */}
                     <div className="flex items-center">
                         <div className="text-sm font-medium cursor-default hover:text-blue transition-colors font-['Geist']">The Hear</div>
                     </div>
 
                     {/* Center: Global • Date • Headlines Archive with Day Navigation on sides */}
-                    <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-1 justify-center">
                         <DayNavigation {...{ locale, year, month, day }} position="left" />
                         <h1 className={`${locale === 'heb' ? 'frank-re text-right text-[16px]' : 'font-[\"Geist\"] text-left text-sm'} flex items-center gap-2`}>
                             {/* <span>{locale === 'heb' ? 'עולמי' : 'Global'}</span> */}
@@ -268,7 +268,7 @@ export default function GlobalArchiveTopBar({ locale, year, month, day, dateStri
                     </div>
 
                     {/* Right: Sort Toggle and Date Selector */}
-                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 flex items-center gap-1">
+                    <div className="flex items-center gap-1">
                         <GlobalDateSelector locale={locale} currentDate={currentDate} />
                         <CustomTooltip title={sortTooltipText} placement="top">
                             <IconButton 

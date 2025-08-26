@@ -6,14 +6,11 @@ import { IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTime } from "@/utils/store";
 import { isToday } from "date-fns";
-import { useRouter, usePathname } from "next/navigation";
-import { LinearProgress } from "@mui/material";
 import InnerLink from "@/components/InnerLink";
 
 export default function ResetTimerButton({ locale, country, className, pageDate }) {
     const date = useTime(state => state.date);
     const setDate = useTime(state => state.setDate);
-    // Remove isNavigating and router
     const isPresent = new Date() - date < 60 * 1000 * 5;
 
     useEffect(() => {
@@ -45,13 +42,11 @@ export default function ResetTimerButton({ locale, country, className, pageDate 
         // else: navigation handled by InnerLink
     }
 
-    // If not today, wrap button in InnerLink for navigation
     const button = (
         <CustomTooltip title={tooltip} arrow open={!isPresent} placement={placement}>
             <IconButton
                 className={`transition-colors duration-300 ${isPresent ? '' : 'animate-slow-fade'} ` + className}
                 onClick={handleClick}
-                // Remove disabled={isNavigating}
                 size="small"
                 sx={{
                     color: isPresent ? 'lightgray' : 'blue'
