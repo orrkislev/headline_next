@@ -75,7 +75,7 @@ export function SourceFooter({ source, headline, url, headlines }) {
                 <div className="w-1 h-full bg-gray-300"></div>
             </div>
             <div className="flex gap-4 items-center">
-                <div className="text-[0.7em] text-gray-400">{timeString}</div>
+                <div className="text-[0.7em] text-gray-400 font-mono">{timeString}</div>
             </div>
         </div >
     );

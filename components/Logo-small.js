@@ -5,7 +5,6 @@ import logoA from './logo/thehear-round.png';
 import logoB from './logo/thehear-round.png';
 import logoC from './logo/thehear-round.png';
 import Image from 'next/image';
-import InnerLink from './InnerLink';
 
 export default function DynamicLogoSmall({ locale }) {
     const [isFakeHover, setIsFakeHover] = useState(false);
@@ -20,14 +19,14 @@ export default function DynamicLogoSmall({ locale }) {
             }, 5000); // Reset after 5 seconds
 
             return () => clearTimeout(timeoutId);
-        }, 30000); // Trigger every 30 seconds (reduced from 50000)
+        }, 18000); // Trigger every 18 seconds (reduced from 30 seconds)
 
         // This return function is for the useEffect cleanup, not for the interval callback
         return () => clearInterval(intervalId);
     }, []);
 
     return (
-        <InnerLink locale={locale} href={`/${locale}/global`} className=''>
+        <>
             <div className={`logo-hover-container flex items-center justify-center relative pt-8 ${isFakeHover ? 'fake-hover' : ''}`}>
                 <div className="logo-background absolute top-[62%] left-1/2 w-[210px] h-[40%] bg-[#EBEBEB] opacity-0 transform translate-y-[-50%] translate-x-[-50%] shadow-xl"
                     style={{
@@ -61,7 +60,7 @@ export default function DynamicLogoSmall({ locale }) {
                     HEAR
                 </div>
             </div>
-            <div className="w-full border-b border-gray-300 mt-4" style={{height: '1px'}} />
-        </InnerLink>
+            <div className="w-[75%] mx-auto border-b border-gray-300 mt-4" style={{height: '1px'}} />
+        </>
     );
 };

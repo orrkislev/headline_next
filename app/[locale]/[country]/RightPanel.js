@@ -113,7 +113,9 @@ export default function RightPanel({ initialSummaries, locale, country, yesterda
                     </IconButton>
                 </CustomTooltip>
             </div>
-            {isSmallScreen ? <DynamicLogoSmall {...{ locale }} /> : <DynamicLogo {...{ locale }} />}
+            <div onClick={toggleCollapse} className="cursor-pointer">
+                {isSmallScreen ? <DynamicLogoSmall {...{ locale }} /> : <DynamicLogoSmall {...{ locale }} />}
+            </div>
             <SummariesSection {...{ locale, summaries, country, yesterdaySummary, daySummary, pageDate }} />
         </div>
     );

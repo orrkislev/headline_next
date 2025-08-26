@@ -85,7 +85,7 @@ export default function YesterdaySummary({ locale, country, yesterdaySummary, pa
         
     return (
         <InnerLink href={`/${locale}/${country}/${createDateString(yesterdayDate)}`}>
-            <h2 className={`hidden sm:block py-2 px-2 cursor-pointer ${locale === 'heb' ? 'text-[17px]' : 'text-base'} text-black hover:text-blue hover:underline hover:underline-offset-4 ${locale === 'en'
+            <h2 className={`hidden sm:block py-2 px-2 cursor-pointer mt-1.5 ${locale === 'heb' ? 'text-[17px]' : 'text-base'} text-black hover:text-blue hover:underline hover:underline-offset-4 ${locale === 'en'
                 ? 'font-["Geist"] pr-4 font-medium'
                 : 'frank-re pl-4'
                 }`}

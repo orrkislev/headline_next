@@ -11,15 +11,6 @@ import CustomTooltip from "@/components/CustomTooltip";
 export default function SourceSlider({ locale, country, headlines, pageDate }) {
     const date = useTime((state) => state.date);
     const setDate = useTime((state) => state.setDate);
-    const [sliderDate, setSliderDate] = useState(new Date());
-
-    useEffect(() => {
-        if (!date) return
-        const timeout = setTimeout(() => {
-            setSliderDate(date);
-        }, 200);
-        return () => clearTimeout(timeout);
-    }, [date]);
 
     const marks = useMemo(() => {
         const dateString = pageDate ? pageDate.toDateString() : new Date().toDateString();
@@ -28,18 +19,34 @@ export default function SourceSlider({ locale, country, headlines, pageDate }) {
         return newMarks.map(mark => ({ value: mark, label: null }));
     }, [headlines]);
 
-    const minutes = sliderDate.getHours() * 60 + sliderDate.getMinutes();
+    const minutes = date.getHours() * 60 + date.getMinutes();
 
-    const nextHeadline = headlines.filter(({ timestamp }) => timestamp > sliderDate).pop();
-    const prevHeadline = headlines.find(({ timestamp }) => timestamp < sliderDate);
+    // Get current time to prevent sliding into the future
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const isToday = date.toDateString() === now.toDateString();
+
+    const nextHeadline = headlines.filter(({ timestamp }) => timestamp > date && (!isToday || timestamp <= now)).pop();
+    const prevHeadline = headlines.find(({ timestamp }) => timestamp < date);
 
     const goToHeadline = (headline) => {
         if (!headline) return;
-        if (sliderDate.toDateString() === headline.timestamp.toDateString()) {
+        if (date.toDateString() === headline.timestamp.toDateString()) {
             setDate(headline.timestamp);
         } else {
             redirect(`/${locale}/${country}/${createDateString(headline.timestamp)}`);
         }
+    }
+
+    const updateDate = (minutes) => {
+        // If today, don't allow setting time in the future
+        if (isToday && minutes > currentMinutes) {
+            minutes = currentMinutes;
+        }
+
+        const updatedDate = new Date(date);
+        updatedDate.setHours(Math.floor(minutes / 60), minutes % 60, 0, 0);
+        setDate(updatedDate); // Update global state immediately
     }
 
     return (
@@ -52,8 +59,9 @@ export default function SourceSlider({ locale, country, headlines, pageDate }) {
 
             <CustomSlider_Source
                 key={marks.map(mark => mark.value).join('-')} // force re-mount when marks change
-                size="small" readOnly
+                size="small"
                 min={0} max={24 * 60} value={minutes}
+                onChange={(_, value) => updateDate(value)}
                 marks={marks} />
 
             <CustomTooltip title={locale === 'heb' ? 'כותרת הבאה' : 'next headline'} placement="bottom">

@@ -3,6 +3,7 @@ import Flag from "./Flag.js";
 import { SettingsButton } from "./SettingsButton.js";
 import { useTranslate } from "@/utils/store";
 import useMobile from "@/components/useMobile";
+import Link from "next/link";
 
 // Helper function to clean summary text by removing everything after language markers
 const cleanSummaryText = (text) => {
@@ -52,7 +53,9 @@ export default function TopBar({ locale, country, sources, currentSummary, isRig
                 <div className="flex items-center min-w-0 flex-1">
                     {effectiveLocale !== 'heb' && (
                         <>
-                            <h1 className="text-sm font-medium cursor-default hover:text-blue transition-colors font-['Geist'] pl-2 sm:pl-4 whitespace-nowrap">The Hear</h1>
+                            <Link href={`/${effectiveLocale}/global`} className="hover:text-blue transition-colors">
+                                <h1 className="text-sm font-medium cursor-pointer font-['Geist'] pl-2 sm:pl-4 whitespace-nowrap">The Hear</h1>
+                            </Link>
                             <div className="border-l border-dotted border-gray-300 h-[50%] mx-2 sm:mx-5 flex-shrink-0"></div>
                         </>
                     )}

@@ -155,6 +155,11 @@ body {
   line-height: 1.1;
 }
 
+.frank-re-bold {
+  font-family: var(--font-frank-re-bold);
+  line-height: 1.1;
+}
+
 
 @keyframes blink {
   0% {

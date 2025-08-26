@@ -97,7 +97,7 @@ export default function Summary({ summary, country, active, locale, yesterday })
                     marginBottom: '10px',
                 }}
             >
-                <span className={`font-['GeistMono', 'Consolas', 'monospace'] ${locale === 'heb' ? 'text-[17px]' : 'text-sm'}`}>{timestamp}</span>
+                <span className={`font-mono ${locale === 'heb' ? 'text-sm' : 'text-sm'}`}>{timestamp}</span>
                 <span className="mx-1">{locale == 'heb' ? '⇠' : '⇢'}</span>
                 <span>{headline}</span>
             </h3>
