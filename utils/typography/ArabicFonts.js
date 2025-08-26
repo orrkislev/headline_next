@@ -22,15 +22,16 @@ export const Typography_Arabic = [
     },
     {
         fontFamily: '"Amiri", serif',
-        fontSize: '2.3rem',
-        lineHeight: 1.2,
-        fontWeight: 400,
+        fontSize: '2rem',
+        lineHeight: 1.1,
+        fontWeight: 600,
         direction: 'rtl',
     },
     {
         fontFamily: '"Alexandria", serif',
-        fontSize: '2.3rem',
+        fontSize: '2rem',
         fontWeight: 400,
+        lineHeight: 1.2,
         direction: 'rtl',
     }
 ]; 

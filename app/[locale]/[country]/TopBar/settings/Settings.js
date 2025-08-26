@@ -3,7 +3,6 @@
 import LabeledIcon from "@/components/LabeledIcon";
 import FontToggle from "./FontToggle";
 import LanguageToggle from "./LanguageToggle";
-import TranslateToggle from "./TranslateToggle";
 import OrderToggle from "./OrderToggle";
 import SourcesToggle from "./SourcesToggle";
 import { DateSelector } from "./DateSelector";
@@ -14,7 +13,7 @@ import CustomTooltip from "@/components/CustomTooltip";
 import InnerLink from "@/components/InnerLink";
 import { useEffect, useState } from "react";
 
-export default function Settings({ locale, country, sources, isRightPanelCollapsed, hideLanguageToggle, hideTranslateToggle, userCountry }) {
+export default function Settings({ locale, country, sources, isRightPanelCollapsed, hideLanguageToggle, userCountry }) {
     const [isFhd, setIsFhd] = useState(false);
     const [isXl, setIsXl] = useState(false);
     const [isLg, setIsLg] = useState(false);
@@ -72,10 +71,6 @@ export default function Settings({ locale, country, sources, isRightPanelCollaps
         (locale === 'heb' && country === 'Israel') ||
         (locale === 'en' && (country === 'US' || country === 'UK'));
 
-    const shouldHideTranslate = hideTranslateToggle ||
-        (locale === 'heb' && country === 'Israel') ||
-        (locale === 'en' && (country === 'US' || country === 'UK'));
-
     return (
         <>
             <div className={`flex items-center gap-1 ${locale == 'heb' ? 'flex-row-reverse' : ''}`}>
@@ -127,11 +122,6 @@ export default function Settings({ locale, country, sources, isRightPanelCollaps
                         <LabeledIcon label="Fonts" icon={<FontToggle country={country} isRightPanelCollapsed={isRightPanelCollapsed} />} />
                     </div>
                 )}
-                <div className="flex items-center font-['Geist'] bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
-                    {!shouldHideTranslate && (
-                        <LabeledIcon label="Translate Headlines" icon={<TranslateToggle {...{ locale, country, sources, userCountry }} />} />
-                    )}
-                </div>
                 <div className="flex items-center font-['Geist'] bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
                     <LabeledIcon label="Source Order" icon={<OrderToggle locale={locale} />} />
                     <LabeledIcon label="Sources" icon={<SourcesToggle {...{ country, locale, sources }} />} />

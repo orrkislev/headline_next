@@ -11,7 +11,7 @@ const englishSpeakingCountries = ['us', 'canada', 'australia', 'uk', 'ireland', 
 const hebrewSpeakingCountries = ['israel'];
 const allCountries = [...englishSpeakingCountries, ...hebrewSpeakingCountries];
 
-export default function TranslateToggle({ locale, country, sources, userCountry }) {
+export default function TranslateToggle({ locale, country, sources, userCountry, tooltipTitle = "Translate" }) {
     const translate = useTranslate(state => state.translate);
     const setTranslate = useTranslate(state => state.setTranslate);
     const [on, setOn] = useState(false);
@@ -35,7 +35,7 @@ export default function TranslateToggle({ locale, country, sources, userCountry 
     }
     
     return (
-        <CustomTooltip title="Translate" placement="bottom">
+        <CustomTooltip title={tooltipTitle} placement="bottom">
             <TopBarButton onClick={handleClick}>
                 <Translate sx={{ color: on ? '#0000FF' : '' }} />
             </TopBarButton>
