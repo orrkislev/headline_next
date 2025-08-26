@@ -64,7 +64,7 @@ export default function CountryPageContent({ sources, initialSummaries, yesterda
                         onExpandPanel={() => setIsRightPanelCollapsed(false)}
                     />
                     <MainSection {...{ country, sources, locale, pageDate, initialSummaries, yesterdaySummary, daySummary }} />
-                    {pageDate && locale === 'en' && (
+                    {pageDate && (
                         <DateNavigator {...{ locale, country, pageDate }} />
                     )}
                 </div>

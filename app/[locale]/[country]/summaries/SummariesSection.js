@@ -38,7 +38,7 @@ export default function SummariesSection({ summaries, locale, country, yesterday
         <>
             {daySummary && <DailySummary {...{locale, daySummary}} />}
             <SummariesList summaries={displaySummaries} {...{ activeSummaryId, locale, country}} />
-            { (!pageDate || locale === 'heb') && (
+            { (!pageDate) && (
                 <div className='py-2 bg-white border-t border-gray-200'>
                     <YesterdaySummary {...{ locale, country, yesterdaySummary, pageDate}} />
                     {/* <Disclaimer {...{ locale }} /> */}
