@@ -68,6 +68,13 @@ const imageCards = [
     title: "Ambient News",
     subtitle: styleTheHear("The Hear is meant to exist quietly, in the background, on your second screen. It allows users to follow <b>the news from a distance</b>, with a healthy sense of aloofness, and without scrolling.")
   },
+  {
+    title: "Methodology"
+  },
+  {
+    title: "A Public Good",
+    subtitle: styleTheHear("The Hear operates under a small <b>independent nonprofit organization</b>, supported by Google. It tracks, aggregates and archives headlines without making its own independent editorial decisions. It is a headline monitoring machine, maintained as a public good.")
+  },
 ];
 
 // Create a separate component for the countries list
@@ -217,44 +224,77 @@ export default function LandingPageContent() {
           ))}
 
           {/* Second Group of Cards */}
-          {secondGroup.map((card, index) => (
-            <React.Fragment key={`second-group-${index}`}>
-              {card.image && (
-                <div className="hidden md:block col-span-1 md:col-span-4">
-                  <div className="h-full bg-gray-100 rounded-sm flex items-center hover:bg-gray-200 transition-colors">
-                    <div className="w-full p-6">
-                      <div className="w-full flex justify-center items-center">
-                        <Image 
-                          src={card.image} 
-                          alt={card.imageAlt} 
-                          width={200} 
-                          height={150} 
-                          className="w-full max-w-[200px] h-auto"
-                          loading="lazy"
-                        />
+          {secondGroup.map((card, index) => {
+            // Check if this is one of the last two cards that need special column spans
+            const isSecondToLast = index === secondGroup.length - 2; // "Methodology"
+            const isLast = index === secondGroup.length - 1; // "A Public Good"
+            
+            let colSpan = "md:col-span-4"; // default
+            
+            if (isSecondToLast) {
+              colSpan = "md:col-span-4"; // span 1 column (4 out of 12)
+            } else if (isLast) {
+              colSpan = "md:col-span-8"; // span 2 columns (8 out of 12)
+            }
+            
+            return (
+              <React.Fragment key={`second-group-${index}`}>
+                {card.image && (
+                  <div className="hidden md:block col-span-1 md:col-span-4">
+                    <div className="h-full bg-gray-100 rounded-sm flex items-center hover:bg-gray-200 transition-colors">
+                      <div className="w-full p-6">
+                        <div className="w-full flex justify-center items-center">
+                          <Image 
+                            src={card.image} 
+                            alt={card.imageAlt} 
+                            width={200} 
+                            height={150} 
+                            className="w-full max-w-[200px] h-auto"
+                            loading="lazy"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-              <div className="col-span-1 md:col-span-4">
-                <div className="h-full bg-gray-100 rounded-sm p-2 hover:bg-gray-200 transition-colors">
-                  <div className="p-6">
-                    <h2 
-                      className="text-xl font-semibold mb-10"
-                      style={typographyStyle}
-                    >
-                      {card.title}
-                    </h2>
-                    <div 
-                      className="text-sm leading-relaxed text-gray-800 prose prose-blue font-['Geist']"
-                      dangerouslySetInnerHTML={{ __html: card.subtitle }}
-                    />
+                )}
+                <div className={`col-span-1 ${colSpan}`}>
+                  <div className={`h-full rounded-sm p-2 transition-colors ${
+                    card.title === "Methodology" 
+                      ? "bg-white hover:bg-gray-50 flex items-center justify-center" 
+                      : "bg-gray-100 hover:bg-gray-200"
+                  }`}>
+                    {card.title === "Methodology" ? (
+                      <InnerLink href="/methodology" className="no-underline">
+                        <div className="text-center p-4 cursor-pointer">
+                          <h2 
+                            className="text-xl font-semibold text-gray-800"
+                            style={typographyStyle}
+                          >
+                            ⟵ {card.title}
+                          </h2>
+                        </div>
+                      </InnerLink>
+                    ) : (
+                      <div className="p-6">
+                        <h2 
+                          className="text-xl font-semibold mb-10"
+                          style={typographyStyle}
+                        >
+                          {card.title}
+                        </h2>
+                        {card.subtitle && (
+                          <div 
+                            className="text-sm leading-relaxed text-gray-800 prose prose-blue font-['Geist']"
+                            dangerouslySetInnerHTML={{ __html: card.subtitle }}
+                          />
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
-            </React.Fragment>
-          ))}
+              </React.Fragment>
+            );
+          })}
           
           {/* Countries List - now spans 8 columns */}
           <div className="col-span-1 md:col-span-8 mb-4">
@@ -263,19 +303,18 @@ export default function LandingPageContent() {
 
           {/* Welcome Card */}
           <div className="col-span-1 md:col-span-4 mb-4">
-            <div 
-              onClick={() => router.push('/en/global')}
-              className="h-full bg-[#223052] hover:bg-[#495A7F] rounded-sm p-2 flex items-center justify-center cursor-pointer"
-            >
-              <div className="text-center p-4">
-                <h2 
-                  className="text-xl font-semibold text-white"
-                  style={typographyStyle}
-                >
-                  to The Hear ⟶
-                </h2>
+            <InnerLink href="/en/global" className="no-underline">
+              <div className="h-full bg-[#223052] hover:bg-[#495A7F] rounded-sm p-2 flex items-center justify-center cursor-pointer">
+                <div className="text-center p-4">
+                  <h2 
+                    className="text-xl font-semibold text-white"
+                    style={typographyStyle}
+                  >
+                    to The Hear ⟶
+                  </h2>
+                </div>
               </div>
-            </div>
+            </InnerLink>
           </div>
         </div>
       </div>

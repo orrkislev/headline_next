@@ -1,6 +1,6 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import LandingPageContent from './LandingPage_content';
+import LandingPageContent from './Methodology_content';
 import TopBar from './TopBar';
 import Footer from './footer';
 import { createMetadata, LdJson } from './metadata';

@@ -69,15 +69,22 @@ export default function sitemap() {
         priority: 0.8
     });
 
-    // MEDIUM PRIORITY ROUTES (0.6)
-    
-    // About page - medium priority
+    // Static information pages - high priority (important for SEO and user understanding)
     res.push({
         url: `${baseUrl}/about`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.6
+        lastModified: new Date('2024-07-04'), // Static page, rarely changes
+        changeFrequency: 'monthly',
+        priority: 0.85
     });
+
+    res.push({
+        url: `${baseUrl}/methodology`,
+        lastModified: new Date('2024-07-04'), // Static page, rarely changes
+        changeFrequency: 'monthly',
+        priority: 0.85
+    });
+
+    // MEDIUM PRIORITY ROUTES (0.6)
 
     // LOWER PRIORITY ROUTES (0.1-0.6)
     
