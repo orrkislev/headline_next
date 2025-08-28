@@ -1,34 +1,62 @@
 import { countries } from "@/utils/sources/countries";
 import { getSourceData } from "@/utils/sources/getCountryData";
 
-function getFlagEmoji(countryKey) {
-    // Map countryKey to ISO alpha-2 code
-    const mapping = {
-        israel: 'IL', china: 'CN', finland: 'FI', france: 'FR', germany: 'DE', india: 'IN', iran: 'IR', italy: 'IT',
-        japan: 'JP', lebanon: 'LB', netherlands: 'NL', palestine: 'PS', poland: 'PL', russia: 'RU', spain: 'ES',
-        turkey: 'TR', uk: 'GB', us: 'US', ukraine: 'UA', uae: 'AE'
-    };
-    const code = mapping[countryKey];
-    if (!code) return '';
-    return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
-}
+// Flag emoji mapping for countries (same as date pages)
+const countryFlags = {
+    "israel": "🇮🇱",
+    "china": "🇨🇳",
+    "finland": "🇫🇮",
+    "france": "🇫🇷",
+    "germany": "🇩🇪",
+    "india": "🇮🇳",
+    "iran": "🇮🇷",
+    "italy": "🇮🇹",
+    "japan": "🇯🇵",
+    "lebanon": "🇱🇧",
+    "netherlands": "🇳🇱",
+    "palestine": "🇵🇸",
+    "poland": "🇵🇱",
+    "russia": "🇷🇺",
+    "spain": "🇪🇸",
+    "turkey": "🇹🇷",
+    "uk": "🇬🇧",
+    "us": "🇺🇸",
+    "ukraine": "🇺🇦",
+    "uae": "🇦🇪"
+};
 
 export async function createMetadata(params) {
     const { country, locale } = await params;
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
-    const flagEmoji = locale === 'heb' ? '' : ` ${getFlagEmoji(country)}`;
-    const siteName = 'Headlines';
+    const flagEmoji = countryFlags[country] || '';
+    const siteName = 'The Hear';
+    
+    // Consistent title format: [Flag] Live Headlines from [Country] | Unfiltered news
     const title = locale === 'heb'
-        ? `📰 כותרות העיתונים מ${countryName}`
-        : `📰 Live Headlines from ${countryName}${flagEmoji} | The Hear`;
+        ? `${flagEmoji} כותרות חיות מ${countryName} | חדשות לא מסוננות`
+        : `${flagEmoji} Live Headlines from ${countryName} | Unfiltered news`;
+    
     const description = locale === 'heb'
         ? `דוכן כותרות חי של עיתונים מ-${countryName}; ארכיון חדשות המעדכן בזמן אמת.`
-        : `A Living Newsstand of Main Headlines from ${countryName}${flagEmoji}, displayed side by side.`;
+        : `Live news headlines from ${countryName} - Real-time updates from major news sources displayed side by side.`;
+    
     const url = `https://www.the-hear.com/${locale}/${country}`;
     return {
         title,
         description,
+        keywords: `${countryName}, live news, headlines, real-time, unfiltered news, ${flagEmoji}`,
+        robots: {
+            index: true,
+            follow: true,
+            googleBot: {
+                index: true,
+                follow: true,
+                'max-video-preview': -1,
+                'max-image-preview': 'large',
+                'max-snippet': -1,
+            },
+        },
         openGraph: {
             title,
             description,
@@ -36,6 +64,11 @@ export async function createMetadata(params) {
             siteName,
             locale: locale === 'heb' ? 'he_IL' : 'en_US',
             type: 'website',
+            publishedTime: new Date().toISOString(),
+            modifiedTime: new Date().toISOString(),
+            authors: ['The Hear'],
+            section: 'News',
+            tags: [countryName, 'live news', 'headlines', 'real-time'],
             images: [
                 {
                     url: 'https://www.the-hear.com/logo192.png',
@@ -50,6 +83,8 @@ export async function createMetadata(params) {
             title,
             description,
             images: ['https://www.the-hear.com/logo512.png'],
+            site: '@thehearnews',
+            creator: '@thehearnews'
         },
         alternates: {
             canonical: url,
@@ -65,18 +100,18 @@ export async function createMetadata(params) {
 export function LdJson({ country, locale, headlines, initialSummaries, sources, yesterdaySummary }) {
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
-    const flagEmoji = locale === 'heb' ? '' : ` ${getFlagEmoji(country)}`;
+    const flagEmoji = countryFlags[country] || '';
     const url = `https://www.the-hear.com/${locale}/${country}`;
     
     // Create concise description for CollectionPage
     const description = locale === 'heb'
         ? `דוכן כותרות חי של עיתונים מ-${countryName}; ארכיון חדשות המעדכן בזמן אמת.`
-        : `A Living Newsstand of Main Headlines from ${countryName}${flagEmoji}, displayed side by side.`;
+        : `Live news headlines from ${countryName} - Real-time updates from major news sources displayed side by side.`;
     
     const image = 'https://www.the-hear.com/logo192.png';
     const title = locale === 'heb'
-        ? `📰 כותרות העיתונים מ${countryName}`
-        : `📰 Live Headlines from ${countryName}${flagEmoji} | The Hear`;
+        ? `${flagEmoji} כותרות חיות מ${countryName} | חדשות לא מסוננות`
+        : `${flagEmoji} Live Headlines from ${countryName} | Unfiltered news`;
     
     // Prepare hourly summaries as abstracts (analytical summaries)
     const abstracts = [];

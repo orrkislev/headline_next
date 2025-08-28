@@ -47,11 +47,16 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: "/logo192.png", sizes: "192x192", type: "image/png" },
-      { url: "/logo512.png", sizes: "512x512", type: "image/png" }
+      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon/favicon.ico", sizes: "any", type: "image/x-icon" }
     ],
     apple: [
-      { url: "/logo192.png", sizes: "192x192", type: "image/png" }
+      { url: "/favicon/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
+    ],
+    other: [
+      { url: "/favicon/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon/android-chrome-512x512.png", sizes: "512x512", type: "image/png" }
     ]
   }
 };
@@ -68,6 +73,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
         <PWAMeta />
         <script
           type="application/ld+json"

@@ -4,29 +4,69 @@ import { countries } from "@/utils/sources/countries";
 import { getWebsiteName, getSourceData } from "@/utils/sources/getCountryData";
 import { add, parse } from "date-fns";
 
+// Flag emoji mapping for countries
+const countryFlags = {
+    "israel": "🇮🇱",
+    "china": "🇨🇳",
+    "finland": "🇫🇮",
+    "france": "🇫🇷",
+    "germany": "🇩🇪",
+    "india": "🇮🇳",
+    "iran": "🇮🇷",
+    "italy": "🇮🇹",
+    "japan": "🇯🇵",
+    "lebanon": "🇱🇧",
+    "netherlands": "🇳🇱",
+    "palestine": "🇵🇸",
+    "poland": "🇵🇱",
+    "russia": "🇷🇺",
+    "spain": "🇪🇸",
+    "turkey": "🇹🇷",
+    "uk": "🇬🇧",
+    "us": "🇺🇸",
+    "ukraine": "🇺🇦",
+    "uae": "🇦🇪"
+};
+
 export async function createMetadata(params) {
     const { country, locale, date } = await params;
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
+    const flagEmoji = countryFlags[country] || '';
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
     const formattedDate = date.replace(/-/g, '.');
     const dailySummary = await getCountryDailySummary(country, parsedDate)
     const headline = getHeadline(dailySummary, locale);
 
     const siteName = 'The Hear';
+    
+    // Consistent title format: [Flag] [Country] | [Date] | [Headline] | Headline Archive
     const title = locale === 'heb'
-        ? `${countryName} | ${formattedDate} | ${headline} | כותרות החדשות כפי שהתפתחו בזמן אמת`
-        : `${countryName} | ${formattedDate} | ${headline} | Headlines as they Unfolded`;
+        ? `${flagEmoji} ${countryName} | ${formattedDate} | ${headline} | ארכיון כותרות`
+        : `${flagEmoji} ${countryName} | ${formattedDate} | ${headline} | Headline Archive`;
 
+    // Generic but informative description
     const description = locale === 'heb'
-        ? `ארכיון כותרות מ-${countryName} ל-${date}, כפי שהתפתחו בזמן אמת.`
-        : `An archive of the Headlines from major news sources in ${countryName} for ${date}, as they unfolded in real time: relive the news.`;
+        ? `ארכיון כותרות חדשות מ-${countryName} ל-${date} - כותרות ראשיות מכלי תקשורת מרכזיים כפי שהתפתחו בזמן אמת`
+        : `News headlines archive from ${countryName} for ${date} - Major headlines from leading news sources as they unfolded in real time`;
 
     const url = `https://www.the-hear.com/${locale}/${country}/${date}`;
 
     return {
         title,
         description,
+        keywords: `${countryName}, news, headlines, ${formattedDate}, archive, ${headline}`,
+        robots: {
+            index: true,
+            follow: true,
+            googleBot: {
+                index: true,
+                follow: true,
+                'max-video-preview': -1,
+                'max-image-preview': 'large',
+                'max-snippet': -1,
+            },
+        },
         openGraph: {
             title,
             description,
@@ -34,6 +74,11 @@ export async function createMetadata(params) {
             siteName,
             locale: locale === 'heb' ? 'he_IL' : 'en_US',
             type: 'article',
+            publishedTime: parsedDate.toISOString(),
+            modifiedTime: parsedDate.toISOString(),
+            authors: ['The Hear'],
+            section: 'News',
+            tags: [countryName, 'news', 'headlines', formattedDate],
             images: [
                 {
                     url: 'https://www.the-hear.com/logo192.png',
@@ -48,6 +93,8 @@ export async function createMetadata(params) {
             title,
             description,
             images: ['https://www.the-hear.com/logo512.png'],
+            site: '@thehearnews',
+            creator: '@thehearnews'
         },
         alternates: {
             canonical: url,
@@ -63,13 +110,14 @@ export async function createMetadata(params) {
 export function LdJson({ country, locale, date, daySummary, headlines, initialSummaries, sources }) {
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
+    const flagEmoji = countryFlags[country] || '';
     const headline = daySummary ? getHeadline(daySummary, locale) : '';
     const siteName = 'The Hear';
     // Format date consistently (DD-MM-YYYY format to match canonical URL)
     const formattedDate = typeof date === 'string' ? date : 
         `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`;
     
-    const title = `${countryName} | ${formattedDate} | ${headline} | Headlines as they Unfolded`;
+    const title = `${flagEmoji} ${countryName} | ${formattedDate} | ${headline} | Headline Archive`;
     const url = `https://www.the-hear.com/${locale}/${country}/${formattedDate}`;
     
     // Create concise description for CollectionPage
