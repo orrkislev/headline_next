@@ -36,3 +36,89 @@ export const getAICountrySort = async () => {
         return [];
     }
 }
+
+// Server-side cached version for SSR
+export const getAICountrySortServer = cache(async () => {
+    try {
+        return await getAICountrySort();
+    } catch (error) {
+        console.error('Error fetching AI country sort:', error);
+        // Fallback to default country order
+        return Object.keys(countries);
+    }
+});
+
+// Get latest summary for a specific country
+const getCountryLatestSummary = async (countryName) => {
+    try {
+        const countriesCollection = collection(db, '- Countries -');
+        const countryID = countries[countryName].english;
+        const countryDoc = doc(countriesCollection, countryID);
+        const summariesCollection = collection(countryDoc, 'summaries');
+        
+        const q = query(summariesCollection, orderBy('timestamp', 'desc'), limit(1));
+        const snapshot = await getDocs(q);
+        
+        if (snapshot.empty) return null;
+        
+        const summaryDoc = snapshot.docs[0];
+        const data = summaryDoc.data();
+        const cleanedData = JSON.parse(JSON.stringify(data));
+        const timestamp = new Date(data.timestamp.seconds * 1000);
+        
+        return { id: summaryDoc.id, ...cleanedData, timestamp };
+    } catch (error) {
+        console.error(`Error fetching summary for ${countryName}:`, error);
+        return null;
+    }
+};
+
+// Get latest summaries for all countries
+export const getAllCountriesLatestSummaries = cache(async () => {
+    const countryNames = Object.keys(countries);
+    const summaryPromises = countryNames.map(async (country) => {
+        const summary = await getCountryLatestSummary(country);
+        return { country, summary };
+    });
+    
+    const results = await Promise.all(summaryPromises);
+    return results.reduce((acc, { country, summary }) => {
+        if (summary) {
+            acc[country] = summary;
+        }
+        return acc;
+    }, {});
+});
+
+// Get latest global overview
+export const getGlobalOverview = cache(async () => {
+    try {
+        const globalOverviewsRef = collection(db, '- metadata -', 'globalOverviews', 'overviews');
+        const q = query(globalOverviewsRef, orderBy('timestamp', 'desc'), limit(1));
+        
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) return null;
+        
+        const overviewDoc = snapshot.docs[0];
+        const data = overviewDoc.data();
+        const cleanedData = JSON.parse(JSON.stringify(data));
+        const timestamp = new Date(data.timestamp.seconds * 1000);
+        
+        // Structure data similar to the client hook
+        return {
+            id: overviewDoc.id,
+            timestamp,
+            english: {
+                headline: cleanedData.english?.headline || '',
+                overview: cleanedData.english?.overview || ''
+            },
+            hebrew: {
+                headline: cleanedData.hebrew?.headline || '',
+                overview: cleanedData.hebrew?.overview || ''
+            }
+        };
+    } catch (error) {
+        console.error('Error fetching global overview:', error);
+        return null;
+    }
+});

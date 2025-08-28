@@ -9,17 +9,24 @@ import { getAICountrySort } from "@/utils/database/globalData";
 import { getTypographyOptions } from "@/utils/typography/typography";
 import { choose } from "@/utils/utils";
 
-export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort }) {
+export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort, countrySummaries }) {
     const [AICountrySort, setAICountrySort] = useState(initialAICountrySort || []);
     const [isLoading, setIsLoading] = useState(!initialAICountrySort);
-    const globalSort = useGlobalSort(state => state.globalSort)
-    const pinnedCountries = useGlobalSort(state => state.pinnedCountries)
-    const setPinnedCountries = useGlobalSort(state => state.setPinnedCountries)
-    const filteredCountries = useGlobalSort(state => state.filteredCountries)
-    const setFilteredCountries = useGlobalSort(state => state.setFilteredCountries)
-    const globalCountryCohesion = useGlobalCountryCohesion(state => state.globalCountryCohesion)
-    const globalCountryTimestamps = useGlobalCountryTimestamps(state => state.globalCountryTimestamps)
-    const font = useFont((state) => state.font);
+    const [mounted, setMounted] = useState(false);
+    
+    // Use hooks with fallback for SSR
+    const globalSort = useGlobalSort(state => state?.globalSort) || 'ai';
+    const pinnedCountries = useGlobalSort(state => state?.pinnedCountries) || [];
+    const setPinnedCountries = useGlobalSort(state => state?.setPinnedCountries);
+    const filteredCountries = useGlobalSort(state => state?.filteredCountries) || [];
+    const setFilteredCountries = useGlobalSort(state => state?.setFilteredCountries) || (() => {});
+    const globalCountryCohesion = useGlobalCountryCohesion(state => state?.globalCountryCohesion) || {};
+    const globalCountryTimestamps = useGlobalCountryTimestamps(state => state?.globalCountryTimestamps) || {};
+    const font = useFont((state) => state?.font) || 'random';
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Select typography consistently for all cards, following SourceCard pattern
     const typography = useMemo(() => {
@@ -33,15 +40,17 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
     }, [font, locale]);
 
     useEffect(() => {
-        const pinnedCountries = localStorage.getItem('pinnedCountries');
-        if (pinnedCountries) {
-            setPinnedCountries(JSON.parse(pinnedCountries));
+        if (mounted && setPinnedCountries) {
+            const pinnedCountries = localStorage.getItem('pinnedCountries');
+            if (pinnedCountries) {
+                setPinnedCountries(JSON.parse(pinnedCountries));
+            }
         }
-    }, [setPinnedCountries])
+    }, [mounted, setPinnedCountries])
 
-    // Fetch AI country sort if not provided
+    // Fetch AI country sort if not provided (client-side only)
     useEffect(() => {
-        if (!initialAICountrySort) {
+        if (!initialAICountrySort && mounted) {
             getAICountrySort().then(data => {
                 setAICountrySort(data);
                 setIsLoading(false);
@@ -51,9 +60,10 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
                 setIsLoading(false);
             });
         }
-    }, [initialAICountrySort]);
+    }, [initialAICountrySort, mounted]);
 
-    if (isLoading) {
+    // For SSR, always render with the provided data
+    if (isLoading && !initialAICountrySort) {
         return null;
     }
 
@@ -79,7 +89,12 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
     return (
         <div className={`custom-scrollbar overflow-y-auto grid ${getGridColumnClasses()} gap-4 p-4`}>
             {visibleCountries.map((country, index) => (
-                <GlobalCard key={index} {...{ country, locale, index, typography }} pinned={pinnedCountries.indexOf(country)} />
+                <GlobalCard 
+                    key={index} 
+                    {...{ country, locale, index, typography }} 
+                    pinned={pinnedCountries.indexOf(country)} 
+                    initialSummary={countrySummaries?.[country] || null}
+                />
             ))}
         </div>
     );

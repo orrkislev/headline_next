@@ -1,13 +1,37 @@
 'use client'
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@mui/material';
 import useGlobalOverviews from '@/utils/database/useGlobalOverview';
 
-export default function GlobalOverview({ locale }) {
-    const overview = useGlobalOverviews(locale);
+export default function GlobalOverview({ locale, initialOverview }) {
+    const [overview, setOverview] = useState(null);
+    const [mounted, setMounted] = useState(false);
+    const clientOverview = useGlobalOverviews(locale);
 
-    if (!overview) {
+    useEffect(() => {
+        setMounted(true);
+        if (initialOverview) {
+            const localizedOverview = locale === 'en' 
+                ? { ...initialOverview.english, timestamp: initialOverview.timestamp }
+                : { ...initialOverview.hebrew, timestamp: initialOverview.timestamp };
+            setOverview(localizedOverview);
+        }
+    }, [initialOverview, locale]);
+
+    // Update with client data when available
+    useEffect(() => {
+        if (mounted && clientOverview) {
+            setOverview(clientOverview);
+        }
+    }, [mounted, clientOverview]);
+
+    // For SSR, use initialOverview if available
+    const displayOverview = overview || (initialOverview && (locale === 'en' 
+        ? { ...initialOverview.english, timestamp: initialOverview.timestamp }
+        : { ...initialOverview.hebrew, timestamp: initialOverview.timestamp }));
+
+    if (!displayOverview) {
         return (
             <div className="mb-2">
                 <Skeleton variant="text" width="90%" height={30} sx={{ mb: 1 }} />
@@ -18,7 +42,7 @@ export default function GlobalOverview({ locale }) {
     }
 
     // Format timestamp
-    let formattedTime = overview.timestamp.toLocaleTimeString([], {
+    let formattedTime = displayOverview.timestamp.toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false
@@ -80,7 +104,7 @@ export default function GlobalOverview({ locale }) {
         <div className="mb-2 custom-scrollbar overflow-auto">
             <div className={`text-blue mb-5 ${locale === 'heb' ? 'frank-re' : 'font-["Geist"]'} text-base`} 
                  style={locale === 'heb' ? { lineHeight: '1.4' } : {}}>
-                <span className="font-mono font-normal text-base">{formattedTime}</span> {locale === 'heb' ? '⇠' : '⇢'} <span className={`${locale === 'heb' ? 'text-lg' : 'font-semibold text-base'}`}>{overview.headline}</span>
+                <span className="font-mono font-normal text-base">{formattedTime}</span> {locale === 'heb' ? '⇠' : '⇢'} <span className={`${locale === 'heb' ? 'text-lg' : 'font-semibold text-base'}`}>{displayOverview.headline}</span>
             </div>
 
             {/* Gentle divider */}
@@ -89,7 +113,7 @@ export default function GlobalOverview({ locale }) {
             {/* Overview Text */}
             <div className={`${locale == 'heb' ? 'frank-re text-[16px]' : 'font-["Geist"] text-sm'} font-normal text-black whitespace-pre-wrap`} 
                  style={locale === 'heb' ? { lineHeight: '1.4' } : {lineHeight: '1.5'}}>
-                {formatText(overview.overview)}
+                {formatText(displayOverview.overview)}
             </div>
         </div>
     );

@@ -51,35 +51,29 @@ export default function sitemap() {
 
     // HIGH PRIORITY ROUTES (0.95)
     
-    // Global pages - very high priority
+    // Global pages - high priority
     locales.forEach(locale => {
         res.push({
             url: `${baseUrl}/${locale}/global`,
             lastModified: new Date(),
             changeFrequency: 'hourly',
-            priority: 0.95
+            priority: 0.87
         });
     });
 
-    // Mobile page - medium-high priority
-    res.push({
-        url: `${baseUrl}/mobile`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.8
-    });
+
 
     // Static information pages - high priority (important for SEO and user understanding)
     res.push({
         url: `${baseUrl}/about`,
-        lastModified: new Date('2024-07-04'), // Static page, rarely changes
+        lastModified: new Date('2025-08-28'), // Static page, rarely changes
         changeFrequency: 'monthly',
         priority: 0.85
     });
 
     res.push({
         url: `${baseUrl}/methodology`,
-        lastModified: new Date('2024-07-04'), // Static page, rarely changes
+        lastModified: new Date('2025-08-28'), // Static page, rarely changes
         changeFrequency: 'monthly',
         priority: 0.85
     });

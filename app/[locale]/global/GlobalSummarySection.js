@@ -9,7 +9,7 @@ import DynamicLogoSmall from "@/components/Logo-small";
 import GlobalOverview from "./GlobalOverview";
 import CustomTooltip from "@/components/CustomTooltip";
 
-export default function GlobalSummarySection({ locale, onCollapsedChange }) {
+export default function GlobalSummarySection({ locale, onCollapsedChange, globalOverview }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -108,7 +108,7 @@ export default function GlobalSummarySection({ locale, onCollapsedChange }) {
             
             <div className="h-full custom-scrollbar">
                 <div className="px-4">
-                    <GlobalOverview locale={locale} />
+                    <GlobalOverview locale={locale} initialOverview={globalOverview} />
                 </div>
             </div>
             <div className='py-1 bg-white border-t border-gray-200'>
