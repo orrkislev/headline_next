@@ -37,7 +37,7 @@ export default function GlobalGrid({ locale, AICountrySort: initialAICountrySort
         if (pinnedCountries) {
             setPinnedCountries(JSON.parse(pinnedCountries));
         }
-    }, [])
+    }, [setPinnedCountries])
 
     // Fetch AI country sort if not provided
     useEffect(() => {

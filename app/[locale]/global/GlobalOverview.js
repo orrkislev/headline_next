@@ -34,7 +34,7 @@ export default function GlobalOverview({ locale }) {
             if (titleMatch) {
                 return (
                     <>
-                        <div className={`text-blue inline ${locale === 'heb' ? 'frank-re text-[16px] underline underline-offset-4 decoration-blue decoration-2 decoration-dotted' : 'font-["Geist"] text-sm'} font-medium`}>
+                        <div className={`inline ${locale === 'heb' ? 'frank-re text-[16px]' : 'font-["Geist"] text-sm'} font-bold`}>
                             {locale === 'heb' ? '⇠' : '⇢'} {titleMatch[1]}:
                         </div>
                         {" " + titleMatch[2]}
@@ -78,13 +78,13 @@ export default function GlobalOverview({ locale }) {
 
     return (
         <div className="mb-2 custom-scrollbar overflow-auto">
-            <div className={`text-blue mb-2 font-medium ${locale === 'heb' ? 'frank-re' : 'font-["Geist"]'} text-base`} 
+            <div className={`text-blue mb-5 ${locale === 'heb' ? 'frank-re' : 'font-["Geist"]'} text-base`} 
                  style={locale === 'heb' ? { lineHeight: '1.4' } : {}}>
-                {formattedTime} {locale === 'heb' ? '⇠' : '⇢'} {overview.headline}
+                <span className="font-mono font-normal text-base">{formattedTime}</span> {locale === 'heb' ? '⇠' : '⇢'} <span className={`${locale === 'heb' ? 'text-lg' : 'font-semibold text-base'}`}>{overview.headline}</span>
             </div>
 
             {/* Gentle divider */}
-            <div className="w-full mb-3 border-b border-gray-300" style={{height: '1px'}} />
+            {/* <div className="w-[80%] mb-3 border-b border-gray-300" style={{height: '1px'}} /> */}
 
             {/* Overview Text */}
             <div className={`${locale == 'heb' ? 'frank-re text-[16px]' : 'font-["Geist"] text-sm'} font-normal text-black whitespace-pre-wrap`} 

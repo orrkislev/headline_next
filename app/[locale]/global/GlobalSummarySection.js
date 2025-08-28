@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import Disclaimer from "@/components/Disclaimer";
@@ -13,10 +13,12 @@ export default function GlobalSummarySection({ locale, onCollapsedChange }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
+    const isCollapsedRef = useRef(false);
 
     const toggleCollapse = () => {
         const newCollapsedState = !isCollapsed;
         setIsCollapsed(newCollapsedState);
+        isCollapsedRef.current = newCollapsedState;
         if (onCollapsedChange) {
             onCollapsedChange(newCollapsedState);
         }
@@ -26,6 +28,7 @@ export default function GlobalSummarySection({ locale, onCollapsedChange }) {
     useEffect(() => {
         const shouldBeCollapsed = window.innerWidth < 1920;
         setIsCollapsed(shouldBeCollapsed);
+        isCollapsedRef.current = shouldBeCollapsed;
         setIsMounted(true);
         setIsSmallScreen(window.innerWidth < 1920);
         
@@ -38,8 +41,9 @@ export default function GlobalSummarySection({ locale, onCollapsedChange }) {
             const shouldBeCollapsed = window.innerWidth < 1920;
             setIsSmallScreen(window.innerWidth < 1920);
             // Only auto-collapse, don't auto-expand (let user control expansion)
-            if (shouldBeCollapsed && !isCollapsed) {
+            if (shouldBeCollapsed && !isCollapsedRef.current) {
                 setIsCollapsed(true);
+                isCollapsedRef.current = true;
                 if (onCollapsedChange) {
                     onCollapsedChange(true);
                 }
@@ -98,7 +102,9 @@ export default function GlobalSummarySection({ locale, onCollapsedChange }) {
                 </CustomTooltip>
             </div>
 
-            {isSmallScreen ? <DynamicLogoSmall locale={locale} /> : <DynamicLogo locale={locale} />}
+            <div className="mb-2">
+                {isSmallScreen ? <DynamicLogoSmall locale={locale} /> : <DynamicLogoSmall locale={locale} />}
+            </div>
             
             <div className="h-full custom-scrollbar">
                 <div className="px-4">

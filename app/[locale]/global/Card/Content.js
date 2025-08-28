@@ -84,11 +84,12 @@ export default function Content({ country, summary, locale, pinned }) {
             </div>
             <Collapse in={open}>
                 <div style={{
-                    fontFamily: locale === 'heb' ? '' : 'roboto, sans-serif',
+                    fontFamily: locale === 'heb' ? '' : 'Geist, sans-serif',
                     padding: 6,
                     direction: locale === 'heb' ? 'rtl' : 'ltr',
                     textAlign: locale === 'heb' ? 'right' : 'left',
-                    fontSize: locale === 'heb' ? '0.85rem' : '0.93rem',
+                    color: locale === 'heb' ? 'black' : '#374151', // Tailwind gray-700
+                    fontSize: locale === 'heb' ? '0.85rem' : '0.9rem',
                     // lineHeight: 1.4
                 }}>
                     {text.split(/(\([^)]+\))/g).map((part, index) =>

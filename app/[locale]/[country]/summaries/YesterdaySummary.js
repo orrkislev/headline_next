@@ -67,7 +67,7 @@ export default function YesterdaySummary({ locale, country, yesterdaySummary, pa
         return () => {
             document.removeEventListener("visibilitychange", handleVisibilityChange);
         };
-    }, [firebase.ready, country, lastCheckedDate, pageDate]);
+    }, [firebase, country, lastCheckedDate, pageDate]);
 
     // Reset to initial data when pageDate or country changes
     useEffect(() => {
