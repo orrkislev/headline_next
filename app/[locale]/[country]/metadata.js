@@ -34,7 +34,7 @@ export async function createMetadata(params) {
     
     // Consistent title format: [Flag] Live Headlines from [Country] | Unfiltered news
     const title = locale === 'heb'
-        ? `${flagEmoji} כותרות חיות מ${countryName} | חדשות לא מסוננות`
+        ? `${flagEmoji} כותרות חיות מ${countryName} | דוכן עיתונים מתעדכן `
         : `${flagEmoji} Live Headlines from ${countryName} | Unfiltered news`;
     
     const description = locale === 'heb'
@@ -110,7 +110,7 @@ export function LdJson({ country, locale, headlines, initialSummaries, sources, 
     
     const image = 'https://www.the-hear.com/logo192.png';
     const title = locale === 'heb'
-        ? `${flagEmoji} כותרות חיות מ${countryName} | חדשות לא מסוננות`
+        ? `${flagEmoji} כותרות חיות מ${countryName} | דוכן עיתונים מתעדכן`
         : `${flagEmoji} Live Headlines from ${countryName} | Unfiltered news`;
     
     // Prepare hourly summaries as abstracts (analytical summaries)
