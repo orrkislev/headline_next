@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const GermanySources = {
   "sources": {
     "bild": {
       "name": "Bild",
@@ -223,3 +223,5 @@ export default {
     ]
   }
 }
+
+export default GermanySources;

@@ -1,13 +1,21 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import logoA from './logo/thehear-round.png';
 import logoB from './logo/thehear-round.png';
 import logoC from './logo/thehear-round.png';
 import Image from 'next/image';
+import InnerLink from './InnerLink';
 
 export default function DynamicLogoSmall({ locale }) {
     const [isFakeHover, setIsFakeHover] = useState(false);
+    const router = useRouter();
+
+    const handleLogoClick = (e) => {
+        e.stopPropagation(); // Prevent parent click handlers from firing
+        router.push(`/${locale}/global`);
+    };
 
     // Add fake hover effect every 30 seconds
     useEffect(() => {
@@ -45,9 +53,11 @@ export default function DynamicLogoSmall({ locale }) {
                     THE
                 </div>
 
-                <Image className={`relative z-20 h-[85px] ${locale === 'heb' ? 'scale-x-[1]' : 'scale-x-[-1]'} object-contain pb-2`}
-                    width="auto"
-                    src={logoA} alt="The Hear Logo" />
+                <InnerLink locale={locale} href={`/${locale}/global`} className='' onClick={handleLogoClick}>
+                    <Image className={`relative z-20 h-[85px] ${locale === 'heb' ? 'scale-x-[1]' : 'scale-x-[-1]'} object-contain pb-2 cursor-pointer`}
+                        width="auto"
+                        src={logoA} alt="The Hear Logo" />
+                </InnerLink>
 
                 <div className="logo-text-right pt-8 absolute left-1/2 top-[50%] transform translate-y-[-50%] font-serif text-2xl text-black z-10 opacity-0 transition-opacity duration-100 delay-500 pointer-events-none"
                     style={{

@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const UKSources = {
   "sources": {
     "bbc": {
       "name": "BBC",
@@ -160,6 +160,14 @@ export default {
         "en": "The Times",
         "he": "דה טיימס"
       }
+    },
+    "economist": {
+      "name": "The Economist",
+      "description": "The Economist is a weekly magazine owned by The Economist Group, with a global circulation of approximately 1 million. It covers international affairs, politics, business, and economics with a pro-market, liberal economic editorial stance. The publication targets an educated, upper-middle-class readership and maintains a distinctive anonymous writing style.",
+      "translations": {
+        "en": "The Economist",
+        "he": "האקונומיסט"
+      }
     }
   },
   "orders": {
@@ -167,6 +175,7 @@ export default {
       "bbc",
       "sky_news",
       "guardian",
+      "economist",
       "times",
       "daily_mail",
       "sun",
@@ -187,6 +196,7 @@ export default {
     ],
     "mostReputable": [
       "bbc",
+      "economist",
       "guardian",
       "times",
       "telegraph",
@@ -216,6 +226,7 @@ export default {
       "mirror",
       "channel4",
       "bbc",
+      "economist",
       "metro",
       "standard",
       "times",
@@ -240,6 +251,7 @@ export default {
       "sky_news",
       "standard",
       "metro",
+      "economist",
       "bbc",
       "channel4",
       "mirror",
@@ -252,6 +264,7 @@ export default {
     "default": [
       "bbc",
       "guardian",
+      "economist",
       "times",
       "telegraph",
       "daily_mail",
@@ -273,3 +286,5 @@ export default {
     ]
   }
 }
+
+export default UKSources;

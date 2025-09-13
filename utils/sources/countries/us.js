@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const usSources = {
   "sources": {
     "abcnews": {
       "name": "ABC News",
@@ -264,6 +264,54 @@ export default {
         "en": "The Atlantic",
         "he": "דה אטלנטיק"
       }
+    },
+    "dailycaller": {
+      "name": "The Daily Caller",
+      "description": "The Daily Caller is a conservative news and opinion website founded in 2010 by Tucker Carlson and Neil Patel, attracting about 25 million unique monthly visitors. It's known for its right-wing commentary and reporting on politics, culture, and breaking news.",
+      "translations": {
+        "en": "The Daily Caller",
+        "he": "דיילי קולר"
+      }
+    },
+    "federalist": {
+      "name": "The Federalist",
+      "description": "The Federalist is a conservative online magazine and podcast covering politics, policy, culture, and religion, launched in 2013, attracting about 6 million unique monthly visitors. It's known for its right-leaning analysis and commentary.",
+      "translations": {
+        "en": "The Federalist",
+        "he": "הפדרליסט"
+      }
+    },
+    "freebeacon": {
+      "name": "Washington Free Beacon",
+      "description": "The Washington Free Beacon is a conservative political journalism website launched in 2012, attracting about 4 million unique monthly visitors. It's known for its investigative reporting and conservative analysis of political affairs.",
+      "translations": {
+        "en": "Washington Free Beacon",
+        "he": "וושינגטון פרי ביקון"
+      }
+    },
+    "intercept": {
+      "name": "The Intercept",
+      "description": "The Intercept is a progressive nonprofit news organization founded in 2014, attracting about 8 million unique monthly visitors. It's known for its investigative journalism focusing on national security, civil liberties, and government accountability.",
+      "translations": {
+        "en": "The Intercept",
+        "he": "האינטרספט"
+      }
+    },
+    "newsmax": {
+      "name": "Newsmax",
+      "description": "Newsmax is a conservative news and opinion website and television network founded in 1998, attracting about 15 million unique monthly visitors. It's known for its right-wing news coverage and pro-Trump editorial stance.",
+      "translations": {
+        "en": "Newsmax",
+        "he": "ניוזמקס"
+      }
+    },
+    "nationalreview": {
+      "name": "National Review",
+      "description": "National Review is a conservative editorial magazine founded in 1955 by William F. Buckley Jr., attracting about 9 million unique monthly visitors online. It's known for its intellectual conservative commentary and analysis of political and cultural affairs.",
+      "translations": {
+        "en": "National Review",
+        "he": "נשיונל ריוויו"
+      }
     }
   },
   "orders": {
@@ -287,14 +335,20 @@ export default {
       "thehill",
       "msnbc",
       "huffpost",
+      "dailycaller",
+      "newsmax",
       "slate",
       "vox",
+      "nationalreview",
       "breitbart",
       "dailybeast",
+      "intercept",
       "motherjones",
+      "federalist",
       "reason",
       "commondreams",
       "dailywire",
+      "freebeacon",
       "jacobin",
       "epochtimes",
       "oann",
@@ -316,8 +370,10 @@ export default {
       "usatoday",
       "politico",
       "thehill",
+      "nationalreview",
       "vox",
       "slate",
+      "intercept",
       "motherjones",
       "reason",
       "jacobin",
@@ -328,9 +384,13 @@ export default {
       "dailybeast",
       "nypost",
       "newsweek",
+      "freebeacon",
       "breitbart",
       "dailywire",
+      "federalist",
       "commondreams",
+      "dailycaller",
+      "newsmax",
       "epochtimes",
       "oann",
       "theblaze"
@@ -339,6 +399,7 @@ export default {
       "jacobin",
       "motherjones",
       "commondreams",
+      "intercept",
       "huffpost",
       "vox",
       "slate",
@@ -358,14 +419,19 @@ export default {
       "politico",
       "thehill",
       "yahoo",
-      "wallstreetjournal",
       "newsweek",
+      "wallstreetjournal",
       "nypost",
       "reason",
       "dailybeast",
+      "nationalreview",
       "foxnews",
+      "freebeacon",
+      "federalist",
       "dailywire",
+      "dailycaller",
       "breitbart",
+      "newsmax",
       "epochtimes",
       "oann",
       "theblaze"
@@ -375,8 +441,13 @@ export default {
       "theblaze",
       "breitbart",
       "epochtimes",
+      "newsmax",
+      "dailycaller",
       "dailywire",
+      "federalist",
+      "freebeacon",
       "foxnews",
+      "nationalreview",
       "nypost",
       "wallstreetjournal",
       "reason",
@@ -402,6 +473,7 @@ export default {
       "huffpost",
       "dailybeast",
       "commondreams",
+      "intercept",
       "motherjones",
       "jacobin"
     ],
@@ -426,17 +498,25 @@ export default {
       "reason",
       "breitbart",
       "motherjones",
+      "nationalreview",
       "jacobin",
       "dailywire",
+      "intercept",
       "yahoo",
       "huffpost",
       "dailybeast",
       "newsweek",
       "bostonglobe",
+      "newsmax",
+      "dailycaller",
+      "federalist",
       "commondreams",
+      "freebeacon",
       "epochtimes",
       "oann",
       "theblaze"
     ]
   }
-}
+};
+
+export default usSources;
