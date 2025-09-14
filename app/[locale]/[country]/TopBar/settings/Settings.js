@@ -117,7 +117,7 @@ export default function Settings({ locale, country, sources, isRightPanelCollaps
                         <LabeledIcon label="Overview Language" icon={<LanguageToggle />} />
                     </div>
                 )}
-                {isFhd && (
+                {!isFhd && (
                     <div className="flex items-center font-['Geist'] bg-gray-50 rounded-md mx-1 hover:bg-gray-100">
                         <LabeledIcon label="Fonts" icon={<FontToggle country={country} isRightPanelCollapsed={isRightPanelCollapsed} />} />
                     </div>
