@@ -17,39 +17,52 @@ export default function SideSlider({ locale, country, pageDate }) {
     const summaries = useDaySummaries(state => state.daySummaries);
     const date = useTime(state => state.date);
     const setDate = useTime(state => state.setDate);
-    const [day, setDay] = useState(date.toDateString());
     const { isMobile } = useMobile();
     const [isPlaying, setIsPlaying] = useState(false);
     const [playSpeed, setPlaySpeed] = useState(4); // Speed multiplier (1x, 2x, 4x, 8x, 16x)
     const [isSpeedPopupOpen, setIsSpeedPopupOpen] = useState(false);
     const intervalRef = useRef(null);
-    
+    const lastProcessedPageDateRef = useRef(null);
+
     // Force English behavior on mobile
     const effectiveLocale = isMobile ? 'en' : locale;
-    
+
     // Only show play functionality for date pages (not live pages)
     // pageDate is undefined for live pages, and a Date object for date pages
     const isDatePage = pageDate !== undefined && pageDate !== null;
 
-    useEffect(() => {
-        if (date) setDay(date.toDateString());
-
-    }, [date])
+    // Derive day from date directly, no useEffect needed
+    const day = date ? date.toDateString() : new Date().toDateString();
 
     useEffect(() => {
+        // Only run this effect when pageDate actually changes
+        if (pageDate === lastProcessedPageDateRef.current) {
+            return;
+        }
+        lastProcessedPageDateRef.current = pageDate;
+
         if (pageDate) {
+            // Check if user has already selected a specific time on this date
+            const currentDate = date;
+            const isSameDay = currentDate && currentDate.toDateString() === pageDate.toDateString();
+
+            if (isSameDay && currentDate.getHours() !== 16) {
+                // User has already selected a specific time, preserve it
+                return;
+            }
+
             const newDate = new Date(pageDate);
             newDate.setHours(16, 0, 0, 0); // Default to 16:00 for date pages
             setDate(newDate);
         } else {
             setDate(new Date())
         }
-    }, [pageDate, setDate]);
+    }, [pageDate, setDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
         const minutes = date.getHours() * 60 + date.getMinutes();
 
     // Get current time to prevent sliding into the future
-    const now = new Date();
+    const now = useMemo(() => new Date(), []);
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
     const isToday = day === now.toDateString();
 
@@ -108,11 +121,12 @@ export default function SideSlider({ locale, country, pageDate }) {
     }, [summaries, day]);
 
     // Filter out future summaries if today
-    const nextSummary = summaries.findLast(summary =>
+    const nextSummary = useMemo(() => summaries.findLast(summary =>
         summary.timestamp > date &&
         (!isToday || summary.timestamp <= now)
-    );
-    const prevSummary = summaries.find(summary => summary.timestamp < date);
+    ), [summaries, date, isToday, now]);
+
+    const prevSummary = useMemo(() => summaries.find(summary => summary.timestamp < date), [summaries, date]);
 
     const goToSummary = (summary => {
         if (!summary) return;
