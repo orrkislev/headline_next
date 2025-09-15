@@ -28,8 +28,12 @@ export default function YesterdaySummary({ locale, country, yesterdaySummary, pa
     let headline = <Skeleton variant="text" width={200} />;
     if (currentSummary) headline = getHeadline(currentSummary, locale);
     
-    const yesterdayDate = sub(pageDate ? new Date(pageDate) : new Date(), { days: 1 });
-    yesterdayDate.setHours(23, 59);
+    // Since this component only renders on today's page (pageDate is falsy),
+    // always calculate yesterday from today
+    const today = new Date();
+    const yesterdayDate = new Date(today);
+    yesterdayDate.setDate(today.getDate() - 1);
+    yesterdayDate.setHours(23, 59, 0, 0);
 
     // Check if we need to fetch fresh yesterday summary when page becomes visible
     useEffect(() => {
