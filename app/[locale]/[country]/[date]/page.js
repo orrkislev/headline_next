@@ -49,7 +49,15 @@ export default async function Page({ params }) {
         const shouldRedirect = isSameDay(parsedDate, todayInTimezone) || parsedDate > new Date() || isNaN(parsedDate.getTime());
 
         if (shouldRedirect) {
-            return <div>REDIRECTING: parsedDate={parsedDate.toISOString()}, todayInTimezone={todayInTimezone.toISOString()}, shouldRedirect={shouldRedirect}</div>;
+            // Instead of redirecting during static generation, return a redirect component
+            return (
+                <>
+                    <script dangerouslySetInnerHTML={{
+                        __html: `window.location.href = '/${locale}/${country}';`
+                    }} />
+                    <div>Redirecting to current news...</div>
+                </>
+            );
         }
 
         console.log('🎯 [DATE-PAGE] fetching data...');
