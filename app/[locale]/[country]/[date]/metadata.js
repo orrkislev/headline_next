@@ -35,8 +35,13 @@ export async function createMetadata(params) {
     const flagEmoji = countryFlags[country] || '';
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
     const formattedDate = date.replace(/-/g, '.');
-    const dailySummary = await getCountryDailySummary(country, parsedDate)
-    const headline = getHeadline(dailySummary, locale);
+
+    // REMOVE SLOW DATABASE CALL - use generic headline for metadata
+    // const dailySummary = await getCountryDailySummary(country, parsedDate)
+    // const headline = getHeadline(dailySummary, locale);
+    const headline = locale === 'heb'
+        ? `חדשות מ-${countryName} ל-${formattedDate}`
+        : `News from ${countryName} for ${formattedDate}`;
 
     const siteName = 'The Hear';
     

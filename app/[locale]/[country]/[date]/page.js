@@ -10,12 +10,8 @@ import CountryLinksData from "../TopBar/CountryLinksData";
 import DateLinksData from "../TopBar/DateLinksData";
 import { isHebrewContentAvailable } from "@/utils/daily summary utils";
 
-export const revalidate = false; // generate once, never revalidate
-export const dynamicParams = true; // allow on-demand generation
-
-export async function generateStaticParams() {
-    return []; // don't prebuild any paths
-}
+export const revalidate = 0; // Disable ISR, use pure SSR
+export const dynamic = 'force-dynamic'; // Force dynamic rendering, no caching
 
 // Generate SEO metadata for a specific day
 export async function generateMetadata({ params }) {
