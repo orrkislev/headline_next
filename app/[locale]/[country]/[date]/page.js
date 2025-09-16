@@ -33,6 +33,9 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
+    // IMMEDIATE TEST - just return static content
+    return <div>SERVER COMPONENT EXECUTED AT: {new Date().toISOString()}</div>;
+
     try {
         console.log('🎯 [DATE-PAGE] Component called - params type:', typeof params, params);
         const { country, locale, date } = await params;
