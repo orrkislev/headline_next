@@ -4,10 +4,8 @@ import { createDateString } from '@/utils/utils';
 
 // Server-side component that always renders date navigation links in HTML
 export default function DateLinksData({ locale, country, currentDate, className = "date-nav-hidden" }) {
-    console.log('📅 [DATELINKS] rendering with:', { locale, country, currentDate: typeof currentDate, className });
     const today = new Date();
     const pageDate = currentDate ? new Date(currentDate) : today;
-    console.log('📅 [DATELINKS] dates - today:', today.toISOString(), 'pageDate:', pageDate.toISOString());
     
     // Calculate previous and next dates
     const yesterday = sub(pageDate, { days: 1 });

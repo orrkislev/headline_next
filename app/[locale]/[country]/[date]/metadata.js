@@ -1,5 +1,5 @@
 import { getHeadline, getSummaryContent } from "@/utils/daily summary utils";
-import { getCountryDailySummary } from "@/utils/database/countryData";
+import { getCountryDailySummary, getCountryDayHeadlineOnly } from "@/utils/database/countryData";
 import { countries } from "@/utils/sources/countries";
 import { getWebsiteName, getSourceData } from "@/utils/sources/getCountryData";
 import { add, parse } from "date-fns";
@@ -34,14 +34,32 @@ export async function createMetadata(params) {
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
     const flagEmoji = countryFlags[country] || '';
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
+    // Shift to noon to avoid timezone rollover issues - MATCH PAGE.JS EXACTLY
+    parsedDate.setHours(12, 0, 0, 0);
     const formattedDate = date.replace(/-/g, '.');
 
-    // REMOVE SLOW DATABASE CALL - use generic headline for metadata
-    // const dailySummary = await getCountryDailySummary(country, parsedDate)
-    // const headline = getHeadline(dailySummary, locale);
-    const headline = locale === 'heb'
-        ? `חדשות מ-${countryName} ל-${formattedDate}`
-        : `News from ${countryName} for ${formattedDate}`;
+    // Get just the headline (fast, lightweight query)
+    let headline;
+    try {
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('timeout')), 2000) // 2 second timeout
+        );
+        const headlineData = await Promise.race([
+            getCountryDayHeadlineOnly(country, parsedDate),
+            timeoutPromise
+        ]);
+
+        if (headlineData) {
+            headline = getHeadline(headlineData, locale);
+        } else {
+            throw new Error('No headline data');
+        }
+    } catch (error) {
+        // Fallback to generic headline if timeout or error
+        headline = locale === 'heb'
+            ? `חדשות מ-${countryName} ל-${formattedDate}`
+            : `News from ${countryName} for ${formattedDate}`;
+    }
 
     const siteName = 'The Hear';
     

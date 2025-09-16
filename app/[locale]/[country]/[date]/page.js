@@ -16,12 +16,8 @@ export const dynamic = 'force-dynamic'; // Force dynamic rendering, no caching
 // Generate SEO metadata for a specific day
 export async function generateMetadata({ params }) {
     try {
-        console.log('🔍 [DATE-META] generateMetadata called - params type:', typeof params, params);
         const { country, locale, date } = await params;
-        console.log('🔍 [DATE-META] resolved params:', { country, locale, date });
-        const result = await createMetadata({ country, locale, date });
-        console.log('🔍 [DATE-META] metadata created:', !!result);
-        return result;
+        return await createMetadata({ country, locale, date });
     } catch (error) {
         console.error('❌ [DATE-META] ERROR in generateMetadata:', error);
         throw error;
@@ -56,12 +52,10 @@ export default async function Page({ params }) {
             );
         }
 
-        console.log('🎯 [DATE-PAGE] fetching data...');
         const headlines = await getCountryDayHeadlines(country, parsedDate, 2);
         const initialSummaries = await getCountryDaySummaries(country, parsedDate, 2);
         const daySummary = await getCountryDailySummary(country, parsedDate)
         const yesterdaySummary = await getCountryDailySummary(country, sub(parsedDate, { days: 1 }))
-        console.log('🎯 [DATE-PAGE] data fetched - headlines:', headlines?.length, 'summaries:', initialSummaries?.length, 'daySummary:', !!daySummary);
 
     // Check if Hebrew content is available for Hebrew locale
     if (locale === 'heb') {
@@ -82,13 +76,9 @@ export default async function Page({ params }) {
         sources[sourceName].headlines.push(headline);
     });
 
-    console.log('🎯 [DATE-PAGE] about to render - sources:', Object.keys(sources).length, 'parsedDate type:', typeof parsedDate);
 
     return (
         <>
-            {/* DEBUG: Server-side render proof */}
-            {/* SERVER_RENDER_TIME: {new Date().toISOString()} - COUNTRY: {country} - DATE: {date} */}
-
             {/* This correctly handles all your SEO needs for the entire collection */}
             <LdJson {...{ country, locale, daySummary, headlines, initialSummaries, sources }} date={parsedDate} />
 

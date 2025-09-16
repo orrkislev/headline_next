@@ -156,6 +156,57 @@ export const subscribeToSummaries = (countryName, callback) => {
 // ----------------- Daily Summaries -----------------
 // ---------------------------------------------------
 
+// Lightweight function to get only the headline for metadata (fast)
+export const getCountryDayHeadlineOnly = cache(async (countryName, day) => {
+  try {
+    // Use same collection name and date parsing as getCountryDailySummary
+    let date;
+    if (day instanceof Date) {
+      date = day;
+    } else if (typeof day === 'string') {
+      // Handle DD-MM-YYYY format
+      if (day.includes('-') && day.split('-').length === 3) {
+        const [dayPart, monthPart, yearPart] = day.split('-');
+        date = new Date(parseInt(yearPart), parseInt(monthPart) - 1, parseInt(dayPart));
+      } else {
+        date = new Date(day);
+      }
+    } else {
+      date = new Date(day);
+    }
+
+    if (isNaN(date.getTime())) {
+      return null;
+    }
+
+    const dateString = date.toISOString().split('T')[0];
+    const dailyCollection = getCountryCollectionRef(countryName, 'dailysummaries'); // Note: lowercase 's'
+
+    const q = query(
+      dailyCollection,
+      where('date', '==', dateString),
+      limit(1)
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (!snapshot.empty) {
+      const data = snapshot.docs[0].data();
+      // Return only the headlines with correct field names that getHeadline expects
+      return {
+        headline: data.headline,
+        headlineHebrew: data.headlineHebrew,
+        headline_option_1: data.headline_option_1,
+        translatedHeadline: data.translatedHeadline
+      };
+    }
+    return null;
+  } catch (error) {
+    // Silently return null on error - metadata will use fallback
+    return null;
+  }
+});
+
 export const getCountryDailySummary = cache(async (countryName, day) => {
   // console.log('getting daily summary for', countryName, day);
   let date;
