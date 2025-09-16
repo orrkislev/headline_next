@@ -17,12 +17,16 @@ import AboutMenu from './TopBar/AboutMenu';
 import DateNavigator from '@/components/DateNavigator';
 
 export default function CountryPageContent({ sources, initialSummaries, yesterdaySummary, daySummary, locale, country, pageDate, userCountry }) {
+    console.log('🏠 [CONTENT] rendering with:', { locale, country, pageDate: typeof pageDate, userCountry, sourcesCount: Object.keys(sources || {}).length });
+
     const typography = getTypographyOptions(country);
     const currentSummary = useCurrentSummary();
     const [isRightPanelCollapsed, setIsRightPanelCollapsed] = useState(false);
     const { setCollapsed } = useRightPanel();
     const { isMobile, isLoading } = useMobile();
     const [aboutOpen, setAboutOpen] = useState(false);
+
+    console.log('🏠 [CONTENT] mobile state:', { isMobile, isLoading });
 
     // Force English behavior on mobile
     const effectiveLocale = isMobile ? 'en' : locale;
