@@ -33,27 +33,28 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-    console.log('🎯 [DATE-PAGE] Component called - params type:', typeof params, params);
-    const { country, locale, date } = await params;
-    console.log('🎯 [DATE-PAGE] resolved params:', { country, locale, date });
+    try {
+        console.log('🎯 [DATE-PAGE] Component called - params type:', typeof params, params);
+        const { country, locale, date } = await params;
+        console.log('🎯 [DATE-PAGE] resolved params:', { country, locale, date });
 
-    const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
-    console.log('🎯 [DATE-PAGE] parsedDate:', parsedDate.toISOString());
-    // Shift to noon to avoid timezone rollover issues when later converted to ISO strings
-    parsedDate.setHours(12, 0, 0, 0);
-    const timezone = countries[country]?.timezone || 'UTC';
-    const todayInTimezone = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
-    console.log('🎯 [DATE-PAGE] timezone check - parsedDate:', parsedDate.toISOString(), 'todayInTimezone:', todayInTimezone.toISOString(), 'timezone:', timezone);
+        const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
+        console.log('🎯 [DATE-PAGE] parsedDate:', parsedDate.toISOString());
+        // Shift to noon to avoid timezone rollover issues when later converted to ISO strings
+        parsedDate.setHours(12, 0, 0, 0);
+        const timezone = countries[country]?.timezone || 'UTC';
+        const todayInTimezone = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
+        console.log('🎯 [DATE-PAGE] timezone check - parsedDate:', parsedDate.toISOString(), 'todayInTimezone:', todayInTimezone.toISOString(), 'timezone:', timezone);
 
-    if (isSameDay(parsedDate, todayInTimezone) || parsedDate > new Date() || isNaN(parsedDate.getTime()))
-        redirect(`/${locale}/${country}`);
+        if (isSameDay(parsedDate, todayInTimezone) || parsedDate > new Date() || isNaN(parsedDate.getTime()))
+            redirect(`/${locale}/${country}`);
 
-    console.log('🎯 [DATE-PAGE] fetching data...');
-    const headlines = await getCountryDayHeadlines(country, parsedDate, 2);
-    const initialSummaries = await getCountryDaySummaries(country, parsedDate, 2);
-    const daySummary = await getCountryDailySummary(country, parsedDate)
-    const yesterdaySummary = await getCountryDailySummary(country, sub(parsedDate, { days: 1 }))
-    console.log('🎯 [DATE-PAGE] data fetched - headlines:', headlines?.length, 'summaries:', initialSummaries?.length, 'daySummary:', !!daySummary);
+        console.log('🎯 [DATE-PAGE] fetching data...');
+        const headlines = await getCountryDayHeadlines(country, parsedDate, 2);
+        const initialSummaries = await getCountryDaySummaries(country, parsedDate, 2);
+        const daySummary = await getCountryDailySummary(country, parsedDate)
+        const yesterdaySummary = await getCountryDailySummary(country, sub(parsedDate, { days: 1 }))
+        console.log('🎯 [DATE-PAGE] data fetched - headlines:', headlines?.length, 'summaries:', initialSummaries?.length, 'daySummary:', !!daySummary);
 
     // Check if Hebrew content is available for Hebrew locale
     if (locale === 'heb') {
@@ -103,4 +104,8 @@ export default async function Page({ params }) {
             />
         </>
     );
+    } catch (error) {
+        console.error('❌ [DATE-PAGE] FATAL ERROR:', error);
+        return <div>ERROR: {error.message}</div>;
+    }
 }
