@@ -19,12 +19,17 @@ export async function generateStaticParams() {
 
 // Generate SEO metadata for a specific day
 export async function generateMetadata({ params }) {
-    console.log('🔍 [DATE-META] generateMetadata called - params type:', typeof params, params);
-    const { country, locale, date } = await params;
-    console.log('🔍 [DATE-META] resolved params:', { country, locale, date });
-    const result = createMetadata({ country, locale, date });
-    console.log('🔍 [DATE-META] metadata created:', !!result);
-    return result;
+    try {
+        console.log('🔍 [DATE-META] generateMetadata called - params type:', typeof params, params);
+        const { country, locale, date } = await params;
+        console.log('🔍 [DATE-META] resolved params:', { country, locale, date });
+        const result = await createMetadata({ country, locale, date });
+        console.log('🔍 [DATE-META] metadata created:', !!result);
+        return result;
+    } catch (error) {
+        console.error('❌ [DATE-META] ERROR in generateMetadata:', error);
+        throw error;
+    }
 }
 
 export default async function Page({ params }) {
@@ -73,6 +78,9 @@ export default async function Page({ params }) {
 
     return (
         <>
+            {/* DEBUG: Server-side render proof */}
+            {/* SERVER_RENDER_TIME: {new Date().toISOString()} - COUNTRY: {country} - DATE: {date} */}
+
             {/* This correctly handles all your SEO needs for the entire collection */}
             <LdJson {...{ country, locale, daySummary, headlines, initialSummaries, sources }} date={parsedDate} />
 
