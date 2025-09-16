@@ -33,24 +33,24 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-    // IMMEDIATE TEST - just return static content
-    return <div>SERVER COMPONENT EXECUTED AT: {new Date().toISOString()}</div>;
-
     try {
-        console.log('🎯 [DATE-PAGE] Component called - params type:', typeof params, params);
+        // Step 1: Params
         const { country, locale, date } = await params;
-        console.log('🎯 [DATE-PAGE] resolved params:', { country, locale, date });
 
+        // Step 2: Date parsing
         const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
-        console.log('🎯 [DATE-PAGE] parsedDate:', parsedDate.toISOString());
-        // Shift to noon to avoid timezone rollover issues when later converted to ISO strings
         parsedDate.setHours(12, 0, 0, 0);
+
+        // Step 3: Timezone check
         const timezone = countries[country]?.timezone || 'UTC';
         const todayInTimezone = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
-        console.log('🎯 [DATE-PAGE] timezone check - parsedDate:', parsedDate.toISOString(), 'todayInTimezone:', todayInTimezone.toISOString(), 'timezone:', timezone);
 
-        if (isSameDay(parsedDate, todayInTimezone) || parsedDate > new Date() || isNaN(parsedDate.getTime()))
-            redirect(`/${locale}/${country}`);
+        // Step 4: Redirect check
+        const shouldRedirect = isSameDay(parsedDate, todayInTimezone) || parsedDate > new Date() || isNaN(parsedDate.getTime());
+
+        if (shouldRedirect) {
+            return <div>REDIRECTING: parsedDate={parsedDate.toISOString()}, todayInTimezone={todayInTimezone.toISOString()}, shouldRedirect={shouldRedirect}</div>;
+        }
 
         console.log('🎯 [DATE-PAGE] fetching data...');
         const headlines = await getCountryDayHeadlines(country, parsedDate, 2);
