@@ -19,11 +19,11 @@ export default function InnerLink({ href, locale, children }) {
                 clearTimeout(timeoutRef.current);
             }
 
-            // Set a timeout to hide the progress bar after 5 seconds
+            // Set a timeout to hide the progress bar after 3 seconds as a fallback
             // This prevents it from getting stuck indefinitely
             timeoutRef.current = setTimeout(() => {
                 setShowProgress(false);
-            }, 5000);
+            }, 3000);
 
             return () => {
                 if (timeoutRef.current) {
@@ -39,24 +39,27 @@ export default function InnerLink({ href, locale, children }) {
             // Add a small delay to ensure the navigation is complete
             const hideTimeout = setTimeout(() => {
                 setShowProgress(false);
-            }, 100);
-            
+            }, 200);
+
             return () => clearTimeout(hideTimeout);
         }
     }, [pathname, showProgress]);
 
-    const handleClick = () => {
+    const handleClick = (e) => {
+        // Don't prevent default - let Next.js handle the navigation
         initialPathnameRef.current = pathname;
         setShowProgress(true);
     };
 
     return (
         <>
-            <Link href={href} hrefLang={locale} onClick={handleClick}>
-                {children}
-            </Link>
+            <div onClick={handleClick} className="cursor-pointer">
+                <Link href={href} hrefLang={locale}>
+                    {children}
+                </Link>
+            </div>
             {showProgress && typeof window !== 'undefined' && createPortal(
-                <div className="fixed inset-0 w-full h-full z-[9999] pointer-events-auto">
+                <div className="fixed inset-0 w-full h-full z-[9999] pointer-events-none">
                     <div className="absolute inset-0 bg-white bg-opacity-40 animate-pulse transition-all duration-200" />
                     <div className="fixed top-0 left-0 w-full">
                         <LinearProgress color="inherit" sx={{ opacity: 0.8, backgroundColor: 'white', height: '2px' }} />

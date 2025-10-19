@@ -17,7 +17,16 @@ export const dynamic = 'force-dynamic'; // Force dynamic rendering, no caching
 export async function generateMetadata({ params }) {
     try {
         const { country, locale, date } = await params;
-        return await createMetadata({ country, locale, date });
+        const metadata = await createMetadata({ country, locale, date });
+        
+        // Point canonical to feed version - that's the version that should be indexed
+        const feedUrl = `https://www.the-hear.com/${locale}/${country}/${date}/feed`;
+        metadata.alternates = {
+            ...metadata.alternates,
+            canonical: feedUrl
+        };
+        
+        return metadata;
     } catch (error) {
         console.error('❌ [DATE-META] ERROR in generateMetadata:', error);
         throw error;

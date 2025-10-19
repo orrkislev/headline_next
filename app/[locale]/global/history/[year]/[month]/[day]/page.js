@@ -40,11 +40,11 @@ function ServerArchiveNavigation({ locale, year, month, day }) {
                     </a>
                 )}
                 
-                {/* Country navigation - link to each country's archive for this date */}
+                {/* Country navigation - link to each country's feed archive for this date */}
                 {Object.keys(countries)
                     .filter(c => c !== 'uae' && c !== 'finland')
                     .map((c) => (
-                        <a key={c} href={`/${locale}/${c}/${createDateString(currentDate)}`}>
+                        <a key={c} href={`/${locale}/${c}/${createDateString(currentDate)}/feed`}>
                             {locale === 'heb' ? `${countries[c].hebrew} - ${currentDate.toLocaleDateString('he', { day: 'numeric', month: 'long', year: 'numeric' })}` : `${countries[c].english} - ${currentDate.toLocaleDateString('en', { day: 'numeric', month: 'long', year: 'numeric' })}`}
                         </a>
                     ))}

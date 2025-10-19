@@ -112,8 +112,8 @@ export default function ArchiveCard({ dailySummary, country, locale, font = 'ran
                     <div className="group">
                         <CustomTooltip title={locale === 'heb' ? 'לארכיון הכותרות' : 'to the headline archive'} placement="top-end" enterDelay={800}>
                             <div>
-                                <InnerLink 
-                                    href={`/${locale}/${country}/${dateString}`}
+                                <InnerLink
+                                    href={`/${locale}/${country}/${dateString}/feed`}
                                     className="hover:text-blue"
                                 >
                                     <h3 

@@ -141,15 +141,15 @@ export default function sitemap() {
                 
                 const dateString = createDateString(date);
 
-                // Priority decreases with age: yesterday = 0.6, oldest = 0.1
-                // Adjust priority calculation since we start from i=1
-                const priority = 0.6 - ((i - 1) / maxDaysForCountry) * 0.5;
+                // Priority decreases with age: yesterday = 0.7, oldest = 0.4
+                // Feed pages are SSR and provide better SEO value than CSR live pages
+                const priority = 0.7 - ((i - 1) / maxDaysForCountry) * 0.3;
 
                 res.push({
-                    url: `${baseUrl}/${locale}/${country}/${dateString}`,
+                    url: `${baseUrl}/${locale}/${country}/${dateString}/feed`,
                     lastModified: date, // Use the actual historical date
                     changeFrequency: 'never', // Historical data doesn't change
-                    priority: Math.max(0.1, priority) // Ensure minimum priority of 0.1
+                    priority: Math.max(0.4, priority) // Ensure minimum priority of 0.4
                 });
             }
         });

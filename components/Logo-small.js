@@ -8,7 +8,7 @@ import logoC from './logo/thehear-round.png';
 import Image from 'next/image';
 import InnerLink from './InnerLink';
 
-export default function DynamicLogoSmall({ locale }) {
+export default function DynamicLogoSmall({ locale, showDivider = true }) {
     const [isFakeHover, setIsFakeHover] = useState(false);
     const router = useRouter();
 
@@ -70,7 +70,9 @@ export default function DynamicLogoSmall({ locale }) {
                     HEAR
                 </div>
             </div>
-            <div className="w-[75%] mx-auto border-b border-gray-300 mt-4" style={{height: '1px'}} />
+            {showDivider && (
+                <div className="w-[75%] mx-auto border-b border-gray-300 mt-4" style={{height: '1px'}} />
+            )}
         </>
     );
 };
