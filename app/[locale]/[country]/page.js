@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
     const { country, locale } = await params;
-    const userCountry = headers().get('x-user-country') || 'us';
+    const userCountry = (await headers()).get('x-user-country') || 'us';
 
     const today = new Date()
     const headlines = await getCountryDayHeadlines(country, today, 2);

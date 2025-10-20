@@ -57,31 +57,26 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
         }
     }, [shouldTranslate, headline, source, translations, locale]);
 
-    useEffect(() => {
-        setIsPresent(new Date() - date < 60 * 1000 * 5);
-    }, [date]);
+    const index = websites.length > 0 ? websites.indexOf(source) : 1
+    const shouldRender = headline && index !== -1;
 
-    // Early return if no headline is available
-    if (!headline) {
-        return null;
-    }
-
-    let displayHeadline = { ...headline };
+    let displayHeadline = headline ? { ...headline } : null;
     let displayName = sourceData.name
-    if (shouldTranslate && headline.id && translations[headline.id]) {
+    if (shouldRender && shouldTranslate && headline.id && translations[headline.id]) {
         displayHeadline.headline = translations[headline.id].headline;
         displayHeadline.subtitle = translations[headline.id].subtitle;
         displayName = checkRTL(translations[headline.id].headline) ? sourceData.translations.he : sourceData.translations.en
-    } else if (shouldTranslate && (!headline.id || !translations[headline.id])) {
+    } else if (shouldRender && shouldTranslate && (!headline.id || !translations[headline.id])) {
         displayHeadline = { headline: '', subtitle: '' }
     }
 
-
-    const isRTL = useMemo(() => (
-        displayHeadline.headline && checkRTL(displayHeadline.headline)) || checkRTL(displayName)
-        , [displayHeadline.headline, displayName]);
+    const isRTL = useMemo(() => {
+        if (!shouldRender) return false;
+        return (displayHeadline.headline && checkRTL(displayHeadline.headline)) || checkRTL(displayName)
+    }, [shouldRender, displayHeadline?.headline, displayName]);
 
     const typography = useMemo(() => {
+        if (!shouldRender) return null;
         let typo = font
         const options = getTypographyOptions(country).options
         if (typeof font === 'number') typo = options[font % options.length]
@@ -98,10 +93,16 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
         }
 
         return typo;
-    }, [font, country, isRTL, shouldTranslate, locale]);
+    }, [shouldRender, font, country, isRTL, shouldTranslate, locale]);
 
-    const index = websites.length > 0 ? websites.indexOf(source) : 1
-    if (index == -1) return null;
+    useEffect(() => {
+        setIsPresent(new Date() - date < 60 * 1000 * 5);
+    }, [date]);
+
+    // Early return if shouldn't render
+    if (!shouldRender) {
+        return null;
+    }
 
     return (
         <div style={{ order: index }}

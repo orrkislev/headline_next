@@ -3,7 +3,7 @@ import { isSameDay, parse, sub } from "date-fns";
 import { getWebsiteName, getSourceData } from "@/utils/sources/getCountryData";
 import { redirect } from "next/navigation";
 import { countries } from "@/utils/sources/countries";
-import { isHebrewContentAvailable } from "@/utils/daily summary utils";
+import { isHebrewContentAvailable, getHeadline } from "@/utils/daily summary utils";
 import FeedJsonLd from "./FeedJsonLd";
 import FeedView from "./FeedView";
 import FeedPopup from "./popup";
@@ -29,13 +29,17 @@ export async function generateMetadata({ params }) {
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
     parsedDate.setHours(12, 0, 0, 0);
 
+    // Get the day's summary to extract the main headline for description
+    const daySummary = await getCountryDailySummary(country, parsedDate);
+    const currentHeadline = daySummary ? getHeadline(daySummary, locale) : null;
+
     const title = locale === 'heb'
         ? `${flagEmoji} ${countryName} | ${formattedDate} | ארכיון כותרות`
         : `${flagEmoji} ${countryName} | ${formattedDate} | Headline Archive`;
 
     const description = locale === 'heb'
-        ? `ארכיון כרונולוגי מלא של כותרות חדשות מ-${countryName} ל-${formattedDate} - כל הכותרות כפי שהתפתחו במהלך היום עם סיכומי AI בזמן אמת`
-        : `Complete chronological archive of news headlines from ${countryName} for ${formattedDate} - All headlines as they unfolded throughout the day with real-time AI overviews`;
+        ? `${currentHeadline ? `${currentHeadline}. ` : ''}ארכיון מלא של כותרות חדשות מ-${countryName} ל-${formattedDate} - כל הכותרות כפי שהתפתחו במהלך היום עם סיכומי בינה מלאכותית בזמן אמת`
+        : `An archive of news headlines from ${countryName} for ${formattedDate}; ${currentHeadline ? `${currentHeadline}. ` : ''}All headlines as they unfolded throughout the day, with real-time AI overviews`;
 
     const url = `https://www.the-hear.com/${locale}/${country}/${date}/feed`;
 
