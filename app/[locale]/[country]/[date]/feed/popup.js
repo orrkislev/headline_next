@@ -49,13 +49,13 @@ export default function FeedPopup({ openAbout, country, locale, pageDate }) {
         <>
             <PopUpCleaner close={handleClose} />
             <div
-                className={`fixed inset-0 flex items-center justify-center z-[1000] direction-ltr bg-black/20`}
+                className={`fixed inset-0 flex items-center justify-center z-[1000] direction-ltr bg-black/20 px-4 md:px-0`}
                 onClick={handleClose}
             >
                 <div onClick={e => e.stopPropagation()}>
                     <InnerLink href={handleContentClick()} locale={locale}>
                         <div
-                            className="w-[400px] bg-white p-6 max-h-[80vh] overflow-auto shadow-xl border border-gray-100 rounded-xs cursor-pointer"
+                            className="w-full max-w-[400px] bg-white p-6 max-h-[80vh] overflow-auto shadow-xl border border-gray-100 rounded-xs cursor-pointer"
                             style={{
                                 scrollbarWidth: 'thin',
                                 scrollbarColor: '#d1d5db transparent'

@@ -1,3 +1,5 @@
+'use client';
+
 import { countries } from "@/utils/sources/countries";
 import { getSourceData } from "@/utils/sources/getCountryData";
 import { getHeadline, getSummaryContent } from "@/utils/daily summary utils";
@@ -12,8 +14,10 @@ import FeedTopbar from "./FeedTopbar";
 import FeedFooter from "./FeedFooter";
 import FeedDailySummary from "./feedDailySummary";
 import LogoSmall from "@/components/Logo-small";
+import useMobile from "@/components/useMobile";
 
 export default function FeedView({ headlines, initialSummaries, daySummary, yesterdaySummary, locale, country, date }) {
+    const { isMobile } = useMobile();
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
     const isRTL = locale === 'heb';
@@ -80,110 +84,153 @@ export default function FeedView({ headlines, initialSummaries, daySummary, yest
                     </div>
                 )}
 
-                {/* Timeline */}
-                <div className="max-w-5xl mx-auto px-4 py-8 pb-48 relative">
-                    <div className="relative pt-8">
-                        {/* Current date at top of timeline */}
-                        {locale !== 'heb' && (
-                            <div className={`absolute ${isRTL ? 'right-1/2' : 'left-1/2'} top-0 transform -translate-x-1/2 -translate-y-6 z-20`}>
-                                <div className="text-[0.7em] text-gray-400 font-mono whitespace-nowrap bg-gray-50 px-2 py-1 rounded">
-                                    {dateString}
-                                </div>
-                            </div>
-                        )}
+                {/* Timeline - Desktop vs Mobile */}
+                <div className={`${isMobile ? 'max-w-lg' : 'max-w-5xl'} mx-auto px-4 py-8 pb-48 relative`}>
+                    {isMobile ? (
+                        /* Mobile: Single column layout */
+                        <div className="space-y-8">
+                            {timelineItems.map((item, index) => {
+                                const isSummary = item.type === 'hourly-summary' || item.type === 'daily-summary';
 
-                        {/* Vertical timeline line */}
-                        <div className={`absolute ${isRTL ? 'right-1/2' : 'left-1/2'} top-0 bottom-0 w-px bg-gray-500`} />
+                                // Format timestamp for display
+                                const timeString = item.timestamp.toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: false
+                                });
 
-                        {/* Next day link at bottom of timeline */}
-                        {locale !== 'heb' && (
-                            <div className={`absolute ${isRTL ? 'right-1/2' : 'left-1/2'} bottom-0 transform -translate-x-1/2 translate-y-16 z-30`}>
-                                <InnerLink
-                                    href={`/${locale}/${country}/${(date.getDate() + 1).toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear()}/feed`}
-                                    locale={locale}
-                                >
-                                    <div className="flex flex-col items-center text-gray-400 hover:text-gray-600">
-                                        <div className="text-[0.7em] font-mono whitespace-nowrap px-2 rounded">
-                                            {String(date.getDate() + 1).padStart(2, '0')}.{String(date.getMonth() + 1).padStart(2, '0')}.{date.getFullYear()}
+                                return (
+                                    <div key={`${item.type}-${index}`} className={`${isSummary ? 'my-12' : 'my-4'}`}>
+                                        {/* Timestamp for mobile */}
+                                        <div className="text-center mb-2">
+                                            <span className="text-xs text-gray-500 font-mono bg-gray-100 px-2 py-1 rounded">
+                                                {timeString}
+                                            </span>
                                         </div>
-                                        <svg
-                                            width="16"
-                                            height="16"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            className="mb-4"
-                                        >
-                                            <polyline points="6,9 12,15 18,9"></polyline>
-                                        </svg>
-                                    </div>
-                                </InnerLink>
-                            </div>
-                        )}
-                        
-                        {timelineItems.map((item, index) => {
-                             // Only count headlines for side alternation, skip summaries
-                             const headlineCountBeforeThis = timelineItems.slice(0, index).filter(i => i.type === 'headline').length;
-                             const side = headlineCountBeforeThis % 2 === 0 ? 'left' : 'right';
-                             const isLeft = isRTL ? side === 'right' : side === 'left';
-                             const isSummary = item.type === 'hourly-summary' || item.type === 'daily-summary';
-                             
-                             // Format timestamp for display
-                             const timeString = item.timestamp.toLocaleTimeString([], { 
-                                 hour: '2-digit', 
-                                 minute: '2-digit', 
-                                 hour12: false 
-                             });
-                             
-                             return (
-                                 <div key={`${item.type}-${index}`} className={`relative ${isSummary ? 'mb-8 mt-24' : '-mb-16'}`}>
-                                     {/* Only show dot and lines for headlines, not summaries */}
-                                     {!isSummary && (
-                                         <>
-                                             {/* Timeline dot - smaller and properly aligned */}
-                                             {locale !== 'heb' && (
-                                                 <div className={`absolute ${isRTL ? 'right-1/2' : 'left-1/2'} top-1 w-2 h-2 rounded-full bg-white transform -translate-x-1/3 z-10`} />
-                                             )}
-                                             
-                                             {/* Timestamp opposite to the line */}
-                                             <div className={`text-[0.7em] text-gray-400 font-mono whitespace-nowrap`} style={{ 
-                                                 position: 'absolute',
-                                                 top: '0',
-                                                 [isLeft ? (isRTL ? 'right' : 'left') : (isRTL ? 'left' : 'right')]: 'calc(50% + 1rem)'
-                                             }}>
-                                                 {timeString}
-                                             </div>
-                                             
-                                             {/* Horizontal connector line from center to card */}
-                                             {isLeft ? (
-                                                 <div className={`absolute top-1.5 ${isRTL ? 'left-1/2' : 'right-1/2'} h-px bg-gray-500 z-0`} style={{ width: 'calc(8%)' }} />
-                                             ) : (
-                                                 <div className={`absolute top-1.5 ${isRTL ? 'right-1/2' : 'left-1/2'} h-px bg-gray-500 z-0`} style={{ width: 'calc(8%)' }} />
-                                             )}
-                                         </>
-                                     )}
-                                     
-                                     {/* Content card - centered for summaries, alternating for headlines */}
-                                     <div className={`flex ${isSummary ? 'justify-center' : (isLeft ? 'justify-start pr-1/2' : 'justify-end pl-1/2')}`}>
-                                         <div className={isSummary ? 'w-2/4' : 'w-5/12'}>
-                                            {item.type === 'headline' && (
-                                                <HeadlineCard headline={item.data} country={country} locale={locale} />
-                                            )}
-                                            {item.type === 'hourly-summary' && (
-                                                <SummaryCard summary={item.data} locale={locale} type="hourly" />
-                                            )}
-                                            {item.type === 'daily-summary' && (
-                                                <SummaryCard summary={item.data} locale={locale} type="daily" />
-                                            )}
+
+                                        {/* Content card - centered */}
+                                        <div className="flex justify-center">
+                                            <div className="w-full max-w-md">
+                                                {item.type === 'headline' && (
+                                                    <HeadlineCard headline={item.data} country={country} locale={locale} />
+                                                )}
+                                                {item.type === 'hourly-summary' && (
+                                                    <SummaryCard summary={item.data} locale={locale} type="hourly" />
+                                                )}
+                                                {item.type === 'daily-summary' && (
+                                                    <SummaryCard summary={item.data} locale={locale} type="daily" />
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        /* Desktop: Original timeline layout */
+                        <div className="relative pt-8">
+                            {/* Current date at top of timeline */}
+                            {locale !== 'heb' && (
+                                <div className={`absolute ${isRTL ? 'right-1/2' : 'left-1/2'} top-0 transform -translate-x-1/2 -translate-y-6 z-20`}>
+                                    <div className="text-[0.7em] text-gray-400 font-mono whitespace-nowrap bg-gray-50 px-2 py-1 rounded">
+                                        {dateString}
+                                    </div>
                                 </div>
-                            );
-                        })}
-                    </div>
+                            )}
+
+                            {/* Vertical timeline line */}
+                            <div className={`absolute ${isRTL ? 'right-1/2' : 'left-1/2'} top-0 bottom-0 w-px bg-gray-500`} />
+
+                            {/* Next day link at bottom of timeline */}
+                            {locale !== 'heb' && (
+                                <div className={`absolute ${isRTL ? 'right-1/2' : 'left-1/2'} bottom-0 transform -translate-x-1/2 translate-y-16 z-30`}>
+                                    <InnerLink
+                                        href={`/${locale}/${country}/${(date.getDate() + 1).toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear()}/feed`}
+                                        locale={locale}
+                                    >
+                                        <div className="flex flex-col items-center text-gray-400 hover:text-gray-600">
+                                            <div className="text-[0.7em] font-mono whitespace-nowrap px-2 rounded">
+                                                {String(date.getDate() + 1).padStart(2, '0')}.{String(date.getMonth() + 1).padStart(2, '0')}.{date.getFullYear()}
+                                            </div>
+                                            <svg
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                className="mb-4"
+                                            >
+                                                <polyline points="6,9 12,15 18,9"></polyline>
+                                            </svg>
+                                        </div>
+                                    </InnerLink>
+                                </div>
+                            )}
+
+                            {timelineItems.map((item, index) => {
+                                 // Only count headlines for side alternation, skip summaries
+                                 const headlineCountBeforeThis = timelineItems.slice(0, index).filter(i => i.type === 'headline').length;
+                                 const side = headlineCountBeforeThis % 2 === 0 ? 'left' : 'right';
+                                 const isLeft = isRTL ? side === 'right' : side === 'left';
+                                 const isSummary = item.type === 'hourly-summary' || item.type === 'daily-summary';
+
+                                 // Format timestamp for display
+                                 const timeString = item.timestamp.toLocaleTimeString([], {
+                                     hour: '2-digit',
+                                     minute: '2-digit',
+                                     hour12: false
+                                 });
+
+                                 return (
+                                     <div key={`${item.type}-${index}`} className={`relative ${isSummary ? 'mb-8 mt-24' : '-mb-16'}`}>
+                                         {/* Only show dot and lines for headlines, not summaries */}
+                                         {!isSummary && (
+                                             <>
+                                                 {/* Timeline dot - smaller and properly aligned */}
+                                                 {locale !== 'heb' && (
+                                                     <div className={`absolute ${isRTL ? 'right-1/2' : 'left-1/2'} top-1 w-2 h-2 rounded-full bg-white transform -translate-x-1/3 z-10`} />
+                                                 )}
+
+                                                 {/* Timestamp opposite to the line */}
+                                                 <div className={`text-[0.7em] text-gray-400 font-mono whitespace-nowrap`} style={{
+                                                     position: 'absolute',
+                                                     top: '0',
+                                                     [isLeft ? (isRTL ? 'right' : 'left') : (isRTL ? 'left' : 'right')]: 'calc(50% + 1rem)'
+                                                 }}>
+                                                     {timeString}
+                                                 </div>
+
+                                                 {/* Horizontal connector line from center to card */}
+                                                 {isLeft ? (
+                                                     <div className={`absolute top-1.5 ${isRTL ? 'left-1/2' : 'right-1/2'} h-px bg-gray-500 z-0`} style={{ width: 'calc(8%)' }} />
+                                                 ) : (
+                                                     <div className={`absolute top-1.5 ${isRTL ? 'right-1/2' : 'left-1/2'} h-px bg-gray-500 z-0`} style={{ width: 'calc(8%)' }} />
+                                                 )}
+                                             </>
+                                         )}
+
+                                         {/* Content card - centered for summaries, alternating for headlines */}
+                                         <div className={`flex ${isSummary ? 'justify-center' : (isLeft ? 'justify-start pr-1/2' : 'justify-end pl-1/2')}`}>
+                                             <div className={isSummary ? 'w-2/4' : 'w-5/12'}>
+                                                {item.type === 'headline' && (
+                                                    <HeadlineCard headline={item.data} country={country} locale={locale} />
+                                                )}
+                                                {item.type === 'hourly-summary' && (
+                                                    <SummaryCard summary={item.data} locale={locale} type="hourly" />
+                                                )}
+                                                {item.type === 'daily-summary' && (
+                                                    <SummaryCard summary={item.data} locale={locale} type="daily" />
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
 
                 {/* Footer */}

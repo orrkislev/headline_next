@@ -1,7 +1,10 @@
+'use client';
+
 import Link from "next/link";
 import FlagIcon from "@/components/FlagIcon";
 import InnerLink from "@/components/InnerLink";
 import { getHeadline } from "@/utils/daily summary utils";
+import useMobile from "@/components/useMobile";
 
 // Chevron icons as simple SVG components
 const ChevronLeft = () => (
@@ -17,6 +20,7 @@ const ChevronRight = () => (
 );
 
 export default function FeedTopbar({ locale, country, daySummary, date }) {
+    const { isMobile } = useMobile();
     // Use locale directly for SSR compatibility
     const effectiveLocale = locale;
 
@@ -45,7 +49,7 @@ export default function FeedTopbar({ locale, country, daySummary, date }) {
     return (
         <div className="sticky top-0 z-40 flex border-b border-gray-200 px-2 py-2 bg-white">
             <div className="flex items-center justify-center min-w-0 flex-1">
-                {effectiveLocale !== 'heb' && (
+                {effectiveLocale !== 'heb' && !isMobile && (
                     <>
                         <Link href={`/${effectiveLocale}/global`} className="hover:text-blue transition-colors">
                             <div className="text-sm font-medium cursor-pointer font-['Geist'] pl-2 sm:pl-4 whitespace-nowrap">The Hear</div>
@@ -64,7 +68,7 @@ export default function FeedTopbar({ locale, country, daySummary, date }) {
                         href={`/${locale}/${country}/${prevDateUrl}/feed`}
                         locale={locale}
                     >
-                        <div className="text-gray-400 hover:text-gray-600 transition-colors rounded hover:bg-gray-100">
+                        <div className="text-gray-400 hover:text-gray-600 rounded hover:bg-gray-100">
                             {locale === 'heb' ? <ChevronRight /> : <ChevronLeft />}
                         </div>
                     </InnerLink>
@@ -75,7 +79,7 @@ export default function FeedTopbar({ locale, country, daySummary, date }) {
                         href={`/${locale}/${country}/${nextDateUrl}/feed`}
                         locale={locale}
                     >
-                        <div className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded hover:bg-gray-100">
+                        <div className="text-gray-400 hover:text-gray-600 rounded hover:bg-gray-100">
                             {locale === 'heb' ? <ChevronLeft /> : <ChevronRight />}
                         </div>
                     </InnerLink>
@@ -88,10 +92,6 @@ export default function FeedTopbar({ locale, country, daySummary, date }) {
                             className={`text-gray-800 truncate min-w-0 flex-1 max-w-xs sm:max-w-md ${effectiveLocale === 'heb' ? 'frank-re text-base' : 'font-["Geist"] text-sm'}`}
                             style={{ margin: 0, fontWeight: 'inherit' }}
                         >
-                            <span className="text-sm font-mono text-gray-600 whitespace-nowrap" style={{ fontWeight: 'inherit' }}>
-                                {date.getDate().toString().padStart(2, '0')}.{String(date.getMonth() + 1).padStart(2, '0')}.{date.getFullYear()}
-                            </span>
-                            {' — '}
                             {currentHeadline}
                         </h1>
                     </>
