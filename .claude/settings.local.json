@@ -7,7 +7,8 @@
       "Bash(firebase firestore:databases:list:*)",
       "Bash(firebase firestore:usage:*)",
       "Bash(firebase firestore:*)",
-      "Read(//e/Code/Headline_Scraper/**)"
+      "Read(//e/Code/Headline_Scraper/**)",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []
