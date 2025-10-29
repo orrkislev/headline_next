@@ -9,7 +9,8 @@
       "Bash(firebase firestore:*)",
       "Read(//e/Code/Headline_Scraper/**)",
       "Bash(rm:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

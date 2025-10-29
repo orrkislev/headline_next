@@ -1,11 +1,13 @@
 "use client";
 import { getSourceOrder } from "./sources/getCountryData";
 import { useActiveWebsites, useOrder } from "./store";
+import useVerticalScreen from "../components/useVerticalScreen";
 import { useEffect, useState } from "react";
 
 export default function useWebsitesManager(country, sources) {
     const order = useOrder(state => state.order)
     const { activeWebsites, setActiveWebsites } = useActiveWebsites();
+    const { isVerticalScreen } = useVerticalScreen();
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
     // Add window resize listener
@@ -25,14 +27,16 @@ export default function useWebsitesManager(country, sources) {
         const sourceOrder = getSourceOrder(country, order);
         const sourcesArray = Object.keys(sources).sort((a, b) => sourceOrder.indexOf(a) - sourceOrder.indexOf(b));
         
-        // Determine number of cards based on screen width
+        // Determine number of cards based on screen width and orientation
         let cardLimit = 6;
-        if (windowWidth > 1920) {
+        if (isVerticalScreen) {
+            cardLimit = 8; // 8 cards for vertical screens
+        } else if (windowWidth > 1920) {
             cardLimit = 11; // or any other number you prefer for larger screens
         }
         
         setActiveWebsites(sourcesArray.slice(0, cardLimit));
-    }, [sources, country, windowWidth]);
+    }, [sources, country, windowWidth, isVerticalScreen]);
 
     useEffect(() => {
         if (activeWebsites.length == 0 || !sources) return

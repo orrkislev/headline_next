@@ -17,7 +17,7 @@ const SourceSlider = dynamic(() => import('./SourceSlider'));
 
 const randomFontIndex = Math.floor(Math.random() * 100)
 
-export default function SourceCard({ source, headlines, country, locale, isLoading, pageDate }) {
+export default function SourceCard({ source, headlines, country, locale, isLoading, pageDate, isVerticalScreen }) {
     const translate = useTranslate((state) => state.translate);
     const date = useTime((state) => state.date);
     const font = useFont((state) => state.font);
@@ -25,6 +25,9 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
     const [translations, setTranslations] = useState({});
     const websites = useActiveWebsites(state => state.activeWebsites);
     const [isPresent, setIsPresent] = useState(true);
+
+    const index = websites.length > 0 ? websites.indexOf(source) : 1
+    const shouldRender = headline && index !== -1;
 
     const sourceData = useMemo(() => getSourceData(country, source), [country, source])
 
@@ -56,9 +59,6 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
             })();
         }
     }, [shouldTranslate, headline, source, translations, locale]);
-
-    const index = websites.length > 0 ? websites.indexOf(source) : 1
-    const shouldRender = headline && index !== -1;
 
     let displayHeadline = headline ? { ...headline } : null;
     let displayName = sourceData.name
@@ -106,10 +106,8 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
 
     return (
         <div style={{ order: index }}
-            className={`source-card group col-span-1
-            ${index === 0 ? 'col-span-2' : ''}
-            ${(index === 7 || index === 8) ? 'max-xl:col-span-1 qhd:col-span-1' : ''}
-            ${(index === 11 || index === 12 || index === 13) ? 'max-qhd:col-span-1 qhd:col-span-2' : ''}
+            className={`source-card group
+            ${isVerticalScreen ? (index % 5 === 0 ? 'col-span-2' : 'col-span-1') : `col-span-1 ${index === 0 ? 'col-span-2' : ''} ${(index === 7 || index === 8) ? 'max-xl:col-span-1 qhd:col-span-1' : ''} ${(index === 11 || index === 12 || index === 13) ? 'max-qhd:col-span-1 qhd:col-span-2' : ''}`}
             relative bg-neutral-100 hover:bg-white hover:shadow-xl transition-colors duration-200
             ${isRTL ? 'direction-rtl' : 'direction-ltr'}
             ${!isPresent ? `bg-off-white ${randomBgOpacity} outline outline-1 outline-neutral-300 outline-dotted` : ''}

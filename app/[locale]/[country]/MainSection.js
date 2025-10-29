@@ -7,22 +7,20 @@ import { countries } from "@/utils/sources/countries";
 import useWebsitesManager from "@/utils/useWebsites";
 import useSourcesManager from "@/utils/database/useSourcesManager";
 import useMobile from "@/components/useMobile";
+import { useActiveWebsites } from "@/utils/store";
 
 
-export default function MainSection({ sources, country, locale, pageDate, initialSummaries, yesterdaySummary, daySummary }) {
+export default function MainSection({ sources, country, locale, pageDate, initialSummaries, yesterdaySummary, daySummary, isVerticalScreen }) {
     useWebsitesManager(country, sources)
     const { sources: managedSources, loading: isLoading } = useSourcesManager(country, sources, !Boolean(pageDate));
     const { isMobile } = useMobile();
+    const activeWebsites = useActiveWebsites(state => state.activeWebsites);
 
     return (
-        <div className={`custom-scrollbar 
-                        gap-4 p-4
-                        flex flex-col sm:grid 
-                        sm:grid-cols-1 
-                        md:grid-cols-2 
-                        lg:grid-cols-3 
-                        fhd:grid-cols-4 
-                        qhd:grid-cols-6 
+        <div className={`custom-scrollbar
+                        ${isVerticalScreen ? 'gap-x-6 gap-y-2 px-8 pt-8 pb-4' : 'gap-4 p-4'}
+                        flex flex-col sm:grid
+                        ${isVerticalScreen ? 'grid-cols-2' : 'sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 fhd:grid-cols-4 qhd:grid-cols-6'}
                         direction-${countries[country].languageDirection}
                         `}>
             {/* Mobile Summary - shows only on mobile, at the top */}
@@ -34,10 +32,10 @@ export default function MainSection({ sources, country, locale, pageDate, initia
             )}
             
             {Object.keys(managedSources).map((source) => (
-                    <SourceCard 
+                    <SourceCard
                         key={source+managedSources[source].headlines.length}
                         headlines={managedSources[source].headlines}
-                        {...{ source, country, locale, isLoading, pageDate }}
+                        {...{ source, country, locale, isLoading, pageDate, isVerticalScreen }}
                     />
             ))}
             <AddSourceButton {...{ locale, country, sources }} />

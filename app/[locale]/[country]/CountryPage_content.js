@@ -9,8 +9,9 @@ import { getTypographyOptions } from "@/utils/typography/typography";
 import MainSection from "./MainSection";
 import HebrewFonts from "@/utils/typography/HebrewFonts";
 import useCurrentSummary from "@/utils/database/useCurrentSummary";
-import { useRightPanel } from "@/utils/store";
+import { useRightPanel, useFont } from "@/utils/store";
 import useMobile from "@/components/useMobile";
+import useVerticalScreen from "@/components/useVerticalScreen";
 import Loader from "@/components/loader";
 import FirstVisitModal from './FirstVisitModal';
 import AboutMenu from './TopBar/AboutMenu';
@@ -22,6 +23,8 @@ export default function CountryPageContent({ sources, initialSummaries, yesterda
     const [isRightPanelCollapsed, setIsRightPanelCollapsed] = useState(false);
     const { setCollapsed } = useRightPanel();
     const { isMobile, isLoading } = useMobile();
+    const { isVerticalScreen } = useVerticalScreen();
+    const { setFont } = useFont();
     const [aboutOpen, setAboutOpen] = useState(false);
 
     // Force English behavior on mobile
@@ -31,6 +34,13 @@ export default function CountryPageContent({ sources, initialSummaries, yesterda
     useEffect(() => {
         setCollapsed(isRightPanelCollapsed);
     }, [isRightPanelCollapsed, setCollapsed]);
+
+    // Enable font salad (random fonts) for vertical screens
+    useEffect(() => {
+        if (isVerticalScreen) {
+            setFont('random');
+        }
+    }, [isVerticalScreen, setFont]);
 
     // Show loading until mobile detection is complete
     if (isLoading) {
@@ -45,25 +55,28 @@ export default function CountryPageContent({ sources, initialSummaries, yesterda
                 <EnglishFonts />
                 {locale == 'heb' && <HebrewFonts />}
                 <typography.component />
-                <SideSlider {...{ locale, country, pageDate }} />
+                {!isVerticalScreen && <SideSlider {...{ locale, country, pageDate }} />}
                 
-                {/* Right Panel - only show on desktop */}
-                <div className={`hidden sm:flex flex-[1 sm:border-l sm:border-r border-gray-200 max-w-[400px] `}>
-                    <RightPanel 
-                        {...{ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate }} 
+                {/* Right Panel - only show on desktop, not vertical screens */}
+                {!isVerticalScreen && (
+                    <div className={`hidden sm:flex flex-[1 sm:border-l sm:border-r border-gray-200 max-w-[400px] `}>
+                    <RightPanel
+                        {...{ initialSummaries, locale, country, yesterdaySummary, daySummary, pageDate }}
                         onCollapsedChange={setIsRightPanelCollapsed}
                         collapsed={isRightPanelCollapsed}
                     />
                 </div>
+                )}
 
                 <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
-                    <TopBar 
-                        {...{ locale, country, sources, userCountry }} 
+                    <TopBar
+                        {...{ locale, country, sources, userCountry }}
                         currentSummary={currentSummary}
+                        initialSummaries={initialSummaries}
                         isRightPanelCollapsed={isRightPanelCollapsed}
                         onExpandPanel={() => setIsRightPanelCollapsed(false)}
                     />
-                    <MainSection {...{ country, sources, locale, pageDate, initialSummaries, yesterdaySummary, daySummary }} />
+                    <MainSection {...{ country, sources, locale, pageDate, initialSummaries, yesterdaySummary, daySummary, isVerticalScreen }} />
                     {pageDate && (
                         <DateNavigator {...{ locale, country, pageDate }} />
                     )}

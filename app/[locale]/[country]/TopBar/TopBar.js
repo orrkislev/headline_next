@@ -1,8 +1,9 @@
 import TimeDisplay from "./TimeDisplay.js";
 import Flag from "./Flag.js";
 import { SettingsButton } from "./SettingsButton.js";
-import { useTranslate } from "@/utils/store";
+import { useTranslate, useTime } from "@/utils/store";
 import useMobile from "@/components/useMobile";
+import useVerticalScreen from "@/components/useVerticalScreen";
 import Link from "next/link";
 
 // Helper function to clean summary text by removing everything after language markers
@@ -24,32 +25,46 @@ const cleanSummaryText = (text) => {
     return cleanText;
 };
 
-export default function TopBar({ locale, country, sources, currentSummary, isRightPanelCollapsed, onExpandPanel, userCountry }) {
+export default function TopBar({ locale, country, sources, currentSummary, initialSummaries, isRightPanelCollapsed, onExpandPanel, userCountry }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage);
     const { isMobile } = useMobile();
+    const { isVerticalScreen } = useVerticalScreen();
+    const date = useTime(state => state.date);
     
     // Force English behavior on mobile
     const effectiveLocale = isMobile ? 'en' : locale;
 
+    // Find the current summary from initialSummaries if currentSummary is not available
+    const findCurrentSummary = () => {
+        if (currentSummary) return currentSummary;
+        if (!initialSummaries || !date) return null;
+
+        const sortedSummaries = initialSummaries.sort((a, b) => b.timestamp - a.timestamp);
+        return sortedSummaries.find(summary => summary.timestamp <= date) || null;
+    };
+
+    const actualCurrentSummary = findCurrentSummary();
+
     // Get the appropriate headline based on locale and language settings
     const getCurrentHeadline = () => {
-        if (!currentSummary) return null;
-        
-        let headline = currentSummary.englishHeadline;
+        if (!actualCurrentSummary) return null;
+
+        let headline = actualCurrentSummary.englishHeadline;
         if (effectiveLocale === 'heb') {
-            headline = currentSummary.hebrewHeadline || currentSummary.headline;
-        } 
+            headline = actualCurrentSummary.hebrewHeadline || actualCurrentSummary.headline;
+        }
         if (useLocalLanguage) {
-            headline = currentSummary.translatedHeadline || currentSummary.headline;
+            headline = actualCurrentSummary.translatedHeadline || actualCurrentSummary.headline;
         }
         return cleanSummaryText(headline);
     };
 
     const currentHeadline = getCurrentHeadline();
 
+
     return (
-        <div className="sticky top-0 z-40 flex border-b border-gray-200 px-2 py-2 bg-white">
-            <div className="flex justify-between w-full">
+        <div className={`sticky top-0 z-40 flex border-b border-gray-200 px-2 ${isVerticalScreen ? 'py-6' : 'py-2'} bg-white`}>
+            <div className={`flex w-full ${isVerticalScreen ? 'justify-center' : 'justify-between'}`}>
                 <div className="flex items-center min-w-0 flex-1">
                     {effectiveLocale !== 'heb' && (
                         <>
@@ -62,8 +77,8 @@ export default function TopBar({ locale, country, sources, currentSummary, isRig
                     <TimeDisplay locale={effectiveLocale} />
                     <div className="border-l border-dotted border-gray-300 h-[50%] mx-2 sm:mx-5 flex-shrink-0"></div>
                     <Flag {...{ country, locale: effectiveLocale, originalLocale: locale}} />
-                    {/* Show current summary title when right panel is collapsed */}
-                    {isRightPanelCollapsed && currentHeadline && (
+                    {/* Show current summary title when right panel is collapsed or on vertical screens */}
+                    {(isRightPanelCollapsed || isVerticalScreen) && currentHeadline && (
                         <>
                             <div className="border-l border-gray-300 border-dotted h-[50%] mx-2 sm:mx-5 flex-shrink-0"></div>
                             <div 
@@ -75,9 +90,11 @@ export default function TopBar({ locale, country, sources, currentSummary, isRig
                         </>
                     )}
                 </div>
-                <div className="flex items-center hidden md:flex px-2">
-                    <SettingsButton {...{ locale: effectiveLocale, country, sources, isRightPanelCollapsed, userCountry }} />
-                </div>
+                {!isVerticalScreen && (
+                    <div className="flex items-center hidden md:flex px-2">
+                        <SettingsButton {...{ locale: effectiveLocale, country, sources, isRightPanelCollapsed, userCountry }} />
+                    </div>
+                )}
             </div>
         </div>
     );
