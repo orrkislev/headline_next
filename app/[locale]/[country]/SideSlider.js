@@ -12,6 +12,7 @@ import useMobile from "@/components/useMobile";
 import { redirect } from "next/navigation";
 import { createDateString } from "@/utils/utils";
 import CustomTooltip from "@/components/CustomTooltip";
+import { trackTimeExploration } from "@/utils/analytics";
 
 export default function SideSlider({ locale, country, pageDate }) {
     const summaries = useDaySummaries(state => state.daySummaries);
@@ -30,6 +31,22 @@ export default function SideSlider({ locale, country, pageDate }) {
     // Only show play functionality for date pages (not live pages)
     // pageDate is undefined for live pages, and a Date object for date pages
     const isDatePage = pageDate !== undefined && pageDate !== null;
+
+    // Handler for play button with tracking
+    const handlePlayToggle = useCallback(() => {
+        const newPlayState = !isPlaying;
+        setIsPlaying(newPlayState);
+
+        // Track when user starts playing (not when pausing)
+        if (newPlayState) {
+            trackTimeExploration('play', {
+                country,
+                locale,
+                is_date_page: isDatePage,
+                play_speed: playSpeed
+            });
+        }
+    }, [isPlaying, country, locale, isDatePage, playSpeed]);
 
     // Derive day from date directly, no useEffect needed
     const day = date ? date.toDateString() : new Date().toDateString();
@@ -75,11 +92,20 @@ export default function SideSlider({ locale, country, pageDate }) {
         const updatedDate = new Date(day + ' ' + Math.floor(minutes / 60) + ':' + (minutes % 60));
         setDate(updatedDate);
 
+        // Track time exploration when user manually adjusts slider
+        if (pausePlay) {
+            trackTimeExploration('slider', {
+                country,
+                locale,
+                is_date_page: isDatePage
+            });
+        }
+
         // Pause playback when manually adjusting slider
         if (pausePlay && isPlaying) {
             setIsPlaying(false);
         }
-    }, [isToday, currentMinutes, day, setDate, isPlaying, setIsPlaying]);
+    }, [isToday, currentMinutes, day, setDate, isPlaying, setIsPlaying, country, locale, isDatePage]);
 
     // Auto-play functionality
     useEffect(() => {
@@ -130,6 +156,14 @@ export default function SideSlider({ locale, country, pageDate }) {
 
     const goToSummary = (summary => {
         if (!summary) return;
+
+        // Track time exploration when clicking arrows
+        trackTimeExploration('arrow', {
+            country,
+            locale,
+            is_date_page: isDatePage
+        });
+
         setDate(summary.timestamp);
         if (date.toDateString() === summary.timestamp.toDateString()) {
             setDate(summary.timestamp);
@@ -194,7 +228,7 @@ export default function SideSlider({ locale, country, pageDate }) {
                         placement={effectiveLocale === 'heb' ? 'left' : 'right'}
                     >
                         <IconButton
-                            onClick={() => setIsPlaying(!isPlaying)}
+                            onClick={handlePlayToggle}
                             sx={{
                                 color: '#9ca3af',
                                 // padding: '4px',

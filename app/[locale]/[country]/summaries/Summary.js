@@ -5,6 +5,7 @@ import { createDateString } from '@/utils/utils';
 import { redirect, usePathname } from 'next/navigation';
 import { useRef, useEffect } from 'react';
 import CustomTooltip from '@/components/CustomTooltip';
+import { trackTimeExploration } from '@/utils/analytics';
 
 // Helper function to clean summary text by removing everything after language markers
 const cleanSummaryText = (text) => {
@@ -68,6 +69,14 @@ export default function Summary({ summary, country, active, locale, yesterday })
     const fontClass = locale === 'heb' ? 'frank-re' : 'font-["Geist"]';
 
     const clickHandler = () => {
+        // Track time exploration when clicking on a summary
+        trackTimeExploration('summary_click', {
+            country,
+            locale,
+            is_date_page: isDatePage,
+            is_yesterday: yesterday
+        });
+
         setDate(summary.timestamp);
         if (yesterday) {
             const yesterdayDate = new Date(summary.timestamp);
