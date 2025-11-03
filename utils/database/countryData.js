@@ -41,6 +41,7 @@ function prepareHeadline(doc) {
     link: cleanedData.link,
     timestamp: timestamp,
     website_id: cleanedData.website_id,
+    image: cleanedData.image, 
   };
 }
 

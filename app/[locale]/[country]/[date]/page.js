@@ -10,8 +10,9 @@ import CountryLinksData from "../TopBar/CountryLinksData";
 import DateLinksData from "../TopBar/DateLinksData";
 import { isHebrewContentAvailable } from "@/utils/daily summary utils";
 
-export const revalidate = 0; // Disable ISR, use pure SSR
-export const dynamic = 'force-dynamic'; // Force dynamic rendering, no caching
+// Archive pages are historical and don't change - allow caching for better indexing
+export const revalidate = 86400; // Revalidate once per day (24 hours)
+// Removed: export const dynamic = 'force-dynamic' - let Next.js handle caching appropriately
 
 // Generate SEO metadata for a specific day
 export async function generateMetadata({ params }) {

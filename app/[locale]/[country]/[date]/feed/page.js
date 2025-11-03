@@ -9,8 +9,9 @@ import FeedView from "./FeedView";
 import FeedPopup from "./popup";
 import InactivityRedirect from "./InactivityRedirect";
 
-export const revalidate = 0;
-export const dynamic = 'force-dynamic';
+// Feed pages are historical archives and don't change - allow caching for better indexing
+export const revalidate = 86400; // Revalidate once per day (24 hours)
+// Removed: export const dynamic = 'force-dynamic' - let Next.js handle caching appropriately
 
 // Generate SEO metadata for feed view
 export async function generateMetadata({ params }) {
