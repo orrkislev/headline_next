@@ -33,7 +33,7 @@ export async function createMetadata(params) {
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
     const flagEmoji = countryFlags[country] || '';
-    const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
+    const parsedDate = parse(date, 'dd-MM-yyyy', new Date(2000, 0, 1));
     // Shift to noon to avoid timezone rollover issues - MATCH PAGE.JS EXACTLY
     parsedDate.setHours(12, 0, 0, 0);
     const formattedDate = date.replace(/-/g, '.');
@@ -169,7 +169,7 @@ export function LdJson({ country, locale, date, daySummary, headlines, initialSu
                 abstracts.push({
                     '@type': 'CreativeWork',
                     'abstract': summaryContent.trim(),
-                    'dateCreated': summary.timestamp ? new Date(summary.timestamp).toISOString() : new Date().toISOString(),
+                    'dateCreated': summary.timestamp ? new Date(summary.timestamp).toISOString() : parsedDate.toISOString(),
                     'creator': {
                         '@type': 'NewsMediaOrganization',
                         'name': 'The Hear AI Analysis'

@@ -93,7 +93,7 @@ export default function FeedJsonLd({ country, locale, date, daySummary, headline
                     '@type': 'AnalysisNewsArticle',
                     'headline': summaryHeadline || `News analysis ${index + 1}`,
                     'articleBody': summaryContent.trim(),
-                    'datePublished': summary.timestamp ? new Date(summary.timestamp).toISOString() : new Date().toISOString(),
+                    'datePublished': summary.timestamp ? new Date(summary.timestamp).toISOString() : date.toISOString(),
                     'author': {
                         '@type': 'Organization',
                         'name': 'The Hear AI Analysis'

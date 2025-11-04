@@ -9,9 +9,9 @@ import FeedView from "./FeedView";
 import FeedPopup from "./popup";
 import InactivityRedirect from "./InactivityRedirect";
 
-// Feed pages are historical archives and don't change - allow caching for better indexing
-export const revalidate = 86400; // Revalidate once per day (24 hours)
-// Removed: export const dynamic = 'force-dynamic' - let Next.js handle caching appropriately
+// Feed pages are immutable historical content that never changes
+export const revalidate = 31536000; // 1 year - these pages never change once created
+export const dynamic = 'error'; // Fail build if route tries to be dynamic - forces static generation
 
 // Generate SEO metadata for feed view
 export async function generateMetadata({ params }) {
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }) {
     }[country] || '';
 
     const formattedDate = date.replace(/-/g, '.');
-    const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
+    const parsedDate = parse(date, 'dd-MM-yyyy', new Date(2000, 0, 1));
     parsedDate.setHours(12, 0, 0, 0);
 
     // Get the day's summary to extract the main headline for description
@@ -100,16 +100,13 @@ export default async function FeedPage({ params }) {
     try {
         const { country, locale, date } = await params;
         
-        // Date parsing and validation (same as main page)
-        const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
+        // Date parsing (no current date comparison for static generation)
+        const parsedDate = parse(date, 'dd-MM-yyyy', new Date(2000, 0, 1));
         parsedDate.setHours(12, 0, 0, 0);
-        
-        const timezone = countries[country]?.timezone || 'UTC';
-        const todayInTimezone = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
-        
-        const shouldRedirect = isSameDay(parsedDate, todayInTimezone) || parsedDate > new Date() || isNaN(parsedDate.getTime());
-        
-        if (shouldRedirect) {
+
+        // Skip date validation for static generation - handle redirects client-side if needed
+        // Archive pages are historical and won't be "today" after they're built
+        if (isNaN(parsedDate.getTime())) {
             redirect(`/${locale}/${country}`);
         }
         

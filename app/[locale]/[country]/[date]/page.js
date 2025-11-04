@@ -10,9 +10,9 @@ import CountryLinksData from "../TopBar/CountryLinksData";
 import DateLinksData from "../TopBar/DateLinksData";
 import { isHebrewContentAvailable } from "@/utils/daily summary utils";
 
-// Archive pages are historical and don't change - allow caching for better indexing
-export const revalidate = 86400; // Revalidate once per day (24 hours)
-// Removed: export const dynamic = 'force-dynamic' - let Next.js handle caching appropriately
+// Archive pages are immutable historical content that never changes
+export const revalidate = 31536000; // 1 year - these pages never change once created
+export const dynamic = 'error'; // Fail build if route tries to be dynamic - forces static generation
 
 // Generate SEO metadata for a specific day
 export async function generateMetadata({ params }) {
@@ -39,19 +39,13 @@ export default async function Page({ params }) {
         // Step 1: Params
         const { country, locale, date } = await params;
 
-        // Step 2: Date parsing
-        const parsedDate = parse(date, 'dd-MM-yyyy', new Date());
+        // Step 2: Date parsing (no current date comparison for static generation)
+        const parsedDate = parse(date, 'dd-MM-yyyy', new Date(2000, 0, 1));
         parsedDate.setHours(12, 0, 0, 0);
 
-        // Step 3: Timezone check
-        const timezone = countries[country]?.timezone || 'UTC';
-        const todayInTimezone = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
-
-        // Step 4: Redirect check
-        const shouldRedirect = isSameDay(parsedDate, todayInTimezone) || parsedDate > new Date() || isNaN(parsedDate.getTime());
-
-        if (shouldRedirect) {
-            // Instead of redirecting during static generation, return a redirect component
+        // Skip date validation for static generation - handle redirects client-side if needed
+        // Archive pages are historical and won't be "today" after they're built
+        if (isNaN(parsedDate.getTime())) {
             return (
                 <>
                     <script dangerouslySetInnerHTML={{
