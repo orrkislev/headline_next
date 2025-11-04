@@ -121,13 +121,13 @@ export async function middleware(request) {
         response.headers.set('x-user-country', userCountry);
 
         // Force cache headers for archive pages (date pattern in URL)
-        const archivePattern = /^\/(en|heb)\/[^\/]+\/\d{2}-\d{2}-\d{4}(\/feed)?$/;
-        if (archivePattern.test(pathname)) {
-          response.headers.set(
-            'Cache-Control',
-            'public, s-maxage=86400, stale-while-revalidate=604800, immutable'
-          );
-        }
+        // const archivePattern = /^\/(en|heb)\/[^\/]+\/\d{2}-\d{2}-\d{4}(\/feed)?$/;
+        // if (archivePattern.test(pathname)) {
+        //   response.headers.set(
+        //     'Cache-Control',
+        //     'public, s-maxage=86400, stale-while-revalidate=604800, immutable'
+        //   );
+        // }
 
         return response;
       }

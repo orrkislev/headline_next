@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build-and-start": "next build && next start",
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "analyze": "ANALYZE=true npm run build",
     "start": "next start",
