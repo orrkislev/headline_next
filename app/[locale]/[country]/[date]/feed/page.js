@@ -10,7 +10,7 @@ import FeedPopup from "./popup";
 import InactivityRedirect from "./InactivityRedirect";
 
 // Feed pages are immutable historical content that never changes
-export const revalidate = 31536000; // 1 year - these pages never change once created
+export const revalidate = false; // Disable ISR - these pages never change once created
 export const dynamic = 'error'; // Fail build if route tries to be dynamic - forces static generation
 
 // Generate SEO metadata for feed view
