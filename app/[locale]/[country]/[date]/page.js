@@ -46,14 +46,37 @@ export default async function Page({ params }) {
         // Skip date validation for static generation - handle redirects client-side if needed
         // Archive pages are historical and won't be "today" after they're built
         if (isNaN(parsedDate.getTime())) {
-            return (
-                <>
-                    <script dangerouslySetInnerHTML={{
-                        __html: `window.location.href = '/${locale}/${country}';`
-                    }} />
-                    <div>Redirecting to current news...</div>
-                </>
-            );
+            redirect(`/${locale}/${country}`);
+        }
+
+        // Per-country launch dates - reject requests for dates before data exists
+        const countryLaunchDates = {
+            'israel': new Date('2024-07-04'),
+            'germany': new Date('2024-07-28'),
+            'us': new Date('2024-07-31'),
+            'italy': new Date('2024-08-28'),
+            'russia': new Date('2024-08-29'),
+            'iran': new Date('2024-08-29'),
+            'france': new Date('2024-08-29'),
+            'lebanon': new Date('2024-08-29'),
+            'poland': new Date('2024-08-30'),
+            'uk': new Date('2024-09-05'),
+            'india': new Date('2024-09-05'),
+            'ukraine': new Date('2024-09-05'),
+            'spain': new Date('2024-09-05'),
+            'netherlands': new Date('2024-09-05'),
+            'china': new Date('2024-09-06'),
+            'japan': new Date('2024-09-07'),
+            'turkey': new Date('2024-09-07'),
+            'uae': new Date('2024-09-08'),
+            'palestine': new Date('2024-09-10'),
+            'finland': new Date('2025-02-20')
+        };
+
+        // Check if date is before country launch - fail fast before expensive Firestore queries
+        const launchDate = countryLaunchDates[country];
+        if (launchDate && parsedDate < launchDate) {
+            redirect(`/${locale}/${country}`);
         }
 
         const headlines = await getCountryDayHeadlines(country, parsedDate, 2);

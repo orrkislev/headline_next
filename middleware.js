@@ -96,6 +96,38 @@ export async function middleware(request) {
     const countryCandidate = segments[1];
     const valid = await getCountry(countryCandidate);
     if (valid) {
+      // Validate date for archive pages (before hitting expensive page functions)
+      if (segments.length >= 3 && segments[2].match(/^\d{2}-\d{2}-\d{4}$/)) {
+        const dateStr = segments[2];
+        const [day, month, year] = dateStr.split('-').map(Number);
+
+        // Basic validation
+        const date = new Date(year, month - 1, day);
+        const today = new Date();
+
+        // Check if date is valid
+        if (isNaN(date.getTime()) ||
+            date.getDate() !== day ||
+            date.getMonth() !== month - 1 ||
+            date.getFullYear() !== year) {
+          // Invalid date format - redirect to country page
+          return NextResponse.redirect(new URL(`/${locale}/${valid}`, request.url));
+        }
+
+        // Check if date is in the future
+        if (date > today) {
+          // Future date - redirect to country page
+          return NextResponse.redirect(new URL(`/${locale}/${valid}`, request.url));
+        }
+
+        // Check if date is before country launch (July 2024 earliest)
+        const earliestDate = new Date(2024, 6, 1); // July 1, 2024
+        if (date < earliestDate) {
+          // Too old - redirect to country page
+          return NextResponse.redirect(new URL(`/${locale}/${valid}`, request.url));
+        }
+      }
+
       // Special case: redirect Hebrew search routes to English
       if (locale === 'heb' && segments[2] === 'search') {
         const searchParams = request.nextUrl.search; // Preserve query parameters
