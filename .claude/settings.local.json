@@ -10,7 +10,11 @@
       "Read(//e/Code/Headline_Scraper/**)",
       "Bash(rm:*)",
       "Bash(curl:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(nul)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
