@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const turkeyData = {
   "sources": {
     "aydinlik": {
       "name": "Aydınlık",
@@ -209,4 +209,6 @@ export default {
       "aydinlik"
     ]
   }
-}
+};
+
+export default turkeyData;

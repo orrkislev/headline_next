@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const netherlandsData = {
   "sources": {
     "fd": {
       "name": "Het Financieele Dagblad",
@@ -168,4 +168,6 @@ export default {
       "rd"
     ]
   }
-}
+};
+
+export default netherlandsData;

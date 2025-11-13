@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const palestineData = {
   "sources": {
     "alayyam": {
       "name": "الأيام",
@@ -234,4 +234,6 @@ export default {
       "raya"
     ]
   }
-}
+};
+
+export default palestineData;

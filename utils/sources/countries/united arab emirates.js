@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const unitedArabEmiratesData = {
   "sources": {
     "gulfnews": {
       "name": "Gulf News",
@@ -83,4 +83,6 @@ export default {
     }
   },
   "orders": {}
-}
+};
+
+export default unitedArabEmiratesData;

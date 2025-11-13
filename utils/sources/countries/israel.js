@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const israelData = {
   "sources": {
     "mako": {
       "name": "מאקו",
@@ -261,4 +261,6 @@ export default {
       "kipa"
     ]
   }
-}
+};
+
+export default israelData;

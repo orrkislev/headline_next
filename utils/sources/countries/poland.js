@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const polandData = {
   "sources": {
     "dorzeczy": {
       "name": "Do Rzeczy",
@@ -248,4 +248,6 @@ export default {
       "polityka300"
     ]
   }
-}
+};
+
+export default polandData;

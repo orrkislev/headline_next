@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const indiaData = {
   "sources": {
     "aajtak": {
       "name": "Aaj Tak",
@@ -274,4 +274,6 @@ export default {
       "jantakareporter"
     ]
   }
-}
+};
+
+export default indiaData;

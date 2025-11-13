@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const franceData = {
   "sources": {
     "20minutes": {
       "name": "20 Minutes",
@@ -209,4 +209,6 @@ export default {
       "bvoltaire"
     ]
   }
-}
+};
+
+export default franceData;

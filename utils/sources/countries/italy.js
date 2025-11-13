@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const italyData = {
   "sources": {
     "adnkronos": {
       "name": "Adnkronos",
@@ -220,4 +220,6 @@ export default {
       "il_primato_nazionale"
     ]
   }
-}
+};
+
+export default italyData;

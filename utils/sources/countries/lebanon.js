@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const lebanonData = {
   "sources": {
     "addiyar": {
       "name": "Addiyar",
@@ -209,4 +209,6 @@ export default {
       "addiyar"
     ]
   }
-}
+};
+
+export default lebanonData;

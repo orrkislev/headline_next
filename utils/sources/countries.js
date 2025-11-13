@@ -8,6 +8,7 @@ export const countries = {
 	"iran": { id: "Iran", hebrew: "איראן", english: "Iran", languageDirection: "rtl", population: 84.0, softPower: 61, pressFreedom: 177, timezone: "Asia/Tehran" },
 	"italy": { id: "Italy", hebrew: "איטליה", english: "Italy", languageDirection: "ltr", population: 60.4, softPower: 8, pressFreedom: 41, timezone: "Europe/Rome" },
 	"japan": { id: "Japan", hebrew: "יפן", english: "Japan", languageDirection: "ltr", population: 126.5, softPower: 6, pressFreedom: 68, timezone: "Asia/Tokyo" },
+	"kenya": { id: "Kenya", hebrew: "קניה", english: "Kenya", languageDirection: "ltr", population: 57.5, softPower: 92, pressFreedom: 117, timezone: "Africa/Nairobi" },
 	"lebanon": { id: "Lebanon", hebrew: "לבנון", english: "Lebanon", languageDirection: "rtl", population: 6.8, softPower: 67, pressFreedom: 106, timezone: "Asia/Beirut" },
 	"netherlands": { id: "Netherlands", hebrew: "הולנד", english: "Netherlands", languageDirection: "ltr", population: 17.1, softPower: 17, pressFreedom: 6, timezone: "Europe/Amsterdam" },
 	"palestine": { id: "Palestine", hebrew: "פלסטין", english: "Palestine", languageDirection: "rtl", population: 5.2, softPower: 123, pressFreedom: 170, timezone: "Asia/Gaza" },
@@ -18,5 +19,5 @@ export const countries = {
 	"uk": { id: "UK", hebrew: "בריטניה", english: "UK", languageDirection: "ltr", population: 67.2, softPower: 2, pressFreedom: 26, timezone: "Europe/London" },
 	"us": { id: "US", hebrew: "ארצות הברית", english: "US", languageDirection: "ltr", population: 331.0, softPower: 1, pressFreedom: 45, timezone: "America/New_York" },
 	"ukraine": { id: "Ukraine", hebrew: "אוקראינה", english: "Ukraine", languageDirection: "ltr", population: 44.1, softPower: 43, pressFreedom: 79, timezone: "Europe/Kyiv" },
-	"uae": { id: "United Arab Emirates", hebrew: "איחוד האמירויות", english: "UAE", languageDirection: "ltr", population: 9.9, softPower: 10, pressFreedom: 145, timezone: "Asia/Dubai" }
+	// "uae": { id: "United Arab Emirates", hebrew: "איחוד האמירויות", english: "UAE", languageDirection: "ltr", population: 9.9, softPower: 10, pressFreedom: 145, timezone: "Asia/Dubai" }
 };

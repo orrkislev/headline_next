@@ -7,7 +7,7 @@ import { Translate } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 
 
-const englishSpeakingCountries = ['us', 'canada', 'australia', 'uk', 'ireland', 'new zealand', 'south africa'];
+const englishSpeakingCountries = ['us', 'canada', 'australia', 'uk', 'ireland', 'new zealand', 'south africa', 'kenya'];
 const hebrewSpeakingCountries = ['israel'];
 const allCountries = [...englishSpeakingCountries, ...hebrewSpeakingCountries];
 

@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const russiaData = {
   "sources": {
     "gazeta_russia": {
       "name": "Gazeta.ru",
@@ -235,4 +235,6 @@ export default {
       "vesti_russia"
     ]
   }
-}
+};
+
+export default russiaData;

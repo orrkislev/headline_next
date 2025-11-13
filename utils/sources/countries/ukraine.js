@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const ukraineData = {
   "sources": {
     "glavcom": {
       "name": "Glavcom",
@@ -170,4 +170,6 @@ export default {
       "svoboda"
     ]
   }
-}
+};
+
+export default ukraineData;

@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const finlandData = {
   "sources": {
     "aamulehti": {
       "name": "Aamulehti",
@@ -235,4 +235,6 @@ export default {
       "mvlehti"
     ]
   }
-}
+};
+
+export default finlandData;

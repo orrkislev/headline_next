@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const japanData = {
   "sources": {
     "asahi": {
       "name": "朝日新聞",
@@ -209,4 +209,6 @@ export default {
       "jbpress"
     ]
   }
-}
+};
+
+export default japanData;

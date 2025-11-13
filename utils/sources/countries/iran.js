@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const iranData = {
   "sources": {
     "alalam": {
       "name": "العالم",
@@ -248,4 +248,6 @@ export default {
       "tasnimnews_english"
     ]
   }
-}
+};
+
+export default iranData;

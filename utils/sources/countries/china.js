@@ -1,5 +1,5 @@
 // Auto-generated from combined_sources.js
-export default {
+const chinaData = {
   "sources": {
     "bbc_chinese": {
       "name": "BBC 中文网",
@@ -346,4 +346,6 @@ export default {
       "secretchina"
     ]
   }
-}
+};
+
+export default chinaData;

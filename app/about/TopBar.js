@@ -8,7 +8,7 @@ import FlagIcon from "@/components/FlagIcon";
 export default function TopBar() {
   const regions = {
     Europe: ['finland', 'france', 'germany', 'italy', 'netherlands', 'poland', 'russia', 'spain', 'turkey', 'uk', 'ukraine'],
-    'Middle East': ['iran', 'israel', 'lebanon', 'palestine', 'uae'],
+    'Middle East': ['iran', 'israel', 'lebanon', 'palestine', 'kenya'],
     Asia: ['china', 'india', 'japan']
   };
 
