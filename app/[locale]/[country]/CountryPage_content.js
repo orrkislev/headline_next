@@ -70,7 +70,7 @@ export default function CountryPageContent({ sources, initialSummaries, yesterda
 
                 <div className="flex flex-col flex-[1] sm:flex-[1] md:flex-[2] lg:flex-[3] 2xl:flex-[4]">
                     <TopBar
-                        {...{ locale, country, sources, userCountry }}
+                        {...{ locale, country, sources, userCountry, pageDate }}
                         currentSummary={currentSummary}
                         initialSummaries={initialSummaries}
                         isRightPanelCollapsed={isRightPanelCollapsed}

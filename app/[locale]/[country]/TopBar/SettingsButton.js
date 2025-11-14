@@ -11,7 +11,7 @@ import { createPortal } from "react-dom";
 const AboutMenu = dynamic(() => import("./AboutMenu"));
 const TranslateToggle = dynamic(() => import("./settings/TranslateToggle"));
 
-export function SettingsButton({ locale, country, sources, isRightPanelCollapsed, userCountry, settingsOpen, setSettingsOpen }) {
+export function SettingsButton({ locale, country, sources, isRightPanelCollapsed, userCountry, pageDate, settingsOpen, setSettingsOpen }) {
     const [aboutMenuOpen, setAboutMenuOpen] = useState(false);
     const translate = useTranslate(state => state.translate);
     
@@ -27,9 +27,15 @@ export function SettingsButton({ locale, country, sources, isRightPanelCollapsed
     // Check if translation is active
     const isTranslationActive = translate.length > 0;
 
+    // Color scheme: sky for regular pages, amber for date pages
+    const isDatePage = !!pageDate;
+    const buttonClasses = isDatePage
+        ? "bg-amber-50 hover:bg-amber-100"
+        : "bg-sky-100 hover:bg-sky-200";
+
     return (
         <>
-            <div className="flex items-center bg-sky-100 rounded-md px-3 py-2 gap-4">
+            <div className={`flex items-center ${buttonClasses} rounded-md px-3 py-2 gap-4`}>
                 {!shouldHideTranslate && (
                     <TranslateToggle
                         {...{ locale, country, sources, userCountry }}

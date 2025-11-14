@@ -33,7 +33,7 @@ const cleanSummaryText = (text) => {
     return cleanText;
 };
 
-export default function TopBar({ locale, country, sources, currentSummary, initialSummaries, isRightPanelCollapsed, onExpandPanel, userCountry }) {
+export default function TopBar({ locale, country, sources, currentSummary, initialSummaries, isRightPanelCollapsed, onExpandPanel, userCountry, pageDate }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage);
     const { isMobile } = useMobile();
     const { isVerticalScreen } = useVerticalScreen();
@@ -231,7 +231,7 @@ export default function TopBar({ locale, country, sources, currentSummary, initi
                                 {/* Settings Button */}
                                 {!isVerticalScreen && (
                                     <SettingsButton
-                                        {...{ locale: effectiveLocale, country, sources, isRightPanelCollapsed, userCountry }}
+                                        {...{ locale: effectiveLocale, country, sources, isRightPanelCollapsed, userCountry, pageDate }}
                                         settingsOpen={settingsOpen}
                                         setSettingsOpen={setSettingsOpen}
                                     />
@@ -254,6 +254,7 @@ export default function TopBar({ locale, country, sources, currentSummary, initi
                                 isRightPanelCollapsed={isRightPanelCollapsed}
                                 hideLanguageToggle={isSpecialCase}
                                 userCountry={userCountry}
+                                pageDate={pageDate}
                             />
                         </div>
                     </div>
