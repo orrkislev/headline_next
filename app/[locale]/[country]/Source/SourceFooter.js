@@ -4,15 +4,15 @@ import { Languages } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
-export function SourceFooter({ source, headline, url, headlines }) {
+export function SourceFooter({ source, headline, url, headlines, pageDate }) {
     const { translate, toggleTranslate } = useTranslate();
     const params = useParams();
     const { locale, country } = params;
 
     // Hide translate icon for specific routes
-    const shouldHideTranslate = 
-        (locale === 'heb' && country?.toLowerCase() === 'israel') || 
-        (locale === 'en' && (country?.toLowerCase() === 'us' || country?.toLowerCase() === 'uk'));
+    const shouldHideTranslate =
+        (locale === 'heb' && country?.toLowerCase() === 'israel') ||
+        (locale === 'en' && (country?.toLowerCase() === 'us' || country?.toLowerCase() === 'uk' || country?.toLowerCase() === 'kenya'));
 
     let timeString = '';
     if (headline) {
@@ -53,6 +53,10 @@ export function SourceFooter({ source, headline, url, headlines }) {
         toggleTranslate(source)
     }
 
+    // Color scheme: blue for regular pages, amber-700 for date pages when active
+    const isDatePage = !!pageDate;
+    const activeColor = isDatePage ? '#b45309' : 'blue';
+
     return (
         <div className="flex justify-between items-center gap-4 bg-white p-2 px-2">
             <div className="flex gap-2 items-center">
@@ -68,7 +72,7 @@ export function SourceFooter({ source, headline, url, headlines }) {
                     <>
                         <div className="w-px h-4 bg-gray-200 mx-1"></div>
                         <IconButton onClick={clickTranslate}>
-                            <Languages size={16} color={translate.includes(source) || translate.includes('ALL') ? 'blue' : 'gray'} />
+                            <Languages size={16} color={translate.includes(source) || translate.includes('ALL') ? activeColor : 'gray'} />
                         </IconButton>
                     </>
                 )}

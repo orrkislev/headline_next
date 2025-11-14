@@ -11,7 +11,7 @@ const englishSpeakingCountries = ['us', 'canada', 'australia', 'uk', 'ireland', 
 const hebrewSpeakingCountries = ['israel'];
 const allCountries = [...englishSpeakingCountries, ...hebrewSpeakingCountries];
 
-export default function TranslateToggle({ locale, country, sources, userCountry, tooltipTitle = "Translate" }) {
+export default function TranslateToggle({ locale, country, sources, userCountry, pageDate, tooltipTitle = "Translate" }) {
     const translate = useTranslate(state => state.translate);
     const setTranslate = useTranslate(state => state.setTranslate);
     const [on, setOn] = useState(false);
@@ -33,11 +33,15 @@ export default function TranslateToggle({ locale, country, sources, userCountry,
         setTranslate(on ? [] : Object.keys(sources));
         setOn(!on);
     }
+
+    // Color scheme: blue for regular pages, amber-800 for date pages when active
+    const isDatePage = !!pageDate;
+    const activeColor = isDatePage ? '#92400e' : '#0000FF';
     
     return (
         <CustomTooltip title={tooltipTitle} placement="bottom">
             <TopBarButton onClick={handleClick}>
-                <Translate sx={{ color: on ? '#0000FF' : '' }} />
+                <Translate sx={{ color: on ? activeColor : '' }} />
             </TopBarButton>
         </CustomTooltip>
     );

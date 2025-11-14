@@ -12,10 +12,12 @@ import { TopBarButton } from "@/components/IconButtons";
 import CustomTooltip from "@/components/CustomTooltip";
 import InnerLink from "@/components/InnerLink";
 import { useEffect, useState } from "react";
+import { useTranslate } from "@/utils/store";
 
 export default function Settings({ locale, country, sources, isRightPanelCollapsed, hideLanguageToggle, userCountry, pageDate }) {
     const [isXl, setIsXl] = useState(false);
     const [showHistoryGroup, setShowHistoryGroup] = useState(false);
+    const useLocalLanguage = useTranslate(state => state.useLocalLanguage);
 
 
     // Check if screen is xl (1600px+)
@@ -61,6 +63,10 @@ export default function Settings({ locale, country, sources, isRightPanelCollaps
         ? "bg-amber-50 shadow-lg hover:bg-amber-100"
         : "bg-sky-100 hover:bg-sky-200";
 
+    // Dynamic label and color for language toggle
+    const languageLabel = useLocalLanguage ? "Local Language" : "Overview Language";
+    const languageLabelColor = useLocalLanguage && isDatePage ? "#D97706" : "text-gray-800";
+
     // Animation delays: RTL in English (right to left), LTR in Hebrew (left to right)
     const delays = locale === 'heb'
         ? { history: '0.05s', display: '0.15s', sources: '0.25s' }
@@ -100,11 +106,26 @@ export default function Settings({ locale, country, sources, isRightPanelCollaps
                 <div className="flex items-center gap-1 animate-[fadeInUp_0.3s_ease-out_both]" style={{ animationDelay: delays.display }}>
                 <span className="text-xs font-['Geist'] mx-2 bg-gray-50 p-2 rounded-md">Display ⟶</span>
                     <div className={`flex items-center font-['Geist'] ${buttonClasses} rounded-md mx-1`}>
-                        <LabeledIcon label="Fonts" icon={<FontToggle country={country} isRightPanelCollapsed={isRightPanelCollapsed} />} tooltip="Change headlines font" />
+                        <LabeledIcon label="Fonts" icon={<FontToggle country={country} isRightPanelCollapsed={isRightPanelCollapsed} pageDate={pageDate} />} tooltip="Change headlines font" />
                     </div>
                     {!shouldHideLanguage && isXl && (
                         <div className={`flex items-center font-['Geist'] ${buttonClasses} rounded-md mx-1`}>
-                            <LabeledIcon label="Overview Language" icon={<LanguageToggle />} tooltip="Toggle Overview Language" />
+                            <div className="flex items-center gap-1 px-4 direction-ltr">
+                                <div className="flex items-center">
+                                    <LanguageToggle pageDate={pageDate} />
+                                </div>
+                                <CustomTooltip title="Toggle Overview Language" placement="bottom" arrow>
+                                    <p className={`text-sm font-semibold font-roboto ${languageLabelColor} my-2 select-none cursor-pointer`} onClick={(e) => {
+                                        e.stopPropagation();
+                                        const button = e.currentTarget.parentElement.parentElement.querySelector('button');
+                                        if (button) {
+                                            button.click();
+                                        }
+                                    }}>
+                                        {languageLabel}
+                                    </p>
+                                </CustomTooltip>
+                            </div>
                         </div>
                     )}
                 </div>

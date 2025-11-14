@@ -7,7 +7,7 @@ import { getTypographyOptions } from "@/utils/typography/typography";
 import { TopBarButton } from "@/components/IconButtons";
 import { useFont, useRightPanel } from "@/utils/store";
 
-export default function FontToggle({ country, isRightPanelCollapsed }) {
+export default function FontToggle({ country, isRightPanelCollapsed, pageDate }) {
     const { font, setFont } = useFont();
     const { isCollapsed, backupFont, setCollapsed, setBackupFont } = useRightPanel();
 
@@ -50,11 +50,15 @@ export default function FontToggle({ country, isRightPanelCollapsed }) {
 
     const toolTip = font === "random" ? "Font Salad" : "Change headlines font";
 
+    // Color scheme: blue for regular pages, amber-800 for date pages when font salad is active
+    const isDatePage = !!pageDate;
+    const activeColor = isDatePage ? '#D97706' : 'blue';
+
     return (
         <div className="flex flex-col items-center">
             <CustomTooltip title={toolTip} placement="bottom">
                 <TopBarButton onClick={handleNextFont}>
-                    <TextFields sx={{ color: font === "random" ? "blue" : "inherit" }} />
+                    <TextFields sx={{ color: font === "random" ? activeColor : "inherit" }} />
                 </TopBarButton>
             </CustomTooltip>
         </div>

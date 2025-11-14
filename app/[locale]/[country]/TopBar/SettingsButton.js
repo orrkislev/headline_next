@@ -16,13 +16,13 @@ export function SettingsButton({ locale, country, sources, isRightPanelCollapsed
     const translate = useTranslate(state => state.translate);
     
     // Calculate conditions here where we have access to props
-    const isSpecialCase = (locale === 'heb' && country === 'israel') || 
-                        (locale === 'en' && (country === 'us' || country === 'uk'));
+    const isSpecialCase = (locale === 'heb' && country === 'israel') ||
+                        (locale === 'en' && (country === 'us' || country === 'uk' || country === 'kenya'));
 
     // Force the hiding based on direct check as a fallback
     const shouldHideTranslate = isSpecialCase ||
         (locale === 'heb' && country === 'Israel') ||
-        (locale === 'en' && (country === 'US' || country === 'UK'));
+        (locale === 'en' && (country === 'US' || country === 'UK' || country === 'Kenya'));
 
     // Check if translation is active
     const isTranslationActive = translate.length > 0;
@@ -38,7 +38,7 @@ export function SettingsButton({ locale, country, sources, isRightPanelCollapsed
             <div className={`flex items-center ${buttonClasses} rounded-md px-3 py-2 gap-4`}>
                 {!shouldHideTranslate && (
                     <TranslateToggle
-                        {...{ locale, country, sources, userCountry }}
+                        {...{ locale, country, sources, userCountry, pageDate }}
                         tooltipTitle={isTranslationActive ?
                             (locale === 'heb' ? "מתורגם" : "Translated") :
                             (locale === 'heb' ? "תרגם כותרות" : "Translate headlines")}

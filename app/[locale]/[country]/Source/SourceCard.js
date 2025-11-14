@@ -128,7 +128,7 @@ export default function SourceCard({ source, headlines, country, locale, isLoadi
                 <div>
                     <Subtitle headlineData={displayHeadline} {...{ isLoading }} />
                     <SourceSlider {...{ locale, country, headlines, pageDate }} />
-                    <SourceFooter url={headlines && headlines.length > 0 ? headlines[0].link : ''} {...{ headline, headlines, source }} />
+                    <SourceFooter url={headlines && headlines.length > 0 ? headlines[0].link : ''} {...{ headline, headlines, source, pageDate }} />
                 </div>
             </div>
         </div>
