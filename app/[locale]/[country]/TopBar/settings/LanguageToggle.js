@@ -10,15 +10,13 @@ export default function LanguageToggle() {
     const toolTipText = useLocalLanguage ? 'Switch to English overviews' : 'Switch to overviews in the local language';
 
     return (
-        <div className='flex flex-col items-center gap-2 pt-1'>
-            <CustomTooltip
-                title={toolTipText}
-                placement="bottom"
-            >
-                <TopBarButton onClick={toggleLocalLanguage}>
-                    <Language color={useLocalLanguage ? 'primary' : ''} />
-                </TopBarButton>
-            </CustomTooltip>
-        </div>
+        <CustomTooltip
+            title={toolTipText}
+            placement="bottom"
+        >
+            <TopBarButton onClick={toggleLocalLanguage}>
+                <Language sx={{ color: useLocalLanguage ? "blue" : "inherit" }} />
+            </TopBarButton>
+        </CustomTooltip>
     );
 }

@@ -14,7 +14,8 @@
       "Bash(nul)",
       "Bash(dir:*)",
       "Bash(findstr:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(/tmp/topbar_old.js)"
     ],
     "deny": [],
     "ask": []

@@ -2,6 +2,7 @@ import { orderOptionLabels } from "@/utils/sources/getCountryData";
 import PopUpCleaner from "@/components/PopUp";
 import { TrendingUp, Shield, ArrowRightLeft, ArrowLeftRight, List, ChevronDown, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import { createPortal } from "react-dom";
 
 export default function OrderMenu({ open, close, locale, order, setOrder }) {
     const [isExplanationExpanded, setIsExplanationExpanded] = useState(false);
@@ -11,10 +12,11 @@ export default function OrderMenu({ open, close, locale, order, setOrder }) {
     }
 
     if (!open) return null
-    return (
+
+    const menuContent = (
         <>
             <PopUpCleaner open={open} close={close} />
-            <div className={`absolute z-[9999] ${locale == 'heb' ? 'left-0' : 'right-0'} bg-white shadow-xl rounded-lg p-6 pt-4 border border-gray-200`} style={{ direction: 'ltr' }}>
+            <div className={`fixed z-[9999] ${locale == 'heb' ? 'left-auto right-auto' : 'right-4'} top-[120px] bg-white shadow-xl rounded-lg p-6 pt-4 border border-gray-200`} style={{ direction: 'ltr' }}>
                 <div className="w-64 bg-white rounded-sm text-sm">
                     <div className="text-sm underline underline-offset-4 font-bold mb-2 font-['Geist'] flex justify-start items-start">Source Order</div>
 
@@ -71,4 +73,6 @@ export default function OrderMenu({ open, close, locale, order, setOrder }) {
             </div>
         </>
     );
+
+    return typeof window !== 'undefined' ? createPortal(menuContent, document.body) : null;
 };

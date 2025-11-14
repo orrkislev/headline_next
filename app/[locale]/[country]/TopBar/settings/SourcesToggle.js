@@ -8,6 +8,7 @@ import { useOrder, useActiveWebsites } from "@/utils/store";
 import { List } from "@mui/icons-material";
 import Image from "next/image";
 import { Suspense, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 
 
 export default function SourcesToggle({ country, locale, sources }) {
@@ -15,17 +16,22 @@ export default function SourcesToggle({ country, locale, sources }) {
 
     return (
         <>
-            <PopUpCleaner open={open} close={() => setOpen(false)} />
             <div className="relative">
                 <CustomTooltip title="Select news sources" placement="left">
                     <TopBarButton onClick={() => setOpen(p => !p)}>
                         <List />
                     </TopBarButton>
                 </CustomTooltip>
-                <Suspense>
-                    <SourcesGrid {...{ open, country, locale, sources }} />
-                </Suspense>
             </div>
+            {open && typeof window !== 'undefined' && createPortal(
+                <>
+                    <PopUpCleaner open={open} close={() => setOpen(false)} />
+                    <Suspense>
+                        <SourcesGrid {...{ open, country, locale, sources, close: () => setOpen(false) }} />
+                    </Suspense>
+                </>,
+                document.body
+            )}
         </>
     );
 }
@@ -74,7 +80,7 @@ function SourcesGrid({ open, country, locale, sources }) {
 
     if (!open) return null;
     return (
-        <div className={`absolute top-8 ${locale === 'heb' ? 'left-0' : 'right-0'} bg-white rounded-lg shadow-lg p-4 h-[65vh] w-[55vw] z-[9999]`}>
+        <div className={`fixed top-[120px] ${locale === 'heb' ? 'left-4' : 'right-4'} bg-white rounded-lg shadow-lg p-4 h-[65vh] w-[55vw] z-[9999]`}>
             <div className="h-full overflow-y-auto custom-scrollbar direction-ltr pr-4">
                 <table className="border border-white text-sm">
                     <thead className="border-b border-dashed border-gray-300">

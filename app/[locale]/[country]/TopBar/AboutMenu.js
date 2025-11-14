@@ -23,9 +23,9 @@ export default function AboutMenu({ open, onClose }){
 
     return (
         <>
-            <PopUpCleaner close={handleClose} />
-            <div 
-                className={`fixed inset-0 flex items-center justify-center z-[1000] direction-ltr bg-black/20`}
+            <PopUpCleaner open={open} close={handleClose} />
+            <div
+                className={`fixed inset-0 flex items-center justify-center z-[9999] direction-ltr bg-black/20`}
                 onClick={handleClose}
             >
                 <div 

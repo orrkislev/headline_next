@@ -35,7 +35,7 @@ function GlobeIcon() {
 export default function Flag({ country, locale, originalLocale }) {
     const [open, setOpen] = useState(false);
     return (
-        <div className="relative z-[1000]">
+        <div className="relative">
             <div className="h-full flex items-center justify-center">
                 <TopBarButton onClick={() => setOpen(!open)}>
                     <FlagIcon country={country} />

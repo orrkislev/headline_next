@@ -4,15 +4,14 @@ import CustomTooltip from "@/components/CustomTooltip";
 import { TopBarButton } from "@/components/IconButtons";
 import { SettingsRounded, InfoOutlined } from "@mui/icons-material";
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTranslate } from "@/utils/store";
+import { createPortal } from "react-dom";
 
-const Settings = dynamic(() => import("./settings/Settings"));
 const AboutMenu = dynamic(() => import("./AboutMenu"));
 const TranslateToggle = dynamic(() => import("./settings/TranslateToggle"));
 
-export function SettingsButton({ locale, country, sources, isRightPanelCollapsed, userCountry }) {
-    const [open, setOpen] = useState(false);
+export function SettingsButton({ locale, country, sources, isRightPanelCollapsed, userCountry, settingsOpen, setSettingsOpen }) {
     const [aboutMenuOpen, setAboutMenuOpen] = useState(false);
     const translate = useTranslate(state => state.translate);
     
@@ -30,39 +29,30 @@ export function SettingsButton({ locale, country, sources, isRightPanelCollapsed
 
     return (
         <>
-            <div className={` ${open ? `w-auto opacity-100 ml-4 ${locale !== 'heb' ? 'mr-4' : ''}` : 'w-0 opacity-0 ml-0'}`}>
-                <Settings 
-                    locale={locale} 
-                    country={country} 
-                    sources={sources}
-                    isRightPanelCollapsed={isRightPanelCollapsed}
-                    hideLanguageToggle={isSpecialCase}
-                    userCountry={userCountry}
-                />
-            </div>
-            <div className="flex items-center">
+            <div className="flex items-center bg-sky-100 rounded-md px-3 py-2 gap-4">
                 {!shouldHideTranslate && (
-                    <>
-                        <TranslateToggle 
-                            {...{ locale, country, sources, userCountry }} 
-                            tooltipTitle={isTranslationActive ? "Translated" : "Translate headlines"}
-                        />
-                        <div className="w-2"></div>
-                    </>
+                    <TranslateToggle
+                        {...{ locale, country, sources, userCountry }}
+                        tooltipTitle={isTranslationActive ?
+                            (locale === 'heb' ? "מתורגם" : "Translated") :
+                            (locale === 'heb' ? "תרגם כותרות" : "Translate headlines")}
+                    />
                 )}
-                <CustomTooltip title="About the Hear" arrow>
+                <CustomTooltip title={locale === 'heb' ? "אודות The Hear" : "About the Hear"} arrow>
                     <TopBarButton size="small" onClick={() => setAboutMenuOpen(true)}>
                         <InfoOutlined />
                     </TopBarButton>
                 </CustomTooltip>
-                <div className="w-2"></div>
-                <CustomTooltip title="Settings" arrow>
-                    <TopBarButton size="small" onClick={() => setOpen(prev => !prev)}>
-                        <SettingsRounded sx={{ color: open ? "black" : "inherit" }} />
+                <CustomTooltip title={locale === 'heb' ? "הגדרות" : "Settings"} arrow>
+                    <TopBarButton size="small" onClick={() => setSettingsOpen(prev => !prev)}>
+                        <SettingsRounded sx={{ color: settingsOpen ? "black" : "inherit" }} />
                     </TopBarButton>
                 </CustomTooltip>
             </div>
-            <AboutMenu open={aboutMenuOpen} onClose={() => setAboutMenuOpen(false)} />
+            {aboutMenuOpen && typeof window !== 'undefined' && createPortal(
+                <AboutMenu open={aboutMenuOpen} onClose={() => setAboutMenuOpen(false)} />,
+                document.body
+            )}
         </>
     );
 }

@@ -113,8 +113,8 @@ export function DateSelector({ locale, country }) {
                 </div>,
                 document.body
             )}
-            <LabeledContent label={<span dir="ltr">{label}</span>}>
-                <div className={`flex items-center gap-1 relative ${locale === 'heb' ? 'flex-row-reverse' : 'flex-row'}`}>
+            <LabeledContent label={<span dir="ltr">{label}</span>} clickable={false} tooltip="select date">
+                <div className="flex items-center gap-1 relative" style={{ direction: 'ltr' }}>
                     <>
                         <IconButton
                             size="small"
