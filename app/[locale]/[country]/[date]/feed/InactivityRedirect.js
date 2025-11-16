@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function InactivityRedirect({ locale, country, date, timeoutSeconds = 40 }) {
+export default function InactivityRedirect({ locale, country, date, timeoutSeconds = 180 }) {
     const router = useRouter();
     const [timeLeft, setTimeLeft] = useState(timeoutSeconds);
     const [showWarning, setShowWarning] = useState(false);
@@ -28,11 +28,11 @@ export default function InactivityRedirect({ locale, country, date, timeoutSecon
             router.push(parentUrl);
         }, timeoutSeconds * 1000);
 
-        // Update countdown display (show warning in last 10 seconds)
+        // Update countdown display (show warning in last 20 seconds)
         intervalRef.current = setInterval(() => {
             setTimeLeft(prev => {
                 const newTime = prev - 1;
-                if (newTime <= 10 && newTime > 0) {
+                if (newTime <= 20 && newTime > 0) {
                     setShowWarning(true);
                 }
                 return newTime;
@@ -46,6 +46,14 @@ export default function InactivityRedirect({ locale, country, date, timeoutSecon
     }, [resetTimer]);
 
     useEffect(() => {
+        // Don't run for bots/crawlers - prevents Google from detecting redirects
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isCrawler = /bot|crawler|spider|crawling|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest|slackbot|vkShare|W3C_Validator/i.test(userAgent);
+
+        if (isCrawler) {
+            return; // Don't start timer for crawlers
+        }
+
         // Start timer on mount
         resetTimer();
 
