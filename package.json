@@ -29,6 +29,7 @@
     "country-to-iso": "^1.6.0",
     "date-fns": "^2.29.3",
     "firebase": "^11.3.1",
+    "googleapis": "^166.0.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.475.0",
     "motion": "^12.10.4",

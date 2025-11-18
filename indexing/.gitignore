@@ -1,0 +1,12 @@
+# Google Cloud service account credentials - NEVER COMMIT THESE
+service-account-key.json
+*.json
+!submitted-urls.json
+!package.json
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+temp/
