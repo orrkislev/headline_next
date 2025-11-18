@@ -11,8 +11,8 @@ import DateLinksData from "../TopBar/DateLinksData";
 import { isHebrewContentAvailable } from "@/utils/daily summary utils";
 
 // Archive pages are immutable historical content that never changes
-export const revalidate = 31536000; // 1 year in seconds
-export const dynamic = 'force-static'; // Ensure static generation
+// export const revalidate = 31536000; // 1 year in seconds
+// export const dynamic = 'force-static'; // Ensure static generation
 
 // Generate SEO metadata for a specific day
 export async function generateMetadata({ params }) {
