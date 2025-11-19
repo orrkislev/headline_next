@@ -156,7 +156,7 @@ export default function TopBar({ locale, country, sources, currentSummary, initi
                                     <div className="border-l border-dotted border-gray-500 self-stretch mx-2 sm:mx-5 flex-shrink-0"></div>
                                 </>
                             )}
-                            <TimeDisplay locale={effectiveLocale} />
+                            <TimeDisplay locale={effectiveLocale} country={country} />
                             <div className="border-l border-dotted border-gray-500 h-5 w-0 mx-2 sm:mx-5 flex-shrink-0"></div>
                             <Flag {...{ country, locale: effectiveLocale, originalLocale: locale}} />
                             {/* Show current summary title when right panel is collapsed or on vertical screens */}
