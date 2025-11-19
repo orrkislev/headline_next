@@ -1,5 +1,6 @@
 import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
-import { isSameDay, parse, sub } from "date-fns";
+import { fetchDailySnapshotWithFallback, fetchDailySnapshot } from "@/utils/database/fetchDailySnapshot";
+import { parse } from "date-fns";
 import { getWebsiteName, getSourceData } from "@/utils/sources/getCountryData";
 import { redirect } from "next/navigation";
 import { countries } from "@/utils/sources/countries";
@@ -30,8 +31,10 @@ export async function generateMetadata({ params }) {
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date(2000, 0, 1));
     parsedDate.setHours(12, 0, 0, 0);
 
-    // Get the day's summary to extract the main headline for description
-    const daySummary = await getCountryDailySummary(country, parsedDate);
+    // Try to get the day's summary from JSON first (cheaper than Firestore for metadata)
+    // Only query Firestore if JSON doesn't exist at all (not if JSON exists but dailySummary is missing)
+    const jsonData = await fetchDailySnapshot(country, parsedDate);
+    const daySummary = jsonData?.dailySummary ?? (jsonData ? null : await getCountryDailySummary(country, parsedDate));
     const currentHeadline = daySummary ? getHeadline(daySummary, locale) : null;
 
     const title = locale === 'heb'
@@ -99,7 +102,7 @@ export async function generateMetadata({ params }) {
 export default async function FeedPage({ params }) {
     try {
         const { country, locale, date } = await params;
-        
+
         // Date parsing (no current date comparison for static generation)
         const parsedDate = parse(date, 'dd-MM-yyyy', new Date(2000, 0, 1));
         parsedDate.setHours(12, 0, 0, 0);
@@ -140,23 +143,37 @@ export default async function FeedPage({ params }) {
             redirect(`/${locale}/${country}`);
         }
 
-        // Fetch same data as main page
-        const headlines = await getCountryDayHeadlines(country, parsedDate, 1);
-        const initialSummaries = await getCountryDaySummaries(country, parsedDate, 1);
-        const daySummary = await getCountryDailySummary(country, parsedDate);
-        const yesterdaySummary = await getCountryDailySummary(country, sub(parsedDate, { days: 1 }));
-        
-        // Hebrew content check
+        // Try to fetch from JSON snapshot first, with automatic Firestore fallback
+        const data = await fetchDailySnapshotWithFallback(
+            country,
+            parsedDate,
+            async () => {
+                // Fallback to Firestore if JSON not available
+                console.log(`[FEED-PAGE] 📊 Using Firestore for ${country} ${date}`);
+                const headlines = await getCountryDayHeadlines(country, parsedDate, 1);
+                const summaries = await getCountryDaySummaries(country, parsedDate, 1);
+                const dailySummary = await getCountryDailySummary(country, parsedDate);
+                return { headlines, summaries, dailySummary };
+            }
+        );
+
+        const headlines = data.headlines;
+        const initialSummaries = data.summaries;
+        const daySummary = data.dailySummary;
+        // Note: Feed pages show single-day content, so we don't need yesterdaySummary
+        // (unlike date pages which show 2-day window and display yesterdaySummary in navigation)
+        const yesterdaySummary = null;
+
+        // Hebrew content check - only check today's content (feed pages show single day)
         if (locale === 'heb') {
             const hasHebrewContent = initialSummaries.some(summary => isHebrewContentAvailable(summary)) ||
-                                    (daySummary && isHebrewContentAvailable(daySummary)) ||
-                                    (yesterdaySummary && isHebrewContentAvailable(yesterdaySummary));
-            
+                (daySummary && isHebrewContentAvailable(daySummary));
+
             if (!hasHebrewContent) {
                 redirect(`/en/${country}/${date}/feed`);
             }
         }
-        
+
         // Prepare sources for JSON-LD
         const sources = {};
         headlines.forEach(headline => {
@@ -164,7 +181,7 @@ export default async function FeedPage({ params }) {
             if (!sources[sourceName]) sources[sourceName] = { headlines: [], website_id: headline.website_id };
             sources[sourceName].headlines.push(headline);
         });
-        
+
         return (
             <div className="min-h-screen bg-gray-50 pb-4">
                 {/* JSON-LD structured data for feed page */}

@@ -12,6 +12,7 @@
 
 .claude/
 claude/
+.claude
 
 # testing
 /coverage

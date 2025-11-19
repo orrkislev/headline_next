@@ -9,15 +9,15 @@ import { redirect } from "next/navigation";
 function ServerArchiveNavigation({ country, locale, year, month }) {
     const currentMonth = parseInt(month);
     const currentYear = parseInt(year);
-    
+
     // Calculate previous month
     const prevMonth = currentMonth === 1 ? 12 : currentMonth - 1;
     const prevYear = currentMonth === 1 ? currentYear - 1 : currentYear;
-    
+
     // Calculate next month  
     const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
     const nextYear = currentMonth === 12 ? currentYear + 1 : currentYear;
-    
+
     // Check if navigation months should be available based on launch dates and current date
     const today = new Date();
     const nextMonthDate = new Date(nextYear, nextMonth - 1, 1);
@@ -36,7 +36,7 @@ function ServerArchiveNavigation({ country, locale, year, month }) {
                         {locale === 'heb' ? 'חודש הבא' : 'Next Month'}: {new Date(nextYear, nextMonth - 1).toLocaleDateString(locale === 'heb' ? 'he' : 'en', { month: 'long', year: 'numeric' })}
                     </a>
                 )}
-                
+
                 {/* Country navigation - matches ArchiveCountryNavigator exactly */}
                 {Object.keys(countries)
                     .filter(c => c !== 'uae' && c !== 'finland') // Same filter as ArchiveCountryNavigator
@@ -45,12 +45,12 @@ function ServerArchiveNavigation({ country, locale, year, month }) {
                             {locale === 'heb' ? `${countries[c].english} ארכיון` : `${countries[c].english} Headlines Archive`} - {new Date(parseInt(year), parseInt(month) - 1).toLocaleDateString(locale === 'heb' ? 'he' : 'en', { month: 'long', year: 'numeric' })}
                         </a>
                     ))}
-                
+
                 {/* Global page link */}
                 <a href={`/${locale}/global`}>
                     {locale === 'heb' ? 'תצוגה עולמית' : 'Global Headlines View'}
                 </a>
-                
+
                 {/* Additional SEO-friendly internal links */}
                 <a href={`/${locale}/${country}`}>
                     {locale === 'heb' ? 'כותרות חיות מ' : 'Live Headlines from'} {locale === 'heb' ? countries[country].hebrew : countries[country].english}
@@ -60,13 +60,10 @@ function ServerArchiveNavigation({ country, locale, year, month }) {
     );
 }
 
-// Conditional revalidation - historical months cached forever, current month updates daily
-const currentDate = new Date();
-const currentYear = currentDate.getFullYear();
-const currentMonth = currentDate.getMonth() + 1;
-
-// Note: This will be set at build time for each route
-export const revalidate = 86400; // Default to 24 hours - will be optimized at edge for historical months
+// Historical months are immutable - cache forever
+// Current month updates daily
+// Note: We'll check this at runtime in the page component
+export const revalidate = false; // Cache historical months forever
 
 export const dynamicParams = false;
 
@@ -114,7 +111,7 @@ export async function generateStaticParams() {
                     year: date.getFullYear().toString(),
                     month: (date.getMonth() + 1).toString().padStart(2, '0')
                 });
-                
+
                 // Move to next month
                 date.setMonth(date.getMonth() + 1);
             }
@@ -130,45 +127,44 @@ export async function generateMetadata({ params }) {
 
 export default async function MonthlyArchivePage({ params }) {
     const { country, locale, year, month } = await params;
-    
+
     // Fetch all daily summaries for this month
     const dailySummaries = await getCountryDailySummariesForMonth(country, parseInt(year), parseInt(month));
-    
+
     // Check if Hebrew content is available for Hebrew locale
     if (locale === 'heb' && dailySummaries.length > 0) {
         const hasHebrewContent = dailySummaries.some(summary => isHebrewContentAvailable(summary));
-        
+
         // If no Hebrew content is available, redirect to English
         if (!hasHebrewContent) {
             redirect(`/en/${country}/history/${year}/${month}`);
         }
     }
-    
+
     // Note: Sorting will be handled in the component for proper grid ordering
-    
+
     const monthName = new Date(parseInt(year), parseInt(month) - 1).toLocaleDateString(
-        locale === 'heb' ? 'he' : 'en', 
+        locale === 'heb' ? 'he' : 'en',
         { month: 'long', year: 'numeric' }
     );
 
     return (
         <>
             {/* JSON-LD structured data for SEO */}
-            <LdJson 
+            <LdJson
                 country={country}
                 locale={locale}
                 year={year}
                 month={month}
                 dailySummaries={dailySummaries}
                 headlines={dailySummaries.flatMap(summary => summary.headlines || [])}
-                sources={[]}
             />
-            
+
             {/* Server-side navigation links for SEO - hidden but crawlable */}
             <ServerArchiveNavigation country={country} locale={locale} year={year} month={month} />
-            
+
             {/* Client-side interactive UI */}
-            <MonthlyArchiveGrid 
+            <MonthlyArchiveGrid
                 dailySummaries={dailySummaries}
                 country={country}
                 locale={locale}
