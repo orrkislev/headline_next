@@ -2799,7 +2799,1007 @@
       "submittedAt": "2025-11-18T08:50:57.313Z",
       "status": "success",
       "priority": 0.9819178082191781
+    },
+    "https://www.the-hear.com/en/ukraine/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:34:58.759Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/us/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:34:59.120Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/uk/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:34:59.468Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/turkey/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:34:59.759Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/spain/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:00.100Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/russia/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:00.379Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/poland/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:00.785Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/palestine/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:01.267Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/netherlands/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:01.719Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/lebanon/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:02.155Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/japan/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:02.609Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/italy/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:02.884Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/iran/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:03.155Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/india/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:03.586Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/germany/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:03.861Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/france/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:04.138Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/finland/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:04.427Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/china/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:04.704Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/israel/18-11-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:04.991Z",
+      "status": "success",
+      "priority": 1
+    },
+    "https://www.the-hear.com/en/palestine/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:05.306Z",
+      "status": "success",
+      "priority": 0.9810958904109589
+    },
+    "https://www.the-hear.com/en/netherlands/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:05.588Z",
+      "status": "success",
+      "priority": 0.9810958904109589
+    },
+    "https://www.the-hear.com/en/lebanon/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:05.937Z",
+      "status": "success",
+      "priority": 0.9810958904109589
+    },
+    "https://www.the-hear.com/en/japan/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:06.349Z",
+      "status": "success",
+      "priority": 0.9810958904109589
+    },
+    "https://www.the-hear.com/en/italy/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:06.626Z",
+      "status": "success",
+      "priority": 0.9810958904109589
+    },
+    "https://www.the-hear.com/en/iran/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:06.921Z",
+      "status": "success",
+      "priority": 0.9810958904109589
+    },
+    "https://www.the-hear.com/en/india/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:07.221Z",
+      "status": "success",
+      "priority": 0.9810958904109589
+    },
+    "https://www.the-hear.com/en/germany/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:07.569Z",
+      "status": "success",
+      "priority": 0.9810958904109589
+    },
+    "https://www.the-hear.com/en/france/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:07.859Z",
+      "status": "success",
+      "priority": 0.9810958904109589
+    },
+    "https://www.the-hear.com/en/china/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:08.300Z",
+      "status": "success",
+      "priority": 0.9810958904109589
+    },
+    "https://www.the-hear.com/en/ukraine/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:08.604Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/us/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:08.945Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/uk/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:09.226Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/turkey/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:09.500Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/spain/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:09.860Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/russia/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:10.161Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/poland/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:10.463Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/palestine/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:10.842Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/netherlands/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:11.161Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/lebanon/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:11.586Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/japan/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:11.952Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/italy/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:12.299Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/iran/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:12.589Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/india/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:12.874Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/germany/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:13.146Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/france/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:13.444Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/china/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:13.747Z",
+      "status": "success",
+      "priority": 0.9802739726027397
+    },
+    "https://www.the-hear.com/en/finland/31-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:14.020Z",
+      "status": "success",
+      "priority": 0.9801470588235294
+    },
+    "https://www.the-hear.com/en/ukraine/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:14.306Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/us/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:14.593Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/uk/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:14.952Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/turkey/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:15.226Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/spain/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:15.532Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/russia/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:15.833Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/poland/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:16.150Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/palestine/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:16.453Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/netherlands/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:16.751Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/lebanon/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:17.038Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/japan/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:17.329Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/italy/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:17.627Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/iran/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:17.925Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/india/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:18.223Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/germany/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:18.521Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/france/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:18.897Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/china/24-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:19.199Z",
+      "status": "success",
+      "priority": 0.9794520547945206
+    },
+    "https://www.the-hear.com/en/finland/30-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:19.578Z",
+      "status": "success",
+      "priority": 0.9790441176470588
+    },
+    "https://www.the-hear.com/en/ukraine/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:19.859Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/us/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:20.317Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/uk/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:20.592Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/turkey/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:20.869Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/spain/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:21.171Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/russia/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:21.550Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/poland/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:21.856Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/palestine/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:22.152Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/netherlands/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:22.472Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/lebanon/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:22.773Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/japan/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:23.055Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/italy/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:23.419Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/iran/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:23.819Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/india/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:24.155Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/germany/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:24.453Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/france/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:24.797Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/china/23-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:25.106Z",
+      "status": "success",
+      "priority": 0.9786301369863014
+    },
+    "https://www.the-hear.com/en/finland/29-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:25.467Z",
+      "status": "success",
+      "priority": 0.9779411764705882
+    },
+    "https://www.the-hear.com/en/ukraine/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:25.894Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/us/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:26.217Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/uk/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:26.485Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/turkey/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:26.763Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/spain/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:27.066Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/russia/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:27.344Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/poland/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:27.645Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/palestine/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:27.952Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/netherlands/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:28.329Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/lebanon/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:28.696Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/japan/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:29.088Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/italy/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:29.397Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/iran/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:29.774Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/india/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:30.059Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/germany/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:30.384Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/france/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:30.771Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/china/22-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:31.164Z",
+      "status": "success",
+      "priority": 0.9778082191780821
+    },
+    "https://www.the-hear.com/en/ukraine/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:36.897Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/us/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:37.179Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/uk/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:37.622Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/turkey/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:37.984Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/spain/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:38.259Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/russia/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:38.556Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/poland/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:38.835Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/palestine/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:39.148Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/netherlands/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:39.481Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/lebanon/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:39.879Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/japan/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:40.176Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/italy/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:40.452Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/iran/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:40.866Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/india/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:41.162Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/germany/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:41.470Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/france/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:41.752Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/china/21-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:42.060Z",
+      "status": "success",
+      "priority": 0.976986301369863
+    },
+    "https://www.the-hear.com/en/finland/28-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:42.645Z",
+      "status": "success",
+      "priority": 0.9768382352941176
+    },
+    "https://www.the-hear.com/en/ukraine/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:42.918Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/us/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:43.185Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/uk/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:43.497Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/turkey/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:43.784Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/spain/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:44.064Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/russia/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:44.348Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/poland/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:44.652Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/palestine/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:44.962Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/netherlands/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:45.352Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/lebanon/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:45.662Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/japan/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:45.944Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/italy/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:46.250Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/iran/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:46.562Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/india/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:46.973Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/germany/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:47.280Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/france/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:47.635Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/china/20-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:48.012Z",
+      "status": "success",
+      "priority": 0.9761643835616438
+    },
+    "https://www.the-hear.com/en/finland/27-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:48.423Z",
+      "status": "success",
+      "priority": 0.975735294117647
+    },
+    "https://www.the-hear.com/en/ukraine/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:48.747Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/us/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:49.060Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/uk/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:49.514Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/turkey/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:49.803Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/spain/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:50.128Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/russia/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:50.470Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/poland/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:50.759Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/palestine/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:51.067Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/netherlands/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:51.391Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/lebanon/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:51.708Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/japan/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:52.020Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/italy/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:52.341Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/iran/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:52.676Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/india/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:52.969Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/germany/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:53.273Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/france/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:53.593Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/china/19-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:53.891Z",
+      "status": "success",
+      "priority": 0.9753424657534246
+    },
+    "https://www.the-hear.com/en/finland/26-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:54.172Z",
+      "status": "success",
+      "priority": 0.9746323529411764
+    },
+    "https://www.the-hear.com/en/ukraine/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:54.568Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/us/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:54.904Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/uk/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:55.301Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/turkey/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:55.675Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/spain/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:56.009Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/russia/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:56.296Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/poland/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:56.571Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/palestine/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:56.908Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/netherlands/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:57.299Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/lebanon/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:57.677Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/japan/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:57.953Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/italy/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:58.250Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/iran/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:58.559Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/india/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:58.861Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/germany/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:59.160Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/france/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:59.526Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/china/18-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:35:59.809Z",
+      "status": "success",
+      "priority": 0.9745205479452055
+    },
+    "https://www.the-hear.com/en/ukraine/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:00.169Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/us/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:00.471Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/uk/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:00.738Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/turkey/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:01.011Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/spain/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:01.306Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/russia/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:01.581Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/poland/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:01.862Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/palestine/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:02.176Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/netherlands/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:02.499Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/lebanon/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:02.788Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/japan/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:03.088Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/italy/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:03.356Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/iran/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:03.696Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/india/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:04.040Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/germany/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:04.346Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/france/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:04.675Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/china/17-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:04.996Z",
+      "status": "success",
+      "priority": 0.9736986301369863
+    },
+    "https://www.the-hear.com/en/finland/25-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:05.269Z",
+      "status": "success",
+      "priority": 0.9735294117647059
+    },
+    "https://www.the-hear.com/en/ukraine/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:05.642Z",
+      "status": "success",
+      "priority": 0.9728767123287672
+    },
+    "https://www.the-hear.com/en/us/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:05.921Z",
+      "status": "success",
+      "priority": 0.9728767123287672
+    },
+    "https://www.the-hear.com/en/uk/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:06.216Z",
+      "status": "success",
+      "priority": 0.9728767123287672
+    },
+    "https://www.the-hear.com/en/turkey/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:06.516Z",
+      "status": "success",
+      "priority": 0.9728767123287672
+    },
+    "https://www.the-hear.com/en/spain/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:06.842Z",
+      "status": "success",
+      "priority": 0.9728767123287672
+    },
+    "https://www.the-hear.com/en/russia/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:07.178Z",
+      "status": "success",
+      "priority": 0.9728767123287672
+    },
+    "https://www.the-hear.com/en/poland/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:07.455Z",
+      "status": "success",
+      "priority": 0.9728767123287672
+    },
+    "https://www.the-hear.com/en/palestine/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:07.755Z",
+      "status": "success",
+      "priority": 0.9728767123287672
+    },
+    "https://www.the-hear.com/en/netherlands/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:08.020Z",
+      "status": "success",
+      "priority": 0.9728767123287672
+    },
+    "https://www.the-hear.com/en/lebanon/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:08.308Z",
+      "status": "success",
+      "priority": 0.9728767123287672
+    },
+    "https://www.the-hear.com/en/japan/16-10-2025/feed": {
+      "submittedAt": "2025-11-19T11:36:08.636Z",
+      "status": "success",
+      "priority": 0.9728767123287672
     }
   },
-  "lastRun": "2025-11-18T08:50:57.419Z"
+  "lastRun": "2025-11-19T11:36:08.737Z"
 }

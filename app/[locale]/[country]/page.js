@@ -36,14 +36,21 @@ export default async function Page({ params }) {
     const today = new Date();
     const yesterday = sub(today, { days: 1 });
 
-    // Try to get yesterday's summary from JSON (fast & cheap)
-    // Only query Firestore if yesterdayData doesn't exist at all (not if it exists but dailySummary is missing)
+    // Get yesterday's data from JSON (fast & cheap)
     const yesterdayData = await fetchDailySnapshot(country, yesterday);
     const yesterdaySummary = yesterdayData?.dailySummary ?? (yesterdayData ? null : await getCountryDailySummary(country, yesterday));
 
-    // Get today's data from Firestore (live, real-time)
-    const headlines = await getCountryDayHeadlines(country, today, 2);
-    const initialSummaries = await getCountryDaySummaries(country, today, 2);
+    // Get today's data from Firestore (live, real-time) - only query 1 day
+    const headlines = await getCountryDayHeadlines(country, today, 1);
+    const initialSummaries = await getCountryDaySummaries(country, today, 1);
+
+    // Merge yesterday's data from JSON if available
+    if (yesterdayData?.headlines) {
+        headlines.push(...yesterdayData.headlines);
+    }
+    if (yesterdayData?.summaries) {
+        initialSummaries.push(...yesterdayData.summaries);
+    }
 
     // Check if Hebrew content is available for Hebrew locale
     if (locale === 'heb') {

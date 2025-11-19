@@ -92,8 +92,8 @@ export default async function Page({ params }) {
         if (!data) {
             // Fallback to Firestore if JSON not available
             console.log(`[DATE-PAGE] 📊 Using Firestore for ${country} ${date}`);
-            const headlines = await getCountryDayHeadlines(country, parsedDate, 2);
-            const summaries = await getCountryDaySummaries(country, parsedDate, 2);
+            const headlines = await getCountryDayHeadlines(country, parsedDate, 1);
+            const summaries = await getCountryDaySummaries(country, parsedDate, 1);
             const dailySummary = await getCountryDailySummary(country, parsedDate);
             data = { headlines, summaries, dailySummary };
         }
@@ -120,8 +120,8 @@ export default async function Page({ params }) {
             console.log(`[DATE-PAGE] 🔍 Validating recent date (${daysSinceDate} days old) - checking for incomplete data...`);
 
             // Fetch a sample from Firestore to compare counts
-            const firestoreHeadlines = await getCountryDayHeadlines(country, parsedDate, 2);
-            const firestoreSummaries = await getCountryDaySummaries(country, parsedDate, 2);
+            const firestoreHeadlines = await getCountryDayHeadlines(country, parsedDate, 1);
+            const firestoreSummaries = await getCountryDaySummaries(country, parsedDate, 1);
 
             const jsonHeadlineCount = data.headlines?.length || 0;
             const jsonSummaryCount = data.summaries?.length || 0;
