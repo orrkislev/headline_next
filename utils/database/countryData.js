@@ -1,6 +1,6 @@
 import { endOfDay, sub, endOfMonth, startOfMonth } from "date-fns";
 import { initializeApp } from 'firebase/app';
-import { collection, doc, getDocs, limit, onSnapshot, orderBy, query, where, getFirestore } from "firebase/firestore";
+import { collection, doc, getDocs, getDoc, limit, onSnapshot, orderBy, query, where, getFirestore } from "firebase/firestore";
 import { cache } from "react";
 
 import { firebaseConfig } from './firebaseConfig';
@@ -307,3 +307,80 @@ export const getGlobalDailySummariesForDate = cache(async (year, month, date) =>
   
   return globalSummaries;
 })
+
+// ========================================================================
+// METADATA AGGREGATED HEADLINES - Optimized single-read approach
+// ========================================================================
+// This function fetches headlines from the daily metadata document which
+// aggregates all headlines for a specific date into a single document.
+// Benefits: 1 read instead of 200-250 reads
+// Path: /- Countries -/[COUNTRYID]/metadata/[YYYY-MM-DD]
+// Structure: { headlines: { 0: {...}, 1: {...}, ... } }
+// ========================================================================
+
+/**
+ * Fetches headlines from the aggregated metadata document for a specific date.
+ * Falls back to null if the document doesn't exist or fails.
+ *
+ * @param {string} countryName - The country name (e.g., 'us', 'israel')
+ * @param {Date} date - The date to fetch headlines for
+ * @returns {Array|null} - Array of headline objects with synthetic IDs, or null if not found
+ */
+export const getCountryDayHeadlinesFromMetadata = cache(async (countryName, date) => {
+  try {
+    // Format date as YYYY-MM-DD
+    const dateString = date.toISOString().split('T')[0];
+
+    // Get reference to the metadata document
+    const metadataCollection = getCountryCollectionRef(countryName, 'metadata');
+    const metadataDocRef = doc(metadataCollection, dateString);
+
+    // Fetch the document
+    const snapshot = await getDoc(metadataDocRef);
+
+    // Return null if document doesn't exist
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    const data = snapshot.data();
+
+    // Return null if headlines field doesn't exist or is empty
+    if (!data.headlines) {
+      return null;
+    }
+
+    // Headlines can be either an array (from ArrayUnion) or object (from numbered keys)
+    const headlinesArray = Array.isArray(data.headlines)
+      ? data.headlines
+      : Object.values(data.headlines);
+
+    // Transform to match expected headline structure with synthetic ID
+    const headlines = headlinesArray.map(h => {
+      // Convert Firestore timestamp to JavaScript Date
+      const timestamp = h.timestamp?.seconds
+        ? new Date(h.timestamp.seconds * 1000)
+        : new Date(h.timestamp);
+
+      // Generate synthetic ID from website_id + timestamp (unique combination)
+      const syntheticId = `${h.website_id}_${timestamp.getTime()}`;
+
+      return {
+        id: syntheticId,
+        headline: h.headline,
+        subtitle: h.subtitle,
+        link: h.link,
+        timestamp: timestamp,
+        website_id: h.website_id,
+        image: h.image,
+      };
+    });
+
+    return headlines;
+
+  } catch (error) {
+    // Log error for debugging but return null to trigger fallback
+    console.warn(`Failed to fetch metadata headlines for ${countryName} on ${date}:`, error.message);
+    return null;
+  }
+});

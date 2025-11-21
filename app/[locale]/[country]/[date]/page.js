@@ -1,5 +1,6 @@
-import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
+import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries, getCountryDayHeadlinesFromMetadata } from "@/utils/database/countryData";
 import { fetchDailySnapshot } from "@/utils/database/fetchDailySnapshot";
+import { filterToDayWithContinuity } from "@/utils/database/filterDayData";
 import { isSameDay, isToday, parse, sub, differenceInDays } from "date-fns";
 import CountryPageContent from "../CountryPage_content";
 import { getWebsiteName } from "@/utils/sources/getCountryData";
@@ -30,7 +31,10 @@ export async function generateMetadata({ params }) {
 
         return metadata;
     } catch (error) {
-        console.error('❌ [DATE-META] ERROR in generateMetadata:', error);
+        // Don't log NEXT_REDIRECT as an error - it's expected behavior
+        if (error.message !== 'NEXT_REDIRECT') {
+            console.error('❌ [DATE-META] ERROR in generateMetadata:', error);
+        }
         throw error;
     }
 }
@@ -80,100 +84,64 @@ export default async function Page({ params }) {
             redirect(`/${locale}/${country}`);
         }
 
-        // Fetch today's and yesterday's JSON in parallel for better performance
+        // Fetch 3-day window: previous, current, and next day
+        // This handles timezone spillover in both directions
         const yesterday = sub(parsedDate, { days: 1 });
-        const [todayJsonData, yesterdayData] = await Promise.all([
+        const tomorrow = new Date(parsedDate);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        const [yesterdayData, todayJsonData, tomorrowData] = await Promise.all([
+            fetchDailySnapshot(country, yesterday),
             fetchDailySnapshot(country, parsedDate),
-            fetchDailySnapshot(country, yesterday)
+            fetchDailySnapshot(country, tomorrow)
         ]);
 
         // Use JSON if available, otherwise fallback to Firestore
         let data = todayJsonData;
         if (!data) {
-            // Fallback to Firestore if JSON not available
-            console.log(`[DATE-PAGE] 📊 Using Firestore for ${country} ${date}`);
             const headlines = await getCountryDayHeadlines(country, parsedDate, 1);
             const summaries = await getCountryDaySummaries(country, parsedDate, 1);
             const dailySummary = await getCountryDailySummary(country, parsedDate);
             data = { headlines, summaries, dailySummary };
         }
 
-        console.log(`[DATE-PAGE] 📦 Data fetched - Headlines: ${data.headlines?.length || 0}, Summaries: ${data.summaries?.length || 0}`);
-
+        // Merge yesterday's data
         if (yesterdayData) {
-            console.log(`[DATE-PAGE] 📦 Yesterday's JSON loaded - Headlines: ${yesterdayData.headlines?.length || 0}, Summaries: ${yesterdayData.summaries?.length || 0}`);
-            // Merge yesterday's data with today's (defensive null checks)
             data.headlines = [...(data.headlines || []), ...(yesterdayData.headlines || [])];
             data.summaries = [...(data.summaries || []), ...(yesterdayData.summaries || [])];
-            console.log(`[DATE-PAGE] 📦 After merging with yesterday - Headlines: ${data.headlines.length}, Summaries: ${data.summaries.length}`);
         }
 
-        // Only validate JSON completeness for yesterday and day-before-yesterday (today-1 and today-2)
-        // Today's data is handled by live view which queries Firestore directly
-        // Historical dates (today-3 and older) are immutable and complete, so no need to validate
-        const daysSinceDate = differenceInDays(new Date(), parsedDate);
-        const isRecentDate = daysSinceDate >= 1 && daysSinceDate <= 2;
-
-        if (isRecentDate) {
-            // Check if JSON data might be incomplete by comparing with Firestore
-            // This happens when viewing a recent date from a different timezone - some data might be in the next day's JSON
-            console.log(`[DATE-PAGE] 🔍 Validating recent date (${daysSinceDate} days old) - checking for incomplete data...`);
-
-            // Fetch a sample from Firestore to compare counts
-            const firestoreHeadlines = await getCountryDayHeadlines(country, parsedDate, 1);
-            const firestoreSummaries = await getCountryDaySummaries(country, parsedDate, 1);
-
-            const jsonHeadlineCount = data.headlines?.length || 0;
-            const jsonSummaryCount = data.summaries?.length || 0;
-            const firestoreHeadlineCount = firestoreHeadlines.length;
-            const firestoreSummaryCount = firestoreSummaries.length;
-
-            console.log(`[DATE-PAGE] 🔍 Count comparison - Headlines: JSON=${jsonHeadlineCount} vs Firestore=${firestoreHeadlineCount}, Summaries: JSON=${jsonSummaryCount} vs Firestore=${firestoreSummaryCount}`);
-
-            // If Firestore has significantly more data (>10% difference), merge them
-            const headlinesDiff = firestoreHeadlineCount - jsonHeadlineCount;
-            const summariesDiff = firestoreSummaryCount - jsonSummaryCount;
-            const isIncomplete = headlinesDiff > Math.max(10, jsonHeadlineCount * 0.1) || summariesDiff > Math.max(2, jsonSummaryCount * 0.1);
-
-            if (isIncomplete) {
-                console.log(`[DATE-PAGE] ⚠️ Incomplete JSON data detected (missing ${headlinesDiff} headlines, ${summariesDiff} summaries), merging with Firestore...`);
-
-                // Merge: use JSON data + supplement with missing Firestore data
-                const mergedHeadlines = [...data.headlines];
-                const mergedSummaries = [...data.summaries];
-
-                // Add missing headlines from Firestore (avoid duplicates)
-                firestoreHeadlines.forEach(fh => {
-                    if (!mergedHeadlines.some(h => h.id === fh.id)) {
-                        mergedHeadlines.push(fh);
-                    }
-                });
-
-                // Add missing summaries from Firestore (avoid duplicates)
-                firestoreSummaries.forEach(fs => {
-                    if (!mergedSummaries.some(s => s.id === fs.id)) {
-                        mergedSummaries.push(fs);
-                    }
-                });
-
-                console.log(`[DATE-PAGE] ✅ Merged data: ${jsonHeadlineCount} JSON + ${mergedHeadlines.length - jsonHeadlineCount} Firestore headlines (total: ${mergedHeadlines.length})`);
-                console.log(`[DATE-PAGE] ✅ Merged data: ${jsonSummaryCount} JSON + ${mergedSummaries.length - jsonSummaryCount} Firestore summaries (total: ${mergedSummaries.length})`);
-
-                data = {
-                    headlines: mergedHeadlines.sort((a, b) => b.timestamp - a.timestamp),
-                    summaries: mergedSummaries.sort((a, b) => b.timestamp - a.timestamp),
-                    dailySummary: data.dailySummary // Keep daily summary from JSON
-                };
-            } else {
-                console.log(`[DATE-PAGE] ✅ JSON data is complete, using JSON only`);
-            }
+        // Handle next day's data with fallback chain: JSON → Metadata → Firestore
+        if (tomorrowData) {
+            data.headlines = [...(data.headlines || []), ...(tomorrowData.headlines || [])];
+            data.summaries = [...(data.summaries || []), ...(tomorrowData.summaries || [])];
         } else {
-            // Historical dates are immutable and complete - skip Firestore validation entirely
-            console.log(`[DATE-PAGE] ✅ Using JSON only for historical date (${daysSinceDate} days old) - skipping Firestore validation`);
+            // No JSON for tomorrow, try metadata document
+            const tomorrowHeadlines = await getCountryDayHeadlinesFromMetadata(country, tomorrow);
+
+            if (tomorrowHeadlines) {
+                data.headlines = [...(data.headlines || []), ...tomorrowHeadlines];
+                // Fetch tomorrow's summaries from Firestore
+                const tomorrowSummaries = await getCountryDaySummaries(country, tomorrow, 1);
+                if (tomorrowSummaries.length > 0) {
+                    data.summaries = [...(data.summaries || []), ...tomorrowSummaries];
+                }
+            } else {
+                // No metadata, fall back to Firestore collection
+                const tomorrowHeadlinesFirestore = await getCountryDayHeadlines(country, tomorrow, 1);
+                const tomorrowSummariesFirestore = await getCountryDaySummaries(country, tomorrow, 1);
+
+                if (tomorrowHeadlinesFirestore.length > 0 || tomorrowSummariesFirestore.length > 0) {
+                    data.headlines = [...(data.headlines || []), ...tomorrowHeadlinesFirestore];
+                    data.summaries = [...(data.summaries || []), ...tomorrowSummariesFirestore];
+                }
+            }
         }
 
-        const headlines = data.headlines;
-        const initialSummaries = data.summaries;
+        // Filter to show only the requested day's data + continuity items
+        // (see filterToDayWithContinuity JSDoc for detailed explanation)
+        const { headlines, initialSummaries } = filterToDayWithContinuity(data, parsedDate);
+
         const daySummary = data.dailySummary;
         // Use yesterday's daily summary from JSON if available (saves 1 Firestore read)
         // Only query Firestore if yesterdayData doesn't exist at all (not if it exists but dailySummary is missing)
@@ -224,6 +192,10 @@ export default async function Page({ params }) {
             </>
         );
     } catch (error) {
+        // NEXT_REDIRECT is not an error - it's Next.js's redirect mechanism
+        if (error.message === 'NEXT_REDIRECT') {
+            throw error; // Re-throw to allow redirect to proceed
+        }
         console.error('❌ [DATE-PAGE] FATAL ERROR:', error);
         return <div>ERROR: {error.message}</div>;
     }

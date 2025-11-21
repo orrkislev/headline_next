@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { countries } from '../sources/countries';
 
 /**
  * Fetches a daily snapshot JSON file from Firebase Storage
@@ -11,21 +12,28 @@ export async function fetchDailySnapshot(country, date) {
         // Convert date to JSON filename format (yyyy-MM-dd)
         const dateStr = format(date, 'yyyy-MM-dd');
 
-        // Country code should be uppercase in the filename
-        const countryUpper = country.toUpperCase();
+        // Get properly capitalized country name (e.g., 'israel' -> 'Israel', 'germany' -> 'Germany')
+        const countryName = countries[country]?.english || country.charAt(0).toUpperCase() + country.slice(1);
 
-        // Construct the Firebase Storage URL
-        const url = `https://storage.googleapis.com/headline-collector-c9bec.firebasestorage.app/daily-snapshots/${countryUpper}/${countryUpper}-${dateStr}.json`;
+        // Construct the Firebase Storage URL with proper capitalization
+        const url = `https://storage.googleapis.com/headline-collector-c9bec.firebasestorage.app/daily-snapshots/${countryName}/${countryName}-${dateStr}.json`;
+
+        // Determine if this is a recent date (today or yesterday) that might still be updating
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const isRecentDate = dateStr === today.toISOString().split('T')[0] ||
+                            dateStr === yesterday.toISOString().split('T')[0];
 
         // Fetch the JSON file with timeout to prevent hanging
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-        
+
         let response;
         try {
             response = await fetch(url, {
-                // Add cache control for better performance
-                cache: 'force-cache', // Cache historical data aggressively
+                // Cache aggressively for historical data, but allow revalidation for recent dates
+                cache: isRecentDate ? 'no-cache' : 'force-cache',
                 signal: controller.signal,
             });
             clearTimeout(timeoutId);
@@ -40,7 +48,10 @@ export async function fetchDailySnapshot(country, date) {
         }
 
         if (!response.ok) {
-            console.warn(`[fetchDailySnapshot] JSON not found for ${country} on ${dateStr} (${response.status})`);
+            // Only warn on unexpected status codes (404 is expected for missing snapshots)
+            if (response.status !== 404) {
+                console.warn(`[fetchDailySnapshot] Unexpected status ${response.status} for ${country} ${dateStr}`);
+            }
             return null;
         }
 
@@ -48,7 +59,7 @@ export async function fetchDailySnapshot(country, date) {
 
         // Validate the JSON structure
         if (!json.data) {
-            console.error(`[fetchDailySnapshot] Invalid JSON structure for ${country} on ${dateStr}`);
+            console.warn(`[fetchDailySnapshot] Invalid JSON structure for ${country} ${dateStr} - missing 'data' field`);
             return null;
         }
 
@@ -62,11 +73,9 @@ export async function fetchDailySnapshot(country, date) {
                 } else if (h.timestamp) {
                     timestamp = new Date(h.timestamp);
                 } else {
-                    console.warn(`[fetchDailySnapshot] Headline ${h.id} has no timestamp`);
                     timestamp = null;
                 }
             } catch (e) {
-                console.error(`[fetchDailySnapshot] Error converting timestamp for headline ${h.id}:`, e);
                 timestamp = null;
             }
             return { ...h, timestamp };
@@ -80,11 +89,9 @@ export async function fetchDailySnapshot(country, date) {
                 } else if (s.timestamp) {
                     timestamp = new Date(s.timestamp);
                 } else {
-                    console.warn(`[fetchDailySnapshot] Summary ${s.id} has no timestamp`);
                     timestamp = null;
                 }
             } catch (e) {
-                console.error(`[fetchDailySnapshot] Error converting timestamp for summary ${s.id}:`, e);
                 timestamp = null;
             }
             return { ...s, timestamp };
@@ -101,7 +108,6 @@ export async function fetchDailySnapshot(country, date) {
                     timestamp = null;
                 }
             } catch (e) {
-                console.error(`[fetchDailySnapshot] Error converting timestamp for daily summary:`, e);
                 timestamp = null;
             }
             return { ...json.data.dailySummary, timestamp };

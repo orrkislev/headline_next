@@ -1,6 +1,7 @@
-import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
-import { fetchDailySnapshotWithFallback, fetchDailySnapshot } from "@/utils/database/fetchDailySnapshot";
-import { parse } from "date-fns";
+import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries, getCountryDayHeadlinesFromMetadata } from "@/utils/database/countryData";
+import { fetchDailySnapshot } from "@/utils/database/fetchDailySnapshot";
+import { filterToDayWithContinuity } from "@/utils/database/filterDayData";
+import { parse, sub } from "date-fns";
 import { getWebsiteName, getSourceData } from "@/utils/sources/getCountryData";
 import { redirect } from "next/navigation";
 import { countries } from "@/utils/sources/countries";
@@ -30,6 +31,15 @@ export async function generateMetadata({ params }) {
     const formattedDate = date.replace(/-/g, '.');
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date(2000, 0, 1));
     parsedDate.setHours(12, 0, 0, 0);
+
+    // Validate date - return fallback metadata for invalid dates
+    if (isNaN(parsedDate.getTime())) {
+        return {
+            title: 'The Hear - News Headlines',
+            description: 'Real-time news headlines and AI-powered analysis',
+            robots: { index: false, follow: false }
+        };
+    }
 
     // Try to get the day's summary from JSON first (cheaper than Firestore for metadata)
     // Only query Firestore if JSON doesn't exist at all (not if JSON exists but dailySummary is missing)
@@ -143,26 +153,66 @@ export default async function FeedPage({ params }) {
             redirect(`/${locale}/${country}`);
         }
 
-        // Try to fetch from JSON snapshot first, with automatic Firestore fallback
-        const data = await fetchDailySnapshotWithFallback(
-            country,
-            parsedDate,
-            async () => {
-                // Fallback to Firestore if JSON not available
-                console.log(`[FEED-PAGE] 📊 Using Firestore for ${country} ${date}`);
-                const headlines = await getCountryDayHeadlines(country, parsedDate, 1);
-                const summaries = await getCountryDaySummaries(country, parsedDate, 1);
-                const dailySummary = await getCountryDailySummary(country, parsedDate);
-                return { headlines, summaries, dailySummary };
-            }
-        );
+        // Fetch 3-day window: previous, current, and next day
+        // This handles timezone spillover in both directions (same as date page)
+        const yesterday = sub(parsedDate, { days: 1 });
+        const tomorrow = new Date(parsedDate);
+        tomorrow.setDate(tomorrow.getDate() + 1);
 
-        const headlines = data.headlines;
-        const initialSummaries = data.summaries;
+        const [yesterdayData, todayJsonData, tomorrowData] = await Promise.all([
+            fetchDailySnapshot(country, yesterday),
+            fetchDailySnapshot(country, parsedDate),
+            fetchDailySnapshot(country, tomorrow)
+        ]);
+
+        // Use JSON if available, otherwise fallback to Firestore
+        let data = todayJsonData;
+        if (!data) {
+            const headlines = await getCountryDayHeadlines(country, parsedDate, 1);
+            const summaries = await getCountryDaySummaries(country, parsedDate, 1);
+            const dailySummary = await getCountryDailySummary(country, parsedDate);
+            data = { headlines, summaries, dailySummary };
+        }
+
+        // Merge yesterday's data
+        if (yesterdayData) {
+            data.headlines = [...(data.headlines || []), ...(yesterdayData.headlines || [])];
+            data.summaries = [...(data.summaries || []), ...(yesterdayData.summaries || [])];
+        }
+
+        // Handle next day's data with fallback chain: JSON → Metadata → Firestore
+        if (tomorrowData) {
+            data.headlines = [...(data.headlines || []), ...(tomorrowData.headlines || [])];
+            data.summaries = [...(data.summaries || []), ...(tomorrowData.summaries || [])];
+        } else {
+            // No JSON for tomorrow, try metadata document
+            const tomorrowHeadlines = await getCountryDayHeadlinesFromMetadata(country, tomorrow);
+
+            if (tomorrowHeadlines) {
+                data.headlines = [...(data.headlines || []), ...tomorrowHeadlines];
+                // Fetch tomorrow's summaries from Firestore
+                const tomorrowSummaries = await getCountryDaySummaries(country, tomorrow, 1);
+                if (tomorrowSummaries.length > 0) {
+                    data.summaries = [...(data.summaries || []), ...tomorrowSummaries];
+                }
+            } else {
+                // No metadata, fall back to Firestore collection
+                const tomorrowHeadlinesFirestore = await getCountryDayHeadlines(country, tomorrow, 1);
+                const tomorrowSummariesFirestore = await getCountryDaySummaries(country, tomorrow, 1);
+
+                if (tomorrowHeadlinesFirestore.length > 0 || tomorrowSummariesFirestore.length > 0) {
+                    data.headlines = [...(data.headlines || []), ...tomorrowHeadlinesFirestore];
+                    data.summaries = [...(data.summaries || []), ...tomorrowSummariesFirestore];
+                }
+            }
+        }
+
+        // Filter to show only the requested day's data + continuity items
+        // (see filterToDayWithContinuity JSDoc for detailed explanation)
+        const { headlines, initialSummaries } = filterToDayWithContinuity(data, parsedDate);
+
         const daySummary = data.dailySummary;
-        // Note: Feed pages show single-day content, so we don't need yesterdaySummary
-        // (unlike date pages which show 2-day window and display yesterdaySummary in navigation)
-        const yesterdaySummary = null;
+        const yesterdaySummary = yesterdayData?.dailySummary ?? (yesterdayData ? null : await getCountryDailySummary(country, yesterday));
 
         // Hebrew content check - only check today's content (feed pages show single day)
         if (locale === 'heb') {
@@ -219,11 +269,15 @@ export default async function FeedPage({ params }) {
                     locale={locale}
                     country={country}
                     date={date}
-                    timeoutSeconds={40}
+                    timeoutSeconds={80}
                 />
             </div>
         );
     } catch (error) {
+        // NEXT_REDIRECT is not an error - it's Next.js's redirect mechanism
+        if (error.message === 'NEXT_REDIRECT') {
+            throw error; // Re-throw to allow redirect to proceed
+        }
         console.error('❌ [FEED-PAGE] FATAL ERROR:', error);
         return <div>ERROR: {error.message}</div>;
     }

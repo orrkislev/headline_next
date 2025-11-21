@@ -37,6 +37,16 @@ export async function createMetadata(params) {
     const parsedDate = parse(date, 'dd-MM-yyyy', new Date(2000, 0, 1));
     // Shift to noon to avoid timezone rollover issues - MATCH PAGE.JS EXACTLY
     parsedDate.setHours(12, 0, 0, 0);
+
+    // Validate date - return null metadata for invalid dates (Next.js will handle gracefully)
+    if (isNaN(parsedDate.getTime())) {
+        return {
+            title: 'The Hear - News Headlines',
+            description: 'Real-time news headlines and AI-powered analysis',
+            robots: { index: false, follow: false }
+        };
+    }
+
     const formattedDate = date.replace(/-/g, '.');
 
     // Get just the headline - use JSON for historical dates, Firestore for recent dates

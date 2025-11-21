@@ -1,4 +1,4 @@
-import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries } from "@/utils/database/countryData";
+import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries, getCountryDayHeadlinesFromMetadata } from "@/utils/database/countryData";
 import { fetchDailySnapshot } from "@/utils/database/fetchDailySnapshot";
 import { sub } from "date-fns";
 import { countries } from "@/utils/sources/countries";
@@ -40,16 +40,39 @@ export default async function Page({ params }) {
     const yesterdayData = await fetchDailySnapshot(country, yesterday);
     const yesterdaySummary = yesterdayData?.dailySummary ?? (yesterdayData ? null : await getCountryDailySummary(country, yesterday));
 
-    // Get today's data from Firestore (live, real-time) - only query 1 day
-    const headlines = await getCountryDayHeadlines(country, today, 1);
+    // Get today's headlines - try metadata first (1-2 reads), fallback to collection (200+ reads)
+    // Fetch both today and yesterday metadata to handle timezone spillover
+    const [todayMetadata, yesterdayMetadata] = await Promise.all([
+        getCountryDayHeadlinesFromMetadata(country, today),
+        getCountryDayHeadlinesFromMetadata(country, yesterday)
+    ]);
+
+    let headlines = [];
+
+    if (todayMetadata || yesterdayMetadata) {
+        // Merge today's and yesterday's metadata for complete timezone coverage
+        headlines = [
+            ...(todayMetadata || []),
+            ...(yesterdayMetadata || [])
+        ];
+    } else {
+        // Fallback to collection if no metadata available
+        headlines = await getCountryDayHeadlines(country, today, 1);
+    }
+
+    // Get today's summaries from Firestore
     const initialSummaries = await getCountryDaySummaries(country, today, 1);
 
-    // Merge yesterday's data from JSON if available
+    // Merge yesterday's data from JSON snapshot (with deduplication to avoid overlap with metadata)
     if (yesterdayData?.headlines) {
-        headlines.push(...yesterdayData.headlines);
+        const existingIds = new Set(headlines.map(h => h.id));
+        const uniqueYesterdayHeadlines = yesterdayData.headlines.filter(h => !existingIds.has(h.id));
+        headlines.push(...uniqueYesterdayHeadlines);
     }
     if (yesterdayData?.summaries) {
-        initialSummaries.push(...yesterdayData.summaries);
+        const existingIds = new Set(initialSummaries.map(s => s.id));
+        const uniqueYesterdaySummaries = yesterdayData.summaries.filter(s => !existingIds.has(s.id));
+        initialSummaries.push(...uniqueYesterdaySummaries);
     }
 
     // Check if Hebrew content is available for Hebrew locale

@@ -26,7 +26,10 @@
       "Bash(vercel logs:*)",
       "Bash(vercel --help:*)",
       "Bash(cat:*)",
-      "Bash(vercel whoami:*)"
+      "Bash(vercel whoami:*)",
+      "Bash(move:*)",
+      "Bash(git add:*)",
+      "Bash(git diff:*)"
     ],
     "deny": [],
     "ask": []
