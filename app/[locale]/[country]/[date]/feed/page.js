@@ -234,6 +234,11 @@ export default async function FeedPage({ params }) {
 
         return (
             <div className="min-h-screen bg-gray-50 pb-4">
+                {/* Set html lang attribute */}
+                <script dangerouslySetInnerHTML={{
+                    __html: `document.documentElement.lang = '${locale === 'heb' ? 'he' : 'en'}';`
+                }} />
+
                 {/* JSON-LD structured data for feed page */}
                 <FeedJsonLd
                     country={country}
