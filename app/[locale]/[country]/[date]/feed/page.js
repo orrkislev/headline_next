@@ -1,6 +1,6 @@
 import { getCountryDailySummary, getCountryDayHeadlines, getCountryDaySummaries, getCountryDayHeadlinesFromMetadata } from "@/utils/database/countryData";
 import { fetchDailySnapshot } from "@/utils/database/fetchDailySnapshot";
-import { filterToDayWithContinuity } from "@/utils/database/filterDayData";
+import { filterToStrictDay } from "@/utils/database/filterDayData";
 import { parse, sub } from "date-fns";
 import { getWebsiteName, getSourceData } from "@/utils/sources/getCountryData";
 import { redirect } from "next/navigation";
@@ -207,9 +207,9 @@ export default async function FeedPage({ params }) {
             }
         }
 
-        // Filter to show only the requested day's data + continuity items
-        // (see filterToDayWithContinuity JSDoc for detailed explanation)
-        const { headlines, initialSummaries } = filterToDayWithContinuity(data, parsedDate);
+        // Filter to show ONLY the requested day's data (strict filtering, no continuity)
+        // Feed pages are chronological archives and should only show items from that specific day
+        const { headlines, initialSummaries } = filterToStrictDay(data, parsedDate);
 
         const daySummary = data.dailySummary;
         const yesterdaySummary = yesterdayData?.dailySummary ?? (yesterdayData ? null : await getCountryDailySummary(country, yesterday));

@@ -63,3 +63,39 @@ export function filterToDayWithContinuity(data, parsedDate) {
 
     return { headlines, initialSummaries };
 }
+
+/**
+ * Filters a multi-day dataset to show STRICTLY one day's content only.
+ *
+ * DIFFERENCE FROM filterToDayWithContinuity:
+ * - NO continuity feature - only items strictly within day boundaries
+ * - Used for feed/archive pages where we want exact chronological display
+ * - Does NOT include previous day's last headline/summary
+ *
+ * @param {Object} data - The data object containing headlines, summaries
+ * @param {Array} data.headlines - Array of headline objects with timestamp
+ * @param {Array} data.summaries - Array of summary objects with timestamp
+ * @param {Date} parsedDate - The date to filter to (will be treated as local day boundaries)
+ * @returns {Object} - { headlines, initialSummaries } filtered to ONLY the requested day
+ */
+export function filterToStrictDay(data, parsedDate) {
+    // Define day boundaries in local time
+    const startOfDay = new Date(parsedDate);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(parsedDate);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    // ============= HEADLINES =============
+    // Get ONLY headlines within the day boundaries (no continuity)
+    const headlines = data.headlines
+        .filter(h => h.timestamp >= startOfDay && h.timestamp <= endOfDay)
+        .sort((a, b) => b.timestamp - a.timestamp);
+
+    // ============= SUMMARIES =============
+    // Get ONLY summaries within the day boundaries (no continuity)
+    const initialSummaries = data.summaries
+        .filter(s => s.timestamp >= startOfDay && s.timestamp <= endOfDay)
+        .sort((a, b) => b.timestamp - a.timestamp);
+
+    return { headlines, initialSummaries };
+}

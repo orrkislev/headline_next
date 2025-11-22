@@ -11,6 +11,7 @@ import FlagIcon from "@/components/FlagIcon";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import HebrewFonts from "@/utils/typography/HebrewFonts";
+import { getHeadline } from '@/utils/daily summary utils';
 
 const Settings = dynamic(() => import("./settings/Settings"));
 
@@ -33,7 +34,7 @@ const cleanSummaryText = (text) => {
     return cleanText;
 };
 
-export default function TopBar({ locale, country, sources, currentSummary, initialSummaries, isRightPanelCollapsed, onExpandPanel, userCountry, pageDate }) {
+export default function TopBar({ locale, country, sources, currentSummary, initialSummaries, isRightPanelCollapsed, onExpandPanel, userCountry, pageDate, daySummary }) {
     const useLocalLanguage = useTranslate(state => state.useLocalLanguage);
     const { isMobile } = useMobile();
     const { isVerticalScreen } = useVerticalScreen();
@@ -177,55 +178,64 @@ export default function TopBar({ locale, country, sources, currentSummary, initi
                         <div className="flex items-center gap-4">
                             {/* Desktop: Show all buttons */}
                             <div className="hidden md:flex items-center gap-4">
-                                {/* US Link - hide when settings open or screen too narrow */}
-                                {!settingsOpen && isWideScreen && (
-                                    <InnerLink href={`/${effectiveLocale}/us`}>
-                                        <div className={`px-4 py-2 ${effectiveLocale === 'heb' ? 'text-base' : 'text-sm'} bg-gray-100 rounded-md hover:bg-gray-200 transition-colors ${effectiveLocale === 'heb' ? 'frank-re' : 'font-["Geist"]'} flex items-center gap-2 no-underline cursor-pointer`}>
-                                            {getTranslatedText('US')}
-                                        </div>
-                                    </InnerLink>
-                                )}
+                                {/* For date pages: Show daily title instead of global navigation */}
+                                {pageDate && daySummary ? (
+                                    <div className={`px-4 py-2 ${effectiveLocale === 'heb' ? 'text-base' : 'text-sm'} bg-zinc-50 rounded-md ${effectiveLocale === 'heb' ? 'frank-re' : 'font-["Geist"] font-medium'} flex items-center gap-2 text-black`}>
+                                        {getHeadline(daySummary, effectiveLocale)}
+                                    </div>
+                                ) : (
+                                    <>
+                                        {/* US Link - hide when settings open or screen too narrow */}
+                                        {!settingsOpen && isWideScreen && (
+                                            <InnerLink href={`/${effectiveLocale}/us`}>
+                                                <div className={`px-4 py-2 ${effectiveLocale === 'heb' ? 'text-base' : 'text-sm'} bg-gray-100 rounded-md hover:bg-gray-200 transition-colors ${effectiveLocale === 'heb' ? 'frank-re' : 'font-["Geist"]'} flex items-center gap-2 no-underline cursor-pointer`}>
+                                                    {getTranslatedText('US')}
+                                                </div>
+                                            </InnerLink>
+                                        )}
 
-                                {/* Region Dropdowns - hide when settings open or screen too narrow */}
-                                {!settingsOpen && isWideScreen && Object.entries(regions).map(([region, countryCodes]) => (
-                                    <div key={region} className="group relative z-20">
-                                        <div className={`px-4 py-2 ${effectiveLocale === 'heb' ? 'text-base' : 'text-sm'} bg-gray-100 rounded-md hover:bg-gray-200 transition-colors ${effectiveLocale === 'heb' ? 'frank-re' : 'font-["Geist"]'} flex items-center gap-1 cursor-pointer`}>
-                                            {getTranslatedText(region)}
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                                            </svg>
-                                        </div>
-                                        {/* Add padding-top to create a hoverable gap */}
-                                        <div className="absolute right-0 pt-2">
-                                            <div className="mt-2 w-64 bg-white rounded-sm shadow-lg hidden group-hover:block">
-                                                <div className="p-4">
-                                                    <div className="grid grid-cols-2 gap-[1px] bg-gray-200">
-                                                        {countryCodes.map((id) => (
-                                                            <InnerLink key={id} href={`/${effectiveLocale}/${id}`}>
-                                                                <div className={`flex items-center gap-2 p-2 hover:bg-gray-100 bg-white ${effectiveLocale === 'heb' ? 'frank-re' : 'font-["Geist"]'} no-underline cursor-pointer`}>
-                                                                    <FlagIcon country={countries[id].id} />
-                                                                    <span className={effectiveLocale === 'heb' ? 'text-sm' : 'text-xs'}>{effectiveLocale === 'heb' ? countries[id].hebrew : countries[id].english}</span>
-                                                                </div>
-                                                            </InnerLink>
-                                                        ))}
-                                                        {/* Add empty white cell if odd number of countries */}
-                                                        {countryCodes.length % 2 !== 0 && (
-                                                            <div className="bg-white"></div>
-                                                        )}
+                                        {/* Region Dropdowns - hide when settings open or screen too narrow */}
+                                        {!settingsOpen && isWideScreen && Object.entries(regions).map(([region, countryCodes]) => (
+                                            <div key={region} className="group relative z-20">
+                                                <div className={`px-4 py-2 ${effectiveLocale === 'heb' ? 'text-base' : 'text-sm'} bg-gray-100 rounded-md hover:bg-gray-200 transition-colors ${effectiveLocale === 'heb' ? 'frank-re' : 'font-["Geist"]'} flex items-center gap-1 cursor-pointer`}>
+                                                    {getTranslatedText(region)}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                {/* Add padding-top to create a hoverable gap */}
+                                                <div className="absolute right-0 pt-2">
+                                                    <div className="mt-2 w-64 bg-white rounded-sm shadow-lg hidden group-hover:block">
+                                                        <div className="p-4">
+                                                            <div className="grid grid-cols-2 gap-[1px] bg-gray-200">
+                                                                {countryCodes.map((id) => (
+                                                                    <InnerLink key={id} href={`/${effectiveLocale}/${id}`}>
+                                                                        <div className={`flex items-center gap-2 p-2 hover:bg-gray-100 bg-white ${effectiveLocale === 'heb' ? 'frank-re' : 'font-["Geist"]'} no-underline cursor-pointer`}>
+                                                                            <FlagIcon country={countries[id].id} />
+                                                                            <span className={effectiveLocale === 'heb' ? 'text-sm' : 'text-xs'}>{effectiveLocale === 'heb' ? countries[id].hebrew : countries[id].english}</span>
+                                                                        </div>
+                                                                    </InnerLink>
+                                                                ))}
+                                                                {/* Add empty white cell if odd number of countries */}
+                                                                {countryCodes.length % 2 !== 0 && (
+                                                                    <div className="bg-white"></div>
+                                                                )}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                ))}
+                                        ))}
 
-                                {/* Global Link - hide when settings open or screen too narrow */}
-                                {!settingsOpen && isWideScreen && (
-                                    <InnerLink href={`/${effectiveLocale}/global`}>
-                                        <div className={`px-4 py-2 ${effectiveLocale === 'heb' ? 'text-base' : 'text-sm'} bg-gray-100 rounded-md hover:bg-gray-200 transition-colors ${effectiveLocale === 'heb' ? 'frank-re' : 'font-["Geist"]'} flex items-center gap-2 no-underline cursor-pointer`}>
-                                            {getTranslatedText('Global')}
-                                        </div>
-                                    </InnerLink>
+                                        {/* Global Link - hide when settings open or screen too narrow */}
+                                        {!settingsOpen && isWideScreen && (
+                                            <InnerLink href={`/${effectiveLocale}/global`}>
+                                                <div className={`px-4 py-2 ${effectiveLocale === 'heb' ? 'text-base' : 'text-sm'} bg-gray-100 rounded-md hover:bg-gray-200 transition-colors ${effectiveLocale === 'heb' ? 'frank-re' : 'font-["Geist"]'} flex items-center gap-2 no-underline cursor-pointer`}>
+                                                    {getTranslatedText('Global')}
+                                                </div>
+                                            </InnerLink>
+                                        )}
+                                    </>
                                 )}
 
                                 {/* Settings Button */}

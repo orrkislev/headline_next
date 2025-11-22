@@ -29,7 +29,8 @@
       "Bash(vercel whoami:*)",
       "Bash(move:*)",
       "Bash(git add:*)",
-      "Bash(git diff:*)"
+      "Bash(git diff:*)",
+      "WebFetch(domain:storage.googleapis.com)"
     ],
     "deny": [],
     "ask": []
