@@ -253,7 +253,8 @@ export default async function FeedPage({ params }) {
                         yesterdaySummary,
                         locale,
                         country,
-                        date: parsedDate
+                        date: parsedDate,
+                        countryTimezone: data.metadata?.timezone
                     }}
                 />
 

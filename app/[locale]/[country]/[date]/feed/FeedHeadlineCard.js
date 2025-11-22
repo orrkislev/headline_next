@@ -7,7 +7,7 @@ import Headline from "../../Source/Headine";
 import Subtitle from "../../Source/Subtitle";
 import Image from "next/image";
 
-export default function HeadlineCard({ headline, country, locale }) {
+export default function HeadlineCard({ headline, country, locale, countryTimezone }) {
     // Normalize website_id to match source keys using fuzzy matching
     const normalizedWebsiteId = getWebsiteName(country, headline.website_id);
     const sourceData = getSourceData(country, normalizedWebsiteId);
@@ -15,11 +15,34 @@ export default function HeadlineCard({ headline, country, locale }) {
     // Use the original source name (already in the source's native language)
     const sourceName = sourceData?.name || headline.website_id;
 
-    const timeString = new Date(headline.timestamp).toLocaleTimeString([], {
+    const timestamp = new Date(headline.timestamp);
+
+    // User's local time
+    const userTimeString = timestamp.toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false
     });
+
+    // Country's local time
+    let countryTimeString = userTimeString;
+    if (countryTimezone) {
+        try {
+            countryTimeString = new Intl.DateTimeFormat('en-US', {
+                timeZone: countryTimezone,
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }).format(timestamp);
+        } catch (e) {
+            countryTimeString = userTimeString;
+        }
+    }
+
+    // Show both times if they're different, with label for clarity
+    const timeString = countryTimeString === userTimeString
+        ? countryTimeString
+        : `${countryTimeString} (${userTimeString} in your timezone)`;
 
     // Get favicon domain
     let domain = '';

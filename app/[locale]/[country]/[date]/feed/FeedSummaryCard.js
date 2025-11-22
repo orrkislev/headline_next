@@ -21,7 +21,7 @@ const cleanSummaryText = (text) => {
     return cleanText;
 };
 
-export default function SummaryCard({ summary, locale, type }) {
+export default function SummaryCard({ summary, locale, type, countryTimezone }) {
     const [hasPrevious, setHasPrevious] = useState(false);
     const [hasNext, setHasNext] = useState(false);
 
@@ -29,10 +29,31 @@ export default function SummaryCard({ summary, locale, type }) {
         ? cleanSummaryText(summary.hebrewSummary || summary.summary || summary.translatedSummary)
         : cleanSummaryText(summary.summary || summary.translatedSummary || summary.hebrewSummary);
 
-    const timestamp = summary.timestamp ?
+    // User's local time
+    const userTimestamp = summary.timestamp ?
         (summary.timestamp.getHours() < 10 ? '0' : '') + summary.timestamp.getHours() + ':' +
         (summary.timestamp.getMinutes() < 10 ? '0' : '') + summary.timestamp.getMinutes()
         : '';
+
+    // Country's local time
+    let countryTimestamp = userTimestamp;
+    if (summary.timestamp && countryTimezone) {
+        try {
+            countryTimestamp = new Intl.DateTimeFormat('en-US', {
+                timeZone: countryTimezone,
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }).format(summary.timestamp);
+        } catch (e) {
+            countryTimestamp = userTimestamp;
+        }
+    }
+
+    // Show both times if they're different
+    const timestamp = countryTimestamp === userTimestamp
+        ? countryTimestamp
+        : `${countryTimestamp} (${userTimestamp})`;
 
     const fontClass = locale === 'heb' ? 'frank-re' : 'font-["Geist"]';
     const disclaimer = locale === 'heb' ? 'סקירה זו נכתבה בידי בינה' : 'This overview was written by an AI';

@@ -16,12 +16,29 @@ import FeedDailySummary from "./feedDailySummary";
 import LogoSmall from "@/components/Logo-small";
 import useMobile from "@/components/useMobile";
 
-export default function FeedView({ headlines, initialSummaries, daySummary, yesterdaySummary, locale, country, date }) {
+export default function FeedView({ headlines, initialSummaries, daySummary, yesterdaySummary, locale, country, date, countryTimezone }) {
     const { isMobile } = useMobile();
     const countryData = countries[country] || {};
     const countryName = locale === 'heb' ? countryData.hebrew || country : countryData.english || country;
     const isRTL = locale === 'heb';
     const dateString = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`;
+
+    // Helper function to format time in country's timezone
+    const formatInCountryTimezone = (timestamp) => {
+        if (!countryTimezone) return null;
+
+        try {
+            // Use Intl.DateTimeFormat to format in the country's timezone
+            return new Intl.DateTimeFormat('en-US', {
+                timeZone: countryTimezone,
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }).format(timestamp);
+        } catch (e) {
+            return null;
+        }
+    };
     
     // Combine headlines and summaries into timeline items, sorted chronologically
     const timelineItems = [];
@@ -98,13 +115,14 @@ export default function FeedView({ headlines, initialSummaries, daySummary, yest
                                     minute: '2-digit',
                                     hour12: false
                                 });
+                                const countryTimeString = formatInCountryTimezone(item.timestamp);
 
                                 return (
                                     <div key={`${item.type}-${index}`} className={`${isSummary ? 'my-12' : 'my-4'}`}>
-                                        {/* Timestamp for mobile */}
+                                        {/* Timestamp for mobile - show country time */}
                                         <div className="text-center mb-2">
                                             <span className="text-xs text-gray-500 font-mono bg-gray-100 px-2 py-1 rounded">
-                                                {timeString}
+                                                {countryTimeString || timeString}
                                             </span>
                                         </div>
 
@@ -112,13 +130,13 @@ export default function FeedView({ headlines, initialSummaries, daySummary, yest
                                         <div className="flex justify-center">
                                             <div className="w-full max-w-md">
                                                 {item.type === 'headline' && (
-                                                    <HeadlineCard headline={item.data} country={country} locale={locale} />
+                                                    <HeadlineCard headline={item.data} country={country} locale={locale} countryTimezone={countryTimezone} />
                                                 )}
                                                 {item.type === 'hourly-summary' && (
-                                                    <SummaryCard summary={item.data} locale={locale} type="hourly" />
+                                                    <SummaryCard summary={item.data} locale={locale} type="hourly" countryTimezone={countryTimezone} />
                                                 )}
                                                 {item.type === 'daily-summary' && (
-                                                    <SummaryCard summary={item.data} locale={locale} type="daily" />
+                                                    <SummaryCard summary={item.data} locale={locale} type="daily" countryTimezone={countryTimezone} />
                                                 )}
                                             </div>
                                         </div>
@@ -183,6 +201,7 @@ export default function FeedView({ headlines, initialSummaries, daySummary, yest
                                      minute: '2-digit',
                                      hour12: false
                                  });
+                                 const countryTimeString = formatInCountryTimezone(item.timestamp);
 
                                  return (
                                      <div key={`${item.type}-${index}`} className={`relative ${isSummary ? 'mb-8 mt-24' : '-mb-16'}`}>
@@ -194,13 +213,13 @@ export default function FeedView({ headlines, initialSummaries, daySummary, yest
                                                      <div className={`absolute ${isRTL ? 'right-1/2' : 'left-1/2'} top-1 w-2 h-2 rounded-full bg-white transform -translate-x-1/3 z-10`} />
                                                  )}
 
-                                                 {/* Timestamp opposite to the line */}
+                                                 {/* Timestamp opposite to the line - show country time */}
                                                  <div className={`text-[0.7em] text-gray-400 font-mono whitespace-nowrap`} style={{
                                                      position: 'absolute',
                                                      top: '0',
                                                      [isLeft ? (isRTL ? 'right' : 'left') : (isRTL ? 'left' : 'right')]: 'calc(50% + 1rem)'
                                                  }}>
-                                                     {timeString}
+                                                     {countryTimeString || timeString}
                                                  </div>
 
                                                  {/* Horizontal connector line from center to card */}
@@ -216,13 +235,13 @@ export default function FeedView({ headlines, initialSummaries, daySummary, yest
                                          <div className={`flex ${isSummary ? 'justify-center' : (isLeft ? 'justify-start pr-1/2' : 'justify-end pl-1/2')}`}>
                                              <div className={isSummary ? 'w-2/4' : 'w-5/12'}>
                                                 {item.type === 'headline' && (
-                                                    <HeadlineCard headline={item.data} country={country} locale={locale} />
+                                                    <HeadlineCard headline={item.data} country={country} locale={locale} countryTimezone={countryTimezone} />
                                                 )}
                                                 {item.type === 'hourly-summary' && (
-                                                    <SummaryCard summary={item.data} locale={locale} type="hourly" />
+                                                    <SummaryCard summary={item.data} locale={locale} type="hourly" countryTimezone={countryTimezone} />
                                                 )}
                                                 {item.type === 'daily-summary' && (
-                                                    <SummaryCard summary={item.data} locale={locale} type="daily" />
+                                                    <SummaryCard summary={item.data} locale={locale} type="daily" countryTimezone={countryTimezone} />
                                                 )}
                                             </div>
                                         </div>
