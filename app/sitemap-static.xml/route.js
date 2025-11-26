@@ -5,30 +5,11 @@ export const revalidate = 86400
 
 export async function GET() {
     const baseUrl = 'https://www.the-hear.com'
-    const locales = ['en', 'heb']
     const res = []
 
-    // Main country pages - medium-high priority (important for users, but harder for bots to crawl)
-    Object.keys(countries).forEach(country => {
-        locales.forEach(locale => {
-            res.push({
-                url: `${baseUrl}/${locale}/${country}`,
-                lastModified: new Date(),
-                changeFrequency: 'hourly',
-                priority: 0.8 // Lowered from 1.0 - important but JS-heavy
-            });
-        });
-    });
-
-    // Global pages - medium-high priority
-    locales.forEach(locale => {
-        res.push({
-            url: `${baseUrl}/${locale}/global`,
-            lastModified: new Date(),
-            changeFrequency: 'hourly',
-            priority: 0.75 // Lowered from 0.87 - important but JS-heavy
-        });
-    });
+    // MIGRATION STRATEGY: Initially only include About/Methodology
+    // Live country and global pages will be added later (Month 4+)
+    // This allows Google to focus on static, immutable content first
 
     // Static information pages - very high priority (easy to crawl, help Google understand the site)
     res.push({

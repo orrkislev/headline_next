@@ -8,7 +8,12 @@ export const revalidate = 86400 // 24 hours in seconds
 export default function sitemap() {
     const baseUrl = 'https://www.the-hear.com'
 
-    // Return sitemap index pointing to specialized sitemaps
+    // Clean sitemap strategy for new domain migration:
+    // - Feed pages (SSR, immutable, canonical)
+    // - Archives (SSR, immutable)
+    // - Static pages (About/Methodology only - no live pages initially)
+    // - Date pages EXCLUDED (canonical to feed, not in sitemap)
+    // - Live pages EXCLUDED initially (add later after successful indexing)
     return [
         {
             url: `${baseUrl}/sitemap-static.xml`,
@@ -16,10 +21,6 @@ export default function sitemap() {
         },
         {
             url: `${baseUrl}/sitemap-feed.xml`,
-            lastModified: new Date(),
-        },
-        {
-            url: `${baseUrl}/sitemap-date-pages.xml`,
             lastModified: new Date(),
         },
         {
