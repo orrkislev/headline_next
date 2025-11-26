@@ -1,7 +1,5 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+// Fully SSR - no client-side JS needed for static content
+import React from 'react';
 import EnglishFonts, { Typography_English } from "@/utils/typography/EnglishFonts";
 import Image from 'next/image';
 import FlagIcon from "@/components/FlagIcon";
@@ -110,18 +108,14 @@ const CountriesList = ({ typographyStyle }) => {
   );
 };
 
-export default function LandingPageContent() {
-  const router = useRouter();
-  const [randomTypography, setRandomTypography] = useState(null);
-  const [mounted, setMounted] = useState(false);
-  
-  // Select a random typography style on component mount
-  useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * Typography_English.length);
-    setRandomTypography(Typography_English[randomIndex]);
-    setMounted(true);
-  }, []);
-  
+export default function LandingPageContent({ randomSeed }) {
+  // Use random seed to select typography (server-side, but varies per request)
+  // If no seed provided, use first typography as fallback
+  const typographyIndex = randomSeed
+    ? randomSeed % Typography_English.length
+    : 0;
+  const typography = Typography_English[typographyIndex];
+
   // No need to split the final card anymore
   const nonFinalCards = imageCards;
 
@@ -129,25 +123,14 @@ export default function LandingPageContent() {
   const firstGroup = nonFinalCards.slice(0, 2); // First two cards
   const secondGroup = nonFinalCards.slice(2); // Rest of the cards
 
-  // Create a style object from the random typography
-  const typographyStyle = randomTypography ? {
-    fontFamily: randomTypography.fontFamily,
-    fontSize: randomTypography.fontSize,
-    lineHeight: randomTypography.lineHeight,
-    fontWeight: randomTypography.fontWeight,
-    fontStyle: randomTypography.fontStyle || 'normal',
-    direction: randomTypography.direction
-  } : {};
-
-  // Calculate fontSize without using window object during SSR
-  const getResponsiveFontSize = () => {
-    if (!mounted) return {};
-    
-    return {
-      fontSize: typographyStyle.fontSize 
-        ? `calc(${typographyStyle.fontSize} * ${window.innerWidth > 768 ? 1.5 : 1})` 
-        : undefined
-    };
+  // Fixed typography style for SSR
+  const typographyStyle = {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize,
+    lineHeight: typography.lineHeight,
+    fontWeight: typography.fontWeight,
+    fontStyle: typography.fontStyle || 'normal',
+    direction: typography.direction
   };
 
   return (
@@ -168,12 +151,9 @@ export default function LandingPageContent() {
           {/* Title Card - Spanning full row (3 cards) */}
           <div className="col-span-1 md:col-span-12">
             <div className="h-full bg-gray-100 rounded-sm p-10 hover:bg-gray-200 transition-colors">
-              <h1 
+              <h1
                 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-2 text-center"
-                style={{
-                  ...typographyStyle,
-                  ...(mounted ? getResponsiveFontSize() : {})
-                }}
+                style={typographyStyle}
               >
                 <span className="text-blue">The Hear</span> is a news observatory.
               </h1>
@@ -296,35 +276,26 @@ export default function LandingPageContent() {
             );
           })}
           
-          {/* Countries List - now spans 8 columns */}
-          <div className="col-span-1 md:col-span-8 mb-4">
+          {/* Countries List - spans 8 columns */}
+          <div className="col-span-1 md:col-span-8">
             <CountriesList typographyStyle={typographyStyle} />
           </div>
 
           {/* Welcome Card */}
-          <div className="col-span-1 md:col-span-4 mb-4">
-            <InnerLink href="/en/global" className="no-underline">
-              <div className="h-full bg-[#223052] hover:bg-[#495A7F] rounded-sm p-2 flex items-center justify-center cursor-pointer">
-                <div className="text-center p-4">
-                  <h2 
-                    className="text-xl font-semibold text-white"
-                    style={typographyStyle}
-                  >
-                    to The Hear ⟶
-                  </h2>
-                </div>
+          <div className="col-span-1 md:col-span-4 h-full bg-[#223052] hover:bg-[#495A7F] rounded-sm p-2 flex items-center justify-center cursor-pointer transition-colors">
+            <InnerLink href="/en/us" className="no-underline">
+              <div className="text-center p-4">
+                <h2
+                  className="text-xl font-semibold text-white"
+                  style={typographyStyle}
+                >
+                  to The Hear ⟶
+                </h2>
               </div>
             </InnerLink>
           </div>
         </div>
       </div>
-      
-      {/* Add CSS to remove underline from logo */}
-      <style jsx global>{`
-        a {
-          text-decoration: none;
-        }
-      `}</style>
     </div>
   );
 }

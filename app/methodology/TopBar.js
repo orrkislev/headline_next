@@ -1,5 +1,4 @@
-'use client';
-
+// SSR component - no client-side JS needed
 import InnerLink from '@/components/InnerLink';
 import { countries } from "@/utils/sources/countries";
 import FlagIcon from "@/components/FlagIcon";

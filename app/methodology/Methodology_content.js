@@ -1,7 +1,5 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+// Fully SSR - static methodology content
+import React from 'react';
 import EnglishFonts, { Typography_English } from "@/utils/typography/EnglishFonts";
 import Image from 'next/image';
 import FlagIcon from "@/components/FlagIcon";
@@ -129,39 +127,22 @@ const archiveDetailCards = [
 
 
 
-export default function LandingPageContent() {
-  const router = useRouter();
-  const [randomTypography, setRandomTypography] = useState(null);
-  const [mounted, setMounted] = useState(false);
-  
-  // Select a random typography style on component mount
-  useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * Typography_English.length);
-    setRandomTypography(Typography_English[randomIndex]);
-    setMounted(true);
-  }, []);
-  
+export default function LandingPageContent({ randomSeed }) {
+  // Use random seed to select typography (server-side, but varies per request)
+  // If no seed provided, use first typography as fallback
+  const typographyIndex = randomSeed
+    ? randomSeed % Typography_English.length
+    : 0;
+  const typography = Typography_English[typographyIndex];
 
-
-  // Create a style object from the random typography
-  const typographyStyle = randomTypography ? {
-    fontFamily: randomTypography.fontFamily,
-    fontSize: randomTypography.fontSize,
-    lineHeight: randomTypography.lineHeight,
-    fontWeight: randomTypography.fontWeight,
-    fontStyle: randomTypography.fontStyle || 'normal',
-    direction: randomTypography.direction
-  } : {};
-
-  // Calculate fontSize without using window object during SSR
-  const getResponsiveFontSize = () => {
-    if (!mounted) return {};
-    
-    return {
-      fontSize: typographyStyle.fontSize 
-        ? `calc(${typographyStyle.fontSize} * ${window.innerWidth > 768 ? 1.5 : 1})` 
-        : undefined
-    };
+  // Fixed typography style for SSR
+  const typographyStyle = {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize,
+    lineHeight: typography.lineHeight,
+    fontWeight: typography.fontWeight,
+    fontStyle: typography.fontStyle || 'normal',
+    direction: typography.direction
   };
 
   return (
@@ -174,7 +155,7 @@ export default function LandingPageContent() {
           <div className="col-span-1 md:col-span-4 flex justify-center">
             <div className="h-full bg-white">
               <div className="no-underline">
-                <DynamicLogoSmall locale="en" />
+                <DynamicLogoSmall locale="en" showDivider={false} />
               </div>
             </div>
           </div>
@@ -350,11 +331,25 @@ export default function LandingPageContent() {
             </div>
           </div>
 
+          {/* About Card - spans 1 column */}
+          <div className="col-span-1 md:col-span-1 h-full bg-white hover:bg-gray-50 rounded-sm p-2 flex items-center justify-center cursor-pointer transition-colors">
+            <InnerLink href="/about" className="no-underline">
+              <div className="text-center p-4">
+                <h2
+                  className="text-xl font-semibold text-gray-800"
+                  style={typographyStyle}
+                >
+                  ⟵ About
+                </h2>
+              </div>
+            </InnerLink>
+          </div>
+
           {/* Countries List - spans 3 columns */}
-          <div className="col-span-1 md:col-span-3">
+          <div className="col-span-1 md:col-span-3 h-full">
             <div className="h-full bg-gray-100 rounded-sm p-2 hover:bg-gray-200 transition-colors">
               <div className="p-6">
-                <h2 
+                <h2
                   className="text-xl font-semibold mb-10"
                   style={typographyStyle}
                 >
@@ -363,7 +358,7 @@ export default function LandingPageContent() {
                 <div className="flex flex-wrap gap-3">
                   {Object.entries(countries).map(([id, country]) => (
                     <InnerLink
-                      key={id} 
+                      key={id}
                       href={id.toLowerCase() === 'uk' ? '/en/uk' : `/en/${id}`}
                       className="no-underline text-inherit"
                     >
@@ -378,40 +373,8 @@ export default function LandingPageContent() {
               </div>
             </div>
           </div>
-
-          {/* About Card - spans 1 column */}
-          <div className="col-span-1 md:col-span-1">
-            <InnerLink href="/about" className="no-underline">
-              <div className="h-full bg-white hover:bg-gray-50 rounded-sm p-2 flex items-center justify-center cursor-pointer transition-colors">
-                <div className="text-center p-4">
-                  <h2 
-                    className="text-xl font-semibold text-gray-800"
-                    style={typographyStyle}
-                  >
-                    About ⟶
-                  </h2>
-                </div>
-              </div>
-            </InnerLink>
-          </div>
         </div>
       </div>
-      
-      {/* Add CSS for links and hide logo divider */}
-      <style jsx global>{`
-        a {
-          text-decoration: underline;
-          text-underline-offset: 4px;
-          font-weight: 600;
-          color: #374151;
-        }
-        a:hover {
-          color: blue;
-        }
-        .logo-hover-container + div {
-          display: none;
-        }
-      `}</style>
     </div>
   );
 }

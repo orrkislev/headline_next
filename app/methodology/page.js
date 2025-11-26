@@ -1,5 +1,3 @@
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 import LandingPageContent from './Methodology_content';
 import TopBar from './TopBar';
 import Footer from './footer';
@@ -9,27 +7,24 @@ export async function generateMetadata() {
     return createMetadata();
 }
 
-export default async function Page() {
-    const headersList = await headers();
-    const userAgent = headersList.get('user-agent') || '';
-    
-    // Server-side mobile detection - redirect mobile users to mobile page
-    const isMobile = /Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-    
-    if (isMobile) {
-        redirect('/mobile');
-    }
+// Force static generation with full HTML (not streaming)
+export const dynamic = 'force-static';
+
+export default function Page() {
+    // Generate random seed for typography selection (static at build time)
+    // Each build will have different typography, but it's consistent for all visitors until next build
+    const randomSeed = Math.floor(Math.random() * 1000);
 
     return (
         <>
             {/* JSON-LD structured data for SEO */}
             <LdJson />
-            
+
             {/* SSR page with proper links and content */}
             <div className="min-h-screen flex flex-col">
                 <TopBar />
                 <main className="flex-grow">
-                    <LandingPageContent />
+                    <LandingPageContent randomSeed={randomSeed} />
                 </main>
                 <Footer />
             </div>

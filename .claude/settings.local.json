@@ -30,7 +30,9 @@
       "Bash(move:*)",
       "Bash(git add:*)",
       "Bash(git diff:*)",
-      "WebFetch(domain:storage.googleapis.com)"
+      "WebFetch(domain:storage.googleapis.com)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:www.the-hear.com)"
     ],
     "deny": [],
     "ask": []

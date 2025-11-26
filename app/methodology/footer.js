@@ -1,5 +1,4 @@
-'use client';
-
+// SSR component - static footer content
 export default function Footer() {
     return (
         <footer className="w-full bg-gray-100 py-3">
