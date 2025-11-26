@@ -114,45 +114,72 @@ export function LdJson({ country, locale, headlines, initialSummaries, sources, 
         : `${flagEmoji} Live Headlines from ${countryName} | Unfiltered news`;
     
     // Prepare hourly summaries as abstracts (analytical summaries)
+    // ONLY include today's summaries (current calendar day UTC) - not yesterday's
+    // Live page shows current analysis, not historical
     const abstracts = [];
     if (initialSummaries && Array.isArray(initialSummaries) && initialSummaries.length > 0) {
-        initialSummaries.forEach((summary, index) => {
-            // Use direct field access for live summaries
-            let summaryContent = '';
-            
-            if (locale === 'heb') {
-                summaryContent = summary.hebrewSummary || summary.summary || summary.translatedSummary;
-            } else {
-                summaryContent = summary.summary || summary.translatedSummary || summary.hebrewSummary;
-            }
-            
-            if (summaryContent && summaryContent.trim() && summaryContent.length > 20) {
-                abstracts.push({
-                    '@type': 'CreativeWork',
-                    'abstract': summaryContent.trim(),
-                    'dateCreated': summary.timestamp ? new Date(summary.timestamp).toISOString() : new Date().toISOString(),
-                    'creator': {
-                        '@type': 'NewsMediaOrganization',
-                        'name': 'The Hear AI Analysis'
-                    },
-                    'about': `Live news analysis for ${countryName}`
-                });
-            }
+        const now = new Date();
+        const todayStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0));
+
+        // Filter to only today's summaries (same calendar day UTC)
+        const todaySummaries = initialSummaries.filter(summary => {
+            if (!summary.timestamp) return false;
+            const summaryDate = new Date(summary.timestamp);
+            return summaryDate >= todayStart;
         });
+
+        // Take only most recent 5 summaries (what's typically visible in UI)
+        todaySummaries
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+            .slice(0, 5)
+            .forEach(summary => {
+                let summaryContent = '';
+
+                if (locale === 'heb') {
+                    summaryContent = summary.hebrewSummary || summary.summary || summary.translatedSummary;
+                } else {
+                    summaryContent = summary.summary || summary.translatedSummary || summary.hebrewSummary;
+                }
+
+                if (summaryContent && summaryContent.trim() && summaryContent.length > 20) {
+                    abstracts.push({
+                        '@type': 'CreativeWork',
+                        'abstract': summaryContent.trim(),
+                        'dateCreated': new Date(summary.timestamp).toISOString(),
+                        'creator': {
+                            '@type': 'NewsMediaOrganization',
+                            'name': 'The Hear AI Analysis'
+                        },
+                        'about': `Live news analysis for ${countryName}`
+                    });
+                }
+            });
     }
     
-    // Create ItemList elements for all headlines
+    // Create ItemList elements - ONLY for currently visible/recent headlines
+    // Live pages show ~6-40 headlines (latest per source), not all 500+ in the data
+    // Match JSON-LD to actual UI to avoid structured data spam appearance
     const itemListElements = [];
     if (headlines && headlines.length > 0) {
-        // Sort headlines by timestamp (newest first)
-        const sortedHeadlines = [...headlines].sort((a, b) => 
-            new Date(b.timestamp) - new Date(a.timestamp)
-        );
-        
-        sortedHeadlines.forEach((h, index) => {
+        // Group by source, take only most recent headline per source
+        const headlinesBySource = {};
+        headlines.forEach(h => {
+            const sourceName = getSourceData(country, h.website_id)?.name || h.website_id;
+            if (!headlinesBySource[sourceName] ||
+                new Date(h.timestamp) > new Date(headlinesBySource[sourceName].timestamp)) {
+                headlinesBySource[sourceName] = h;
+            }
+        });
+
+        // Convert to array and sort by timestamp (newest first)
+        const recentHeadlines = Object.values(headlinesBySource)
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+            .slice(0, 50); // Cap at 50 headlines max (typical UI shows 20-40)
+
+        recentHeadlines.forEach((h, index) => {
             const sourceData = getSourceData(country, h.website_id);
             const sourceName = sourceData?.name || h.website_id;
-            
+
             const newsArticle = {
                 '@type': 'NewsArticle',
                 'headline': h.headline || '',
@@ -163,12 +190,12 @@ export function LdJson({ country, locale, headlines, initialSummaries, sources, 
                     'name': sourceName
                 }
             };
-            
+
             // Only add description if subtitle exists and is not empty
             if (h.subtitle && h.subtitle.trim()) {
                 newsArticle.description = h.subtitle;
             }
-            
+
             itemListElements.push({
                 '@type': 'ListItem',
                 'position': index + 1,
