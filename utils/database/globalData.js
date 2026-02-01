@@ -38,7 +38,13 @@ export const getAICountrySort = async () => {
 }
 
 // Server-side cached version for SSR
-export const getAICountrySortServer = cache(async () => {
+export const getAICountrySortServer = unstable_cache(
+  _getAICountrySortServer, 
+  ['getAICountrySortServer'], 
+  { tags: ['getAICountrySortServer'], 
+  revalidate: 60 * 10 } // 10 minutes
+);
+async function _getAICountrySortServer() {
     try {
         return await getAICountrySort();
     } catch (error) {
@@ -46,10 +52,16 @@ export const getAICountrySortServer = cache(async () => {
         // Fallback to default country order
         return Object.keys(countries);
     }
-});
+};
 
 // Get latest summary for a specific country
-const getCountryLatestSummary = async (countryName) => {
+export const getCountryLatestSummary = unstable_cache(
+  _getCountryLatestSummary, 
+  ['getCountryLatestSummary'], 
+  { tags: ['getCountryLatestSummary'], 
+  revalidate: 60 * 10 } // 10 minutes
+);
+async function _getCountryLatestSummary(countryName) {
     try {
         const countriesCollection = collection(db, '- Countries -');
         const countryID = countries[countryName].english;
@@ -74,7 +86,13 @@ const getCountryLatestSummary = async (countryName) => {
 };
 
 // Get latest summaries for all countries
-export const getAllCountriesLatestSummaries = cache(async () => {
+export const getAllCountriesLatestSummaries = unstable_cache(
+  _getAllCountriesLatestSummaries, 
+  ['getAllCountriesLatestSummaries'], 
+  { tags: ['getAllCountriesLatestSummaries'], 
+  revalidate: 60 * 10 } // 10 minutes
+);
+async function _getAllCountriesLatestSummaries() {
     const countryNames = Object.keys(countries);
     const summaryPromises = countryNames.map(async (country) => {
         const summary = await getCountryLatestSummary(country);
@@ -88,10 +106,17 @@ export const getAllCountriesLatestSummaries = cache(async () => {
         }
         return acc;
     }, {});
-});
+};
 
 // Get latest global overview
-export const getGlobalOverview = cache(async () => {
+
+export const getGlobalOverview = unstable_cache(
+  _getGlobalOverview, 
+  ['getGlobalOverview'], 
+  { tags: ['getGlobalOverview'], 
+  revalidate: 60 * 10 } // 10 minutes
+);
+async function _getGlobalOverview() {
     try {
         const globalOverviewsRef = collection(db, '- metadata -', 'globalOverviews', 'overviews');
         const q = query(globalOverviewsRef, orderBy('timestamp', 'desc'), limit(1));

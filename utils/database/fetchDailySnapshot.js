@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { countries } from '../sources/countries';
+import { unstable_cache } from 'next/cache';
 
 /**
  * Fetches a daily snapshot JSON file from Firebase Storage
@@ -7,7 +8,15 @@ import { countries } from '../sources/countries';
  * @param {Date} date - Date object for the snapshot
  * @returns {Promise<Object|null>} Object with headlines, summaries, and dailySummary, or null if not found
  */
-export async function fetchDailySnapshot(country, date) {
+
+export const fetchDailySnapshot = unstable_cache(
+    _fetchDailySnapshot, 
+    ['fetchDailySnapshot'], 
+    { tags: ['fetchDailySnapshot'], 
+    revalidate: 60 * 60 * 24 * 30 } // 30 days
+);
+
+async function _fetchDailySnapshot(country, date) {
     try {
         // Convert date to JSON filename format (yyyy-MM-dd)
         const dateStr = format(date, 'yyyy-MM-dd');
