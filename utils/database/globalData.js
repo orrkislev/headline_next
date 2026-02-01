@@ -1,11 +1,10 @@
-import { endOfDay, sub } from "date-fns";
 import { initializeApp } from 'firebase/app';
-import { collection, doc, getDocs, limit, onSnapshot, orderBy, query, where, getFirestore } from "firebase/firestore";
-import { cache } from "react";
+import { collection, doc, getDocs, limit, orderBy, query, getFirestore } from "firebase/firestore";
 
 import { firebaseConfig } from './firebaseConfig';
 import { countries } from "../sources/countries";
 import { countryToAlpha2 } from "country-to-iso";
+import { unstable_cache } from 'next/cache';
 
 
 const app = initializeApp(firebaseConfig);
