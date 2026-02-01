@@ -146,4 +146,4 @@ async function _getGlobalOverview() {
         console.error('Error fetching global overview:', error);
         return null;
     }
-});
+};
