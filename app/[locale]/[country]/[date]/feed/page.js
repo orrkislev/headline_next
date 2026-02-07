@@ -11,9 +11,8 @@ import FeedView from "./FeedView";
 import FeedPopup from "./popup";
 import InactivityRedirect from "./InactivityRedirect";
 
-// Feed pages are immutable historical content that never changes
-// export const revalidate = false; // Disable ISR - these pages never change once created
-// export const dynamic = 'error'; // Fail build if route tries to be dynamic - forces static generation
+export const revalidate = false; // Disable automatic revalidation - feed pages are static archives and should not update after build
+export const dynamic = 'force-static'; // Ensure static generation - feed pages are immutable archives and should not be server-rendered on demand
 
 // Generate SEO metadata for feed view
 export async function generateMetadata({ params }) {
